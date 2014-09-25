@@ -13,4 +13,8 @@ public class TareasController {
 
     }
 
+    public void newmethod() {
+
+    }
+
 }
