@@ -1,4 +1,4 @@
-package packages.gui;
+package tareas.gui;
 
 public class GraphicUserInterface {
 
