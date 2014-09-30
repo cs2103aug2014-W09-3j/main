@@ -1,4 +1,4 @@
-package packages.gui;
+package tareas.gui;
 
 //import org.eclipse.swt.*;
 //import org.eclipse.swt.graphics.*;
