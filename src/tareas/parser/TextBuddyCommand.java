@@ -1,3 +1,5 @@
+package tareas.parser;
+
 /**
  * A class representing a command.
  * <p/>

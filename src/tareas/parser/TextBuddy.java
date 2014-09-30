@@ -1,3 +1,5 @@
+package tareas.parser;
+
 import com.sun.deploy.util.StringUtils;
 
 import java.io.*;

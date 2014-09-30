@@ -1,3 +1,5 @@
+package tareas.parser;
+
 import java.util.ArrayList;
 
 /**
