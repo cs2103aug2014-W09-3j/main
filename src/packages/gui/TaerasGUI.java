@@ -1,3 +1,5 @@
+package packages.gui;
+
 //import org.eclipse.swt.*;
 //import org.eclipse.swt.graphics.*;
 //import org.eclipse.swt.layout.*;
