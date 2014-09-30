@@ -122,7 +122,7 @@ public static void main (String [] args) {
 		fd_lblNewLabel.left = new FormAttachment(0, 5);
 		fd_lblNewLabel.bottom = new FormAttachment(100, -10);
 		lblNewLabel.setLayoutData(fd_lblNewLabel);
-		lblNewLabel.setText("Categorized task 1000 to grocerries");
+		lblNewLabel.setText("Welcome to Tareas!");
 							text.setText("Type your command here");
 							
 							table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
