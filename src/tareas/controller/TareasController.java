@@ -6,7 +6,7 @@ public class TareasController {
     }
 
     public void newmethod() {
-        System.out.println("line dev");
+        System.out.println("line main");
     }
     
     public static void main(String[] args) {
