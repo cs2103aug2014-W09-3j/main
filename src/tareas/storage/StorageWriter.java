@@ -1,8 +1,11 @@
 package tareas.storage;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import com.google.gson.Gson;
+
 import tareas.common.*;
 
 /**
@@ -25,5 +28,20 @@ public class StorageWriter {
 		writer.close();
 	}
 	
+    public void createFile () {
+        File file = new File("storage.json");
+        boolean fileCreated = false;
+        try {
+            fileCreated = file.createNewFile();
+        } catch (IOException e) {
+            System.out.println("Error when creating file: " + e);
+        }
+
+        if (fileCreated) {
+            System.out.println("Empty file is created successfully: " + file.getPath());
+        } else {
+            System.out.println("Failed to created empty file: " + file.getPath());
+        }
+    }
 
 }
