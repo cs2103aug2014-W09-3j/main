@@ -26,4 +26,8 @@ public class Tasks {
 	public ArrayList<Task> get() {
 		return this.allTasks;
 	}
+	
+	public void set(ArrayList<Task> tasks) {
+		this.allTasks = tasks;
+	}
 }
