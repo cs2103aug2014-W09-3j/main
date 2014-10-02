@@ -47,7 +47,7 @@ public class Task {
 	// Color of task
 	private String color;
 	
-	Task() {
+	public Task() {
 		// Set default values for recurrence
 		this.recurrence.put("frequency", null);
 		this.recurrence.put("date", null);

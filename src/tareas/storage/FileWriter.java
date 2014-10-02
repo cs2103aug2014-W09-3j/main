@@ -1,8 +1,18 @@
 package tareas.storage;
 
 import java.util.ArrayList;
+
 import com.google.gson.Gson;
+
 import tareas.common.*;
+
+/**
+ * @author Her Lung
+ * 
+ * IMPORTANT NOTE: Add gson-2.3.jar (found in our root directory) as an external JAR to your IDE.
+ * 
+ * This class writes information to the storage file. Tasks are stored in JSON notation.
+ */
 
 public class FileWriter {
 
@@ -12,12 +22,17 @@ public class FileWriter {
 		newTask.setDescription("Get eggs for Mum.");
 		newTask.setCategory("Singapore");
 		
-		ArrayList<Task> test = new ArrayList<Task>();
-		test.add(newTask);
-		test.add(newTask);
+		Tasks list = new Tasks();
+		list.add(newTask);
+		list.add(newTask);
+		
 		Gson gson = new Gson();
-		String json = gson.toJson(test);
+		String json = gson.toJson(list);
 		System.out.println(json);
+		
+		Tasks obj = gson.fromJson(json, Tasks.class);
+		System.out.println(obj.get().get(0).getDescription());
+		
 	}
 
 }
