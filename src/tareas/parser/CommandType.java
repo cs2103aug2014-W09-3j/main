@@ -42,7 +42,7 @@ public enum CommandType {
 
     //region Command Definitions
 
-    // the add command has 4 overloads, one of which does not require secondary arguments
+    // the add command has 5 overloads, one of which does not require secondary arguments
     ADD_COMMAND(
             "add",
             new String[] {}, // support for floating tasks
