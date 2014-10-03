@@ -27,6 +27,7 @@ public class Parser {
                 "workout -recurrin daily", // recurring spelled wrongly
                 "-edit -des something", // missing primary argument
                 "-delete", // same as above
+                "-redo xxx", // unexpected primary argument
                 "-delete 3 -random" // unexpected argument 'random'
 
         };
