@@ -1,29 +1,12 @@
 package tareas.parser;
 
 /**
- * A class representing a command.
- * <p/>
- * Created on Sep 20, 2014.
- *
+ * This class manipulates text in a text file, allowing a user to:
+
  * @author Kent
  */
 
-public class TextBuddyCommand {
-    private CommandType type;
-    private String[] args;
-
-    public TextBuddyCommand(CommandType type, String[] args) {
-        this.type = type;
-        this.args = args;
-    }
-
-    public CommandType getType() {
-        return type;
-    }
-
-    public String[] getArguments() {
-        return args;
-    }
+public class Parser {
 
     /**
      * Extract the keyword and arguments from a String command.
@@ -31,7 +14,7 @@ public class TextBuddyCommand {
      * @param command The command to be analyzed.
      * @return The command as a TextBuddyCommand object
      */
-    public static TextBuddyCommand analyzeCommand(String command) {
+    public static Command analyzeCommand(String command) {
         // Normalize command
         command = command.trim();
 
@@ -48,7 +31,36 @@ public class TextBuddyCommand {
             arguments = keywordWithArguments[1].split(" ", type.getArgumentCount());  // split them into separate strings
         }
 
-        return new TextBuddyCommand(type, arguments);
+        return new Command(type, arguments);
+    }
+
+    /**
+     * Execute a command.
+     *
+     * @param command The command, as a TextBuddyCommand
+     * @return Output of command execution
+     */
+    public String executeCommand(Command command) {
+        CommandType type = command.getType();
+        String[] arguments = command.getArguments();
+
+        // if number of arguments found is different from expectation, it's an error
+        if (arguments.length != type.getArgumentCount()) {
+            return String.format("", type.getCommand());
+        }
+
+            switch (type) {
+
+
+            default:
+                return "";
+        }
+    }
+
+//endregion
+
+    public static void main(String[] args) {
+
     }
 
 }
