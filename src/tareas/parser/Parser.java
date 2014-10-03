@@ -54,7 +54,7 @@ public class Parser {
 
         if (type == CommandType.UNKNOWN_COMMAND) return false;
 
-        // return false if the primary argument is supposed to present but missing or vice versa.
+        // return false if the primary argument is supposed to be present but missing or vice versa.
         if (type.isPrimaryArgumentPresent() ^ command.getPrimaryArgument().length() > 0) return false;
 
         if (type.isCombinationAllowed()) { // if combination is allowed, check whether the keywords are valid

@@ -1,6 +1,7 @@
 # Created by .gitignore support plugin (hsz.mobi)
 ### Java template
 *.class
+.idea
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -15,5 +16,3 @@ hs_err_pid*
 
 # For Mac Machines
 .DS_STORE
-
-.idea
