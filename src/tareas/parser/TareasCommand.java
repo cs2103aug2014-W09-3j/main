@@ -11,6 +11,7 @@ import java.util.HashSet;
  * <p/>
  * The arguments can be retrieved as a list of CommandArgument using getSecondaryArgumentList().
  * <p/>
+ * Use fromString(String command) to convert a String to a TareasCommand.
  * Created on Sep 20, 2014.
  *
  * @author Kent
@@ -51,7 +52,7 @@ public class TareasCommand {
         this.mSecondaryArguments = new HashMap<>();
     }
 
-    //end region
+    //endregion
 
     //region Getters & Setters
 
