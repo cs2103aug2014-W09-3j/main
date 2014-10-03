@@ -22,6 +22,7 @@ public class Parser {
                 "-undo",
                 "-font Helvetica -size 12",
                 "",
+                "-what hello world", // unknown command
                 "buy ham -from 22/09/2014", // missing -to
                 "workout -recurrin daily", // recurring spelled wrongly
                 "-edit -des something", // missing primary argument
@@ -37,13 +38,21 @@ public class Parser {
             }
 
             TareasCommand command = TareasCommand.fromString(test);
-            String valid = validateCommandSignature(command) ? "Valid " : "Invalid ";
+            String valid = isCommandSignatureValid(command) ? "Valid " : "Invalid ";
             System.out.println(valid + command);
         }
     }
 
-    public static boolean validateCommandSignature(TareasCommand command) {
+    /**
+     * Check whether a command matches any recognizable overload.
+     *
+     * @param command The command whose signature is being checked
+     * @return true if the command signature is valid.
+     */
+    public static boolean isCommandSignatureValid(TareasCommand command) {
         CommandType type = command.getType();
+
+        if (type == CommandType.UNKNOWN_COMMAND) return false;
 
         // return false if the primary argument is supposed to present but missing or vice versa.
         if (type.isPrimaryArgumentPresent() ^ command.getPrimaryArgument().length() > 0) return false;
@@ -69,5 +78,6 @@ public class Parser {
             return false;
         }
     }
+
 
 }
