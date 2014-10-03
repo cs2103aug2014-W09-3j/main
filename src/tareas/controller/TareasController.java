@@ -1,15 +1,38 @@
 package tareas.controller;
 
+/**
+ * @author Yap Jun Hao
+ *
+ * This class binds the other parts of the program together.
+ */
+
 public class TareasController {
-    public void welcomeUser() {
-        System.out.println("Hiiiiiiiii");
+
+    public void executeCommand() {
+        // TO-DO STUB
     }
 
-    public void newmethod() {
-        System.out.println("line main");
+    public void parserError() {
+        // TO-DO STUB
     }
-    
-    public static void main(String[] args) {
-    	// Do nothing, GUI is supposed to be the one running main
+
+    public void changeView() {
+        // TO-DO STUB
+    }
+
+    public void undo() {
+        // TO-DO STUB
+    }
+
+    public void redo() {
+        // TO-DO STUB
+    }
+
+    public void setSickDay() {
+        // TO-DO STUB
+    }
+
+    public void changeFont() {
+        // TO-DO STUB
     }
 }
