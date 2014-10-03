@@ -9,7 +9,7 @@ import java.util.HashSet;
 /**
  * A TareasCommand has a type and a map of secondary arguments.
  * <p/>
- * The arguments can be retrieved as a list of CommandArgument (defined as an inner class).
+ * The arguments can be retrieved as a list of CommandArgument using getSecondaryArgumentList().
  * <p/>
  * Created on Sep 20, 2014.
  *
@@ -18,6 +18,24 @@ import java.util.HashSet;
 
 public class TareasCommand {
     private static String PRIMARY_ARGUMENT_KEY = "!primary";
+
+    public static class CommandArgument {
+        private String mKey;
+        private String mValue;
+
+        public CommandArgument(String key, String argument) {
+            this.mKey = key;
+            this.mValue = argument;
+        }
+
+        public String getKey() {
+            return mKey;
+        }
+
+        public String getValue() {
+            return mValue;
+        }
+    }
 
     private CommandType mType;
     private HashMap<String, String> mSecondaryArguments;
@@ -152,21 +170,4 @@ public class TareasCommand {
         return ret;
     }
 
-    public static class CommandArgument {
-        private String mKey;
-        private String mValue;
-
-        public CommandArgument(String key, String argument) {
-            this.mKey = key;
-            this.mValue = argument;
-        }
-
-        public String getKey() {
-            return mKey;
-        }
-
-        public String getValue() {
-            return mValue;
-        }
-    }
 }
