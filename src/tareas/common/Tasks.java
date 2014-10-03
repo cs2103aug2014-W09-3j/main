@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Tasks {
+	private int latestID = 1;
 	private ArrayList<Task> allTasks;
 	
 	public Tasks() {
@@ -30,4 +31,11 @@ public class Tasks {
 	public void set(ArrayList<Task> tasks) {
 		this.allTasks = tasks;
 	}
+	
+	public int getNextID() {
+		int nextID = this.latestID;
+		this.latestID++;
+		return nextID;
+	}
+	
 }
