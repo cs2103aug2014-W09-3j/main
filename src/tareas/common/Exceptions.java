@@ -1,9 +1,8 @@
 package tareas.common;
 
 /**
- * [Description]
+ * This class will host all the exceptions.
  * <p/>
- * Created on Oct 04, 2014.
  *
  * @author Kent
  */

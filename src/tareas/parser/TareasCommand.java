@@ -12,7 +12,7 @@ import java.util.HashSet;
  * The arguments can be retrieved as a list of CommandArgument using getSecondaryArgumentList().
  * <p/>
  * Use fromString(String command) to convert a String to a TareasCommand.
- * Created on Sep 20, 2014.
+ * <p/>
  *
  * @author Kent
  */

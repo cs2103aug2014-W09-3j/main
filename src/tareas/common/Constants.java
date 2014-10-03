@@ -1,7 +1,7 @@
 package tareas.common;
 
 /**
- * [Description]
+ * This class contains constants used throughout the project.
  * <p/>
  * Created on Oct 03, 2014.
  *

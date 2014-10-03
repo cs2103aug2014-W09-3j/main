@@ -3,7 +3,7 @@ package tareas.parser;
 import java.util.HashSet;
 
 /**
- * This class manipulates text in a text file, allowing a user to:
+ * This class is obviously a parser.
  *
  * @author Kent
  */
