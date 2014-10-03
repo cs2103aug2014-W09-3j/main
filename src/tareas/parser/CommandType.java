@@ -59,14 +59,14 @@ public enum CommandType {
             new String[] {"des", "start", "end", "deadline"}
     ),
 
-    // the delete command requires one primary argument and no secondary argument.
+    // the delete command requires one primary argument and accepts no secondary argument.
     DELETE_COMMAND("delete"),
 
     SEARCH_COMMAND("search"),
 
     DONE_COMMAND("done"),
 
-    // the undo command does not accept any command
+    // the undo command does not accept any argument
     UNDO_COMMAND("undo", 0),
 
     REDO_COMMAND("redo", 0),
