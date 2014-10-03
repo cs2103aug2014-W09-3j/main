@@ -45,7 +45,8 @@ public enum CommandType {
     // the add command has 4 overloads, one of which does not require secondary arguments
     ADD_COMMAND(
             "add",
-            new String[] {},
+            new String[] {}, // support for floating tasks
+            new String[] {"tag"},
             new String[] {"from", "to"},
             new String[] {"by"},
             new String[] {"recurring"}
