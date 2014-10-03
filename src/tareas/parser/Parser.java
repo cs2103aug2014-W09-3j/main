@@ -14,7 +14,7 @@ public class Parser {
         String[] tests = {
                 "buy ham",
                 "meeting with 2103 group -from 22/09/2014 1200 -to 22/09/2014 2200",
-                "complete user guide -by 22/09/2014 1500",
+                "complete user guide  -by 22/09/2014 1500",
                 "gym -recurring daily from 0800 to 1000",
                 "-edit 1 -des buy watermelon -start 22/09/2014 1200 -end 22/09/2014 1300",
                 "-edit 3 -deadline 11/12/2015",

@@ -142,8 +142,8 @@ public class TareasCommand {
      */
     @Override
     public String toString() {
-        String ret = String.format("command '%1$s' <%2$s>",
-                this.getType().getPrimaryKeyword(), this.getPrimaryArgument());
+        String ret = String.format("'%1$s' <%2$s>",
+                this.getType(), this.getPrimaryArgument());
 
         for (CommandArgument ca : this.getSecondaryArgumentList()) {
             ret += String.format(", '%1$s' <%2$s>", ca.getKey(), ca.getValue());
