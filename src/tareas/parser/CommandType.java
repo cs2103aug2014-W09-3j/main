@@ -2,22 +2,24 @@ package tareas.parser;
 
 /**
  * A typical format of a Tareas command:
- * -command_name [argument_for_command] -keyword1 [argument_for_keyword1] -keyword2 [argument_for_keyword2] ...
+ * -command_keyword [argument_for_command] -keyword1 [argument_for_keyword1] -keyword2 [argument_for_keyword2] ...
  * <p/>
  * [argument_for_command] is the primary argument.
  * "-keyword1 [argument_for_keyword1] -keyword2 [argument_for_keyword2] ..." are secondary arguments and their keywords.
  * <p/>
  * The 1st constructor (String, boolean, String[]...) will initialize:
- * 1. String       : The command's name
- * 2. boolean      : Whether a combination of the keywords can be used together (e.g. edit command)
- * 3. String[]...  : The signatures of the command's possible overloads, each includes the keywords required.
- * (String[]... is a varargs, i.e. an array contains an arbitrary number of String[])
+ *      1. String       : The primary keyword, which if present is always the first word of the command.
+ *      2. boolean      : Whether a combination of the secondary keywords can be used together (e.g. edit command).
+ *      3. String[]...  : The signatures of the command's possible overloads, each includes the keywords required.
+ *                        (String[]... is a varargs, i.e. an array contains an arbitrary number of String[])
  * <p/>
  * The 2nd constructor (String, String[]...) is similar to the previous one, except isCombinationAllowed is set to false
  * by default.
  * <p/>
  * The 3rd constructor (String, boolean) assumes that the command has no secondary arguments, and the boolean value
  * decides whether the primary command is present or not. For example, the -undo command has no argument at all.
+ *
+ * The primary keyword of one pre-determined special command can be ignored, e.g. the "add" command.
  *
  * @author Kent
  */
@@ -29,11 +31,10 @@ package tareas.parser;
 
 public enum CommandType {
 
-
     //region Command Definitions
 
     ADD_COMMAND(
-            "", // no need to type "-add" at the beginning
+            "add",
             new String[] {"from", "to"},
             new String[] {"by"},
             new String[] {"recurring"}
@@ -97,31 +98,35 @@ public enum CommandType {
 
     //endregion
 
-    private final String mCommand;
+    private final String mPrimaryKeyword;
     private final String[][] mKeywords;
     private final boolean mCombinationAllowed;
     private final boolean mPrimaryArgumentPresent;
 
-    CommandType(String command, boolean combinationAllowed, String[]... keywords) {
-        this.mCommand = command;
+    CommandType(String primaryKeyword, boolean combinationAllowed, String[]... keywords) {
+        this.mPrimaryKeyword = primaryKeyword;
         this.mCombinationAllowed = combinationAllowed;
         this.mKeywords = keywords;
         this.mPrimaryArgumentPresent = true;
     }
 
-    CommandType(String command, String[]... keywords) {
-        this(command, false, keywords);
+    CommandType(String primaryKeyword, String[]... keywords) {
+        this(primaryKeyword, false, keywords);
     }
 
-    CommandType(String command, boolean commandHasArgument) {
-        this.mCommand = command;
+    CommandType(String primaryKeyword, boolean commandHasArgument) {
+        this.mPrimaryKeyword = primaryKeyword;
         this.mCombinationAllowed = false;
         this.mKeywords = null;
         this.mPrimaryArgumentPresent = commandHasArgument;
     }
 
-    public String getCommand() {
-        return mCommand;
+    public String getPrimaryKeyword() {
+        return mPrimaryKeyword;
+    }
+
+    public static CommandType getSpecialCommand() {
+        return ADD_COMMAND;
     }
 
     public String[][] getOverloadKeywords() {
@@ -129,17 +134,7 @@ public enum CommandType {
     }
 
     public boolean equals(String command) {
-        return command.toLowerCase().equals(getCommand());
-    }
-
-    public static CommandType fromKeyword(String keyword) {
-        for (CommandType commandType : CommandType.values()) {
-            if (commandType.equals(keyword)) {
-                return commandType;
-            }
-        }
-
-        return CommandType.UNKNOWN_COMMAND;
+        return command.toLowerCase().equals(getPrimaryKeyword());
     }
 
     public boolean isPrimaryArgumentPresent() {
@@ -150,5 +145,14 @@ public enum CommandType {
         return mCombinationAllowed;
     }
 
+    public static CommandType fromPrimaryKeyword(String name) {
+        for (CommandType commandType : CommandType.values()) {
+            if (commandType.equals(name)) {
+                return commandType;
+            }
+        }
+
+        return CommandType.UNKNOWN_COMMAND;
+    }
 
 }
