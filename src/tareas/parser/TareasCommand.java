@@ -4,9 +4,12 @@ import tareas.common.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
- * A class representing a command.
+ * A TareasCommand has a type and a map of secondary arguments.
+ * <p/>
+ * The arguments can be retrieved as a list of CommandArgument (defined as an inner class).
  * <p/>
  * Created on Sep 20, 2014.
  *
@@ -63,6 +66,18 @@ public class TareasCommand {
         return getArgument(PRIMARY_ARGUMENT_KEY);
     }
 
+    /**
+     * Retrieve the set of secondary keywords.
+     *
+     * @return
+     */
+    public HashSet<String> getSecondaryKeys() {
+        HashSet<String> keys = new HashSet<>();
+        keys.addAll(mSecondaryArguments.keySet());
+        keys.remove(PRIMARY_ARGUMENT_KEY);
+        return keys;
+    }
+
     public ArrayList<CommandArgument> getSecondaryArgumentList() {
         ArrayList<CommandArgument> ret = new ArrayList<>();
 
@@ -91,7 +106,7 @@ public class TareasCommand {
         // add the primary keyword back to normalize the command.
         if (!command.startsWith(Constants.COMMAND_DELIMITER)) {
             command = Constants.COMMAND_DELIMITER +
-                    CommandType.getSpecialCommand().getPrimaryKeyword() +
+                    CommandType.getSpecialCommandType().getPrimaryKeyword() +
                     " " + command;
         }
 
@@ -105,12 +120,14 @@ public class TareasCommand {
             if (kv.length() == 0) continue;
 
             String[] kv_array = kv.split("\\s+", 2); // split into keyword and argument
+            String key = kv_array[0];
+            String value = kv_array.length == 2 ? kv_array[1].trim() : "";
 
             if (primaryKeyword == null) { // the first key-value pair is the primary argument.
                 primaryKeyword = kv_array[0];
-                ret.putArgument(PRIMARY_ARGUMENT_KEY, kv_array[1].trim());
+                ret.putArgument(PRIMARY_ARGUMENT_KEY, value);
             } else { //subsequent pairs are secondary arguments
-                ret.putArgument(kv_array[0], kv_array[1].trim());
+                ret.putArgument(key, value);
             }
         }
 
@@ -118,9 +135,14 @@ public class TareasCommand {
         return ret;
     }
 
+    /**
+     * Convert TareasCommand to a String for debugging purposes.
+     *
+     * @return a String representation of the TareasCommand.
+     */
     @Override
     public String toString() {
-        String ret = String.format("Command '%1$s' <%2$s>",
+        String ret = String.format("command '%1$s' <%2$s>",
                 this.getType().getPrimaryKeyword(), this.getPrimaryArgument());
 
         for (CommandArgument ca : this.getSecondaryArgumentList()) {
