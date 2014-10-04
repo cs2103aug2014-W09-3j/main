@@ -48,14 +48,11 @@ package tareas.gui;
 //	}
 //}
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.*;
 
 public class TaerasGUI {
@@ -74,14 +71,14 @@ public static void main (String [] args) {
 		@Override
 		public void handleEvent (Event event) {
 			Rectangle rect = shell.getClientArea ();
-			Image newImage = new Image (display, Math.max (1, rect.width), 1);	
+			Image newImage = new Image (display, Math.max (1, rect.width), 1);
 			GC gc = new GC (newImage);
 			Device device = Display.getCurrent ();
 			Color red = new Color (device, 244, 219, 226);
 			Color darkRed = new Color(device, 192, 131, 181);
 
 			gc.setForeground (red);
-			gc.setBackground (darkRed);			
+			gc.setBackground (darkRed);
 			gc.fillGradientRectangle (rect.x, rect.y, rect.width, 1, false);
 			gc.dispose ();
 			shell.setBackgroundImage (newImage);
@@ -90,7 +87,7 @@ public static void main (String [] args) {
 		}
 	});
 	shell.setLayout(new FormLayout());
-	
+
 	DateTime calendar = new DateTime (shell, SWT.CALENDAR);
 	FormData fd_calendar = new FormData();
 	calendar.setLayoutData(fd_calendar);
@@ -114,7 +111,7 @@ public static void main (String [] args) {
 //			}
 //		});
 	}
-		
+
 		Label lblNewLabel = new Label(shell, SWT.NONE);
 		fd_text.bottom = new FormAttachment(lblNewLabel, -6);
 		FormData fd_lblNewLabel = new FormData();
@@ -124,7 +121,7 @@ public static void main (String [] args) {
 		lblNewLabel.setLayoutData(fd_lblNewLabel);
 		lblNewLabel.setText("Welcome to Tareas!");
 							text.setText("Type your command here");
-							
+
 							table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
 							fd_calendar.top = new FormAttachment(table, 0, SWT.TOP);
 							fd_calendar.right = new FormAttachment(table, -3);
@@ -136,19 +133,19 @@ public static void main (String [] args) {
 							table.setLayoutData(fd_table);
 							table.setHeaderVisible(true);
 							table.setLinesVisible(true);
-							
+
 							TableColumn tblclmnTaskId = new TableColumn(table, SWT.NONE);
 							tblclmnTaskId.setWidth(63);
 							tblclmnTaskId.setText("Task ID");
-							
+
 							TableColumn tblclmnCategory = new TableColumn(table, SWT.NONE);
 							tblclmnCategory.setWidth(69);
 							tblclmnCategory.setText("Category");
-							
+
 							TableColumn tblclmnDescription = new TableColumn(table, SWT.NONE);
 							tblclmnDescription.setWidth(224);
 							tblclmnDescription.setText("Description");
-							
+
 							TableColumn tblclmnDeadline = new TableColumn(table, SWT.NONE);
 							tblclmnDeadline.setWidth(107);
 							tblclmnDeadline.setText("Deadline");
@@ -157,7 +154,7 @@ public static void main (String [] args) {
 	while (!shell.isDisposed ()) {
 		if (!display.readAndDispatch ()) display.sleep ();
 	}
-	if (image != null) image.dispose(); 
+	if (image != null) image.dispose();
 	display.dispose();
 }
 }
