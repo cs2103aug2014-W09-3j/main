@@ -21,48 +21,56 @@ public class TareasController {
     ArrayList<Tasks> redoHistory = new ArrayList<Tasks>();
     ArrayList<Tasks> undoHistory = new ArrayList<Tasks>();
 
+    /**
+     * Takes the user's input from the GUI and does the right stuff to make the program work
+     *
+     * @param userInput the user's input from TareasGUI
+     */
     public void executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
 
         switch (command) {
             case ADD_COMMAND:
-                // TODO add correct method(s) to call
+                tareas.insertTask();
             case EDIT_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case DELETE_COMMAND:
-                // TODO add correct method(s) to call
+                tareas.deleteTask();
             case SEARCH_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case DONE_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case UNDO_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case REDO_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case POSTPONE_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case VIEW_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case PRIORITIZE_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case CATEGORIZE_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case REMIND_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case BACKUP_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case MUTE_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case FONT_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             case COLOR_COMMAND:
-                // TODO add correct method(s) to call
+                // TODO add correct/stub method(s) to call
             default:
                 // TODO throw a TareasException in that nothing is recognised?
         }
     }
 
-    public void undo() {
+    /**
+     * undoes the user's action by returning the state for both UI and Storage, parser is not needed here
+     */
+    private void undo() {
         if (isAbleToUndo()) {
             tareas.sendUndoState();
             TareasGUI.sendUndoState();
@@ -71,7 +79,10 @@ public class TareasController {
         }
     }
 
-    public void redo() {
+    /**
+     * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
+     */
+    private void redo() {
         if (isAbleToUndo()) {
             tareas.sendRedoState();
             TareasGUI.sendRedoState();
@@ -80,6 +91,9 @@ public class TareasController {
         }
     }
 
+    /**
+     * checks if there is any redo history to redo
+     */
     private boolean isAbleToRedo() {
         if (redoHistory.isEmpty()) {
             return false;
@@ -88,6 +102,9 @@ public class TareasController {
         }
     }
 
+    /**
+     * checks if there is any undo history to undo
+     */
     private boolean isAbleToUndo() {
         if (undoHistory.isEmpty()) {
             return false;
@@ -96,10 +113,20 @@ public class TareasController {
         }
     }
 
+    /**
+     * checks if there is any undo history to undo
+     *
+     * @param state of the Tasks to add into the history
+     */
     private void addToUndoHistory(Tasks state) {
         undoHistory.add(state);
     }
 
+    /**
+     * checks if there is any undo history to undo
+     *
+     * @param state of the Tasks to add into the history
+     */
     private void addToRedoHistory(Tasks state) {
         redoHistory.add(state);
     }
