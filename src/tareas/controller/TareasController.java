@@ -62,7 +62,7 @@ public class TareasController {
                 changeFont(command);
             case COLOR_COMMAND:
                 colorizeTask(command);
-            default:
+            default: // UNKNOWN_COMMAND? Why null?
                 TareasGUI.feedback("Unrecognised command passed in");
                 //TODO should we throw a TareasException or the sort?
         }
