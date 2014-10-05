@@ -234,7 +234,6 @@ public class TareasController {
             if (isAbleToUndo()) {
                 Tasks stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
 
-
                 addToUndoHistory(statetoRevertTo);
                 tareas.sendRedoState(stateToRevertTo);
                 TareasGUI.sendRedoState(stateToRevertTo);
