@@ -69,13 +69,28 @@ public class TareasController {
     }
 
     /**
+     * builds a task using the command given by the user after being parsed by the parser
+     *
+     * @param TareasCommand command from the user input so that the task can be built
+     */
+    private Task buildTask(TareasCommand command) {
+        Task taskToReturn = new Task();
+
+        //TODO build the task using the methods provided from TareasCommand, clarify with Kent on 6 OCT
+
+        return taskToReturn;
+    }
+
+    /**
      * adds a task by calling the appropriate GUI and storage methods
      *
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void addTask(TareasCommand command) {
-        tareas.insertTask();
-        TareasGUI.taskInserted();
+        Task taskToInsert = buildTask(command);
+
+        tareas.insertTask(taskToInsert);
+        TareasGUI.taskInserted(taskToInsert);
     }
 
     /**
@@ -84,8 +99,10 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void editTask(TareasCommand command) {
-        tareas.editTask();
-        TareasGUI.taskEdited();
+        Task taskToEdit = buildTask(command);
+
+        tareas.editTask(taskToEdit);
+        TareasGUI.taskEdited(taskToEdit);
     }
 
     /**
@@ -94,8 +111,11 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void deleteTask(TareasCommand command) {
-        tareas.deleteTask();
-        TareasGUI.taskDeleted();
+        //TODO grab the task id to be deleted to be passed to TareasIO
+        Task deletedTask = tareas.getTask(0);
+
+        tareas.deleteTask(0);
+        TareasGUI.taskDeleted(deletedTask);
     }
 
     /**
@@ -104,8 +124,10 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void searchTask(TareasCommand command) {
-        tareas.searchTask();
-        TareasGUI.taskSearched();
+        Task taskToSearch = buildTask(command);
+
+        tareas.searchTask(taskToSearch);
+        TareasGUI.taskSearched(taskToSearch);
     }
 
     /**
@@ -114,6 +136,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void completeTask(TareasCommand command) {
+        //TODO grab the task id to be marked as done to be passed to TareasIO
+
         tareas.markTaskAsDone();
         TareasGUI.taskDone();
     }
@@ -124,6 +148,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void postponeTask(TareasCommand command) {
+        //TODO grab the task id to be marked as done to be passed to TareasIO
+
         tareas.postponeTask();
         TareasGUI.taskPostponed();
     }
@@ -134,6 +160,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void viewRequest(TareasCommand command) {
+        //TODO grab the view type so that can call the right stuff from storage and GUI
+
         tareas.getTaskForView();
         TareasGUI.viewType();
     }
@@ -144,6 +172,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void prioritizeTask(TareasCommand command) {
+        //TODO grab the task id to be prioritized to be passed to TareasIO
+
         tareas.prioritizeTask();
         TareasGUI.taskPrioritized();
     }
@@ -154,6 +184,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void categorizeTask(TareasCommand command) {
+        //TODO grab the task id to be categorized to be passed to TareasIO
+
         tareas.categorizeTask();
         TareasGUI.taskcategorized();
     }
@@ -164,6 +196,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void setTaskReminder(TareasCommand command) {
+        //TODO grab the task id to have it's reminder set to be passed to TareasIO
+
         tareas.setTaskReminder();
         TareasGUI.taskReminderSet();
     }
@@ -184,6 +218,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void mute() {
+        //TODO grab the time start and end to be passed to TareasIO
+
         tareas.muteTareas();
         TareasGUI.feedback("Tareas muted from ...");;
     }
@@ -194,6 +230,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void changeFont(TareasCommand command) {
+        //TODO grab the font arguments to be passed to the GUI
+
         TareasGUI.font();
     }
 
@@ -203,6 +241,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void colorizeTask(TareasCommand command) {
+        //TODO grab the ID of the task that should be colorized and also the color so that can call the right methods
+
         tareas.editTask();
         TareasGUI.taskColorChanged();
     }
