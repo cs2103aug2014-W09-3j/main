@@ -74,8 +74,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void addTask(TareasCommand command) {
-        tareas.addTask();
-        TareasGUI.taskAdded();
+        tareas.insertTask();
+        TareasGUI.taskInserted();
     }
 
     /**
