@@ -1,5 +1,10 @@
 package tareas.controller;
 
+import tareas.common.*;
+import tareas.gui.*;
+import tareas.parser.*;
+import tareas.storage.*;
+
 /**
  * @author Yap Jun Hao
  *
@@ -8,31 +13,15 @@ package tareas.controller;
 
 public class TareasController {
 
-    public void executeCommand() {
-        // TO-DO STUB
-    }
-
-    public void parserError() {
-        // TO-DO STUB
-    }
-
-    public void changeView() {
-        // TO-DO STUB
+    public void executeCommand(String userInput) {
+        TareasCommand command = TareasCommand.fromString(userInput);
     }
 
     public void undo() {
-        // TO-DO STUB
+        // TODO STUB
     }
 
     public void redo() {
-        // TO-DO STUB
-    }
-
-    public void setSickDay() {
-        // TO-DO STUB
-    }
-
-    public void changeFont() {
-        // TO-DO STUB
+        // TODO STUB
     }
 }
