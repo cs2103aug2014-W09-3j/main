@@ -60,7 +60,7 @@ public class ControllerTests {
      * Controller test for adding a deadline task
      */
     @Test
-    public void addATimedTaskMultipleDays() throws IOException {
+    public void addADeadlineTask() throws IOException {
         executeCommand("complete user guide -by 22/09/2014 1500");
 
         //TODO add the right assertion
@@ -70,7 +70,7 @@ public class ControllerTests {
      * Controller test for adding a recurring deadline daily task
      */
     @Test
-    public void addATask() throws IOException {
+    public void addARecurringDeadlineDailyTask() throws IOException {
         executeCommand("walk the dog -recurring daily");
 
         //TODO add the right assertion
@@ -80,7 +80,7 @@ public class ControllerTests {
      * Controller test for adding a deadline recurring weekly task
      */
     @Test
-    public void addATask() throws IOException {
+    public void addARecurringDeadlineWeeklyTask() throws IOException {
         executeCommand("spa session -recurring weekly on monday");
 
         //TODO add the right assertion
@@ -90,7 +90,7 @@ public class ControllerTests {
      * Controller test for adding a deadline recurring monthly task
      */
     @Test
-    public void addATask() throws IOException {
+    public void addARecurringDeadlineMonthlyTask() throws IOException {
         executeCommand("family outing -recurring monthly on 13th");
 
         //TODO add the right assertion
@@ -111,7 +111,7 @@ public class ControllerTests {
      * Controller test for deleting a task
      */
     @Test
-    public void editATask() throws IOException {
+    public void deleteATask() throws IOException {
         executeCommand("buy milk");
         executeCommand("-delete 1");
 
@@ -122,7 +122,7 @@ public class ControllerTests {
      * Controller test for searching a task through a string that the description contains
      */
     @Test
-    public void editATask() throws IOException {
+    public void searchATaskWithContainingString() throws IOException {
         executeCommand("buy watermelon");
         executeCommand("-search watermelon");
 
@@ -133,7 +133,7 @@ public class ControllerTests {
      * Controller test for searching a task through the task ID
      */
     @Test
-    public void editATask() throws IOException {
+    public void searchATaskWithId() throws IOException {
         executeCommand("buy watermelon");
         executeCommand("-search 1");
 
@@ -144,7 +144,7 @@ public class ControllerTests {
      * Controller test for searching a task through the tasks' tag(s)
      */
     @Test
-    public void editATask() throws IOException {
+    public void searchATaskThroughTags() throws IOException {
         executeCommand("buy watermelon -tag grocery");
         executeCommand("-search grocery");
 
@@ -155,7 +155,7 @@ public class ControllerTests {
      * Controller test for marking a task as done
      */
     @Test
-    public void editATask() throws IOException {
+    public void markATaskAsDone() throws IOException {
         executeCommand("buy watermelon");
         executeCommand("-done 1");
 
@@ -163,10 +163,10 @@ public class ControllerTests {
     }
 
     /**
-     * Controller test for undoing an action
+     * Controller test for undoing an action passing
      */
     @Test
-    public void undo() throws IOException {
+    public void undoPass() throws IOException {
         executeCommand("buy milk");
         executeCommand("-undo");
 
@@ -177,17 +177,17 @@ public class ControllerTests {
      * Controller test for undoing an action failure
      */
     @Test
-    public void redo() throws IOException {
+    public void undoFail() throws IOException {
         executeCommand("-undo");
 
         //TODO add the right assertion
     }
 
     /**
-     * Controller test for redoing an action
+     * Controller test for redoing an action passing
      */
     @Test
-    public void redo() throws IOException {
+    public void redoPass() throws IOException {
         executeCommand("buy milk");
         executeCommand("-undo");
         executeCommand("-redo");
@@ -196,10 +196,10 @@ public class ControllerTests {
     }
 
     /**
-     * Controller test for redoing an action
+     * Controller test for redoing an action failing
      */
     @Test
-    public void redo() throws IOException {
+    public void redoFail() throws IOException {
         executeCommand("buy milk");
         executeCommand("-redo");
 
@@ -210,7 +210,7 @@ public class ControllerTests {
      * Controller test for postponing a task by hours
      */
     @Test
-    public void editATask() throws IOException {
+    public void postponeATaskByHours() throws IOException {
         executeCommand("buy watermelon -by 22/09/2014 1500");
         executeCommand("-postpone 1 -by 2 hours");
 
@@ -221,7 +221,7 @@ public class ControllerTests {
      * Controller test for postponing a task by specifying a whole new date
      */
     @Test
-    public void editATask() throws IOException {
+    public void postponeATaskWithANewDate() throws IOException {
         executeCommand("buy watermelon -by 22/09/2014 1500");
         executeCommand("-postpone 1 -to 23/09/2014 1700");
 
@@ -232,8 +232,8 @@ public class ControllerTests {
      * Controller test for supporting custom done view
      */
     @Test
-    public void editATask() throws IOException {
-        executeCommand("-view uncompleted");
+    public void viewAllDone() throws IOException {
+        executeCommand("-view done");
 
         //TODO add the right assertion
     }
@@ -242,7 +242,7 @@ public class ControllerTests {
      * Controller test for supporting custom today's view
      */
     @Test
-    public void editATask() throws IOException {
+    public void viewToday() throws IOException {
         executeCommand("-view today");
 
         //TODO add the right assertion
@@ -252,7 +252,7 @@ public class ControllerTests {
      * Controller test for supporting custom date view
      */
     @Test
-    public void editATask() throws IOException {
+    public void viewDate() throws IOException {
         executeCommand("-view 23/09/2014");
 
         //TODO add the right assertion
@@ -262,7 +262,7 @@ public class ControllerTests {
      * Controller test for prioritizing tasks
      */
     @Test
-    public void editATask() throws IOException {
+    public void prioritizeATask() throws IOException {
         executeCommand("buy ham");
         executeCommand("-prioritize 1");
 
@@ -273,7 +273,7 @@ public class ControllerTests {
      * Controller test for categorizing tasks
      */
     @Test
-    public void editATask() throws IOException {
+    public void categorizingATask() throws IOException {
         executeCommand("buy ham");
         executeCommand("-categorize 1 -to groceries");
 
@@ -284,7 +284,7 @@ public class ControllerTests {
      * Controller test for setting reminders
      */
     @Test
-    public void editATask() throws IOException {
+    public void settingATaskWithReminder() throws IOException {
         executeCommand("buy ham");
         executeCommand("-remind 3 -on 13/09/2014 1300");
 
@@ -325,7 +325,7 @@ public class ControllerTests {
      * Controller test for changing font settings
      */
     @Test
-    public void editATask() throws IOException {
+    public void setFont() throws IOException {
         executeCommand("-font Helvetica");
 
         //TODO add the right assertion
@@ -335,7 +335,7 @@ public class ControllerTests {
      * Controller test for changing font settings with size to cater to eyesight needs
      */
     @Test
-    public void editATask() throws IOException {
+    public void setFontWithSize() throws IOException {
         executeCommand("-font Times New Roman -size 12");
 
         //TODO add the right assertion
@@ -345,7 +345,7 @@ public class ControllerTests {
      * Controller test for colorizing tasks
      */
     @Test
-    public void editATask() throws IOException {
+    public void colorizeATask() throws IOException {
         executeCommand("-color 3 -with orange");
 
         //TODO add the right assertion
