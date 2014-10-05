@@ -4,6 +4,7 @@ import tareas.common.*;
 import tareas.gui.*;
 import tareas.parser.*;
 import tareas.storage.*;
+import java.util.ArrayList;
 
 /**
  * @author Yap Jun Hao
@@ -13,15 +14,36 @@ import tareas.storage.*;
 
 public class TareasController {
 
+    TareasIO tareas = new TareasIO();
+
+    ArrayList<Tasks> redoHistory = new ArrayList<Tasks>();
+    ArrayList<Tasks> undoHistory = new ArrayList<Tasks>();
+
     public void executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
     }
 
     public void undo() {
-        // TODO STUB
+
     }
 
     public void redo() {
-        // TODO STUB
+
+    }
+
+    private boolean isAbleToRedo() {
+        if (history.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean isAbleToUndo() {
+        if (history.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
