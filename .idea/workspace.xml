@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="merged junhao into master" />
-    <list id="dca4c9f2-843a-44f8-8d27-fab7a43fff09" name="Ignored" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs2103aug2014-W09-3j.iml" afterPath="$PROJECT_DIR$/cs2103aug2014-W09-3j.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/swt_4.xml" afterPath="$PROJECT_DIR$/.idea/libraries/swt_4.xml" />
+    <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="merged junhao into master">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="main.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -403,7 +398,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="" />
-      <changelist id="dca4c9f2-843a-44f8-8d27-fab7a43fff09" name="Ignored" comment="" />
+      <changelist id="" name="Ignored" comment="" />
       <created>1412042733148</created>
       <updated>1412042733148</updated>
       <workItem from="1412042735697" duration="50000" />
@@ -485,7 +480,11 @@
       <created>1412595244919</created>
       <updated>1412595244919</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Ignored">
+      <created>1412595347869</created>
+      <updated>1412595347869</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -576,7 +575,8 @@
     <MESSAGE value="merged UI" />
     <MESSAGE value="merged UI -&gt; master" />
     <MESSAGE value="merged junhao into master" />
-    <option name="LAST_COMMIT_MESSAGE" value="merged junhao into master" />
+    <MESSAGE value="Ignored" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ignored" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
