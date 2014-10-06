@@ -137,7 +137,9 @@ public class Task {
 	public boolean isTaskCompleted() {
 		return this.completed;
 	}
-	
+
+    public void markTaskUncompleted() { this.completed = false; }
+
 	public void markTaskCompleted() {
 		this.completed = true;
 	}
@@ -145,7 +147,9 @@ public class Task {
 	public boolean isTaskPriority() {
 		return this.priority;
 	}
-	
+
+    public void setTaskAsNotPriority() { this.priority = false; }
+
 	public void setTaskAsPriority() {
 		this.priority = true;
 	}
