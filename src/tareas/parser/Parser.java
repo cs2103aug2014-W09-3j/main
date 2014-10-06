@@ -38,6 +38,7 @@ public class Parser {
                 continue;
             }
 
+
             TareasCommand command = TareasCommand.fromString(test);
             String valid = isCommandSignatureValid(command) ? "Valid " : "Invalid ";
             System.out.println(valid + command);
