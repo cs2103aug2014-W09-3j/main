@@ -16,3 +16,7 @@ hs_err_pid*
 
 # For Mac Machines
 .DS_STORE
+
+# For build paths
+.classpath
+.project

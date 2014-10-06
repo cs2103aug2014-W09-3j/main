@@ -15,13 +15,15 @@ import tareas.storage.*;
  */
 
 public class ControllerTests {
+	
+	TareasController tareasController = new TareasController();
 
     /**
      * Controller test for adding a floating task
      */
     @Test
     public void addAFloatingTask() throws IOException {
-        executeCommand("buy milk");
+        tareasController.executeCommand("buy milk");
 
         //TODO add the right assertion
     }
