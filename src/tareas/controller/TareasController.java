@@ -2,6 +2,7 @@ package tareas.controller;
 
 import tareas.common.Task;
 import tareas.common.Tasks;
+import tareas.gui.TareasGUI;
 import tareas.parser.TareasCommand;
 import tareas.storage.TareasIO;
 
@@ -73,7 +74,7 @@ public class TareasController {
                 backup();
                 break;
             case MUTE_COMMAND:
-                mute();
+                mute(command);
                 break;
             case FONT_COMMAND:
                 changeFont(command);
@@ -94,8 +95,21 @@ public class TareasController {
      */
     private Task buildTask(TareasCommand command) {
         Task taskToReturn = new Task();
+        // Can remove in the future once all the different types are supported
 
-        //TODO build the task using the methods provided from TareasCommand, clarify with Kent on 6 OCT
+        if (command.hasKey("tag")) {
+            //TODO support tagged tasks
+        } else if (command.hasKey("from")) {
+            //TODO support timed tasks
+        } else if (command.hasKey("by")) {
+            //TODO support deadline tasks
+        } else if (command.hasKey("recurring")) {
+            //TODO support recurring tasks
+        } else {
+            String taskDescription = command.getPrimaryArgument();
+
+            taskToReturn = Task.createFloatingTask(taskDescription);
+        }
 
         return taskToReturn;
     }
@@ -109,6 +123,7 @@ public class TareasController {
         Task taskToInsert = buildTask(command);
 
         tareas.insertTask(taskToInsert);
+        //TODO sync the state of the undo history
         //TODO add the task to the GUI
         clearRedoState();
     }
@@ -116,12 +131,17 @@ public class TareasController {
     /**
      * edits a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be built
+     * @param command from the user input so that the task can be edited
      */
     private void editTask(TareasCommand command) {
-        Task taskToEdit = buildTask(command);
-        
+        int taskID = Integer.parseInt(command.getPrimaryArgument());
+
+        if (command.getArgument("des") != null) {
+            //TODO
+        }
+
         //TODO edit the task to the Storage
+        //TODO sync the state of the undo history
         //TODO edit the task to the GUI
         clearRedoState();
     }
@@ -129,13 +149,13 @@ public class TareasController {
     /**
      * deletes a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be built
+     * @param command from the user input so that the task can be deleted
      */
     private void deleteTask(TareasCommand command) {
-        //TODO grab the task id to be deleted to be passed to TareasIO
-        //Task deletedTask = tareas.getTask(0);
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
 
-        tareas.deleteTask(0);
+        tareas.deleteTask(taskId);
+        //TODO sync the state of the undo history
         //TODO inform the GUI that a task has been deleted
         clearRedoState();
     }
@@ -143,10 +163,10 @@ public class TareasController {
     /**
      * searches a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be searched
      */
     private void searchTask(TareasCommand command) {
-        Task taskToSearch = buildTask(command);
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO search the task from the Storage
         //TODO feedback the task searched to the GUI
@@ -155,12 +175,13 @@ public class TareasController {
     /**
      * completes a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task to be marked as done can be identified
      */
     private void completeTask(TareasCommand command) {
-        //TODO grab the task id to be marked as done to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO mark the task as done from the Storage
+        //TODO sync the state of the undo history
         //TODO tell the GUI that the task has been marked as done
         clearRedoState();
     }
@@ -168,12 +189,13 @@ public class TareasController {
     /**
      * postpones a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task to be postponed can be identified
      */
     private void postponeTask(TareasCommand command) {
-        //TODO grab the task id to be marked as done to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO postpone the task to the Storage
+        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has been postponed
         clearRedoState();
     }
@@ -181,7 +203,7 @@ public class TareasController {
     /**
      * completes a view request by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the right view to show can be identified
      */
     private void viewRequest(TareasCommand command) {
         //TODO grab the view type so that can call the right stuff from storage and GUI
@@ -193,12 +215,13 @@ public class TareasController {
     /**
      * prioritize a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be built
+     * @param command from the user input so that the task to be prioritized can be identified
      */
     private void prioritizeTask(TareasCommand command) {
-        //TODO grab the task id to be prioritized to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has been prioritized
+        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has been prioritized
         clearRedoState();
     }
@@ -209,9 +232,10 @@ public class TareasController {
      * @param command from the user input so that the task can be built
      */
     private void categorizeTask(TareasCommand command) {
-        //TODO grab the task id to be categorized to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has been categorized
+        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has been categorized
         clearRedoState();
     }
@@ -219,20 +243,19 @@ public class TareasController {
     /**
      * set a task reminder by calling the appropriate GUI and storage methods
      *
-     * @param  command from the user input so that the task can be built
+     * @param command from the user input so that the task can be identified
      */
     private void setTaskReminder(TareasCommand command) {
-        //TODO grab the task id to have it's reminder set to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has a reminder set
+        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has a reminder set
         clearRedoState();
     }
 
     /**
      * backups all tasks data by calling the appropriate GUI and storage methods
-     *
-     * @param command from the user input so that the task can be built
      */
     private void backup() {
         //TODO tell the storage to backup the data
@@ -241,20 +264,19 @@ public class TareasController {
 
     /**
      * mute Tareas by calling the appropriate GUI and storage methods
-     *
-     * @param command from the user input so that the task can be built
      */
-    private void mute() {
+    private void mute(TareasCommand command) {
         //TODO grab the time start and end to be passed to TareasIO
     	
         //TODO tell the storage to mute everything from time to time
+        //TODO sync the state of the undo history
         //TODO feedback to the GUI that the muting has been done
     }
 
     /**
      * changes Tareas font settings by calling the appropriate GUI method
      *
-     * @param command from the user input so that the task can be built
+     * @param command from the user input so that the font to be changed to can be identified
      */
     private void changeFont(TareasCommand command) {
         //TODO grab the font arguments to be passed to the GUI
@@ -265,12 +287,13 @@ public class TareasController {
     /**
      * colorize a task by calling the appropriate GUI and storage method
      *
-     * @param command from the user input so that the task can be built
+     * @param command from the user input so that the right task can be colored
      */
     private void colorizeTask(TareasCommand command) {
-        //TODO grab the ID of the task that should be colorized and also the color so that can call the right methods
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
     	
         //TODO tell the storage to change the color of the task
+        //TODO sync the state of the undo history
         //TODO feedback to the GUI that the color has been changed
         clearRedoState();
     }
@@ -308,7 +331,7 @@ public class TareasController {
     /**
      * checks if there is any redo history to redo
      *
-     * @return
+     * @return whether there is anything to redo
      */
     private boolean isAbleToRedo() {
         if (redoHistory.isEmpty()) {
@@ -321,7 +344,7 @@ public class TareasController {
     /**
      * checks if there is any undo history to undo
      *
-     * @return
+     * @return whether there is anything to undo
      */
     private boolean isAbleToUndo() {
         if (undoHistory.isEmpty()) {
@@ -356,4 +379,10 @@ public class TareasController {
         redoHistory.clear();
     }
 
+    /**
+     * main method to run the GUI
+     */
+    public static void main(String args[]) {
+        new TareasGUI().run();
+    }
 }

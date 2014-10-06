@@ -176,13 +176,13 @@ public class Task {
 		floatingTask.setDescription(description);
 		return floatingTask;
 	}
-	
-	/**
-	 * This method creates a deadline task.
-	 * @param description
-	 * @param deadline
-	 * @return Task
-	 */
+
+    /**
+     * This method creates a deadline task.
+     * @param description
+     * @param deadline
+     * @return Task
+     */
 	public static Task createDeadlineTask(String description, String deadline) {
 		Task deadlineTask = new Task();
 		deadlineTask.setDescription(description);
@@ -205,4 +205,5 @@ public class Task {
 		timedTask.setEndDateTime(endDateTime);
 		return timedTask;
 	}
+
 }
