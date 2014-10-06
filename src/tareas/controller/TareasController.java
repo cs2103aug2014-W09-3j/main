@@ -4,6 +4,8 @@ import tareas.common.*;
 import tareas.gui.*;
 import tareas.parser.*;
 import tareas.storage.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -28,8 +30,10 @@ public class TareasController {
      */
     public void executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
+        //TareasBehavior behavior = command.getBehavior();
+        //behavior.run();
 
-        switch (command) {
+        switch (command.getType()) {
             case ADD_COMMAND:
                 addTask(command);
             case EDIT_COMMAND:
@@ -62,7 +66,7 @@ public class TareasController {
                 changeFont(command);
             case COLOR_COMMAND:
                 colorizeTask(command);
-            default: // UNKNOWN_COMMAND? Why null?
+            default:
                 TareasGUI.feedback("Unrecognised command passed in");
                 //TODO should we throw a TareasException or the sort?
         }
@@ -91,6 +95,7 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert);
         TareasGUI.taskInserted(taskToInsert);
+        clearRedoState();
     }
 
     /**
@@ -103,6 +108,7 @@ public class TareasController {
 
         tareas.editTask(taskToEdit);
         TareasGUI.taskEdited(taskToEdit);
+        clearRedoState();
     }
 
     /**
@@ -116,6 +122,7 @@ public class TareasController {
 
         tareas.deleteTask(0);
         TareasGUI.taskDeleted(deletedTask);
+        clearRedoState();
     }
 
     /**
@@ -140,6 +147,7 @@ public class TareasController {
 
         tareas.markTaskAsDone();
         TareasGUI.taskDone();
+        clearRedoState();
     }
 
     /**
@@ -152,6 +160,7 @@ public class TareasController {
 
         tareas.postponeTask();
         TareasGUI.taskPostponed();
+        clearRedoState();
     }
 
     /**
@@ -176,6 +185,7 @@ public class TareasController {
 
         tareas.prioritizeTask();
         TareasGUI.taskPrioritized();
+        clearRedoState();
     }
 
     /**
@@ -188,6 +198,7 @@ public class TareasController {
 
         tareas.categorizeTask();
         TareasGUI.taskcategorized();
+        clearRedoState();
     }
 
     /**
@@ -200,6 +211,7 @@ public class TareasController {
 
         tareas.setTaskReminder();
         TareasGUI.taskReminderSet();
+        clearRedoState();
     }
 
     /**
@@ -221,7 +233,7 @@ public class TareasController {
         //TODO grab the time start and end to be passed to TareasIO
 
         tareas.muteTareas();
-        TareasGUI.feedback("Tareas muted from ...");;
+        TareasGUI.feedback("Tareas muted from ...");
     }
 
     /**
@@ -245,6 +257,7 @@ public class TareasController {
 
         tareas.editTask();
         TareasGUI.taskColorChanged();
+        clearRedoState();
     }
 
     /**
@@ -255,7 +268,7 @@ public class TareasController {
             if (isAbleToUndo()) {
                 Tasks stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
 
-                addToRedoHistory(statetoRevertTo);
+                addToRedoHistory(stateToRevertTo);
                 tareas.sendUndoState(stateToRevertTo);
                 TareasGUI.sendUndoState(stateToRevertTo);
             } else {
@@ -271,10 +284,10 @@ public class TareasController {
      */
     private void redo() {
         try {
-            if (isAbleToUndo()) {
+            if (isAbleToRedo()) {
                 Tasks stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
 
-                addToUndoHistory(statetoRevertTo);
+                addToUndoHistory(stateToRevertTo);
                 tareas.sendRedoState(stateToRevertTo);
                 TareasGUI.sendRedoState(stateToRevertTo);
             } else {
