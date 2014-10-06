@@ -379,4 +379,10 @@ public class TareasController {
         redoHistory.clear();
     }
 
+    /**
+     * main method to run the GUI
+     */
+    public static void main(String args[]) {
+        new TareasGUI().run();
+    }
 }
