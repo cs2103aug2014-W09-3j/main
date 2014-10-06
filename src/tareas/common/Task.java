@@ -166,4 +166,44 @@ public class Task {
 		this.color = color;
 	}
 	
+	/**
+	 * This method creates a floating task.
+	 * @param description
+	 * @return Task
+	 */
+	public static Task createFloatingTask(String description) {
+		Task floatingTask = new Task();
+		floatingTask.setDescription(description);
+		return floatingTask;
+	}
+
+    /**
+     * This method creates a deadline task.
+     * @param description
+     * @param deadline
+     * @return Task
+     */
+	public static Task createDeadlineTask(String description, String deadline) {
+		Task deadlineTask = new Task();
+		deadlineTask.setDescription(description);
+		deadlineTask.setDeadline(deadline);
+		return deadlineTask;
+	}
+	
+	/**
+	 * This method creates a timed task.
+	 * @param description
+	 * @param startDateTime
+	 * @param endDateTime
+	 * @return Task
+	 */
+	public static Task createTimedTask(String description, String startDateTime, 
+			String endDateTime) {
+		Task timedTask = new Task();
+		timedTask.setDescription(description);
+		timedTask.setStartDateTime(startDateTime);
+		timedTask.setEndDateTime(endDateTime);
+		return timedTask;
+	}
+
 }
