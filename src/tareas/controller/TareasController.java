@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 /**
  * @author Yap Jun Hao
- *
- * This class binds the other parts of the program together.
+ *         <p/>
+ *         This class binds the other parts of the program together.
  */
 
 public class TareasController {
