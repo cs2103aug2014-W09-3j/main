@@ -127,6 +127,25 @@ public class TareasGUI{
 		endTimeClmn.setWidth(107);
 		endTimeClmn.setText("End Time");
 		
+		table_1 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		FormData fd_table_1 = new FormData();
+		fd_table_1.bottom = new FormAttachment(calendar, 0, SWT.BOTTOM);
+		fd_table_1.right = new FormAttachment(100, -10);
+		fd_table_1.left = new FormAttachment(calendar, 6);
+		fd_table_1.top = new FormAttachment(0, 5);
+		table_1.setLayoutData(fd_table_1);
+		table_1.setHeaderVisible(true);
+		table_1.setLinesVisible(true);
+		
+		TableColumn tblclmnTaskId = new TableColumn(table_1, SWT.NONE);
+		tblclmnTaskId.setWidth(100);
+		tblclmnTaskId.setText("Task ID");
+		
+		TableColumn tblclmnDescription = new TableColumn(table_1, SWT.NONE);
+		tblclmnDescription.setWidth(100);
+		tblclmnDescription.setText("Description");
+
+		
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
