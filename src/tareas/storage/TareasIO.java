@@ -72,5 +72,22 @@ public class TareasIO {
 			write();
 		}
 	}
+	
+	/**
+	 * Returns all tasks in Tareas.
+	 * @return
+	 */
+	// TODO sort the tasks.
+	public Tasks getAllTasks() {
+		StorageReader reader = new StorageReader();
+		Tasks allTasks = new Tasks();
+		try {
+			allTasks = reader.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return allTasks;
+	}
 
 }
