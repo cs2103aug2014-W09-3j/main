@@ -177,5 +177,17 @@ public class Task {
 		return floatingTask;
 	}
 	
+	/**
+	 * This method creates a deadline task.
+	 * @param description
+	 * @param deadline
+	 * @return Task
+	 */
+	public static Task createDeadlineTask(String description, String deadline) {
+		Task deadlineTask = new Task();
+		deadlineTask.setDescription(description);
+		deadlineTask.setDeadline(deadline);
+		return deadlineTask;
+	}
 	
 }
