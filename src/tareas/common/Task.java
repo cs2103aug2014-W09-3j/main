@@ -166,4 +166,16 @@ public class Task {
 		this.color = color;
 	}
 	
+	/**
+	 * This method creates a floating task.
+	 * @param description
+	 * @return Task
+	 */
+	public static Task createFloatingTask(String description) {
+		Task floatingTask = new Task();
+		floatingTask.setDescription(description);
+		return floatingTask;
+	}
+	
+	
 }
