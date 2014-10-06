@@ -45,6 +45,10 @@ public class TareasIO {
 		}
 	}
 	
+	/**
+	 * Inserts a task into Tareas using a Task object
+	 * @param task
+	 */
 	public void insertTask(Task task) {
 		initialize();
 		task.setTaskID(allTasks.getNextID());
@@ -52,6 +56,10 @@ public class TareasIO {
 		write();
 	}
 
+	/**
+	 * Removes a task with a given ID
+	 * @param id
+	 */
 	public void deleteTask(int id) {
 		initialize();
 		if(id < 1 || id > allTasks.get().size()) {
