@@ -30,8 +30,10 @@ public class TareasController {
      */
     public void executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
+        //TareasBehavior behavior = command.getBehavior();
+        //behavior.run();
 
-        switch (command) {
+        switch (command.getType()) {
             case ADD_COMMAND:
                 addTask(command);
             case EDIT_COMMAND:
@@ -64,7 +66,7 @@ public class TareasController {
                 changeFont(command);
             case COLOR_COMMAND:
                 colorizeTask(command);
-            default: // UNKNOWN_COMMAND? Why null?
+            default:
                 TareasGUI.feedback("Unrecognised command passed in");
                 //TODO should we throw a TareasException or the sort?
         }
