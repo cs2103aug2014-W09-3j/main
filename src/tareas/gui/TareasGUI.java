@@ -52,6 +52,13 @@ public class TareasGUI{
 		
 		calendar.setLayoutData(fd_calendar);
 		
+		final Text text = new Text(shell, SWT.SEARCH | SWT.ICON_CANCEL);
+		FormData fd_text = new FormData();
+		fd_text.right = new FormAttachment(100, -10);
+		fd_text.left = new FormAttachment(0, 5);
+		text.setLayoutData(fd_text);
+		
+		
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
