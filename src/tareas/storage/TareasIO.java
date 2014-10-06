@@ -1,11 +1,11 @@
 package tareas.storage;
 
+import tareas.common.Task;
+import tareas.common.Tasks;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import tareas.common.Task;
-import tareas.common.Tasks;
 
 /**
  * @author Her Lung
@@ -44,6 +44,19 @@ public class TareasIO {
 			}
 		}
 	}
+
+    private Task getTask(int id) {
+        Iterator<Task> iter = allTasks.get().iterator();
+        Task searchTask = new Task();
+        while(iter.hasNext()) {
+            Task task = iter.next();
+            if(task.getTaskID() == id) {
+                searchTask = task;
+                break;
+            }
+        }
+        return searchTask;
+    }
 	
 	/**
 	 * Inserts a task into Tareas using a Task object
@@ -72,10 +85,98 @@ public class TareasIO {
 			write();
 		}
 	}
-	
+
+    /**
+     * This method updates tasks in storage.
+     * @param newTask
+     */
+    public void editTask(Task newTask) {
+        initialize();
+        int id = newTask.getTaskID();
+
+        Iterator<Task> iter = allTasks.get().iterator();
+        while(iter.hasNext()) {
+            Task task = iter.next();
+            if(task.getTaskID() == id) {
+                if(newTask.getDescription() != null) {
+                    task.setDescription(newTask.getDescription());
+                }
+                if(newTask.getCategory() != null) {
+                    task.setCategory(newTask.getCategory());
+                }
+                if(newTask.getDeadline() != null) {
+                    task.setDeadline(newTask.getDeadline());
+                }
+                if(newTask.getStartDateTime() != null) {
+                    task.setStartDateTime(newTask.getStartDateTime());
+                }
+                if(newTask.getEndDateTime() != null) {
+                    task.setEndDateTime(newTask.getEndDateTime());
+                }
+                if(newTask.getRecurrenceFrequency() != null) {
+                    task.setRecurrenceFrequency(newTask.getRecurrenceFrequency());
+                }
+                if(newTask.getRecurrenceDate() != null) {
+                    task.setRecurrenceDate(newTask.getRecurrenceDate());
+                }
+                if(newTask.getRecurrenceDay() != null) {
+                    task.setRecurrenceDay(newTask.getRecurrenceDay());
+                }
+
+                // TODO: tags are left out first
+
+                if(newTask.isTaskCompleted() != task.isTaskCompleted()) {
+                    if(newTask.isTaskCompleted()) {
+                        task.markTaskCompleted();
+                    } else {
+                        task.markTaskUncompleted();
+                    }
+                }
+
+                if(newTask.isTaskPriority() != task.isTaskPriority()) {
+                    if(newTask.isTaskPriority()) {
+                        task.setTaskAsPriority();
+                    } else {
+                        task.setTaskAsNotPriority();
+                    }
+                }
+
+                if(newTask.getReminderDateTime() != null) {
+                    task.setReminderDateTime(newTask.getReminderDateTime());
+                }
+
+                if(newTask.getColor() != null) {
+                    task.setColor(newTask.getColor());
+                }
+            }
+        }
+        write();
+    }
+
+    /**
+     * This method searches for a task using the ID
+     * @param id
+     * @return Task
+     */
+    public Task searchTask(int id) {
+        initialize();
+        return getTask(id);
+    }
+
+    /**
+     * This method allows tasks to be marked as completed.
+     * @param id
+     */
+    public void markTaskAsCompleted(int id) {
+        initialize();
+        Task task = getTask(id);
+        task.markTaskCompleted();
+        write();
+    }
+
 	/**
 	 * Returns all tasks in Tareas.
-	 * @return
+	 * @return allTasks
 	 */
 	// TODO sort the tasks.
 	public Tasks getAllTasks() {
