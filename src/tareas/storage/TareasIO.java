@@ -163,6 +163,17 @@ public class TareasIO {
         return getTask(id);
     }
 
+    /**
+     * This method allows tasks to be marked as completed.
+     * @param id
+     */
+    public void markTaskAsCompleted(int id) {
+        initialize();
+        Task task = getTask(id);
+        task.markTaskCompleted();
+        write();
+    }
+
 	/**
 	 * Returns all tasks in Tareas.
 	 * @return allTasks
