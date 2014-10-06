@@ -74,7 +74,7 @@ public class TareasController {
                 backup();
                 break;
             case MUTE_COMMAND:
-                mute();
+                mute(command);
                 break;
             case FONT_COMMAND:
                 changeFont(command);
@@ -178,7 +178,7 @@ public class TareasController {
      * @param command from the user input so that the task to be marked as done can be identified
      */
     private void completeTask(TareasCommand command) {
-        //TODO grab the task id to be marked as done to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO mark the task as done from the Storage
         //TODO sync the state of the undo history
@@ -192,7 +192,7 @@ public class TareasController {
      * @param command from the user input so that the task to be postponed can be identified
      */
     private void postponeTask(TareasCommand command) {
-        //TODO grab the task id to be marked as done to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO postpone the task to the Storage
         //TODO sync the state of the undo history
@@ -218,7 +218,7 @@ public class TareasController {
      * @param command from the user input so that the task to be prioritized can be identified
      */
     private void prioritizeTask(TareasCommand command) {
-        //TODO grab the task id to be prioritized to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has been prioritized
         //TODO sync the state of the undo history
@@ -232,7 +232,7 @@ public class TareasController {
      * @param command from the user input so that the task can be built
      */
     private void categorizeTask(TareasCommand command) {
-        //TODO grab the task id to be categorized to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has been categorized
         //TODO sync the state of the undo history
@@ -246,7 +246,7 @@ public class TareasController {
      * @param command from the user input so that the task can be identified
      */
     private void setTaskReminder(TareasCommand command) {
-        //TODO grab the task id to have it's reminder set to be passed to TareasIO
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has a reminder set
         //TODO sync the state of the undo history
@@ -265,7 +265,7 @@ public class TareasController {
     /**
      * mute Tareas by calling the appropriate GUI and storage methods
      */
-    private void mute() {
+    private void mute(TareasCommand command) {
         //TODO grab the time start and end to be passed to TareasIO
     	
         //TODO tell the storage to mute everything from time to time
@@ -290,7 +290,7 @@ public class TareasController {
      * @param command from the user input so that the right task can be colored
      */
     private void colorizeTask(TareasCommand command) {
-        //TODO grab the ID of the task that should be colorized and also the color so that can call the right methods
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
     	
         //TODO tell the storage to change the color of the task
         //TODO sync the state of the undo history
