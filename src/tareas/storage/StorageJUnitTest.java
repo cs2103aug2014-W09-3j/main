@@ -34,7 +34,14 @@ public class StorageJUnitTest {
 		assertEquals("task one", result.get().get(0).getDescription());
 	}
 	
-	public Tasks generateDummyTasks() {
+	@Test
+	public void testDeleteTask() throws IOException {
+		Tasks dummyTasks = generateDummyTasks();
+		dummyTasks.remove(1);
+		assertEquals(1, dummyTasks.get().size());
+	}
+	
+	private Tasks generateDummyTasks() {
 		Task task1 = new Task();
 		task1.setDescription("task one");
 		Task task2 = new Task();
