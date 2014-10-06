@@ -36,38 +36,54 @@ public class TareasController {
         switch (command.getType()) {
             case ADD_COMMAND:
                 addTask(command);
+                break;
             case EDIT_COMMAND:
                 editTask(command);
+                break;
             case DELETE_COMMAND:
                 deleteTask(command);
+                break;
             case SEARCH_COMMAND:
                 searchTask(command);
+                break;
             case DONE_COMMAND:
                 completeTask(command);
+                break;
             case UNDO_COMMAND:
                 undo();
+                break;
             case REDO_COMMAND:
                 redo();
+                break;
             case POSTPONE_COMMAND:
                 postponeTask(command);
+                break;
             case VIEW_COMMAND:
                 viewRequest(command);
+                break;
             case PRIORITIZE_COMMAND:
                 prioritizeTask(command);
+                break;
             case CATEGORIZE_COMMAND:
                 categorizeTask(command);
+                break;
             case REMIND_COMMAND:
                 setTaskReminder(command);
+                break;
             case BACKUP_COMMAND:
                 backup();
+                break;
             case MUTE_COMMAND:
                 mute();
+                break;
             case FONT_COMMAND:
                 changeFont(command);
+                break;
             case COLOR_COMMAND:
                 colorizeTask(command);
+                break;
             default:
-                TareasGUI.feedback("Unrecognised command passed in");
+            	//TODO add a feedback to the user giving them a feedback
                 //TODO should we throw a TareasException or the sort?
         }
     }
@@ -94,7 +110,7 @@ public class TareasController {
         Task taskToInsert = buildTask(command);
 
         tareas.insertTask(taskToInsert);
-        TareasGUI.taskInserted(taskToInsert);
+        //TODO add the task to the GUI
         clearRedoState();
     }
 
@@ -105,9 +121,9 @@ public class TareasController {
      */
     private void editTask(TareasCommand command) {
         Task taskToEdit = buildTask(command);
-
-        tareas.editTask(taskToEdit);
-        TareasGUI.taskEdited(taskToEdit);
+        
+        //TODO edit the task to the Storage
+        //TODO edit the task to the GUI
         clearRedoState();
     }
 
@@ -118,10 +134,10 @@ public class TareasController {
      */
     private void deleteTask(TareasCommand command) {
         //TODO grab the task id to be deleted to be passed to TareasIO
-        Task deletedTask = tareas.getTask(0);
+        //Task deletedTask = tareas.getTask(0);
 
         tareas.deleteTask(0);
-        TareasGUI.taskDeleted(deletedTask);
+        //TODO inform the GUI that a task has been deleted
         clearRedoState();
     }
 
@@ -132,9 +148,9 @@ public class TareasController {
      */
     private void searchTask(TareasCommand command) {
         Task taskToSearch = buildTask(command);
-
-        tareas.searchTask(taskToSearch);
-        TareasGUI.taskSearched(taskToSearch);
+        
+        //TODO search the task from the Storage
+        //TODO feedback the task searched to the GUI
     }
 
     /**
@@ -144,9 +160,9 @@ public class TareasController {
      */
     private void completeTask(TareasCommand command) {
         //TODO grab the task id to be marked as done to be passed to TareasIO
-
-        tareas.markTaskAsDone();
-        TareasGUI.taskDone();
+        
+        //TODO mark the task as done from the Storage
+        //TODO tell the GUI that the task has been marked as done
         clearRedoState();
     }
 
@@ -157,9 +173,9 @@ public class TareasController {
      */
     private void postponeTask(TareasCommand command) {
         //TODO grab the task id to be marked as done to be passed to TareasIO
-
-        tareas.postponeTask();
-        TareasGUI.taskPostponed();
+        
+        //TODO postpone the task to the Storage
+        //TODO tell the GUI that a task has been postponed
         clearRedoState();
     }
 
@@ -170,9 +186,9 @@ public class TareasController {
      */
     private void viewRequest(TareasCommand command) {
         //TODO grab the view type so that can call the right stuff from storage and GUI
-
-        tareas.getTaskForView();
-        TareasGUI.viewType();
+        
+        //TODO ask from the storage all the stuff needed for the view
+        //TODO call the GUI method to display the view request
     }
 
     /**
@@ -182,9 +198,9 @@ public class TareasController {
      */
     private void prioritizeTask(TareasCommand command) {
         //TODO grab the task id to be prioritized to be passed to TareasIO
-
-        tareas.prioritizeTask();
-        TareasGUI.taskPrioritized();
+        
+        //TODO tell the storage that a task has been prioritized
+        //TODO tell the GUI that a task has been prioritized
         clearRedoState();
     }
 
@@ -195,9 +211,9 @@ public class TareasController {
      */
     private void categorizeTask(TareasCommand command) {
         //TODO grab the task id to be categorized to be passed to TareasIO
-
-        tareas.categorizeTask();
-        TareasGUI.taskcategorized();
+        
+        //TODO tell the storage that a task has been categorized
+        //TODO tell the GUI that a task has been categorized
         clearRedoState();
     }
 
@@ -208,9 +224,9 @@ public class TareasController {
      */
     private void setTaskReminder(TareasCommand command) {
         //TODO grab the task id to have it's reminder set to be passed to TareasIO
-
-        tareas.setTaskReminder();
-        TareasGUI.taskReminderSet();
+        
+        //TODO tell the storage that a task has a reminder set
+        //TODO tell the GUI that a task has a reminder set
         clearRedoState();
     }
 
@@ -220,8 +236,8 @@ public class TareasController {
      * @param TareasCommand command from the user input so that the task can be built
      */
     private void backup() {
-        tareas.backupData();
-        TareasGUI.feedback("data backup-ed!");
+        //TODO tell the storage to backup the data
+        //TODO feedback to the GUI that the backup of data has been done
     }
 
     /**
@@ -231,9 +247,9 @@ public class TareasController {
      */
     private void mute() {
         //TODO grab the time start and end to be passed to TareasIO
-
-        tareas.muteTareas();
-        TareasGUI.feedback("Tareas muted from ...");
+    	
+        //TODO tell the storage to mute everything from time to time
+        //TODO feedback to the GUI that the muting has been done
     }
 
     /**
@@ -243,8 +259,8 @@ public class TareasController {
      */
     private void changeFont(TareasCommand command) {
         //TODO grab the font arguments to be passed to the GUI
-
-        TareasGUI.font();
+    	
+        //TODO tell the GUI to change the font
     }
 
     /**
@@ -254,9 +270,9 @@ public class TareasController {
      */
     private void colorizeTask(TareasCommand command) {
         //TODO grab the ID of the task that should be colorized and also the color so that can call the right methods
-
-        tareas.editTask();
-        TareasGUI.taskColorChanged();
+    	
+        //TODO tell the storage to change the color of the task
+        //TODO feedback to the GUI that the color has been changed
         clearRedoState();
     }
 
@@ -264,38 +280,30 @@ public class TareasController {
      * undoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
     private void undo() {
-        try {
-            if (isAbleToUndo()) {
-                Tasks stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
+        if (isAbleToUndo()) {
+		    Tasks stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
 
-                addToRedoHistory(stateToRevertTo);
-                tareas.sendUndoState(stateToRevertTo);
-                TareasGUI.sendUndoState(stateToRevertTo);
-            } else {
-                TareasGUI.feedback("Nothing to undo.");
-            }
-        } catch (IOException e) {
-            //TODO throw a TareasException if something really bad happens?
-        }
+		    addToRedoHistory(stateToRevertTo);
+		    //TODO send the state to revert to to the Storage
+		    //TODO send the state to revert to to the GUI
+		} else {
+			//TODO feedback to the user that there is nothing to undo
+		}
     }
 
     /**
      * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
     private void redo() {
-        try {
-            if (isAbleToRedo()) {
-                Tasks stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
+        if (isAbleToRedo()) {
+		    Tasks stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
 
-                addToUndoHistory(stateToRevertTo);
-                tareas.sendRedoState(stateToRevertTo);
-                TareasGUI.sendRedoState(stateToRevertTo);
-            } else {
-                TareasGUI.feedback("Nothing to redo");
-            }
-        } catch (IOException e) {
-            //TODO throw a TareasException if something really bad happens?
-        }
+		    addToUndoHistory(stateToRevertTo);
+		    //TODO send the state to revert to to the Storage
+		    //TODO send the state to revert to to the GUI
+		} else {
+			//TODO feedback to the user that there is nothing to undo
+		}
     }
 
     /**
