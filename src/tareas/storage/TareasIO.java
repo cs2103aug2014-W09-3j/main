@@ -73,6 +73,10 @@ public class TareasIO {
 		}
 	}
 
+    /**
+     * This method updates tasks in storage.
+     * @param newTask
+     */
     public void editTask(Task newTask) {
         initialize();
         int id = newTask.getTaskID();
@@ -133,6 +137,11 @@ public class TareasIO {
                 }
             }
         }
+        write();
+    }
+
+    public Task searchTask(String key) {
+
     }
 
 	/**
