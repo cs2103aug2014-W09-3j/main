@@ -190,4 +190,19 @@ public class Task {
 		return deadlineTask;
 	}
 	
+	/**
+	 * This method creates a timed task.
+	 * @param description
+	 * @param startDateTime
+	 * @param endDateTime
+	 * @return Task
+	 */
+	public static Task createTimedTask(String description, String startDateTime, 
+			String endDateTime) {
+		Task timedTask = new Task();
+		timedTask.setDescription(description);
+		timedTask.setStartDateTime(startDateTime);
+		timedTask.setEndDateTime(endDateTime);
+		return timedTask;
+	}
 }
