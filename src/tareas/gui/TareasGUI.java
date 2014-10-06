@@ -11,11 +11,12 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.*;
 
 public class TareasGUI {
-    Display display = new Display();
-    Shell shell = new Shell(display);
-    private Table table_1;
+
 
     public void run() {
+        final Display display = Display.getDefault();
+        final Shell shell = new Shell(display);
+        final Table table_1;
 
         shell.setSize(693, 474);
         shell.setBackgroundMode(SWT.INHERIT_DEFAULT);

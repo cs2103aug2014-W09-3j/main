@@ -120,8 +120,8 @@ public class TareasController {
      * @param command from the user input so that the task can be edited
      */
     private void editTask(TareasCommand command) {
-        Task taskToEdit = buildTask(command);
-        
+        //TODO grab the task that it supposed to be edited
+
         //TODO edit the task to the Storage
         //TODO edit the task to the GUI
         clearRedoState();
