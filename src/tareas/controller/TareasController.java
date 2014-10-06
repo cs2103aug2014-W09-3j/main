@@ -28,27 +28,28 @@ public class TareasController {
      *
      * @param userInput the user's input from TareasGUI
      */
-    public void executeCommand(String userInput) {
+    public TareasCommand executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
         //TareasBehavior behavior = command.getBehavior();
         //behavior.run();
+        // dummy
 
         switch (command.getType()) {
             case ADD_COMMAND:
                 addTask(command);
-                break;
+                return command;
             case EDIT_COMMAND:
                 editTask(command);
-                break;
+                return command;
             case DELETE_COMMAND:
                 deleteTask(command);
-                break;
+                return command;
             case SEARCH_COMMAND:
                 searchTask(command);
-                break;
+                return command;
             case DONE_COMMAND:
                 completeTask(command);
-                break;
+                return command;
             case UNDO_COMMAND:
                 undo();
                 break;
@@ -86,6 +87,8 @@ public class TareasController {
             	//TODO add a feedback to the user giving them a feedback
                 //TODO should we throw a TareasException or the sort?
         }
+        // QUICKFIX
+        return command;
     }
 
     /**
@@ -124,7 +127,6 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert);
         //TODO sync the state of the undo history
-        //TODO add the task to the GUI
         clearRedoState();
     }
 
@@ -134,7 +136,7 @@ public class TareasController {
      * @param command from the user input so that the task can be edited
      */
     private void editTask(TareasCommand command) {
-        int taskID = Integer.parseInt(command.getPrimaryArgument());
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         if (command.getArgument("des") != null) {
             //TODO
@@ -142,7 +144,6 @@ public class TareasController {
 
         //TODO edit the task to the Storage
         //TODO sync the state of the undo history
-        //TODO edit the task to the GUI
         clearRedoState();
     }
 
@@ -156,7 +157,6 @@ public class TareasController {
 
         tareas.deleteTask(taskId);
         //TODO sync the state of the undo history
-        //TODO inform the GUI that a task has been deleted
         clearRedoState();
     }
 
@@ -169,7 +169,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO search the task from the Storage
-        //TODO feedback the task searched to the GUI
     }
 
     /**
@@ -182,7 +181,6 @@ public class TareasController {
         
         //TODO mark the task as done from the Storage
         //TODO sync the state of the undo history
-        //TODO tell the GUI that the task has been marked as done
         clearRedoState();
     }
 
