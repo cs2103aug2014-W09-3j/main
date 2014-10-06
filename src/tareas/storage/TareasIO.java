@@ -44,6 +44,19 @@ public class TareasIO {
 			}
 		}
 	}
+
+    private Task getTask(int id) {
+        Iterator<Task> iter = allTasks.get().iterator();
+        Task searchTask = new Task();
+        while(iter.hasNext()) {
+            Task task = iter.next();
+            if(task.getTaskID() == id) {
+                searchTask = task;
+                break;
+            }
+        }
+        return searchTask;
+    }
 	
 	/**
 	 * Inserts a task into Tareas using a Task object
@@ -140,13 +153,19 @@ public class TareasIO {
         write();
     }
 
-    public Task searchTask(String key) {
-
+    /**
+     * This method searches for a task using the ID
+     * @param id
+     * @return Task
+     */
+    public Task searchTask(int id) {
+        initialize();
+        return getTask(id);
     }
 
 	/**
 	 * Returns all tasks in Tareas.
-	 * @return
+	 * @return allTasks
 	 */
 	// TODO sort the tasks.
 	public Tasks getAllTasks() {
