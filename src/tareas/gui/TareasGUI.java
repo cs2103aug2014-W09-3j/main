@@ -12,12 +12,12 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
-public class GUI{
+public class TareasGUI{
 	Display display = new Display();
 	Shell shell = new Shell(display);
 	private Table table_1;
 	
-	public GUI() {
+	public void run() {
 
 		shell.setSize(693, 474);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
@@ -42,6 +42,16 @@ public class GUI{
 		});
 		shell.setLayout(new FormLayout());
 		
+		DateTime calendar = new DateTime(shell, SWT.CALENDAR);
+		FormData fd_calendar = new FormData();
+		fd_calendar.bottom = new FormAttachment(0, 154);
+		fd_calendar.top = new FormAttachment(0, 6);
+		fd_calendar.right = new FormAttachment(0, 149);
+		fd_calendar.left = new FormAttachment(0, 10);
+
+		
+		calendar.setLayoutData(fd_calendar);
+		
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -51,6 +61,7 @@ public class GUI{
 	
 	
 	public static void main(String args[]){
-		new GUI();
+		new TareasGUI().run();
 	}
 }
+
