@@ -64,14 +64,24 @@ public class TareasGUI{
 			ToolBar toolBar = new ToolBar(shell, SWT.FLAT);
 			ToolItem item = new ToolItem(toolBar, SWT.PUSH);
 			item.setImage(image);
-			item.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					text.setText("");
-					System.out.println("Search cancelled");
-				}
-			});
+//			item.addSelectionListener(new SelectionAdapter() {
+//				@Override
+//				public void widgetSelected(SelectionEvent e) {
+//					text.setText("");
+//					System.out.println("Search cancelled");
+//				}
+//			});
 		}
+		
+		final Label lblNewLabel = new Label(shell, SWT.NONE);
+		fd_text.bottom = new FormAttachment(lblNewLabel, -6);
+		FormData fd_lblNewLabel = new FormData();
+		fd_lblNewLabel.right = new FormAttachment(100, -104);
+		fd_lblNewLabel.left = new FormAttachment(0, 5);
+		fd_lblNewLabel.bottom = new FormAttachment(100, -10);
+		lblNewLabel.setLayoutData(fd_lblNewLabel);
+		lblNewLabel.setText("Welcome to Tareas");
+		text.setText("Type your command here");
 		
 		
 		shell.open();
