@@ -145,6 +145,16 @@ public class TareasGUI{
 		tblclmnDescription.setWidth(100);
 		tblclmnDescription.setText("Description");
 
+		for (int loopIndex = 0; loopIndex < 24; loopIndex++) {
+			TableItem item = new TableItem(table, SWT.NULL);
+			// item.setText("Item " + loopIndex);
+			item.setText(0, "Item " + loopIndex);
+			item.setText(1, "Yes");
+			item.setText(2, "No");
+			item.setText(3, "A table item");
+			item.setText(4, "trying");
+			item.setText(5, "ok");
+		}
 		
 		shell.open();
 		while (!shell.isDisposed()) {
