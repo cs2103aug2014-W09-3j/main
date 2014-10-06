@@ -83,7 +83,33 @@ public class TareasGUI{
 		lblNewLabel.setText("Welcome to Tareas");
 		text.setText("Type your command here");
 		
-		
+		text.addListener(SWT.Traverse, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (event.detail == SWT.TRAVERSE_RETURN) {
+
+					// System.out.println("Enter pressed");
+					
+//					shell.addListener(SWT.Traverse, new Listener() {
+//						@Override
+//						public void handleEvent(Event event) {
+//							switch (event.detail) {
+//							case SWT.TRAVERSE_ESCAPE:
+//								shell.close();
+//								event.detail = SWT.TRAVERSE_NONE;
+//								event.doit = false;
+//								break;
+//							}
+//						}
+//					});
+					System.out.println(text.getText());
+					lblNewLabel.setText(text.getText());
+					text.setText(" ");
+
+
+				}
+			}
+		});
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
