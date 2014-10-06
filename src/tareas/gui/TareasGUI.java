@@ -58,6 +58,21 @@ public class TareasGUI{
 		fd_text.left = new FormAttachment(0, 5);
 		text.setLayoutData(fd_text);
 		
+		Image image = null;
+		if ((text.getStyle() & SWT.ICON_CANCEL) == 0) {
+			image = display.getSystemImage(SWT.ICON_ERROR);
+			ToolBar toolBar = new ToolBar(shell, SWT.FLAT);
+			ToolItem item = new ToolItem(toolBar, SWT.PUSH);
+			item.setImage(image);
+			item.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					text.setText("");
+					System.out.println("Search cancelled");
+				}
+			});
+		}
+		
 		
 		shell.open();
 		while (!shell.isDisposed()) {
