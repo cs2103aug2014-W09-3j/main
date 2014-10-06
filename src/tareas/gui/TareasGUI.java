@@ -1,5 +1,9 @@
 package tareas.gui;
 
+import tareas.controller.*;
+import tareas.common.*;
+import tareas.parser.TareasCommand;
+
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.*;
@@ -12,10 +16,19 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
-public class TareasGUI{
+public class TareasGUI implements Runnable {
+	TareasController controller = new TareasController();
 	Display display = new Display();
 	Shell shell = new Shell(display);
 	private Table table_1;
+	private Table table;
+	private Text text;
+	private Label lblNewLabel;
+	
+//	public TareasGUI(){  //}
+	public Display getDisplay(){
+        return display;
+    }
 	
 	public void run() {
 
@@ -52,7 +65,7 @@ public class TareasGUI{
 		
 		calendar.setLayoutData(fd_calendar);
 		
-		final Text text = new Text(shell, SWT.SEARCH | SWT.ICON_CANCEL);
+		text = new Text(shell, SWT.SEARCH | SWT.ICON_CANCEL);
 		FormData fd_text = new FormData();
 		fd_text.right = new FormAttachment(100, -10);
 		fd_text.left = new FormAttachment(0, 5);
@@ -66,7 +79,7 @@ public class TareasGUI{
 			item.setImage(image);
 		}
 		
-		final Label lblNewLabel = new Label(shell, SWT.NONE);
+		lblNewLabel = new Label(shell, SWT.NONE);
 		fd_text.bottom = new FormAttachment(lblNewLabel, -6);
 		FormData fd_lblNewLabel = new FormData();
 		fd_lblNewLabel.right = new FormAttachment(100, -104);
@@ -76,18 +89,20 @@ public class TareasGUI{
 		lblNewLabel.setText("Welcome to Tareas");
 		text.setText("Type your command here");
 		
-		text.addListener(SWT.Traverse, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				if (event.detail == SWT.TRAVERSE_RETURN) {
-					System.out.println(text.getText());
-					lblNewLabel.setText(text.getText());
-					text.setText(" ");
-				}
-			}
-		});
+//		text.addListener(SWT.Traverse, new Listener() {
+//			@Override
+//			public void handleEvent(Event event) {
+//				if (event.detail == SWT.TRAVERSE_RETURN) {
+//					System.out.println(text.getText());
+//					if(text.getText().equals("add"))
+//						
+//					lblNewLabel.setText(text.getText());
+//					text.setText(" ");
+//				}
+//			}
+//		});
 		
-		Table table = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		table = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 
 		FormData fd_table = new FormData();
 		fd_table.top = new FormAttachment(calendar, 6);
@@ -105,47 +120,71 @@ public class TareasGUI{
 		taskIDClmn.setText("Task ID");
 
 		// Creating column for Category.
-		TableColumn categoryClmn = new TableColumn(table, SWT.NONE);
-		categoryClmn.setWidth(69);
-		categoryClmn.setText("Category");
+//		TableColumn categoryClmn = new TableColumn(table, SWT.NONE);
+//		categoryClmn.setWidth(69);
+//		categoryClmn.setText("Category");
 
 		// Creating column for description.
 		TableColumn descriptionClmn = new TableColumn(table, SWT.NONE);
 		descriptionClmn.setWidth(224);
 		descriptionClmn.setText("Description");
 
-		// Creating column for deadline.
-		TableColumn deadlineClmn = new TableColumn(table, SWT.NONE);
-		deadlineClmn.setWidth(107);
-		deadlineClmn.setText("Deadline");
-
-		TableColumn startTimeClmn = new TableColumn(table, SWT.NONE);
-		startTimeClmn.setWidth(107);
-		startTimeClmn.setText("Start Time");
-
-		TableColumn endTimeClmn = new TableColumn(table, SWT.NONE);
-		endTimeClmn.setWidth(107);
-		endTimeClmn.setText("End Time");
+//		// Creating column for deadline.
+//		TableColumn deadlineClmn = new TableColumn(table, SWT.NONE);
+//		deadlineClmn.setWidth(107);
+//		deadlineClmn.setText("Deadline");
+//
+//		TableColumn startTimeClmn = new TableColumn(table, SWT.NONE);
+//		startTimeClmn.setWidth(107);
+//		startTimeClmn.setText("Start Time");
+//
+//		TableColumn endTimeClmn = new TableColumn(table, SWT.NONE);
+//		endTimeClmn.setWidth(107);
+//		endTimeClmn.setText("End Time");
 		
-		table_1 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		FormData fd_table_1 = new FormData();
-		fd_table_1.bottom = new FormAttachment(calendar, 0, SWT.BOTTOM);
-		fd_table_1.right = new FormAttachment(100, -10);
-		fd_table_1.left = new FormAttachment(calendar, 6);
-		fd_table_1.top = new FormAttachment(0, 5);
-		table_1.setLayoutData(fd_table_1);
-		table_1.setHeaderVisible(true);
-		table_1.setLinesVisible(true);
-		
-		TableColumn tblclmnTaskId = new TableColumn(table_1, SWT.NONE);
-		tblclmnTaskId.setWidth(100);
-		tblclmnTaskId.setText("Task ID");
-		
-		TableColumn tblclmnDescription = new TableColumn(table_1, SWT.NONE);
-		tblclmnDescription.setWidth(100);
-		tblclmnDescription.setText("Description");
+//		table_1 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+//		FormData fd_table_1 = new FormData();
+//		fd_table_1.bottom = new FormAttachment(calendar, 0, SWT.BOTTOM);
+//		fd_table_1.right = new FormAttachment(100, -10);
+//		fd_table_1.left = new FormAttachment(calendar, 6);
+//		fd_table_1.top = new FormAttachment(0, 5);
+//		table_1.setLayoutData(fd_table_1);
+//		table_1.setHeaderVisible(true);
+//		table_1.setLinesVisible(true);
+//		
+//		TableColumn tblclmnTaskId = new TableColumn(table_1, SWT.NONE);
+//		tblclmnTaskId.setWidth(100);
+//		tblclmnTaskId.setText("Task ID");
+//		
+//		TableColumn tblclmnDescription = new TableColumn(table_1, SWT.NONE);
+//		tblclmnDescription.setWidth(100);
+//		tblclmnDescription.setText("Description");
+//		
+		text.addListener(SWT.Traverse, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (event.detail == SWT.TRAVERSE_RETURN) {
+					String line = text.getText();
+					TareasCommand command = controller.executeCommand(line);
+					process(command);
+					
+					System.out.println(line);
+					if(line.equals("add")){
+						TableItem item = new TableItem(table, SWT.NULL);
+					//	item.setText(0, "Item 10");
+					//	add();
 
-		for (int loopIndex = 0; loopIndex < 24; loopIndex++) {
+					}
+						
+						System.out.println("added");
+					lblNewLabel.setText(text.getText());
+					text.setText("");
+				}
+			}
+		});
+
+	//	TableItem item = new TableItem(table, SWT.NULL);
+		for (int loopIndex = 0; loopIndex < 4; loopIndex++) {
 			TableItem item = new TableItem(table, SWT.NULL);
 			// item.setText("Item " + loopIndex);
 			item.setText(0, "Item " + loopIndex);
@@ -155,17 +194,49 @@ public class TareasGUI{
 			item.setText(4, "trying");
 			item.setText(5, "ok");
 		}
+//		TableItem item = new TableItem(table, SWT.NULL);
+//		item.setText(0, "Item 4");
+
 		
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
+		//display.dispose();
+	}
+	
+//	public void add(Task newTask){
+//		item.setText(newTask.getTaskID(), newTask.getTaskID());
+//		
+//	}
+	
+	public void process(TareasCommand command){
+		switch(command.getType()){
+		case ADD_COMMAND:
+			String taskDescription = command.getPrimaryArgument();
+		case EDIT_COMMAND:
+			
+		case DELETE_COMMAND:
+			int taskDelete = Integer.parseInt(command.getPrimaryArgument());
+			break;
+		case SEARCH_COMMAND:
+		case DONE_COMMAND:
+			int taskDone = Integer.parseInt(command.getPrimaryArgument());
+			
+		default:
+			lblNewLabel.setText("Unrecognized command");
+
+		}
+		
 	}
 	
 	
 	public static void main(String args[]){
-		new TareasGUI().run();
+		TareasGUI trying = new TareasGUI();
+		trying.run();
+//		trying.add();
+		
 	}
 }
 
