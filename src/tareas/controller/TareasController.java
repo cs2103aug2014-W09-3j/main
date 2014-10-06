@@ -1,11 +1,10 @@
 package tareas.controller;
 
-import tareas.common.*;
-import tareas.gui.*;
-import tareas.parser.*;
-import tareas.storage.*;
+import tareas.common.Task;
+import tareas.common.Tasks;
+import tareas.parser.TareasCommand;
+import tareas.storage.TareasIO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -91,7 +90,7 @@ public class TareasController {
     /**
      * builds a task using the command given by the user after being parsed by the parser
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private Task buildTask(TareasCommand command) {
         Task taskToReturn = new Task();
@@ -104,7 +103,7 @@ public class TareasController {
     /**
      * adds a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void addTask(TareasCommand command) {
         Task taskToInsert = buildTask(command);
@@ -117,7 +116,7 @@ public class TareasController {
     /**
      * edits a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void editTask(TareasCommand command) {
         Task taskToEdit = buildTask(command);
@@ -130,7 +129,7 @@ public class TareasController {
     /**
      * deletes a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void deleteTask(TareasCommand command) {
         //TODO grab the task id to be deleted to be passed to TareasIO
@@ -194,7 +193,7 @@ public class TareasController {
     /**
      * prioritize a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void prioritizeTask(TareasCommand command) {
         //TODO grab the task id to be prioritized to be passed to TareasIO
@@ -207,7 +206,7 @@ public class TareasController {
     /**
      * categorize a task by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void categorizeTask(TareasCommand command) {
         //TODO grab the task id to be categorized to be passed to TareasIO
@@ -220,7 +219,7 @@ public class TareasController {
     /**
      * set a task reminder by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param  command from the user input so that the task can be built
      */
     private void setTaskReminder(TareasCommand command) {
         //TODO grab the task id to have it's reminder set to be passed to TareasIO
@@ -233,7 +232,7 @@ public class TareasController {
     /**
      * backups all tasks data by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void backup() {
         //TODO tell the storage to backup the data
@@ -243,7 +242,7 @@ public class TareasController {
     /**
      * mute Tareas by calling the appropriate GUI and storage methods
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void mute() {
         //TODO grab the time start and end to be passed to TareasIO
@@ -255,7 +254,7 @@ public class TareasController {
     /**
      * changes Tareas font settings by calling the appropriate GUI method
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void changeFont(TareasCommand command) {
         //TODO grab the font arguments to be passed to the GUI
@@ -266,7 +265,7 @@ public class TareasController {
     /**
      * colorize a task by calling the appropriate GUI and storage method
      *
-     * @param TareasCommand command from the user input so that the task can be built
+     * @param command from the user input so that the task can be built
      */
     private void colorizeTask(TareasCommand command) {
         //TODO grab the ID of the task that should be colorized and also the color so that can call the right methods
