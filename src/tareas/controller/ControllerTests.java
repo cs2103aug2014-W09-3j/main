@@ -33,7 +33,7 @@ public class ControllerTests {
      */
     @Test
     public void addAFloatingTaggedTask() throws IOException {
-        executeCommand("buy eggs -tag grocery");
+    	tareasController.executeCommand("buy eggs -tag grocery");
 
         //TODO add the right assertion
     }
@@ -43,7 +43,7 @@ public class ControllerTests {
      */
     @Test
     public void addATimedTask() throws IOException {
-        executeCommand("meeting with 2103 group -from 22/09/2014 1200 -to 22/09/2014 2200");
+    	tareasController.executeCommand("meeting with 2103 group -from 22/09/2014 1200 -to 22/09/2014 2200");
 
         //TODO add the right assertion
     }
@@ -53,7 +53,7 @@ public class ControllerTests {
      */
     @Test
     public void addATimedTaskMultipleDays() throws IOException {
-        executeCommand("family camping at sentosa -from 23/09/2014 0700 -to 25/09/2014 1200");
+    	tareasController.executeCommand("family camping at sentosa -from 23/09/2014 0700 -to 25/09/2014 1200");
 
         //TODO add the right assertion
     }
@@ -63,7 +63,7 @@ public class ControllerTests {
      */
     @Test
     public void addADeadlineTask() throws IOException {
-        executeCommand("complete user guide -by 22/09/2014 1500");
+    	tareasController.executeCommand("complete user guide -by 22/09/2014 1500");
 
         //TODO add the right assertion
     }
@@ -73,7 +73,7 @@ public class ControllerTests {
      */
     @Test
     public void addARecurringDeadlineDailyTask() throws IOException {
-        executeCommand("walk the dog -recurring daily");
+    	tareasController.executeCommand("walk the dog -recurring daily");
 
         //TODO add the right assertion
     }
@@ -83,7 +83,7 @@ public class ControllerTests {
      */
     @Test
     public void addARecurringDeadlineWeeklyTask() throws IOException {
-        executeCommand("spa session -recurring weekly on monday");
+    	tareasController.executeCommand("spa session -recurring weekly on monday");
 
         //TODO add the right assertion
     }
@@ -93,7 +93,7 @@ public class ControllerTests {
      */
     @Test
     public void addARecurringDeadlineMonthlyTask() throws IOException {
-        executeCommand("family outing -recurring monthly on 13th");
+    	tareasController.executeCommand("family outing -recurring monthly on 13th");
 
         //TODO add the right assertion
     }
@@ -103,8 +103,8 @@ public class ControllerTests {
      */
     @Test
     public void editATask() throws IOException {
-        executeCommand("buy milk");
-        executeCommand("-edit 1 -des buy pineapple");
+    	tareasController.executeCommand("buy milk");
+    	tareasController.executeCommand("-edit 1 -des buy pineapple");
 
         //TODO add the right assertion
     }
@@ -114,8 +114,8 @@ public class ControllerTests {
      */
     @Test
     public void deleteATask() throws IOException {
-        executeCommand("buy milk");
-        executeCommand("-delete 1");
+    	tareasController.executeCommand("buy milk");
+    	tareasController.executeCommand("-delete 1");
 
         //TODO add the right assertion
     }
@@ -125,8 +125,8 @@ public class ControllerTests {
      */
     @Test
     public void searchATaskWithContainingString() throws IOException {
-        executeCommand("buy watermelon");
-        executeCommand("-search watermelon");
+    	tareasController.executeCommand("buy watermelon");
+    	tareasController.executeCommand("-search watermelon");
 
         //TODO add the right assertion
     }
@@ -136,8 +136,8 @@ public class ControllerTests {
      */
     @Test
     public void searchATaskWithId() throws IOException {
-        executeCommand("buy watermelon");
-        executeCommand("-search 1");
+    	tareasController.executeCommand("buy watermelon");
+    	tareasController.executeCommand("-search 1");
 
         //TODO add the right assertion
     }
@@ -147,8 +147,8 @@ public class ControllerTests {
      */
     @Test
     public void searchATaskThroughTags() throws IOException {
-        executeCommand("buy watermelon -tag grocery");
-        executeCommand("-search grocery");
+    	tareasController.executeCommand("buy watermelon -tag grocery");
+    	tareasController.executeCommand("-search grocery");
 
         //TODO add the right assertion
     }
@@ -158,8 +158,8 @@ public class ControllerTests {
      */
     @Test
     public void markATaskAsDone() throws IOException {
-        executeCommand("buy watermelon");
-        executeCommand("-done 1");
+    	tareasController.executeCommand("buy watermelon");
+    	tareasController.executeCommand("-done 1");
 
         //TODO add the right assertion
     }
@@ -169,8 +169,8 @@ public class ControllerTests {
      */
     @Test
     public void undoPass() throws IOException {
-        executeCommand("buy milk");
-        executeCommand("-undo");
+    	tareasController.executeCommand("buy milk");
+    	tareasController.executeCommand("-undo");
 
         //TODO add the right assertion
     }
@@ -180,7 +180,7 @@ public class ControllerTests {
      */
     @Test
     public void undoFail() throws IOException {
-        executeCommand("-undo");
+    	tareasController.executeCommand("-undo");
 
         //TODO add the right assertion
     }
@@ -190,9 +190,9 @@ public class ControllerTests {
      */
     @Test
     public void redoPass() throws IOException {
-        executeCommand("buy milk");
-        executeCommand("-undo");
-        executeCommand("-redo");
+    	tareasController.executeCommand("buy milk");
+    	tareasController.executeCommand("-undo");
+    	tareasController.executeCommand("-redo");
 
         //TODO add the right assertion
     }
@@ -202,8 +202,8 @@ public class ControllerTests {
      */
     @Test
     public void redoFail() throws IOException {
-        executeCommand("buy milk");
-        executeCommand("-redo");
+        tareasController.executeCommand("buy milk");
+        tareasController.executeCommand("-redo");
 
         //TODO add the right assertion
     }
@@ -213,8 +213,8 @@ public class ControllerTests {
      */
     @Test
     public void postponeATaskByHours() throws IOException {
-        executeCommand("buy watermelon -by 22/09/2014 1500");
-        executeCommand("-postpone 1 -by 2 hours");
+        tareasController.executeCommand("buy watermelon -by 22/09/2014 1500");
+        tareasController.executeCommand("-postpone 1 -by 2 hours");
 
         //TODO add the right assertion
     }
@@ -224,8 +224,8 @@ public class ControllerTests {
      */
     @Test
     public void postponeATaskWithANewDate() throws IOException {
-        executeCommand("buy watermelon -by 22/09/2014 1500");
-        executeCommand("-postpone 1 -to 23/09/2014 1700");
+        tareasController.executeCommand("buy watermelon -by 22/09/2014 1500");
+        tareasController.executeCommand("-postpone 1 -to 23/09/2014 1700");
 
         //TODO add the right assertion
     }
@@ -235,7 +235,7 @@ public class ControllerTests {
      */
     @Test
     public void viewAllDone() throws IOException {
-        executeCommand("-view done");
+        tareasController.executeCommand("-view done");
 
         //TODO add the right assertion
     }
@@ -245,7 +245,7 @@ public class ControllerTests {
      */
     @Test
     public void viewToday() throws IOException {
-        executeCommand("-view today");
+        tareasController.executeCommand("-view today");
 
         //TODO add the right assertion
     }
@@ -255,7 +255,7 @@ public class ControllerTests {
      */
     @Test
     public void viewDate() throws IOException {
-        executeCommand("-view 23/09/2014");
+        tareasController.executeCommand("-view 23/09/2014");
 
         //TODO add the right assertion
     }
@@ -265,8 +265,8 @@ public class ControllerTests {
      */
     @Test
     public void prioritizeATask() throws IOException {
-        executeCommand("buy ham");
-        executeCommand("-prioritize 1");
+        tareasController.executeCommand("buy ham");
+        tareasController.executeCommand("-prioritize 1");
 
         //TODO add the right assertion
     }
@@ -276,8 +276,8 @@ public class ControllerTests {
      */
     @Test
     public void categorizingATask() throws IOException {
-        executeCommand("buy ham");
-        executeCommand("-categorize 1 -to groceries");
+        tareasController.executeCommand("buy ham");
+        tareasController.executeCommand("-categorize 1 -to groceries");
 
         //TODO add the right assertion
     }
@@ -287,8 +287,8 @@ public class ControllerTests {
      */
     @Test
     public void settingATaskWithReminder() throws IOException {
-        executeCommand("buy ham");
-        executeCommand("-remind 3 -on 13/09/2014 1300");
+        tareasController.executeCommand("buy ham");
+        tareasController.executeCommand("-remind 3 -on 13/09/2014 1300");
 
         //TODO add the right assertion
     }
@@ -297,8 +297,8 @@ public class ControllerTests {
      * Controller test for backing up
      */
     @Test
-    public void editATask() throws IOException {
-        executeCommand("-backup");
+    public void backup() throws IOException {
+        tareasController.executeCommand("-backup");
 
         //TODO add the right assertion
     }
@@ -307,8 +307,8 @@ public class ControllerTests {
      * Controller test for muting Tareas for days that one does not want to be disturbed or is sick etc.
      */
     @Test
-    public void editATask() throws IOException {
-        executeCommand("-mute 12/09/2014 -to 15/09/2014");
+    public void muteTareas() throws IOException {
+        tareasController.executeCommand("-mute 12/09/2014 -to 15/09/2014");
 
         //TODO add the right assertion
     }
@@ -317,8 +317,8 @@ public class ControllerTests {
      * Controller test for muting Tareas more natural command
      */
     @Test
-    public void editATask() throws IOException {
-        executeCommand("-mute now -to 15/09/2014");
+    public void muteTareasNaturalCommand() throws IOException {
+        tareasController.executeCommand("-mute now -to 15/09/2014");
 
         //TODO add the right assertion
     }
@@ -328,7 +328,7 @@ public class ControllerTests {
      */
     @Test
     public void setFont() throws IOException {
-        executeCommand("-font Helvetica");
+        tareasController.executeCommand("-font Helvetica");
 
         //TODO add the right assertion
     }
@@ -338,7 +338,7 @@ public class ControllerTests {
      */
     @Test
     public void setFontWithSize() throws IOException {
-        executeCommand("-font Times New Roman -size 12");
+        tareasController.executeCommand("-font Times New Roman -size 12");
 
         //TODO add the right assertion
     }
@@ -348,7 +348,7 @@ public class ControllerTests {
      */
     @Test
     public void colorizeATask() throws IOException {
-        executeCommand("-color 3 -with orange");
+        tareasController.executeCommand("-color 3 -with orange");
 
         //TODO add the right assertion
     }

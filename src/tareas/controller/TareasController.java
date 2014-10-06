@@ -4,6 +4,8 @@ import tareas.common.*;
 import tareas.gui.*;
 import tareas.parser.*;
 import tareas.storage.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -91,6 +93,7 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert);
         TareasGUI.taskInserted(taskToInsert);
+        clearRedoState();
     }
 
     /**
@@ -103,6 +106,7 @@ public class TareasController {
 
         tareas.editTask(taskToEdit);
         TareasGUI.taskEdited(taskToEdit);
+        clearRedoState();
     }
 
     /**
@@ -116,6 +120,7 @@ public class TareasController {
 
         tareas.deleteTask(0);
         TareasGUI.taskDeleted(deletedTask);
+        clearRedoState();
     }
 
     /**
@@ -140,6 +145,7 @@ public class TareasController {
 
         tareas.markTaskAsDone();
         TareasGUI.taskDone();
+        clearRedoState();
     }
 
     /**
@@ -152,6 +158,7 @@ public class TareasController {
 
         tareas.postponeTask();
         TareasGUI.taskPostponed();
+        clearRedoState();
     }
 
     /**
@@ -176,6 +183,7 @@ public class TareasController {
 
         tareas.prioritizeTask();
         TareasGUI.taskPrioritized();
+        clearRedoState();
     }
 
     /**
@@ -188,6 +196,7 @@ public class TareasController {
 
         tareas.categorizeTask();
         TareasGUI.taskcategorized();
+        clearRedoState();
     }
 
     /**
@@ -200,6 +209,7 @@ public class TareasController {
 
         tareas.setTaskReminder();
         TareasGUI.taskReminderSet();
+        clearRedoState();
     }
 
     /**
@@ -221,7 +231,7 @@ public class TareasController {
         //TODO grab the time start and end to be passed to TareasIO
 
         tareas.muteTareas();
-        TareasGUI.feedback("Tareas muted from ...");;
+        TareasGUI.feedback("Tareas muted from ...");
     }
 
     /**
@@ -245,6 +255,7 @@ public class TareasController {
 
         tareas.editTask();
         TareasGUI.taskColorChanged();
+        clearRedoState();
     }
 
     /**
@@ -255,7 +266,7 @@ public class TareasController {
             if (isAbleToUndo()) {
                 Tasks stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
 
-                addToRedoHistory(statetoRevertTo);
+                addToRedoHistory(stateToRevertTo);
                 tareas.sendUndoState(stateToRevertTo);
                 TareasGUI.sendUndoState(stateToRevertTo);
             } else {
@@ -271,10 +282,10 @@ public class TareasController {
      */
     private void redo() {
         try {
-            if (isAbleToUndo()) {
+            if (isAbleToRedo()) {
                 Tasks stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
 
-                addToUndoHistory(statetoRevertTo);
+                addToUndoHistory(stateToRevertTo);
                 tareas.sendRedoState(stateToRevertTo);
                 TareasGUI.sendRedoState(stateToRevertTo);
             } else {
