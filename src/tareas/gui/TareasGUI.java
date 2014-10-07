@@ -347,17 +347,17 @@ public class TareasGUI implements Runnable {
             int foundAtNumber = -1;
 
 			for(int i = 0; i < string.size(); i++){
-				System.out.println(string);
+//				System.out.println(string);
 				if(string.get(i).equals(taskNameSearch)){
 					System.out.println("looping");
 					found = true;
+                    foundAtNumber = i;
 				}
-                foundAtNumber = i;
 			}
 
 			if(found){
 				System.out.println("ok");
-				lblNewLabel.setText("Task found - description is " + table.getItem(foundAtNumber - 1).getText(1));
+				lblNewLabel.setText("Task found - description is " + table.getItem(foundAtNumber).getText(1));
 			}
 			else
                 lblNewLabel.setText("Task not found - did you mistype the task's ID?");
