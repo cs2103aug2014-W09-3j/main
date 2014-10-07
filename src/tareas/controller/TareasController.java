@@ -137,12 +137,15 @@ public class TareasController {
      */
     private void editTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+        Task taskToInsert = new Task();
 
         if (command.getArgument("des") != null) {
-            //TODO
+            taskToInsert.setDescription(command.getArgument("des"));
         }
+        
+        taskToInsert.setTaskID(taskId);
 
-        //TODO edit the task to the Storage
+        tareas.editTask(taskToInsert);
         //TODO sync the state of the undo history
         clearRedoState();
     }
@@ -168,7 +171,7 @@ public class TareasController {
     private void searchTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
-        //TODO search the task from the Storage
+        tareas.searchTask(taskId);
     }
 
     /**
@@ -179,7 +182,7 @@ public class TareasController {
     private void completeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
-        //TODO mark the task as done from the Storage
+        tareas.markTaskAsCompleted(taskId);
         //TODO sync the state of the undo history
         clearRedoState();
     }
@@ -381,6 +384,7 @@ public class TareasController {
      * main method to run the GUI
      */
     public static void main(String args[]) {
-        new TareasGUI().run();
+        TareasGUI GUI = new TareasGUI();
+        GUI.run();
     }
 }
