@@ -1,11 +1,11 @@
 package tareas.controller;
 
-import tareas.common.*;
-import tareas.gui.*;
-import tareas.parser.*;
-import tareas.storage.*;
+import tareas.common.Task;
+import tareas.common.Tasks;
+import tareas.gui.TareasGUI;
+import tareas.parser.TareasCommand;
+import tareas.storage.TareasIO;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +32,7 @@ public class TareasController {
         TareasCommand command = TareasCommand.fromString(userInput);
         //TareasBehavior behavior = command.getBehavior();
         //behavior.run();
+        // dummy
 
         switch (command.getType()) {
             case ADD_COMMAND:
