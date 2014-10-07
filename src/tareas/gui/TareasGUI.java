@@ -1,5 +1,12 @@
 package tareas.gui;
 
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import tareas.controller.*;
 import tareas.common.*;
 import tareas.parser.TareasCommand;
@@ -26,6 +33,7 @@ public class TareasGUI implements Runnable {
 	private Label lblNewLabel;
 	private int counter = 0 ;
 	private TableItem item;
+	private ArrayList<String> string;
 	
 //	public TareasGUI(){  //}
 	public Display getDisplay(){
@@ -33,7 +41,7 @@ public class TareasGUI implements Runnable {
     }
 	
 	public void run() {
-
+		string = new ArrayList<String>();
 		shell.setSize(693, 474);
 		shell.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		shell.setText("Tareas");
@@ -103,9 +111,21 @@ public class TareasGUI implements Runnable {
 //				}
 //			}
 //		});
-		
-		table = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+	   // JTable table2 = new JTable(3, 3);
+//	
+//	    Object rowData[][] = { { "Row1-Column1", "Row1-Column2", "Row1-Column3" },
+//	        { "Row2-Column1", "Row2-Column2", "Row2-Column3" } };
+//	    Object columnNames[] = { "Column One", "Column Two", "Column Three" };
+//	       JFrame frame = new JFrame();
+//	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+// JTable table3 = new JTable(rowData, columnNames);
+//
+//	    JScrollPane scrollPane = new JScrollPane(table3);
+//	    frame.add(scrollPane, BorderLayout.CENTER);
+//	    frame.setSize(300, 150);
+//	    frame.setVisible(true);
 
+		table = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		FormData fd_table = new FormData();
 		fd_table.top = new FormAttachment(calendar, 6);
 		fd_table.bottom = new FormAttachment(text, -13);
@@ -218,18 +238,19 @@ public class TareasGUI implements Runnable {
 		case ADD_COMMAND:
 			String taskDescription = command.getPrimaryArgument();
 			TableItem test = new TableItem(table, SWT.NULL);
-
-//			for (int i = 0; i < counter; i++) {
-//				item = new TableItem(table, SWT.NULL);
-//				// item.setText("Item " + loopIndex);
-//				item.setText(0, "Task " + i);
-//				item.setText(1, taskDescription);
-//			}
-//			
+			
 			test.setText(0,  "Task " + counter++);
 			test.setText(1, taskDescription);
-			
-			//System.out.println(taskDescription);
+
+				  String[] result = test.getText().split("\\s");
+				  
+				String word = result[0] + " " + result[1];
+				System.out.println(word);
+				string.add(word);
+
+			String feedbackAdd = "Task \""  +  taskDescription + "\" added";
+			lblNewLabel.setText(feedbackAdd);
+
 			break;
 			
 		case EDIT_COMMAND:
@@ -237,56 +258,98 @@ public class TareasGUI implements Runnable {
 			String taskDescriptionEdit = command.getArgument("des");
 			TableItem editing = new TableItem(table, SWT.NULL);
 			boolean exists = false;
+			String taskName = "Task " + taskEdit;
+			int index = 0;
 			
-			for(int i = 0 ; i < counter+1; i++){
-				if(taskEdit == i){
-					exists = true;		
+			for(int i = 0; i < string.size(); i++){
+				System.out.println(string);
+				if(string.get(i).equals(taskName)){
+					System.out.println("looping");
+					exists = true;
+					index = i;
+					string.remove(i);
 				}
+					
 			}
 			if(exists){
-				table.remove(taskEdit);
+				System.out.println("yes");
+				table.remove(index);
 				editing.setText(0, "Task " + taskEdit);
 				editing.setText(1, taskDescriptionEdit);
+				lblNewLabel.setText("Task found");
+				string.add("Task " + taskEdit);
 			}
-//			else
-//				lblNewLabel.setText("Task not found");
+			else 
+				lblNewLabel.setText("Task not found");
 
-				
 			break;
 			
 		case DELETE_COMMAND:
 			int taskDelete = Integer.parseInt(command.getPrimaryArgument());
-			for(int i = 0; i < counter+1 ; i ++ ){
-				 if(taskDelete == i){
-                    table.remove(i); 
-                    counter--;
-				 }
+			boolean isDeleted = false;
+			String taskNameDelete = "Task " + taskDelete;
+			
+			for(int i = 0; i < string.size(); i++){
+				System.out.println(string);
+				if(string.get(i).equals(taskNameDelete)){
+					System.out.println("looping");
+					isDeleted = true;
+					table.remove(i);
+					string.remove(i);
+				}
+					
 			}
+
+			if(isDeleted){
+				System.out.println("ok");
+				lblNewLabel.setText("Task deleted");
+			}
+			else
+				lblNewLabel.setText("Task not found");
 			break;
 		
 		case SEARCH_COMMAND:
 			int taskSearchId = Integer.parseInt(command.getPrimaryArgument());
 			boolean found = false;
-//			for(int i = 0 ; i < counter+1; i ++){
-//				if(item.getText().equals("Task " + taskSearchId)){
-//					found = true;
-//				}
-//			}
-			if(found)
+			String taskNameSearch = "Task " + taskSearchId;
+
+			for(int i = 0; i < string.size(); i++){
+				System.out.println(string);
+				if(string.get(i).equals(taskNameSearch)){
+					System.out.println("looping");
+					found = true;
+				}
+					
+			}
+
+			if(found){
 				System.out.println("ok");
-//			if(found)
-//				lblNewLabel.setText("Task found");
-//			else
-//				lblNewLabel.setText("Task not found");
+				lblNewLabel.setText("Task found");
+			}
+			else
+				lblNewLabel.setText("Task not found");
+
 			break;
 		
 		case DONE_COMMAND:
 			int taskDone = Integer.parseInt(command.getPrimaryArgument());
-			for(int i = 0; i < counter+1 ; i ++ ){
-				if(taskDone == i)
-                    table.remove(i); 
-
+			String taskNameDone = "Task " + taskDone;
+			boolean isDone = false;
+			for(int i = 0; i < string.size(); i++){
+				System.out.println(string);
+				if(string.get(i).equals(taskNameDone)){
+					System.out.println("loopingdone");
+					isDone = true;
+					table.remove(i);
+			//		counter--;
+					string.remove(i);
+				}					
 			}
+			
+			if(isDone)
+				lblNewLabel.setText("Task " + taskDone+ " done");
+			else
+				lblNewLabel.setText("Task " + taskDone+ " not found");
 			break;
 		default:
 			lblNewLabel.setText("Unrecognized command");
