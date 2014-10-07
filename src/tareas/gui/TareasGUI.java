@@ -302,10 +302,10 @@ public class TareasGUI implements Runnable {
 
 			if(isDeleted){
 				System.out.println("ok");
-				lblNewLabel.setText("Task deleted");
+				lblNewLabel.setText("Task " + taskDelete + " deleted");
 			}
 			else
-				lblNewLabel.setText("Task not found");
+				lblNewLabel.setText("Invalid task Id");
 			break;
 		
 		case SEARCH_COMMAND:
@@ -324,7 +324,7 @@ public class TareasGUI implements Runnable {
 
 			if(found){
 				System.out.println("ok");
-				lblNewLabel.setText("Task found");
+				lblNewLabel.setText("Task found - description is " + table.getItem(taskSearchId).getText(1));
 			}
 			else
 				lblNewLabel.setText("Task not found");

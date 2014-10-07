@@ -140,7 +140,7 @@ public class TareasController {
         Task taskToInsert = new Task();
 
         if (command.getArgument("des") != null) {
-            taskToInsert = buildTask(command);
+            taskToInsert.setDescription(command.getArgument("des"));
         }
         
         taskToInsert.setTaskID(taskId);
@@ -171,7 +171,7 @@ public class TareasController {
     private void searchTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
-        //TODO search the task from the Storage
+        tareas.searchTask(taskId);
     }
 
     /**
@@ -182,7 +182,7 @@ public class TareasController {
     private void completeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
-        //TODO mark the task as done from the Storage
+        tareas.markTaskAsCompleted(taskId);
         //TODO sync the state of the undo history
         clearRedoState();
     }

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="merged junhao into master">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tareas/controller/TareasController.java" afterPath="$PROJECT_DIR$/src/tareas/controller/TareasController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/storage.json" afterPath="$PROJECT_DIR$/storage.json" />
     </list>
     <ignored path="main.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,8 +49,8 @@
       <file leaf-file-name="TareasController.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tareas/controller/TareasController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="7.745536" vertical-offset="0" max-vertical-offset="5670">
-              <caret line="353" column="0" selection-start-line="353" selection-start-column="0" selection-end-line="353" selection-end-column="0" />
+            <state vertical-scroll-proportion="7.745536" vertical-offset="45" max-vertical-offset="5715">
+              <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -90,8 +91,8 @@
         <option value="$PROJECT_DIR$/src/tareas/parser/Parser.java" />
         <option value="$PROJECT_DIR$/src/tareas/parser/CommandType.java" />
         <option value="$PROJECT_DIR$/src/tareas/controller/ControllerTests.java" />
-        <option value="$PROJECT_DIR$/src/tareas/controller/TareasController.java" />
         <option value="$PROJECT_DIR$/src/tareas/gui/TareasGUI.java" />
+        <option value="$PROJECT_DIR$/src/tareas/controller/TareasController.java" />
       </list>
     </option>
   </component>
@@ -1009,8 +1010,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tareas/controller/TareasController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="7.745536" vertical-offset="0" max-vertical-offset="5670">
-          <caret line="353" column="0" selection-start-line="353" selection-start-column="0" selection-end-line="353" selection-end-column="0" />
+        <state vertical-scroll-proportion="7.745536" vertical-offset="45" max-vertical-offset="5715">
+          <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
           <folding />
         </state>
       </provider>
