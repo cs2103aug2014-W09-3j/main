@@ -137,12 +137,15 @@ public class TareasController {
      */
     private void editTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+        Task taskToInsert = new Task();
 
         if (command.getArgument("des") != null) {
-            //TODO
+            taskToInsert = buildTask(command);
         }
+        
+        taskToInsert.setTaskID(taskId);
 
-        //TODO edit the task to the Storage
+        tareas.editTask(taskToInsert);
         //TODO sync the state of the undo history
         clearRedoState();
     }
