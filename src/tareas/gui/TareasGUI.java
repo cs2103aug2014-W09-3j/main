@@ -12,8 +12,8 @@ import tareas.common.*;
 import tareas.parser.TareasCommand;
 import tareas.storage.TareasIO;
 
-import org.eclipse.jface.window.ApplicationWindow;
-import org.eclipse.jface.dialogs.*;
+//import org.eclipse.jface.window.ApplicationWindow;
+//import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Color;
@@ -32,7 +32,7 @@ public class TareasGUI implements Runnable {
 	private Table table;
 	private Text text;
 	private Label lblNewLabel;
-	private int counter = 0 ;
+	private int counter = 1;
 	private TableItem item;
 	private ArrayList<String> string;
 	
@@ -213,21 +213,29 @@ public class TareasGUI implements Runnable {
 		TareasIO tareas = new TareasIO();
 		
 		Tasks fullTaskList = tareas.getAllTasks();
-		
-		for (int i = 0; i < fullTaskList.get().size() - 1; i++) {
-			Task taskToAddIntoTable = fullTaskList.get().get(i);
-			int taskId = taskToAddIntoTable.getTaskID();
-			
-			TableItem tableItemToAdd = new TableItem(table, SWT.NULL);
-			
-			string.add("Task " + taskId);
-			tableItemToAdd.setText(0, "Task " + taskId);
-			tableItemToAdd.setText(1, taskToAddIntoTable.getDescription());
-			
-			if (i == fullTaskList.get().size() - 1) {
-				counter = taskId;
-			}
-		}
+
+        if (fullTaskList == null) {
+
+        } else {
+            for (int i = 0; i < fullTaskList.get().size(); i++) {
+                Task taskToAddIntoTable = fullTaskList.get().get(i);
+                int taskId = taskToAddIntoTable.getTaskID();
+
+                if (taskToAddIntoTable.isTaskCompleted()) {
+                    // do nothing, do not add into the table if it's completed
+                } else {
+                    TableItem tableItemToAdd = new TableItem(table, SWT.NULL);
+
+                    string.add("Task " + taskId);
+                    tableItemToAdd.setText(0, "Task " + taskId);
+                    tableItemToAdd.setText(1, taskToAddIntoTable.getDescription());
+                }
+
+                if (i == fullTaskList.get().size() - 1) {
+                    counter = taskId;
+                }
+            }
+        }
 
 	//	TableItem item = new TableItem(table, SWT.NULL);
 //		for (int loopIndex = 0; loopIndex < 4; loopIndex++) {
@@ -291,7 +299,7 @@ public class TareasGUI implements Runnable {
 					System.out.println("looping");
 					exists = true;
 					index = i;
-					string.remove(i);
+					string.remove(i - 1);
 				}
 					
 			}
@@ -336,6 +344,7 @@ public class TareasGUI implements Runnable {
 			int taskSearchId = Integer.parseInt(command.getPrimaryArgument());
 			boolean found = false;
 			String taskNameSearch = "Task " + taskSearchId;
+            int foundAtNumber = -1;
 
 			for(int i = 0; i < string.size(); i++){
 				System.out.println(string);
@@ -343,12 +352,12 @@ public class TareasGUI implements Runnable {
 					System.out.println("looping");
 					found = true;
 				}
-					
+                foundAtNumber = i;
 			}
 
 			if(found){
 				System.out.println("ok");
-				lblNewLabel.setText("Task found - description is " + table.getItem(taskSearchId).getText(1));
+				lblNewLabel.setText("Task found - description is " + table.getItem(foundAtNumber - 1).getText(1));
 			}
 			else
 				lblNewLabel.setText("Task not found");
@@ -371,9 +380,9 @@ public class TareasGUI implements Runnable {
 			}
 			
 			if(isDone)
-				lblNewLabel.setText("Task " + taskDone+ " done");
+				lblNewLabel.setText("Task " + taskDone + " done");
 			else
-				lblNewLabel.setText("Task " + taskDone+ " not found");
+				lblNewLabel.setText("Task " + taskDone + " not found");
 			break;
 		default:
 			lblNewLabel.setText("Unrecognized command");

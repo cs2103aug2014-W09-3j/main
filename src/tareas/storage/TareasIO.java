@@ -64,6 +64,9 @@ public class TareasIO {
 	 */
 	public void insertTask(Task task) {
 		initialize();
+        if (allTasks == null) {
+            allTasks = new Tasks();
+        }
 		task.setTaskID(allTasks.getNextID());
 		allTasks.add(task);
 		write();
