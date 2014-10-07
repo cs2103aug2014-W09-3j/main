@@ -299,7 +299,7 @@ public class TareasGUI implements Runnable {
 					System.out.println("looping");
 					exists = true;
 					index = i;
-					string.remove(i - 1);
+					string.remove(i);
 				}
 					
 			}
@@ -308,11 +308,11 @@ public class TareasGUI implements Runnable {
 				table.remove(index);
 				editing.setText(0, "Task " + taskEdit);
 				editing.setText(1, taskDescriptionEdit);
-				lblNewLabel.setText("Task found");
+				lblNewLabel.setText("Task found - the new description is " + taskDescriptionEdit);
 				string.add("Task " + taskEdit);
 			}
 			else 
-				lblNewLabel.setText("Task not found");
+				lblNewLabel.setText("Task not found - did you mistype the task's ID?");
 
 			break;
 			
@@ -337,7 +337,7 @@ public class TareasGUI implements Runnable {
 				lblNewLabel.setText("Task " + taskDelete + " deleted");
 			}
 			else
-				lblNewLabel.setText("Invalid task Id");
+				lblNewLabel.setText("Invalid task ID to be deleted - did you mistype the task's ID?");
 			break;
 		
 		case SEARCH_COMMAND:
@@ -360,7 +360,7 @@ public class TareasGUI implements Runnable {
 				lblNewLabel.setText("Task found - description is " + table.getItem(foundAtNumber - 1).getText(1));
 			}
 			else
-				lblNewLabel.setText("Task not found");
+                lblNewLabel.setText("Task not found - did you mistype the task's ID?");
 
 			break;
 		
@@ -382,7 +382,7 @@ public class TareasGUI implements Runnable {
 			if(isDone)
 				lblNewLabel.setText("Task " + taskDone + " done");
 			else
-				lblNewLabel.setText("Task " + taskDone + " not found");
+				lblNewLabel.setText("Task " + taskDone + " not found, did you mistype the task's ID?");
 			break;
 		default:
 			lblNewLabel.setText("Unrecognized command");
