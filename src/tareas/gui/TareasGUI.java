@@ -232,7 +232,7 @@ public class TareasGUI implements Runnable {
                 }
 
                 if (i == fullTaskList.get().size() - 1) {
-                    counter = taskId;
+                    counter = taskId + 1;
                 }
             }
         }
