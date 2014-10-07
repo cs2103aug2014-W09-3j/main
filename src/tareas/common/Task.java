@@ -137,7 +137,9 @@ public class Task {
 	public boolean isTaskCompleted() {
 		return this.completed;
 	}
-	
+
+    public void markTaskUncompleted() { this.completed = false; }
+
 	public void markTaskCompleted() {
 		this.completed = true;
 	}
@@ -145,7 +147,9 @@ public class Task {
 	public boolean isTaskPriority() {
 		return this.priority;
 	}
-	
+
+    public void setTaskAsNotPriority() { this.priority = false; }
+
 	public void setTaskAsPriority() {
 		this.priority = true;
 	}
@@ -176,13 +180,13 @@ public class Task {
 		floatingTask.setDescription(description);
 		return floatingTask;
 	}
-	
-	/**
-	 * This method creates a deadline task.
-	 * @param description
-	 * @param deadline
-	 * @return Task
-	 */
+
+    /**
+     * This method creates a deadline task.
+     * @param description
+     * @param deadline
+     * @return Task
+     */
 	public static Task createDeadlineTask(String description, String deadline) {
 		Task deadlineTask = new Task();
 		deadlineTask.setDescription(description);
@@ -205,4 +209,5 @@ public class Task {
 		timedTask.setEndDateTime(endDateTime);
 		return timedTask;
 	}
+
 }
