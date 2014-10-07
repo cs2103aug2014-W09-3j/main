@@ -347,7 +347,7 @@ public class TareasGUI implements Runnable {
             int foundAtNumber = -1;
 
 			for(int i = 0; i < string.size(); i++){
-//				System.out.println(string);
+				System.out.println(string);
 				if(string.get(i).equals(taskNameSearch)){
 					System.out.println("looping");
 					found = true;
