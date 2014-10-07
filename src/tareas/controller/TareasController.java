@@ -384,6 +384,7 @@ public class TareasController {
      * main method to run the GUI
      */
     public static void main(String args[]) {
-        new TareasGUI().run();
+        TareasGUI GUI = new TareasGUI();
+        GUI.run();
     }
 }

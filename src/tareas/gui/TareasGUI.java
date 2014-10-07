@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import tareas.controller.*;
 import tareas.common.*;
 import tareas.parser.TareasCommand;
+import tareas.storage.TareasIO;
 
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.jface.dialogs.*;
@@ -204,6 +205,29 @@ public class TareasGUI implements Runnable {
 				}
 			}
 		});
+		
+		/*
+		 * Hackish solution to initializing the tables for now, that'll do for V0.1 demo, let's change
+		 * it once we move on to JavaFX
+		 */
+		TareasIO tareas = new TareasIO();
+		
+		Tasks fullTaskList = tareas.getAllTasks();
+		
+		for (int i = 0; i < fullTaskList.get().size() - 1; i++) {
+			Task taskToAddIntoTable = fullTaskList.get().get(i);
+			int taskId = taskToAddIntoTable.getTaskID();
+			
+			TableItem tableItemToAdd = new TableItem(table, SWT.NULL);
+			
+			string.add("Task " + taskId);
+			tableItemToAdd.setText(0, "Task " + taskId);
+			tableItemToAdd.setText(1, taskToAddIntoTable.getDescription());
+			
+			if (i == fullTaskList.get().size() - 1) {
+				counter = taskId;
+			}
+		}
 
 	//	TableItem item = new TableItem(table, SWT.NULL);
 //		for (int loopIndex = 0; loopIndex < 4; loopIndex++) {
@@ -359,12 +383,5 @@ public class TareasGUI implements Runnable {
 		
 	}
 	
-	
-	public static void main(String args[]){
-		TareasGUI trying = new TareasGUI();
-		trying.run();
-//		trying.add();
-		
-	}
 }
 
