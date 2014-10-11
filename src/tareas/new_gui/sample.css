@@ -1,0 +1,22 @@
+.root {
+    -fx-background-color: rgba(132, 0, 17, 0.5);
+}
+
+#listView {
+    -fx-opacity: 0.8;
+}
+
+#commandLine {
+    -fx-background-color: white;
+    -fx-opacity: 0.5;
+    -fx-font-size: 20;
+}
+
+#closeButton {
+    -fx-background-color: rgba(132, 0, 17, 0.5);
+    -fx-background-radius: 0;
+}
+
+#closeButton:hover {
+    -fx-background-color: rgba(132, 0, 17, 1);
+}
