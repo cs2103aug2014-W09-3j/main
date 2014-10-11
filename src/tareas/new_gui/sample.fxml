@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
@@ -10,8 +12,8 @@
 <GridPane alignment="BOTTOM_CENTER" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="/tareas/new_gui/sample.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tareas.new_gui.SampleController">
    <children>
        <TextField fx:id="commandLine" onAction="#onEnter" prefHeight="35.0" prefWidth="800.0" GridPane.rowIndex="2" />
+      <ListView fx:id="listView" prefHeight="530.0" prefWidth="800.0" GridPane.rowIndex="1" />
       <Button fx:id="closeButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" text="X" GridPane.halignment="RIGHT" />
-      <TilePane fx:id="tilePane" prefHeight="530.0" prefWidth="200.0" GridPane.rowIndex="1" />
    </children>
    <columnConstraints>
       <ColumnConstraints />

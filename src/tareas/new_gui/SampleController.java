@@ -10,8 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.TilePane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -25,7 +23,6 @@ public class SampleController implements Initializable{
     public TextField commandLine;
     public ListView<String> listView;
     public Button closeButton;
-    public TilePane tilePane;
 
     // Binding Variables
     public StringProperty displayMessage = new SimpleStringProperty();
@@ -37,16 +34,10 @@ public class SampleController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialized!");
 
-        // Initialization of TilePane
-        tilePane = new TilePane();
-        tilePane.setVgap(3);
-        Text monDay = new Text("Mon");
-        tilePane.getChildren().add(monDay);
-
         // Initialize List of tasks
-//        listView.setItems(listItems);
-//        listView.setMouseTransparent(true);
-//        listView.setFocusTraversable(false);
+        listView.setItems(listItems);
+        listView.setMouseTransparent(true);
+        listView.setFocusTraversable(false);
 
         // Initialize close button
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
