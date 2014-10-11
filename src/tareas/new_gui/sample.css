@@ -15,6 +15,7 @@
 #closeButton {
     -fx-background-color: rgba(0, 14, 130, 0.50);
     -fx-background-radius: 0;
+    -fx-text-fill: #FFFFFF;
 }
 
 #closeButton:hover {
