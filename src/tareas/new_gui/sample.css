@@ -7,9 +7,10 @@
 }
 
 #commandLine {
-    -fx-background-color: white;
-    -fx-opacity: 0.5;
+    -fx-background-color: rgba(0, 14, 130, 0.30);
     -fx-font-size: 20;
+    -fx-background-radius: 0;
+    -fx-text-fill: #FFFFFF;
 }
 
 #closeButton {
