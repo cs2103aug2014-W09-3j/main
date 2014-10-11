@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: rgba(132, 0, 17, 0.5);
+    -fx-background-color: rgba(0, 14, 130, 0.50);
 }
 
 #listView {
@@ -13,7 +13,7 @@
 }
 
 #closeButton {
-    -fx-background-color: rgba(132, 0, 17, 0.5);
+    -fx-background-color: rgba(0, 14, 130, 0.50);
     -fx-background-radius: 0;
 }
 
