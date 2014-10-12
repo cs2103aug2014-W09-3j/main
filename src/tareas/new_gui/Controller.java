@@ -88,7 +88,7 @@ public class Controller implements Initializable{
         controller.executeCommand(input);
 
         Pane newpane = createTaskPane(input);
-        tilePane.getChildren().add(newpane);
+        tilePane.getChildren().add(0, newpane);
     }
 
     private Pane createTaskPane(String text) {
