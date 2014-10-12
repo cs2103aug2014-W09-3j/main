@@ -35,6 +35,13 @@ public class SampleController implements Initializable{
 
     public SampleController() { }
 
+    public static SampleController getInstance() {
+        if(instance == null) {
+            instance = new SampleController();
+        }
+        return instance;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialized!");
@@ -67,13 +74,6 @@ public class SampleController implements Initializable{
         });
     }
 
-    public static SampleController getInstance() {
-        if(instance == null) {
-            instance = new SampleController();
-        }
-        return instance;
-    }
-
     public void onEnter() {
         // IMPORTANT!
         // The below line ensures that the instance of this controller the Logic
@@ -103,6 +103,9 @@ public class SampleController implements Initializable{
         // ID Label
         task.getChildren().add(getIDLabel(1));
 
+        // Deadline Label
+        task.getChildren().add(getDeadline("23/10/2014"));
+
         return task;
     }
 
@@ -118,6 +121,12 @@ public class SampleController implements Initializable{
         idLabel.setMaxWidth(50);
         idLabel.setId("idLabel");
         return idLabel;
+    }
+
+    private Label getDeadline(String deadline) {
+        Label deadlineLabel = new Label("By " + deadline);
+        deadlineLabel.setId("deadlineLabel");
+        return deadlineLabel;
     }
 
     public void changeDisplayMessage(String someString) {

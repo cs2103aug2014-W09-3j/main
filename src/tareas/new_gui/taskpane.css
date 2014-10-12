@@ -18,3 +18,9 @@
     -fx-translate-y: 10;
     -fx-font-size: 20;
 }
+
+#deadlineLabel {
+    -fx-font-size: 10;
+    -fx-translate-x: 60;
+    -fx-translate-y: 40;
+}
