@@ -21,8 +21,9 @@ import java.util.ResourceBundle;
 public class SampleController implements Initializable{
     private static SampleController instance = null;
     private String input;
+    private int idCount = 1;
 
-    // UI Variables
+    // FXML Variables
     public TextField commandLine;
     public Button closeButton;
     public TilePane tilePane;
@@ -50,7 +51,7 @@ public class SampleController implements Initializable{
         category.setText("All Tasks");
 
         // Initialization of tasks panes
-        Pane task = createTaskPane("Jun Hao to treat dinner.");
+        Pane task = createTaskPane("Finish up 2103 homework");
 
         // Initialization of scrollPane
         scrollPane.setContent(tilePane);
@@ -94,14 +95,14 @@ public class SampleController implements Initializable{
         // Initialization of taskPane
         Pane task = new Pane();
         task.setId("taskpane");
-        task.setPrefSize(360, 80);
+        task.setPrefSize(745, 80);
         task.getStylesheets().add("tareas/new_gui/taskpane.css");
 
         // Task Description
         task.getChildren().add(getDescriptionLabel(text));
 
         // ID Label
-        task.getChildren().add(getIDLabel(1));
+        task.getChildren().add(getIDLabel(idCount));
 
         // Deadline Label
         task.getChildren().add(getDeadline("23/10/2014"));
@@ -111,7 +112,7 @@ public class SampleController implements Initializable{
 
     private Label getDescriptionLabel(String text) {
         Label taskDescription = new Label(text);
-        taskDescription.setMaxWidth(300);
+        taskDescription.setMaxWidth(650);
         taskDescription.setId("taskDescription");
         return taskDescription;
     }
@@ -120,6 +121,7 @@ public class SampleController implements Initializable{
         Label idLabel = new Label("#" + Integer.toString(id));
         idLabel.setMaxWidth(50);
         idLabel.setId("idLabel");
+        idCount++;
         return idLabel;
     }
 
