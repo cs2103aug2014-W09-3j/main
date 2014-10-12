@@ -7,7 +7,7 @@
 
 #taskDescription {
     -fx-text-fill: black;
-    -fx-translate-x: 50;
+    -fx-translate-x: 60;
     -fx-translate-y: 10;
     -fx-font-size: 20;
 }
