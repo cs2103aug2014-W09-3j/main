@@ -43,6 +43,7 @@ public class SampleController implements Initializable{
 
         // Initialization of scrollPane
         scrollPane.setContent(tilePane);
+        scrollPane.setStyle("-fx-background-color: transparent");
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
