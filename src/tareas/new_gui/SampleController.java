@@ -27,6 +27,7 @@ public class SampleController implements Initializable{
     public Button closeButton;
     public TilePane tilePane;
     public ScrollPane scrollPane;
+    public Label category;
 
     // Binding Variables
     public StringProperty displayMessage = new SimpleStringProperty();
@@ -37,6 +38,9 @@ public class SampleController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialized!");
+
+        // Initialization of category
+        category.setText("All Tasks");
 
         // Initialization of tasks panes
         Pane task = createTaskPane("Jun Hao to treat dinner.");
