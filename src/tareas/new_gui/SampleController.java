@@ -94,12 +94,16 @@ public class SampleController implements Initializable{
         task.getStylesheets().add("tareas/new_gui/taskpane.css");
 
         // Task Description
+        task.getChildren().add(getDescriptionLabel(text));
+
+        return task;
+    }
+
+    private Label getDescriptionLabel(String text) {
         Label taskDescription = new Label(text);
         taskDescription.setMaxWidth(200);
         taskDescription.setId("taskDescription");
-        task.getChildren().add(taskDescription);
-
-        return task;
+        return taskDescription;
     }
 
     public void changeDisplayMessage(String someString) {
