@@ -18,8 +18,8 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SampleController implements Initializable{
-    private static SampleController instance = null;
+public class Controller implements Initializable{
+    private static Controller instance = null;
     private String input;
     private int idCount = 1;
 
@@ -34,11 +34,11 @@ public class SampleController implements Initializable{
     public StringProperty displayMessage = new SimpleStringProperty();
     ObservableList<String> listItems = FXCollections.observableArrayList("Add Items here");
 
-    public SampleController() { }
+    public Controller() { }
 
-    public static SampleController getInstance() {
+    public static Controller getInstance() {
         if(instance == null) {
-            instance = new SampleController();
+            instance = new Controller();
         }
         return instance;
     }

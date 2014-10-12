@@ -10,13 +10,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class Main extends Application {
+public class View extends Application {
     private double xOffset = 0;
     private double yOffset = 0;
 
     @Override
     public void start(final Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("TareasGUI.fxml"));
 
         primaryStage.setTitle("Tareas");
         primaryStage.initStyle(StageStyle.TRANSPARENT);
