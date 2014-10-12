@@ -8,8 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -21,8 +24,9 @@ public class SampleController implements Initializable{
 
     // UI Variables
     public TextField commandLine;
-    public ListView<String> listView;
     public Button closeButton;
+    public TilePane tilePane;
+    public ScrollPane scrollPane;
 
     // Binding Variables
     public StringProperty displayMessage = new SimpleStringProperty();
@@ -34,10 +38,17 @@ public class SampleController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialized!");
 
-        // Initialize List of tasks
-        listView.setItems(listItems);
-        listView.setMouseTransparent(true);
-        listView.setFocusTraversable(false);
+        // Initialization of tasks panes
+        Pane task = createTaskPane(":)");
+
+        // Initialization of Tilepane
+        scrollPane.setContent(tilePane);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        tilePane.setHgap(20);
+        tilePane.setVgap(20);
+        tilePane.getChildren().add(task);
+        tilePane.getStylesheets().add("tareas/new_gui/tilepane.css");
 
         // Initialize close button
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -67,6 +78,21 @@ public class SampleController implements Initializable{
 
         test controller = new test();
         controller.executeCommand(input);
+
+        Pane newpane = createTaskPane(input);
+        tilePane.getChildren().add(newpane);
+    }
+
+    private Pane createTaskPane(String text) {
+        Pane task = new Pane();
+        task.setId("taskpane");
+        task.setPrefSize(370, 80);
+        task.getStylesheets().add("tareas/new_gui/taskpane.css");
+        Label taskDescription = new Label(text);
+        taskDescription.setId("taskDescription");
+        task.getChildren().add(taskDescription);
+
+        return task;
     }
 
     public void changeDisplayMessage(String someString) {

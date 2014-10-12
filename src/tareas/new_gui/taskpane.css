@@ -1,0 +1,10 @@
+#taskDescription {
+    -fx-text-fill: black;
+    -fx-translate-x: 10;
+    -fx-translate-y: 10;
+    -fx-font-size: 20;
+}
+
+#taskpane {
+    -fx-background-color: white;
+}
