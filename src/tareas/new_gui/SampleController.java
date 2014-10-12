@@ -39,7 +39,7 @@ public class SampleController implements Initializable{
         System.out.println("Initialized!");
 
         // Initialization of tasks panes
-        Pane task = createTaskPane(":)");
+        Pane task = createTaskPane("Jun Hao to treat dinner.");
 
         // Initialization of scrollPane
         scrollPane.setContent(tilePane);
@@ -96,14 +96,24 @@ public class SampleController implements Initializable{
         // Task Description
         task.getChildren().add(getDescriptionLabel(text));
 
+        // ID Label
+        task.getChildren().add(getIDLabel(1));
+
         return task;
     }
 
     private Label getDescriptionLabel(String text) {
         Label taskDescription = new Label(text);
-        taskDescription.setMaxWidth(200);
+        taskDescription.setMaxWidth(300);
         taskDescription.setId("taskDescription");
         return taskDescription;
+    }
+
+    private Label getIDLabel(int id) {
+        Label idLabel = new Label("#" + Integer.toString(id));
+        idLabel.setMaxWidth(50);
+        idLabel.setId("idLabel");
+        return idLabel;
     }
 
     public void changeDisplayMessage(String someString) {
