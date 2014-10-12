@@ -41,10 +41,12 @@ public class SampleController implements Initializable{
         // Initialization of tasks panes
         Pane task = createTaskPane(":)");
 
-        // Initialization of Tilepane
+        // Initialization of scrollPane
         scrollPane.setContent(tilePane);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        // Initialization of Tilepane
         tilePane.setHgap(20);
         tilePane.setVgap(20);
         tilePane.getChildren().add(task);
@@ -84,11 +86,15 @@ public class SampleController implements Initializable{
     }
 
     private Pane createTaskPane(String text) {
+        // Initialization of taskPane
         Pane task = new Pane();
         task.setId("taskpane");
-        task.setPrefSize(370, 80);
+        task.setPrefSize(360, 80);
         task.getStylesheets().add("tareas/new_gui/taskpane.css");
+
+        // Task Description
         Label taskDescription = new Label(text);
+        taskDescription.setMaxWidth(200);
         taskDescription.setId("taskDescription");
         task.getChildren().add(taskDescription);
 
