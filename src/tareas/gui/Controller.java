@@ -1,4 +1,4 @@
-package tareas.new_gui;
+package tareas.gui;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -63,7 +63,7 @@ public class Controller implements Initializable{
         tilePane.setHgap(20);
         tilePane.setVgap(20);
         tilePane.getChildren().add(task);
-        tilePane.getStylesheets().add("tareas/new_gui/tilepane.css");
+        tilePane.getStylesheets().add("tareas/gui/tilepane.css");
 
         // Initialize close button
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -96,7 +96,7 @@ public class Controller implements Initializable{
         Pane task = new Pane();
         task.setId("taskpane");
         task.setPrefSize(745, 80);
-        task.getStylesheets().add("tareas/new_gui/taskpane.css");
+        task.getStylesheets().add("tareas/gui/taskpane.css");
 
         // Task Description
         task.getChildren().add(getDescriptionLabel(text));

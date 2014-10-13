@@ -1,4 +1,4 @@
-package tareas.new_gui;
+package tareas.gui;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;

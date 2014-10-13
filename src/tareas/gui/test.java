@@ -1,4 +1,4 @@
-package tareas.new_gui;
+package tareas.gui;
 
 /**
  * Created by Her Lung on 10/10/2014.
