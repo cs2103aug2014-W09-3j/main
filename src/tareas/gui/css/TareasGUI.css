@@ -23,6 +23,10 @@
     -fx-background-color: rgba(132, 0, 17, 1);
 }
 
+#scrollPane .scroll-bar:vertical .track-background{
+    -fx-background-color: rgba(203, 198, 203, 0.35);
+}
+
 #scrollPane > .viewport {
     -fx-background-color: transparent;
 }
@@ -38,4 +42,10 @@
 .scroll-bar:vertical .increment-button,
 .scroll-bar:vertical .decrement-button {
     -fx-opacity: 0;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,60%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
 }
