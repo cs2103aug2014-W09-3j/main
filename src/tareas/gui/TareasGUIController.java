@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import org.controlsfx.control.NotificationPane;
 import tareas.common.Task;
 
 import java.net.URL;
@@ -32,6 +33,7 @@ public class TareasGUIController implements Initializable{
 
     // Data Variables
     private ArrayList<Task> tasks = new ArrayList<Task>();
+    private NotificationPane notificationPane;
 
     public TareasGUIController() { }
 
@@ -65,6 +67,13 @@ public class TareasGUIController implements Initializable{
 
         // Initialize close button
         InitializeCloseButton();
+
+        notificationPane = new NotificationPane(scrollPane);
+        notificationPane.setText("YOLO!");
+        notificationPane.setShowFromTop(true);
+        notificationPane.setMinSize(800, 100);
+
+        root.add(notificationPane, 0, 1);
     }
 
     private void InitializeCloseButton() {
@@ -97,6 +106,7 @@ public class TareasGUIController implements Initializable{
         Pane newpane = generator.generateTaskPane();
         tilePane.getChildren().add(0, newpane);
 
+        notificationPane.show();
     }
 
     public void sendTaskstoView(ArrayList<Task> tasks) {
