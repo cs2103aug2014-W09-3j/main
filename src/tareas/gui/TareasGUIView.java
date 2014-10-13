@@ -37,6 +37,8 @@ public class TareasGUIView extends Application {
             }
         });
 
+        System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
+
         Scene scene = new Scene(root, 800, 600);
         scene.setFill(Color.TRANSPARENT);
         primaryStage.setScene(scene);

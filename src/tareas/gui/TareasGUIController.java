@@ -95,6 +95,9 @@ public class TareasGUIController implements Initializable{
         TaskPaneGenerator generator = new TaskPaneGenerator(new Task());
         Pane newpane = generator.generateTaskPane();
         tilePane.getChildren().add(0, newpane);
+
+
+
     }
 
     public void sendTaskstoView(ArrayList<Task> tasks) {
