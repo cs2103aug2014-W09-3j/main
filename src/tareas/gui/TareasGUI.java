@@ -1,11 +1,5 @@
 package tareas.gui;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.*;
 import tareas.controller.TareasController;
 import tareas.parser.TareasCommand;
 
