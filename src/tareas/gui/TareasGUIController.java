@@ -48,9 +48,6 @@ public class TareasGUIController implements Initializable{
         // Initialization of category
         category.setText("All Tasks");
 
-        // Initialization of tasks panes
-        Pane task = createTaskPane(new Task());
-
         // Initialization of scrollPane
         initializeScrollPane();
 
@@ -60,8 +57,10 @@ public class TareasGUIController implements Initializable{
         tilePane.getStylesheets().add("tareas/gui/tilepane.css");
 
         // TODO Add JH new method to get all tasks for initialization
-        tilePane.getChildren().add(task);
-
+        ArrayList<Task> taskList = new ArrayList<Task>();
+        taskList.add(new Task());
+        taskList.add(new Task());
+        sendTaskstoView(taskList);
 
         // Initialize close button
         InitializeCloseButton();
@@ -93,48 +92,9 @@ public class TareasGUIController implements Initializable{
         input = commandLine.getText();
         commandLine.clear();
 
-        Pane newpane = createTaskPane(new Task());
+        TaskPaneGenerator generator = new TaskPaneGenerator(new Task());
+        Pane newpane = generator.generateTaskPane();
         tilePane.getChildren().add(0, newpane);
-    }
-
-    private Pane createTaskPane(Task task) {
-        // Initialization of taskPane
-        Pane taskPane = new Pane();
-        taskPane.setId("taskpane");
-        taskPane.setPrefSize(745, 80);
-        taskPane.getStylesheets().add("tareas/gui/taskpane.css");
-
-        // Task Description
-        taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
-
-        // ID Label
-        taskPane.getChildren().add(getIDLabel(idCount));
-
-        // Deadline Label
-        taskPane.getChildren().add(getDeadline(task.getDeadline()));
-
-        return taskPane;
-    }
-
-    private Label getDescriptionLabel(String text) {
-        Label taskDescription = new Label(text);
-        taskDescription.setMaxWidth(650);
-        taskDescription.setId("taskDescription");
-        return taskDescription;
-    }
-
-    private Label getIDLabel(int id) {
-        Label idLabel = new Label("#" + Integer.toString(id));
-        idLabel.setMaxWidth(50);
-        idLabel.setId("idLabel");
-        idCount++;
-        return idLabel;
-    }
-
-    private Label getDeadline(String deadline) {
-        Label deadlineLabel = new Label("By " + deadline);
-        deadlineLabel.setId("deadlineLabel");
-        return deadlineLabel;
     }
 
     public void sendTaskstoView(ArrayList<Task> tasks) {
@@ -145,9 +105,17 @@ public class TareasGUIController implements Initializable{
     private void updateView() {
         tilePane.getChildren().removeAll();
         for(Task task : tasks) {
-            tilePane.getChildren().add(createTaskPane(task));
+            TaskPaneGenerator generator = new TaskPaneGenerator(task);
+            tilePane.getChildren().add(generator.generateTaskPane());
         }
-        idCount = 0;
+        idCount = 1;
     }
 
+    protected int getIdCount() {
+        return idCount;
+    }
+
+    protected void incrementIdCount() {
+        idCount++;
+    }
 }
