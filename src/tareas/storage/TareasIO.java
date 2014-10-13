@@ -194,4 +194,31 @@ public class TareasIO {
 		return allTasks;
 	}
 
+    public void undoTask(){
+
+    }
+
+    public void redoTask(){
+
+    }
+
+    /**
+     * This method checks if tasks are prioritized.
+     * @param id
+     * @return boolean
+     */
+    public boolean prioritizeTask(int id){
+        Task task = getTask(id);
+        if(task.isTaskPriority()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void postponeTask(int id){
+
+    }
+
 }
