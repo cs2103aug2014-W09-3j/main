@@ -1,9 +1,5 @@
 package tareas.gui;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -14,12 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import tareas.common.Task;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
-    private static Controller instance = null;
+public class TareasGUIController implements Initializable{
+    private static TareasGUIController instance = null;
     private String input;
     private int idCount = 1;
 
@@ -30,15 +28,15 @@ public class Controller implements Initializable{
     public ScrollPane scrollPane;
     public Label category;
 
-    // Binding Variables
-    public StringProperty displayMessage = new SimpleStringProperty();
-    ObservableList<String> listItems = FXCollections.observableArrayList("Add Items here");
+    // Data Variables
+    private ArrayList<Task> tasks = new ArrayList<Task>();
 
-    public Controller() { }
 
-    public static Controller getInstance() {
+    public TareasGUIController() { }
+
+    public static TareasGUIController getInstance() {
         if(instance == null) {
-            instance = new Controller();
+            instance = new TareasGUIController();
         }
         return instance;
     }
@@ -51,21 +49,25 @@ public class Controller implements Initializable{
         category.setText("All Tasks");
 
         // Initialization of tasks panes
-        Pane task = createTaskPane("Finish up 2103 homework");
+        Pane task = createTaskPane(new Task());
 
         // Initialization of scrollPane
-        scrollPane.setContent(tilePane);
-        scrollPane.setStyle("-fx-background-color: transparent");
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        initializeScrollPane();
 
         // Initialization of Tilepane
         tilePane.setHgap(20);
         tilePane.setVgap(20);
-        tilePane.getChildren().add(task);
         tilePane.getStylesheets().add("tareas/gui/tilepane.css");
 
+        // TODO Add JH new method to get all tasks for initialization
+        tilePane.getChildren().add(task);
+
+
         // Initialize close button
+        InitializeCloseButton();
+    }
+
+    private void InitializeCloseButton() {
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -73,6 +75,13 @@ public class Controller implements Initializable{
                 stage.close();
             }
         });
+    }
+
+    private void initializeScrollPane() {
+        scrollPane.setContent(tilePane);
+        scrollPane.setStyle("-fx-background-color: transparent");
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
     public void onEnter() {
@@ -84,30 +93,27 @@ public class Controller implements Initializable{
         input = commandLine.getText();
         commandLine.clear();
 
-        test controller = new test();
-        controller.executeCommand(input);
-
-        Pane newpane = createTaskPane(input);
+        Pane newpane = createTaskPane(new Task());
         tilePane.getChildren().add(0, newpane);
     }
 
-    private Pane createTaskPane(String text) {
+    private Pane createTaskPane(Task task) {
         // Initialization of taskPane
-        Pane task = new Pane();
-        task.setId("taskpane");
-        task.setPrefSize(745, 80);
-        task.getStylesheets().add("tareas/gui/taskpane.css");
+        Pane taskPane = new Pane();
+        taskPane.setId("taskpane");
+        taskPane.setPrefSize(745, 80);
+        taskPane.getStylesheets().add("tareas/gui/taskpane.css");
 
         // Task Description
-        task.getChildren().add(getDescriptionLabel(text));
+        taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
 
         // ID Label
-        task.getChildren().add(getIDLabel(idCount));
+        taskPane.getChildren().add(getIDLabel(idCount));
 
         // Deadline Label
-        task.getChildren().add(getDeadline("23/10/2014"));
+        taskPane.getChildren().add(getDeadline(task.getDeadline()));
 
-        return task;
+        return taskPane;
     }
 
     private Label getDescriptionLabel(String text) {
@@ -131,9 +137,17 @@ public class Controller implements Initializable{
         return deadlineLabel;
     }
 
-    public void changeDisplayMessage(String someString) {
-        displayMessage.setValue(someString);
-        listItems.add(input);
+    public void sendTaskstoView(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+        updateView();
+    }
+
+    private void updateView() {
+        tilePane.getChildren().removeAll();
+        for(Task task : tasks) {
+            tilePane.getChildren().add(createTaskPane(task));
+        }
+        idCount = 0;
     }
 
 }
