@@ -82,11 +82,6 @@ public class TareasGUIController implements Initializable{
     private void initializeNotifications() {
         notificationPane = new NotificationPane(scrollPane);
         notificationPane.setShowFromTop(true);
-        Image tick = new Image("tick1.png");
-        ImageView tickLogo = new ImageView(tick);
-        tickLogo.setFitWidth(25);
-        tickLogo.setFitHeight(25);
-        notificationPane.setGraphic(tickLogo);
         notificationPane.setMinSize(800, 100);
         root.add(notificationPane, 0, 1);
     }
@@ -121,7 +116,12 @@ public class TareasGUIController implements Initializable{
         Pane newpane = generator.generateTaskPane();
         tilePane.getChildren().add(0, newpane);
 
-        notificationPane.show(input);
+        // Notifications
+        Image tick = new Image("tick1.png");
+        ImageView tickLogo = new ImageView(tick);
+        tickLogo.setFitWidth(25);
+        tickLogo.setFitHeight(25);
+        notificationPane.show(input, tickLogo);
         hideNotificationAfter(3000);
     }
 
