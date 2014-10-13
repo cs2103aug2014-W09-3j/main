@@ -21,7 +21,7 @@ class TaskPaneGenerator {
         Pane taskPane = new Pane();
         taskPane.setId("taskpane");
         taskPane.setPrefSize(745, 80);
-        taskPane.getStylesheets().add("tareas/gui/taskpane.css");
+        taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
 
         // Task Description
         taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));

@@ -54,7 +54,7 @@ public class TareasGUIController implements Initializable{
         // Initialization of Tilepane
         tilePane.setHgap(20);
         tilePane.setVgap(20);
-        tilePane.getStylesheets().add("tareas/gui/tilepane.css");
+        tilePane.getStylesheets().add("tareas/gui/css/tilepane.css");
 
         // TODO Add JH new method to get all tasks for initialization
         ArrayList<Task> taskList = new ArrayList<Task>();
