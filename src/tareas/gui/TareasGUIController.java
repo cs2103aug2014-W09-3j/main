@@ -68,11 +68,10 @@ public class TareasGUIController implements Initializable{
         // Initialize close button
         InitializeCloseButton();
 
+        // Initialization of notification bar
         notificationPane = new NotificationPane(scrollPane);
-        notificationPane.setText("YOLO!");
         notificationPane.setShowFromTop(true);
         notificationPane.setMinSize(800, 100);
-
         root.add(notificationPane, 0, 1);
     }
 
@@ -106,7 +105,17 @@ public class TareasGUIController implements Initializable{
         Pane newpane = generator.generateTaskPane();
         tilePane.getChildren().add(0, newpane);
 
-        notificationPane.show();
+        notificationPane.show(input);
+        hideNotificationAfter(3000);
+    }
+
+    public void changeCategoryName(String newCategory) {
+        category.setText(newCategory);
+    }
+
+    public void sendNotificationToView(String message) {
+        notificationPane.show(message);
+        hideNotificationAfter(3000);
     }
 
     public void sendTaskstoView(ArrayList<Task> tasks) {
@@ -121,6 +130,18 @@ public class TareasGUIController implements Initializable{
             tilePane.getChildren().add(generator.generateTaskPane());
         }
         idCount = 1;
+    }
+
+    private void hideNotificationAfter(int ms) {
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        notificationPane.hide();
+                    }
+                },
+                ms
+        );
     }
 
     protected int getIdCount() {
