@@ -34,7 +34,15 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="swt-4" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/controlsfx-8.20.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
