@@ -194,10 +194,12 @@ public class TareasIO {
 		return allTasks;
 	}
 
+    //TODO undo the latest task.
     public void undoTask(){
 
     }
 
+    //TODO redo the lastest task.
     public void redoTask(){
 
     }
@@ -217,8 +219,9 @@ public class TareasIO {
         }
     }
 
-    public void postponeTask(int id){
-
+    public void postponeTask(Task task){
+        allTasks.remove(task.getTaskID());
+        allTasks.add(task);
     }
 
 }
