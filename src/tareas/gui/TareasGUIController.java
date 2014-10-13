@@ -73,6 +73,11 @@ public class TareasGUIController implements Initializable{
         notificationPane.setShowFromTop(true);
         notificationPane.setMinSize(800, 100);
         root.add(notificationPane, 0, 1);
+
+        // TODO: Explore auto-complete
+        /*TextFields.bindAutoCompletion(
+                commandLine,
+                "-add", "-delete");*/
     }
 
     private void InitializeCloseButton() {
