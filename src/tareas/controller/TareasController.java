@@ -2,7 +2,6 @@ package tareas.controller;
 
 import tareas.common.Task;
 import tareas.common.Tasks;
-import tareas.gui.TareasGUI;
 import tareas.parser.TareasCommand;
 import tareas.storage.TareasIO;
 
@@ -380,11 +379,4 @@ public class TareasController {
         redoHistory.clear();
     }
 
-    /**
-     * main method to run the GUI
-     */
-    public static void main(String args[]) {
-        TareasGUI GUI = new TareasGUI();
-        GUI.run();
-    }
 }

@@ -6,8 +6,8 @@ package tareas.gui;
 public class test {
 
     public void executeCommand(String input) {
-        SampleController ui = SampleController.getInstance();
-        ui.changeDisplayMessage(input);
+        /*SampleController ui = SampleController.getInstance();
+        ui.changeDisplayMessage(input);*/
     }
 
 }
