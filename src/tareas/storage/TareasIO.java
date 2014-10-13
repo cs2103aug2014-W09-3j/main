@@ -219,9 +219,20 @@ public class TareasIO {
         }
     }
 
+    /**
+     * This method postpones tasks to different deadlines.
+     * @param task
+     */
     public void postponeTask(Task task){
         allTasks.remove(task.getTaskID());
         allTasks.add(task);
+    }
+
+    /**
+     * This method deletes all ongoing tasks in the list.
+     */
+    public void massDelete(){
+        allTasks.removeAll();
     }
 
 }

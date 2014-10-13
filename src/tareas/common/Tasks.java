@@ -37,5 +37,7 @@ public class Tasks {
 		this.latestID++;
 		return nextID;
 	}
+
+    public void removeAll() { this.allTasks.clear();}
 	
 }

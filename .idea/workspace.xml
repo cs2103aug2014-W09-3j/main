@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tareas/storage/TareasIO.java" afterPath="$PROJECT_DIR$/src/tareas/storage/TareasIO.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tareas/common/Tasks.java" afterPath="$PROJECT_DIR$/src/tareas/common/Tasks.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="main.iws" />
@@ -59,9 +60,12 @@
       <file leaf-file-name="TareasIO.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tareas/storage/TareasIO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.41226575" vertical-offset="2818" max-vertical-offset="3420">
-              <caret line="209" column="22" selection-start-line="209" selection-start-column="22" selection-end-line="209" selection-end-column="22" />
-              <folding />
+            <state vertical-scroll-proportion="0.6678024" vertical-offset="2998" max-vertical-offset="3585">
+              <caret line="231" column="57" selection-start-line="231" selection-start-column="57" selection-end-line="231" selection-end-column="57" />
+              <folding>
+                <element signature="e#5936#5937#0" expanded="true" />
+                <element signature="e#5972#5973#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -69,8 +73,8 @@
       <file leaf-file-name="Tasks.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tareas/common/Tasks.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-              <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+              <caret line="40" column="52" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -136,6 +140,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="lareina &lt;lareinating@gmail.com&gt;" />
         <option value="Lareina &lt;lareinating@gmail.com&gt; " />
         <option value="Lareina Ting &lt;lareinating@gmail.com&gt;" />
         <option value="Kent &lt;itaqmail@gmail.com&gt;" />
@@ -166,6 +171,7 @@
         <option value="$PROJECT_DIR$/src/tareas/gui/TareasGUI.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/tareas/common/Tasks.java" />
         <option value="$PROJECT_DIR$/src/tareas/storage/TareasIO.java" />
       </list>
     </option>
@@ -724,7 +730,7 @@
       <workItem from="1413193049009" duration="1832000" />
       <workItem from="1413201154732" duration="94000" />
       <workItem from="1413201283379" duration="508000" />
-      <workItem from="1413202224593" duration="3961000" />
+      <workItem from="1413202224593" duration="4362000" />
     </task>
     <task id="LOCAL-00001" summary="update parser's skeleton">
       <created>1412098757941</created>
@@ -822,11 +828,15 @@
       <created>1413212822864</created>
       <updated>1413212822864</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="create postponeTask function">
+      <created>1413214623149</created>
+      <updated>1413214623149</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6852000" />
+    <option name="totallyTimeSpent" value="7253000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -945,7 +955,8 @@
     <MESSAGE value="merged ui into master" />
     <MESSAGE value="update tareasgui before merging" />
     <MESSAGE value="create prioritzeTask function" />
-    <option name="LAST_COMMIT_MESSAGE" value="create prioritzeTask function" />
+    <MESSAGE value="create postponeTask function" />
+    <option name="LAST_COMMIT_MESSAGE" value="create postponeTask function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1319,17 +1330,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tareas/common/Tasks.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+          <caret line="40" column="52" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tareas/storage/TareasIO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41226575" vertical-offset="2818" max-vertical-offset="3420">
-          <caret line="209" column="22" selection-start-line="209" selection-start-column="22" selection-end-line="209" selection-end-column="22" />
-          <folding />
+        <state vertical-scroll-proportion="0.6678024" vertical-offset="2998" max-vertical-offset="3585">
+          <caret line="231" column="57" selection-start-line="231" selection-start-column="57" selection-end-line="231" selection-end-column="57" />
+          <folding>
+            <element signature="e#5936#5937#0" expanded="true" />
+            <element signature="e#5972#5973#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
