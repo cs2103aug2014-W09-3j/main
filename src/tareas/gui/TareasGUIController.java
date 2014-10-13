@@ -59,7 +59,7 @@ public class TareasGUIController implements Initializable{
         tilePane.setVgap(20);
         tilePane.getStylesheets().add("tareas/gui/css/tilepane.css");
 
-        // TODO: Add JH new method to get all tasks for initialization
+        // TODO Add JH new method to get all tasks for initialization
         ArrayList<Task> taskList = new ArrayList<Task>();
         taskList.add(new Task());
         taskList.add(new Task());
@@ -73,11 +73,6 @@ public class TareasGUIController implements Initializable{
         notificationPane.setShowFromTop(true);
         notificationPane.setMinSize(800, 100);
         root.add(notificationPane, 0, 1);
-
-        // TODO: Explore auto-complete
-        /*TextFields.bindAutoCompletion(
-                commandLine,
-                "-add", "-delete");*/
     }
 
     private void InitializeCloseButton() {
