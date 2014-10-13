@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -69,15 +71,24 @@ public class TareasGUIController implements Initializable{
         InitializeCloseButton();
 
         // Initialization of notification bar
-        notificationPane = new NotificationPane(scrollPane);
-        notificationPane.setShowFromTop(true);
-        notificationPane.setMinSize(800, 100);
-        root.add(notificationPane, 0, 1);
+        initializeNotifications();
 
         // TODO: Explore auto-complete
         /*TextFields.bindAutoCompletion(
                 commandLine,
                 "-add", "-delete");*/
+    }
+
+    private void initializeNotifications() {
+        notificationPane = new NotificationPane(scrollPane);
+        notificationPane.setShowFromTop(true);
+        Image tick = new Image("tick1.png");
+        ImageView tickLogo = new ImageView(tick);
+        tickLogo.setFitWidth(25);
+        tickLogo.setFitHeight(25);
+        notificationPane.setGraphic(tickLogo);
+        notificationPane.setMinSize(800, 100);
+        root.add(notificationPane, 0, 1);
     }
 
     private void InitializeCloseButton() {
