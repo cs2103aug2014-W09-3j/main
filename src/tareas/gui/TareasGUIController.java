@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ public class TareasGUIController implements Initializable{
     private int idCount = 1;
 
     // FXML Variables
+    public GridPane root;
     public TextField commandLine;
     public Button closeButton;
     public TilePane tilePane;
@@ -30,7 +32,6 @@ public class TareasGUIController implements Initializable{
 
     // Data Variables
     private ArrayList<Task> tasks = new ArrayList<Task>();
-
 
     public TareasGUIController() { }
 
@@ -95,8 +96,6 @@ public class TareasGUIController implements Initializable{
         TaskPaneGenerator generator = new TaskPaneGenerator(new Task());
         Pane newpane = generator.generateTaskPane();
         tilePane.getChildren().add(0, newpane);
-
-
 
     }
 

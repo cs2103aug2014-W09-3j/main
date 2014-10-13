@@ -22,3 +22,7 @@
 #closeButton:hover {
     -fx-background-color: rgba(132, 0, 17, 1);
 }
+
+#scrollPane > .viewport {
+    -fx-background-color: transparent;
+}
