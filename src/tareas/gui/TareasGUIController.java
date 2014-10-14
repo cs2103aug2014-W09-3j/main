@@ -7,14 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import org.controlsfx.control.NotificationPane;
 import tareas.common.Task;
+import tareas.controller.TareasController;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -57,9 +55,7 @@ public class TareasGUIController implements Initializable{
         initializeScrollPane();
 
         // Initialization of Tilepane
-        tilePane.setHgap(20);
-        tilePane.setVgap(20);
-        tilePane.getStylesheets().add("tareas/gui/css/tilepane.css");
+        initializeTilePane();
 
         // TODO Add JH new method to get all tasks for initialization
         ArrayList<Task> taskList = new ArrayList<Task>();
@@ -77,6 +73,12 @@ public class TareasGUIController implements Initializable{
         /*TextFields.bindAutoCompletion(
                 commandLine,
                 "-add", "-delete");*/
+    }
+
+    private void initializeTilePane() {
+        tilePane.setHgap(20);
+        tilePane.setVgap(20);
+        tilePane.getStylesheets().add("tareas/gui/css/tilepane.css");
     }
 
     private void initializeNotifications() {
@@ -112,17 +114,8 @@ public class TareasGUIController implements Initializable{
         input = commandLine.getText();
         commandLine.clear();
 
-        TaskPaneGenerator generator = new TaskPaneGenerator(new Task());
-        Pane newpane = generator.generateTaskPane();
-        tilePane.getChildren().add(0, newpane);
-
-        // Notifications
-        Image tick = new Image("tick1.png");
-        ImageView tickLogo = new ImageView(tick);
-        tickLogo.setFitWidth(25);
-        tickLogo.setFitHeight(25);
-        notificationPane.show(input, tickLogo);
-        hideNotificationAfter(3000);
+        TareasController mainController = new TareasController();
+        mainController.executeCommand(input);
     }
 
     public void changeCategoryName(String newCategory) {
@@ -130,6 +123,14 @@ public class TareasGUIController implements Initializable{
     }
 
     public void sendNotificationToView(String message) {
+        // Notifications (Code for notifications with picture)
+        /*Image tick = new Image("tick1.png");
+        ImageView tickLogo = new ImageView(tick);
+        tickLogo.setFitWidth(25);
+        tickLogo.setFitHeight(25);
+        notificationPane.show(input, tickLogo);
+        hideNotificationAfter(3000);*/
+
         notificationPane.show(message);
         hideNotificationAfter(3000);
     }
