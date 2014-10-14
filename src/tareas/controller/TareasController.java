@@ -1,7 +1,6 @@
 package tareas.controller;
 
 import tareas.common.Task;
-import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
 import tareas.storage.TareasIO;
 
@@ -19,8 +18,8 @@ public class TareasController {
     TareasIO tareas = new TareasIO();
 
     // Keeping an ArrayList of states for both redoing and undoing
-    ArrayList<Tasks> redoHistory = new ArrayList<Tasks>();
-    ArrayList<Tasks> undoHistory = new ArrayList<Tasks>();
+    ArrayList<TaskManager> redoHistory = new ArrayList<TaskManager>();
+    ArrayList<TaskManager> undoHistory = new ArrayList<TaskManager>();
 
     /**
      * Takes the user's input from the GUI and does the right stuff to make the program work
@@ -303,7 +302,7 @@ public class TareasController {
      */
     private void undo() {
         if (isAbleToUndo()) {
-		    Tasks stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
+		    TaskManager stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
 
 		    addToRedoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
@@ -318,7 +317,7 @@ public class TareasController {
      */
     private void redo() {
         if (isAbleToRedo()) {
-		    Tasks stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
+		    TaskManager stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
 
 		    addToUndoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
@@ -359,7 +358,7 @@ public class TareasController {
      *
      * @param state of the Tasks to add into the history
      */
-    private void addToUndoHistory(Tasks state) {
+    private void addToUndoHistory(TaskManager state) {
         undoHistory.add(state);
     }
 
@@ -368,7 +367,7 @@ public class TareasController {
      *
      * @param state of the Tasks to add into the history
      */
-    private void addToRedoHistory(Tasks state) {
+    private void addToRedoHistory(TaskManager state) {
         redoHistory.add(state);
     }
 
