@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -45,6 +47,11 @@ public class TareasGUIController implements Initializable{
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
+    }
+
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialized!");
 
@@ -64,7 +71,7 @@ public class TareasGUIController implements Initializable{
         sendTaskstoView(taskList);
 
         // Initialize close button
-        InitializeCloseButton();
+        initializeCloseButton();
 
         // Initialization of notification bar
         initializeNotifications();
@@ -88,7 +95,7 @@ public class TareasGUIController implements Initializable{
         root.add(notificationPane, 0, 1);
     }
 
-    private void InitializeCloseButton() {
+    private void initializeCloseButton() {
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -116,22 +123,45 @@ public class TareasGUIController implements Initializable{
 
         TareasController mainController = new TareasController();
         mainController.executeCommand(input);
+
+        sendNotificationToView("Test", "warning");
     }
 
     public void changeCategoryName(String newCategory) {
         category.setText(newCategory);
     }
 
-    public void sendNotificationToView(String message) {
-        // Notifications (Code for notifications with picture)
-        /*Image tick = new Image("tick1.png");
-        ImageView tickLogo = new ImageView(tick);
-        tickLogo.setFitWidth(25);
-        tickLogo.setFitHeight(25);
-        notificationPane.show(input, tickLogo);
-        hideNotificationAfter(3000);*/
+    public void sendWarningToView(String message) {
+        sendNotificationToView(message, "warning");
+    }
 
-        notificationPane.show(message);
+    public void sendErrorToView(String message) {
+        sendNotificationToView(message, "error");
+    }
+
+    public void sendSuccessToView(String message) {
+        sendNotificationToView(message, "success");
+    }
+
+    private void sendNotificationToView(String message, String status) {
+        // Notifications (Code for notifications with picture)
+        Image logo;
+
+        switch(status) {
+            case "error":
+                logo = new Image("error.png");
+                break;
+            case "warning":
+                logo = new Image("warning.png");
+                break;
+            default:
+                logo = new Image("tick.png");
+        }
+
+        ImageView notificationLogo = new ImageView(logo);
+        notificationLogo.setFitWidth(25);
+        notificationLogo.setFitHeight(25);
+        notificationPane.show(message, notificationLogo);
         hideNotificationAfter(3000);
     }
 
