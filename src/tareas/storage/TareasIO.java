@@ -204,19 +204,21 @@ public class TareasIO {
 
     }
 
+
     /**
-     * This method checks if tasks are prioritized.
+     * This method sets the priority of the task.
      * @param id
-     * @return boolean
+     * @param priority
      */
-    public boolean prioritizeTask(int id){
+    public void prioritizeTask(int id, boolean priority){
         Task task = getTask(id);
-        if(task.isTaskPriority()){
-            return true;
+        if(priority){
+            task.setTaskAsPriority();
         }
         else{
-            return false;
+            task.setTaskAsNotPriority();
         }
+        write();
     }
 
     /**
@@ -226,6 +228,7 @@ public class TareasIO {
     public void postponeTask(Task task){
         allTasks.remove(task.getTaskID());
         allTasks.add(task);
+        write();
     }
 
     /**
@@ -233,6 +236,24 @@ public class TareasIO {
      */
     public void massDelete(){
         allTasks.removeAll();
+        write();
     }
+
+    /**
+     * This method sets the frequency, day and date of a recurring task.
+     * @param id
+     * @param frequency
+     * @param day
+     * @param date
+     */
+    public void recurringTask(int id, String frequency, String day, String date){
+        Task task = getTask(id);
+        task.setRecurrenceFrequency(frequency);
+        task.setRecurrenceDay(day);
+        task.setRecurrenceDate(date);
+        write();
+    }
+
+
 
 }
