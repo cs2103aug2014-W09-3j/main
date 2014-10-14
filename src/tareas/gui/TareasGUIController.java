@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import org.controlsfx.control.NotificationPane;
+import tareas.common.Log;
 import tareas.common.Task;
 import tareas.controller.TareasController;
 
@@ -20,7 +21,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class TareasGUIController implements Initializable{
+public class TareasGUIController implements Initializable {
+    private static String TAG = "TareasGUIController";
+
     private static TareasGUIController instance = null;
     private String input;
     private int idCount = 1;
@@ -37,10 +40,11 @@ public class TareasGUIController implements Initializable{
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private NotificationPane notificationPane;
 
-    public TareasGUIController() { }
+    public TareasGUIController() {
+    }
 
     public static TareasGUIController getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new TareasGUIController();
         }
         return instance;
@@ -53,7 +57,7 @@ public class TareasGUIController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Initialized!");
+        Log.i(TAG, "Initialized!");
 
         // Initialization of category
         category.setText("All Tasks");
@@ -147,7 +151,7 @@ public class TareasGUIController implements Initializable{
         // Notifications (Code for notifications with picture)
         Image logo;
 
-        switch(status) {
+        switch (status) {
             case "error":
                 logo = new Image("error.png");
                 break;
@@ -172,7 +176,7 @@ public class TareasGUIController implements Initializable{
 
     private void updateView() {
         tilePane.getChildren().removeAll();
-        for(Task task : tasks) {
+        for (Task task : tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             tilePane.getChildren().add(generator.generateTaskPane());
         }

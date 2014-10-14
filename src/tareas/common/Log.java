@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.logging.*;
 
 /**
- * [Description]
+ * A class used to log messages with customized format.
  * <p/>
  * Created on Oct 15, 2014.
  *
