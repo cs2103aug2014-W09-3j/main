@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="create massDelete function">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tareas/storage/StorageWriter.java" afterPath="$PROJECT_DIR$/src/tareas/storage/StorageWriter.java" />
+    <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tareas/storage/TareasIO.java" afterPath="$PROJECT_DIR$/src/tareas/storage/TareasIO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cs2103aug2014-W09-3j.iml" afterPath="$PROJECT_DIR$/cs2103aug2014-W09-3j.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="main.iws" />
@@ -61,8 +59,8 @@
       <file leaf-file-name="TareasIO.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tareas/storage/TareasIO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.770017" vertical-offset="3313" max-vertical-offset="3900">
-              <caret line="256" column="3" selection-start-line="256" selection-start-column="3" selection-end-line="256" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.89778537" vertical-offset="3313" max-vertical-offset="3975">
+              <caret line="261" column="0" selection-start-line="261" selection-start-column="0" selection-end-line="261" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -680,7 +678,7 @@
       <workItem from="1413202224593" duration="4724000" />
       <workItem from="1413266622233" duration="226000" />
       <workItem from="1413274712874" duration="1067000" />
-      <workItem from="1413276677962" duration="2892000" />
+      <workItem from="1413276677962" duration="2927000" />
     </task>
     <task id="LOCAL-00001" summary="update parser's skeleton">
       <created>1412098757941</created>
@@ -786,11 +784,15 @@
       <created>1413215108785</created>
       <updated>1413215108785</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="create recurringTask function">
+      <created>1413299430543</created>
+      <updated>1413299430543</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11800000" />
+    <option name="totallyTimeSpent" value="11835000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -911,7 +913,8 @@
     <MESSAGE value="create prioritzeTask function" />
     <MESSAGE value="create postponeTask function" />
     <MESSAGE value="create massDelete function" />
-    <option name="LAST_COMMIT_MESSAGE" value="create massDelete function" />
+    <MESSAGE value="create recurringTask function" />
+    <option name="LAST_COMMIT_MESSAGE" value="create recurringTask function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1293,8 +1296,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tareas/storage/TareasIO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.770017" vertical-offset="3313" max-vertical-offset="3900">
-          <caret line="256" column="3" selection-start-line="256" selection-start-column="3" selection-end-line="256" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.89778537" vertical-offset="3313" max-vertical-offset="3975">
+          <caret line="261" column="0" selection-start-line="261" selection-start-column="0" selection-end-line="261" selection-end-column="0" />
           <folding />
         </state>
       </provider>

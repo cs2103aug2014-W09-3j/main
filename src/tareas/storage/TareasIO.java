@@ -254,6 +254,11 @@ public class TareasIO {
         write();
     }
 
+    public void addingTags(int id, String tagDescription){
+        Task task = getTask(id);
+        task.addTag(tagDescription);
+        write();
+    }
 
 
 }
