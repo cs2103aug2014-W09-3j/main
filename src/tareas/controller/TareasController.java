@@ -94,6 +94,15 @@ public class TareasController {
     }
 
     /**
+     * helps to initialise GUI view by giving the GUI the set of all tasks
+     *
+     * @return ArrayList<Task>
+     */
+    public ArrayList<Task> getInitialiseTasks() {
+        return taskManager.get();
+    }
+
+    /**
      * adds a task by calling the appropriate GUI and storage methods
      *
      * @param command from the user input so that the task can be built

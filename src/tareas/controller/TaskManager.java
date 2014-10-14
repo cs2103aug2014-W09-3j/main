@@ -1,5 +1,6 @@
 package tareas.controller;
 
+import tareas.storage.TareasIO;
 import tareas.common.Task;
 import tareas.parser.TareasCommand;
 
@@ -14,9 +15,10 @@ import java.util.ArrayList;
 public class TaskManager {
     private int latestID = 1;
     private ArrayList<Task> allTasks;
+    private TareasIO tareasIo = new TareasIO();
 
     public TaskManager() {
-        this.allTasks = new ArrayList<Task>();
+        this.allTasks = tareasIo.getAllTasks().get();
     }
 
     public void add(Task task) {
