@@ -81,7 +81,7 @@ public class TareasGUIController implements Initializable{
 
     private void initializeNotifications() {
         notificationPane = new NotificationPane(scrollPane);
-        notificationPane.setShowFromTop(true);
+        notificationPane.setShowFromTop(false);
         notificationPane.setMinSize(800, 100);
         root.add(notificationPane, 0, 1);
     }
