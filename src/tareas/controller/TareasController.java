@@ -1,9 +1,9 @@
 package tareas.controller;
 
 import tareas.common.Task;
-import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
 import tareas.storage.TareasIO;
+import tareas.gui.TareasGUIController;
 
 import java.util.ArrayList;
 
@@ -15,40 +15,45 @@ import java.util.ArrayList;
 
 public class TareasController {
 
+    //Instantiate a GUI Controller
+    TareasGUIController guiController = new TareasGUIController();
+
     // Instantiate a TareasIO
     TareasIO tareas = new TareasIO();
 
+    // Instantiate a TaskManager
+    TaskManager taskManager = new TaskManager();
+
     // Keeping an ArrayList of states for both redoing and undoing
-    ArrayList<Tasks> redoHistory = new ArrayList<Tasks>();
-    ArrayList<Tasks> undoHistory = new ArrayList<Tasks>();
+    ArrayList<TaskManager> redoHistory = new ArrayList<>();
+    ArrayList<TaskManager> undoHistory = new ArrayList<>();
 
     /**
      * Takes the user's input from the GUI and does the right stuff to make the program work
      *
      * @param userInput the user's input from TareasGUI
      */
-    public TareasCommand executeCommand(String userInput) {
+    public void executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
         //TareasBehavior behavior = command.getBehavior();
         //behavior.run();
-        // dummy
 
         switch (command.getType()) {
             case ADD_COMMAND:
                 addTask(command);
-                return command;
+                break;
             case EDIT_COMMAND:
                 editTask(command);
-                return command;
+                break;
             case DELETE_COMMAND:
                 deleteTask(command);
-                return command;
+                break;
             case SEARCH_COMMAND:
                 searchTask(command);
-                return command;
+                break;
             case DONE_COMMAND:
                 completeTask(command);
-                return command;
+                break;
             case UNDO_COMMAND:
                 undo();
                 break;
@@ -86,34 +91,15 @@ public class TareasController {
             	//TODO add a feedback to the user giving them a feedback
                 //TODO should we throw a TareasException or the sort?
         }
-        // QUICKFIX
-        return command;
     }
 
     /**
-     * builds a task using the command given by the user after being parsed by the parser
+     * helps to initialise GUI view by giving the GUI the set of all tasks
      *
-     * @param command from the user input so that the task can be built
+     * @return ArrayList<Task>
      */
-    private Task buildTask(TareasCommand command) {
-        Task taskToReturn = new Task();
-        // Can remove in the future once all the different types are supported
-
-        if (command.hasKey("tag")) {
-            //TODO support tagged tasks
-        } else if (command.hasKey("from")) {
-            //TODO support timed tasks
-        } else if (command.hasKey("by")) {
-            //TODO support deadline tasks
-        } else if (command.hasKey("recurring")) {
-            //TODO support recurring tasks
-        } else {
-            String taskDescription = command.getPrimaryArgument();
-
-            taskToReturn = Task.createFloatingTask(taskDescription);
-        }
-
-        return taskToReturn;
+    public ArrayList<Task> getInitialiseTasks() {
+        return taskManager.get();
     }
 
     /**
@@ -122,9 +108,11 @@ public class TareasController {
      * @param command from the user input so that the task can be built
      */
     private void addTask(TareasCommand command) {
-        Task taskToInsert = buildTask(command);
+        Task taskToInsert = taskManager.buildTask(command);
+        taskManager.add(taskToInsert);
 
         tareas.insertTask(taskToInsert);
+        guiController.sendTaskstoView(taskManager.get());
         //TODO sync the state of the undo history
         clearRedoState();
     }
@@ -303,7 +291,7 @@ public class TareasController {
      */
     private void undo() {
         if (isAbleToUndo()) {
-		    Tasks stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
+		    TaskManager stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
 
 		    addToRedoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
@@ -318,7 +306,7 @@ public class TareasController {
      */
     private void redo() {
         if (isAbleToRedo()) {
-		    Tasks stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
+		    TaskManager stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
 
 		    addToUndoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
@@ -359,7 +347,7 @@ public class TareasController {
      *
      * @param state of the Tasks to add into the history
      */
-    private void addToUndoHistory(Tasks state) {
+    private void addToUndoHistory(TaskManager state) {
         undoHistory.add(state);
     }
 
@@ -368,7 +356,7 @@ public class TareasController {
      *
      * @param state of the Tasks to add into the history
      */
-    private void addToRedoHistory(Tasks state) {
+    private void addToRedoHistory(TaskManager state) {
         redoHistory.add(state);
     }
 

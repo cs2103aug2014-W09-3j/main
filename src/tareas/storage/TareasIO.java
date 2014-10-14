@@ -1,7 +1,7 @@
 package tareas.storage;
 
 import tareas.common.Task;
-import tareas.common.Tasks;
+import tareas.controller.TaskManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 public class TareasIO {
 
-	private Tasks allTasks = new Tasks();
+	private TaskManager allTasks = new TaskManager();
 	
 	private void initialize() {
 		StorageReader reader = new StorageReader();
@@ -65,7 +65,7 @@ public class TareasIO {
 	public void insertTask(Task task) {
 		initialize();
         if (allTasks == null) {
-            allTasks = new Tasks();
+            allTasks = new TaskManager();
         }
 		task.setTaskID(allTasks.getNextID());
 		allTasks.add(task);
@@ -182,9 +182,9 @@ public class TareasIO {
 	 * @return allTasks
 	 */
 	// TODO sort the tasks.
-	public Tasks getAllTasks() {
+	public TaskManager getAllTasks() {
 		StorageReader reader = new StorageReader();
-		Tasks allTasks = new Tasks();
+		TaskManager allTasks = new TaskManager();
 		try {
 			allTasks = reader.read();
 		} catch (IOException e) {

@@ -1,5 +1,6 @@
 package tareas.storage;
 
+import tareas.controller.TaskManager;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +20,7 @@ import tareas.common.*;
 
 public class StorageWriter {
 	
-	public void write(Tasks tasks) throws IOException {
+	public void write(TaskManager tasks) throws IOException {
 		Gson gson = new Gson();
 		String json = gson.toJson(tasks);
 		
