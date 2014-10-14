@@ -1,5 +1,8 @@
 package tareas.parser;
 
+import tareas.common.Constants;
+import tareas.common.Log;
+
 import java.util.HashSet;
 
 /**
@@ -9,8 +12,11 @@ import java.util.HashSet;
  */
 
 public class Parser {
+    private static String TAG = "tareas/parser";
 
     public static void main(String[] args) {
+        Constants.LOGGING_ENABLED = false;
+
         String[] tests = {
                 //"buy ham",
                 //"meeting with 2103 group -from 22/09/2014 1200 -to 22/09/2014 2200",
@@ -52,6 +58,8 @@ public class Parser {
                 System.out.println(String.format("%s: %s\n%s\n", result.getStatus(), test, result.getExtra()));
             }
         }
+
+        Constants.LOGGING_ENABLED = true;
     }
 
     /**
@@ -64,14 +72,18 @@ public class Parser {
         CommandType type = command.getType();
 
         if (type == CommandType.UNKNOWN_COMMAND) {
+            Log.i(TAG, "unknown command");
             return new ParsingResult(ParsingStatus.UNKNOWN_COMMAND, command.getPrimaryKey());
         }
 
         if (type.isPrimaryArgumentPresent() && command.getPrimaryArgument().equals("")) {
             // if the primary argument is supposed to be present but missing
+            Log.i(TAG, "missing primary argument");
             return new ParsingResult(ParsingStatus.MISSING_PRIMARY_ARGUMENT);
+
         } else if (!type.isPrimaryArgumentPresent() && !command.getPrimaryArgument().equals("")) {
             // if the primary argument is present but it shouldn't be there
+            Log.i(TAG, "unexpected primary argument");
             return new ParsingResult(ParsingStatus.UNEXPECTED_PRIMARY_ARGUMENT, command.getPrimaryArgument());
         }
 
@@ -84,15 +96,18 @@ public class Parser {
                 }
             }
 
+            Log.i(TAG, "parsed successfully");
             return new ParsingResult(ParsingStatus.SUCCESS);
 
         } else { // if not, check whether the command matches an overloading signature, i.e. the set of keywords matches
             for (HashSet<String> overload : type.getOverloadKeywordList()) {
                 if (overload.equals(command.getSecondaryKeys())) {
+                    Log.i(TAG, "parsed successfully");
                     return new ParsingResult(ParsingStatus.SUCCESS);
                 }
             }
 
+            Log.i(TAG, "signature doesn't matched");
             return new ParsingResult(ParsingStatus.SIGNATURE_NOT_MATCHED);
         }
     }

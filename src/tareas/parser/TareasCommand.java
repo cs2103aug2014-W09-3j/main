@@ -131,6 +131,10 @@ public class TareasCommand {
     public static TareasCommand fromString(String command) {
         command = command.trim();
 
+        assert !command.equals("") : "Command should not be empty";
+
+        if (command.equals("")) return new TareasCommand(CommandType.UNKNOWN_COMMAND);
+
         // if the command doesn't start with the delimiter (i.e. it's a special command),
         // add the primary keyword back to normalize the command.
         if (!command.startsWith(Constants.COMMAND_DELIMITER)) {
