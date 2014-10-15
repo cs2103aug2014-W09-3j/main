@@ -23,12 +23,11 @@ public class Log {
 
             LOGGER.setUseParentHandlers(false);
 
-            ConsoleHandler ch = new ConsoleHandler();
-            ch.setFormatter(new TareasLogFormatter());
-            LOGGER.addHandler(ch);
+            LOGGER.addHandler(new TareasConsoleInfoHandler());
+            LOGGER.addHandler(new TareasConsoleErrorHandler());
 
             try {
-                FileHandler fh = new FileHandler("tareas_log.txt", true);
+                FileHandler fh = new FileHandler("tareas.log", true);
                 LOGGER.addHandler(fh);
             } catch (IOException e) {
                 LOGGER.log(Level.WARNING, "Cannot open log file.");
@@ -62,6 +61,44 @@ public class Log {
                     TareasLogDateFormat.format(new Date(record.getMillis())),
                     record.getLevel(), record.getSourceClassName(), record.getMessage());
 
+        }
+    }
+
+    private static class TareasConsoleInfoHandler extends StreamHandler {
+
+        public TareasConsoleInfoHandler() {
+            super(System.out, new TareasLogFormatter());
+            this.setFilter(record -> record.getLevel() != Level.SEVERE);
+        }
+
+        @Override
+        public void publish(LogRecord record) {
+            super.publish(record);
+            flush();
+        }
+
+        @Override
+        public void close() {
+            flush();
+        }
+    }
+
+    private static class TareasConsoleErrorHandler extends StreamHandler {
+
+        public TareasConsoleErrorHandler() {
+            super(System.err, new TareasLogFormatter());
+            this.setLevel(Level.SEVERE);
+        }
+
+        @Override
+        public void publish(LogRecord record) {
+            super.publish(record);
+            flush();
+        }
+
+        @Override
+        public void close() {
+            flush();
         }
     }
 }

@@ -20,3 +20,5 @@ hs_err_pid*
 
 # For build paths
 .classpath
+
+*.log

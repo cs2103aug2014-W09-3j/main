@@ -58,6 +58,7 @@ public class TareasGUIController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Log.i(TAG, "Initialized!");
+        Log.e(TAG, "sample error");
 
         // Initialization of category
         category.setText("All Tasks");
