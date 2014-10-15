@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="different colors for logs">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="" />
+    <list default="true" id="74e2c569-0e06-4ad1-b0fb-7580833946ff" name="Default" comment="">
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\.name" afterPath="" />
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\copyright\profiles_settings.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\dictionaries\yapjunhao.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\encodings.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\misc.xml" afterPath="" />
@@ -13,7 +13,6 @@
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\uiDesigner.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\Libraries\Programming\Java\Tareas\.idea\workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="main.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -79,8 +78,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8576271" vertical-offset="0" max-vertical-offset="644">
-              <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.58474576" vertical-offset="23" max-vertical-offset="644">
+              <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -782,7 +781,11 @@
       <created>1413340410554</created>
       <updated>1413340410554</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="remove .idea folder and update gitignore">
+      <created>1413385503838</created>
+      <updated>1413385503838</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -822,6 +825,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32681867" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5005429" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286334" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32790446" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32899022" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -836,7 +840,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32899022" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32790446" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -883,7 +886,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="update ADD_COMMAND's signature" />
     <MESSAGE value="update Parser" />
     <MESSAGE value="update TareasCommand.toString" />
     <MESSAGE value="update CommandType" />
@@ -908,7 +910,8 @@
     <MESSAGE value="updated log's format" />
     <MESSAGE value="updated log's file handler" />
     <MESSAGE value="different colors for logs" />
-    <option name="LAST_COMMIT_MESSAGE" value="different colors for logs" />
+    <MESSAGE value="remove .idea folder and update gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove .idea folder and update gitignore" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1284,8 +1287,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8576271" vertical-offset="0" max-vertical-offset="644">
-          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.58474576" vertical-offset="23" max-vertical-offset="644">
+          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
           <folding />
         </state>
       </provider>
