@@ -1,5 +1,6 @@
 package tareas.common;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.*;
@@ -24,8 +25,15 @@ public class Log {
 
             ConsoleHandler ch = new ConsoleHandler();
             ch.setFormatter(new TareasLogFormatter());
-
             LOGGER.addHandler(ch);
+
+            try {
+                FileHandler fh = new FileHandler("tareas_log.txt");
+                LOGGER.addHandler(fh);
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, "Cannot open log file.");
+            }
+
         }
 
         return LOGGER;
