@@ -28,7 +28,7 @@ public class Log {
             LOGGER.addHandler(ch);
 
             try {
-                FileHandler fh = new FileHandler("tareas_log.txt");
+                FileHandler fh = new FileHandler("tareas_log.txt", true);
                 LOGGER.addHandler(fh);
             } catch (IOException e) {
                 LOGGER.log(Level.WARNING, "Cannot open log file.");
