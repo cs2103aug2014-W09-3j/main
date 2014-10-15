@@ -69,10 +69,8 @@ public class TareasGUIController implements Initializable {
         initializeTilePane();
 
         // TODO Add JH new method to get all tasks for initialization
-        ArrayList<Task> taskList = new ArrayList<Task>();
-        taskList.add(new Task());
-        taskList.add(new Task());
-        sendTaskstoView(taskList);
+        TareasController logicController = new TareasController();
+        sendTaskstoView(logicController.getInitialiseTasks());
 
         // Initialize close button
         initializeCloseButton();

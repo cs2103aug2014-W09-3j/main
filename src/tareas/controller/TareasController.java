@@ -99,7 +99,7 @@ public class TareasController {
      * @return ArrayList<Task>
      */
     public ArrayList<Task> getInitialiseTasks() {
-        return taskManager.get();
+        return tareas.getAllTasks().get();
     }
 
     /**
