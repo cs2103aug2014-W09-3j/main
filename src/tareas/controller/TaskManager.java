@@ -17,13 +17,13 @@ public class TaskManager {
     private static TaskManager instance = null;
 
     // Keeping an ArrayList of states for both redoing and undoing
-    private ArrayList<ArrayList<Task>> redoHistory = new ArrayList<ArrayList<Task>>();
+    private ArrayList<ArrayList<Task>> redoHistory = new ArrayList<>();
 
     /**
      * private constructor - singleton
      */
     private TaskManager() {
-        this.allTasks = new ArrayList<ArrayList<Task>>();
+        this.allTasks = new ArrayList<>();
     }
 
     /**

@@ -1,10 +1,10 @@
 package tareas.storage;
 
-import tareas.controller.TaskManager;
 import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -26,28 +26,28 @@ public class StorageJUnitTest {
 	
 	@Test
 	public void testWriteToFile() throws IOException {
-		TaskManager dummyTasks = generateDummyTasks();
+		ArrayList<Task> dummyTasks = generateDummyTasks();
 		StorageWriter writer = new StorageWriter();
 		writer.write(dummyTasks);
 		
 		StorageReader reader = new StorageReader();
-		TaskManager result = reader.read();
-		assertEquals("task one", result.get().get(0).getDescription());
+	    ArrayList<Task> result = reader.read();
+		assertEquals("task one", result.get(0).getDescription());
 	}
 	
 	@Test
 	public void testDeleteTask() throws IOException {
-		TaskManager dummyTasks = generateDummyTasks();
+		ArrayList<Task> dummyTasks = generateDummyTasks();
 		dummyTasks.remove(1);
-		assertEquals(1, dummyTasks.get().size());
+		assertEquals(1, dummyTasks.size());
 	}
 	
-	private TaskManager generateDummyTasks() {
+	private ArrayList<Task> generateDummyTasks() {
 		Task task1 = new Task();
 		task1.setDescription("task one");
 		Task task2 = new Task();
 		task2.setDescription("task two");
-		TaskManager allTasks = new TaskManager();
+		ArrayList<Task> allTasks = new ArrayList<Task>();
 		allTasks.add(task1);
 		allTasks.add(task2);
 		return allTasks;

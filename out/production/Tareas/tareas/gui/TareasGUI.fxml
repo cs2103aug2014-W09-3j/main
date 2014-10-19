@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="root" alignment="BOTTOM_CENTER" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+          minHeight="-Infinity" minWidth="-Infinity" stylesheets="/tareas/gui/css/TareasGUI.css"
+          xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="tareas.gui.TareasGUIController">
+    <children>
+        <TextField fx:id="commandLine" onAction="#onEnter" prefHeight="35.0" prefWidth="800.0" GridPane.rowIndex="2"/>
+        <ScrollPane fx:id="scrollPane" prefHeight="520.0" prefWidth="800.0" GridPane.rowIndex="1">
+            <content>
+                <TilePane fx:id="tilePane" minHeight="530.0" prefWidth="800.0"/>
+            </content>
+        </ScrollPane>
+        <Button fx:id="closeButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" text="X"
+                GridPane.halignment="RIGHT"/>
+        <Label alignment="CENTER" prefHeight="17.0" prefWidth="81.0" text="Tareas" textAlignment="CENTER"
+               textFill="WHITE">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="category" text="Category" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER">
+            <font>
+                <Font name="System Italic" size="20.0"/>
+            </font>
+        </Label>
+    </children>
+    <columnConstraints>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+</GridPane>

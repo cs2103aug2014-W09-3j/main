@@ -95,7 +95,7 @@ public class TareasController {
      * @return ArrayList<Task>
      */
     public ArrayList<Task> getInitialiseTasks() {
-        return tareas.getAllTasks().get();
+        return tareas.getAllTasks();
     }
 
     /**

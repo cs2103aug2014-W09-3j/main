@@ -1,0 +1,51 @@
+.root {
+    -fx-background-color: rgba(118, 120, 115, 0.85);
+}
+
+#listView {
+    -fx-opacity: 0.8;
+}
+
+#commandLine {
+    -fx-background-color: rgba(118, 120, 115, 0.30);
+    -fx-font-size: 20;
+    -fx-background-radius: 0;
+    -fx-text-fill: #FFFFFF;
+}
+
+#closeButton {
+    -fx-background-color: rgba(118, 120, 115, 0.50);
+    -fx-background-radius: 0;
+    -fx-text-fill: #FFFFFF;
+}
+
+#closeButton:hover {
+    -fx-background-color: rgba(132, 0, 17, 1);
+}
+
+#scrollPane .scroll-bar:vertical .track-background{
+    -fx-background-color: rgba(203, 198, 203, 0.35);
+}
+
+#scrollPane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .track{
+    -fx-opacity: 0;
+}
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+    -fx-opacity: 0;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,60%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}

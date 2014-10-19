@@ -15,12 +15,12 @@ import java.util.Iterator;
 
 public class TareasIO {
 
-	private TaskManager allTasks = TaskManager.getInstance();
+	private TaskManager taskManager = TaskManager.getInstance();
 	
 	private void initialize() {
 		StorageReader reader = new StorageReader();
 		try {
-			this.allTasks = reader.read();
+			this.taskManager.set(reader.read());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -29,7 +29,7 @@ public class TareasIO {
 	private void write() {
 		StorageWriter writer = new StorageWriter();
 		try {
-			writer.write(allTasks);
+			writer.write(taskManager.get());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +46,7 @@ public class TareasIO {
 	}
 
     private Task getTask(int id) {
-        Iterator<Task> iter = allTasks.get().iterator();
+        Iterator<Task> iter = taskManager.get().iterator();
         Task searchTask = new Task();
         while(iter.hasNext()) {
             Task task = iter.next();
@@ -64,8 +64,8 @@ public class TareasIO {
 	 */
 	public void insertTask(Task task) {
 		initialize();
-		task.setTaskID(allTasks.getNextID());
-		allTasks.add(task);
+		task.setTaskID(taskManager.getNextID());
+		taskManager.add(task);
 		write();
 	}
 
@@ -75,13 +75,13 @@ public class TareasIO {
 	 */
 	public void deleteTask(int id) {
 		initialize();
-		if(id < 1 || id > allTasks.get().size()) {
+		if(id < 1 || id > taskManager.get().size()) {
 			// TODO: Add exception for Invalid ID.
 			System.out.println("Inavlid Task ID.");
 		} else {
-			ArrayList<Task> temp = allTasks.get();
+			ArrayList<Task> temp = taskManager.get();
 			removeTaskFromArray(id, temp);
-			allTasks.set(temp);
+			taskManager.set(temp);
 			write();
 		}
 	}
@@ -94,7 +94,7 @@ public class TareasIO {
         initialize();
         int id = newTask.getTaskID();
 
-        Iterator<Task> iter = allTasks.get().iterator();
+        Iterator<Task> iter = taskManager.get().iterator();
         while(iter.hasNext()) {
             Task task = iter.next();
             if(task.getTaskID() == id) {
@@ -179,15 +179,15 @@ public class TareasIO {
 	 * @return allTasks
 	 */
 	// TODO sort the tasks.
-	public TaskManager getAllTasks() {
+	public ArrayList<Task> getAllTasks() {
 		StorageReader reader = new StorageReader();
 		try {
-			allTasks = reader.read();
+			taskManager.set(reader.read());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return allTasks;
+		return taskManager.get();
 	}
 
 }
