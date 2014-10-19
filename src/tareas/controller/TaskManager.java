@@ -16,6 +16,9 @@ public class TaskManager {
     private ArrayList<ArrayList<Task>> allTasks;
     private static TaskManager instance = null;
 
+    // Keeping an ArrayList of states for both redoing and undoing
+    ArrayList<ArrayList<Task>> redoHistory = new ArrayList<ArrayList<Task>>();
+
     /**
      * private constructor - singleton
      */
@@ -99,7 +102,7 @@ public class TaskManager {
      * @param command
      * @return Task
      */
-    private Task buildTask(TareasCommand command) {
+    public static Task buildTask(TareasCommand command) {
         Task taskToReturn = new Task();
         // Can remove in the future once all the different types are supported
 

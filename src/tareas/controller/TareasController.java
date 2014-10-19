@@ -22,11 +22,7 @@ public class TareasController {
     TareasIO tareas = new TareasIO();
 
     // Instantiate a TaskManager
-    TaskManager taskManager = new TaskManager();
-
-    // Keeping an ArrayList of states for both redoing and undoing
-    ArrayList<TaskManager> redoHistory = new ArrayList<>();
-    ArrayList<TaskManager> undoHistory = new ArrayList<>();
+    TaskManager taskManager = TaskManager.getInstance();
 
     /**
      * Takes the user's input from the GUI and does the right stuff to make the program work
@@ -88,7 +84,7 @@ public class TareasController {
                 colorizeTask(command);
                 break;
             default:
-            	//TODO add a feedback to the user giving them a feedback
+            	guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
                 //TODO should we throw a TareasException or the sort?
         }
     }
