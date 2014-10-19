@@ -2,7 +2,7 @@ package tareas.storage;
 
 import tareas.common.Task;
 import tareas.common.Tasks;
-import tareas.controller.TaskManager;
+import tareas.controller.NewTaskManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Iterator;
 
 public class TareasIO {
 
-	private TaskManager taskManager = TaskManager.getInstance();
+	private NewTaskManager taskManager = NewTaskManager.getInstance();
     private Tasks tasks = new Tasks();
 	
 	private void initialize() {
@@ -72,7 +72,7 @@ public class TareasIO {
         newTasks = tasks.get();
         newTasks.add(task);
         tasks.set(newTasks);
-	    taskManager.add(task);
+	    //taskManager.add(task);
 		write();
 	}
 

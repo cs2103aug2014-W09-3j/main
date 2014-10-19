@@ -16,13 +16,13 @@ import java.util.ArrayList;
 public class TareasController {
 
     //Instantiate a GUI Controller
-    TareasGUIController guiController = new TareasGUIController();
+    TareasGUIController guiController = TareasGUIController.getInstance();
 
     // Instantiate a TareasIO
     TareasIO tareas = new TareasIO();
 
     // Instantiate a TaskManager
-    TaskManager taskManager = TaskManager.getInstance();
+    NewTaskManager taskManager = NewTaskManager.getInstance();
 
     /**
      * Takes the user's input from the GUI and does the right stuff to make the program work
@@ -282,7 +282,7 @@ public class TareasController {
         if (isAbleToUndo()) {
 		    ArrayList<Task> stateToRevertTo = taskManager.getUndoState();
 
-		    addToRedoHistory(stateToRevertTo);
+		    //addToRedoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
             guiController.sendTaskstoView(stateToRevertTo);
 		} else {
@@ -310,11 +310,7 @@ public class TareasController {
      * @return whether there is anything to redo
      */
     private boolean isAbleToRedo() {
-        if (taskManager.getRedoHistory().isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return taskManager.isAbleToRedo();
     }
 
     /**
@@ -335,15 +331,15 @@ public class TareasController {
      *
      * @param state of the Tasks to add into the history
      */
-    private void addToRedoHistory(ArrayList<Task> state) {
+    /*private void addToRedoHistory(ArrayList<Task> state) {
         taskManager.getRedoHistory().add(state);
-    }
+    }*/
 
     /**
      * clears the redo history after any other action other than undo
      */
     private void clearRedoState() {
-        taskManager.getRedoHistory().clear();
+        taskManager.clearRedoState();
     }
 
 }

@@ -171,8 +171,9 @@ public class TareasGUIController implements Initializable {
     }
 
     private void updateView() {
-        tilePane.getChildren().removeAll();
-        for (Task task : tasks) {
+        //tilePane.getChildren().removeAll();
+        tilePane.getChildren().clear();
+        for (Task task : this.tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             tilePane.getChildren().add(generator.generateTaskPane());
         }
