@@ -9,4 +9,8 @@ import java.util.ArrayList;
  */
 public class Tasks {
     private ArrayList<Task> allTasks;
+
+    public  Tasks() {
+        allTasks = new ArrayList<Task>();
+    }
 }

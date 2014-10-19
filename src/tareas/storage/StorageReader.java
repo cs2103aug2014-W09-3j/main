@@ -23,7 +23,8 @@ import com.google.gson.Gson;
 public class StorageReader {
 
     private ArrayList<Task> allTasks;
-	
+    private Tasks tasks = new Tasks();
+
 	public ArrayList<Task> read() throws IOException {
 		File file = new File("storage.json");
 		if(file.exists()) {
