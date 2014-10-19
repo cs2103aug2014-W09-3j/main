@@ -150,15 +150,12 @@ public class TareasGUIController implements Initializable {
         // Notifications (Code for notifications with picture)
         Image logo;
 
-        switch (status) {
-            case "error":
-                logo = new Image("error.png");
-                break;
-            case "warning":
-                logo = new Image("warning.png");
-                break;
-            default:
-                logo = new Image("tick.png");
+        if (status.equals("error")) {
+            logo = new Image("error.png");
+        } else if (status.equals("warning")) {
+            logo = new Image("warning.png");
+        } else {
+            logo = new Image("tick.png");
         }
 
         ImageView notificationLogo = new ImageView(logo);
