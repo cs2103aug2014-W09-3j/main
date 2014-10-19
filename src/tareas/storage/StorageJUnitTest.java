@@ -2,6 +2,7 @@ package tareas.storage;
 
 import org.junit.Test;
 import tareas.common.Task;
+import tareas.common.Tasks;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +31,8 @@ public class StorageJUnitTest {
 		//writer.write(dummyTasks);
 		
 		StorageReader reader = new StorageReader();
-	    ArrayList<Task> result = reader.read();
-		assertEquals("task one", result.get(0).getDescription());
+	    Tasks result = reader.read();
+		assertEquals("task one", result.get().get(0).getDescription());
 	}
 	
 	@Test

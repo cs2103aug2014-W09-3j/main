@@ -23,7 +23,7 @@ public class TareasIO {
 		StorageReader reader = new StorageReader();
 		try {
 			//this.taskManager.set(reader.read());
-            tasks.set(reader.read());
+            tasks = reader.read();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,8 +67,9 @@ public class TareasIO {
 	 */
 	public void insertTask(Task task) {
 		initialize();
-		task.setTaskID(999);
-        ArrayList<Task> newTasks = new ArrayList<Task>();
+		task.setTaskID(tasks.getLatestID());
+        tasks.incrementID();
+        ArrayList<Task> newTasks;
         newTasks = tasks.get();
         newTasks.add(task);
         tasks.set(newTasks);
@@ -197,7 +198,7 @@ public class TareasIO {
 		}
 		return taskManager.get();*/
         try {
-            tasks = reader.read();
+            tasks = reader.read().get();
         } catch (IOException e) {
             e.printStackTrace();
         }

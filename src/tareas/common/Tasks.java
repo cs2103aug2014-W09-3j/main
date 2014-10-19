@@ -27,4 +27,8 @@ public class Tasks {
     public int getLatestID() {
         return this.latestID;
     }
+
+    public void incrementID() {
+        latestID++;
+    }
 }
