@@ -109,6 +109,7 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert);
         guiController.sendTaskstoView(taskManager.get());
+        guiController.sendSuccessToView("Successfully added a task!");
         clearRedoState();
     }
 
@@ -128,6 +129,7 @@ public class TareasController {
         taskToInsert.setTaskID(taskId);
 
         tareas.editTask(taskToInsert);
+        guiController.sendSuccessToView("Successfully edited a task!");
         clearRedoState();
     }
 
@@ -150,7 +152,7 @@ public class TareasController {
      */
     private void searchTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
-        
+
         tareas.searchTask(taskId);
     }
 
@@ -163,6 +165,7 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         tareas.markTaskAsCompleted(taskId);
+        guiController.sendSuccessToView("Successfully completed Task " + taskId);
         clearRedoState();
     }
 
