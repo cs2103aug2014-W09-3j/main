@@ -109,7 +109,6 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert);
         guiController.sendTaskstoView(taskManager.get());
-        //TODO sync the state of the undo history
         clearRedoState();
     }
 
@@ -129,7 +128,6 @@ public class TareasController {
         taskToInsert.setTaskID(taskId);
 
         tareas.editTask(taskToInsert);
-        //TODO sync the state of the undo history
         clearRedoState();
     }
 
@@ -142,7 +140,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         tareas.deleteTask(taskId);
-        //TODO sync the state of the undo history
         clearRedoState();
     }
 
@@ -166,7 +163,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         tareas.markTaskAsCompleted(taskId);
-        //TODO sync the state of the undo history
         clearRedoState();
     }
 
@@ -179,7 +175,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO postpone the task to the Storage
-        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has been postponed
         clearRedoState();
     }
@@ -205,7 +200,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has been prioritized
-        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has been prioritized
         clearRedoState();
     }
@@ -219,7 +213,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has been categorized
-        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has been categorized
         clearRedoState();
     }
@@ -233,7 +226,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         
         //TODO tell the storage that a task has a reminder set
-        //TODO sync the state of the undo history
         //TODO tell the GUI that a task has a reminder set
         clearRedoState();
     }
@@ -253,7 +245,6 @@ public class TareasController {
         //TODO grab the time start and end to be passed to TareasIO
     	
         //TODO tell the storage to mute everything from time to time
-        //TODO sync the state of the undo history
         //TODO feedback to the GUI that the muting has been done
     }
 
@@ -277,7 +268,6 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
     	
         //TODO tell the storage to change the color of the task
-        //TODO sync the state of the undo history
         //TODO feedback to the GUI that the color has been changed
         clearRedoState();
     }
@@ -353,14 +343,14 @@ public class TareasController {
      * @param state of the Tasks to add into the history
      */
     private void addToRedoHistory(TaskManager state) {
-        redoHistory.add(state);
+        taskManager.getRedoHistory().add(state);
     }
 
     /**
      * clears the redo history after any other action other than undo
      */
     private void clearRedoState() {
-        redoHistory.clear();
+        taskManager.getRedoHistory().clear();
     }
 
 }

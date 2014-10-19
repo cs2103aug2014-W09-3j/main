@@ -17,7 +17,7 @@ public class TaskManager {
     private static TaskManager instance = null;
 
     // Keeping an ArrayList of states for both redoing and undoing
-    ArrayList<ArrayList<Task>> redoHistory = new ArrayList<ArrayList<Task>>();
+    private ArrayList<ArrayList<Task>> redoHistory = new ArrayList<ArrayList<Task>>();
 
     /**
      * private constructor - singleton
@@ -94,6 +94,13 @@ public class TaskManager {
         int nextID = this.latestID;
         this.latestID++;
         return nextID;
+    }
+
+    /**
+     * gets the latest redo history from the task manager
+     */
+    public ArrayList<ArrayList<Task>> getRedoHistory() {
+        return this.redoHistory;
     }
 
     /**
