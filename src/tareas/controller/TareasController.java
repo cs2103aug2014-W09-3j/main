@@ -108,7 +108,7 @@ public class TareasController {
         taskManager.add(taskToInsert);
 
         tareas.insertTask(taskToInsert);
-        guiController.sendTaskstoView(taskManager.get());
+        guiController.sendTaskstoView(tareas.getAllTasks());
         guiController.sendSuccessToView("Successfully added a task!");
         clearRedoState();
     }

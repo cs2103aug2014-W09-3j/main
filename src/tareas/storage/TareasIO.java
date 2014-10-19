@@ -1,6 +1,7 @@
 package tareas.storage;
 
 import tareas.common.Task;
+import tareas.common.Tasks;
 import tareas.controller.TaskManager;
 
 import java.io.IOException;
@@ -16,11 +17,13 @@ import java.util.Iterator;
 public class TareasIO {
 
 	private TaskManager taskManager = TaskManager.getInstance();
+    private Tasks tasks = new Tasks();
 	
 	private void initialize() {
 		StorageReader reader = new StorageReader();
 		try {
-			this.taskManager.set(reader.read());
+			//this.taskManager.set(reader.read());
+            tasks.set(reader.read());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -29,7 +32,7 @@ public class TareasIO {
 	private void write() {
 		StorageWriter writer = new StorageWriter();
 		try {
-			writer.write(taskManager.get());
+			writer.write(tasks);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -64,8 +67,12 @@ public class TareasIO {
 	 */
 	public void insertTask(Task task) {
 		initialize();
-		task.setTaskID(taskManager.getNextID());
-		taskManager.add(task);
+		task.setTaskID(999);
+        ArrayList<Task> newTasks = new ArrayList<Task>();
+        newTasks = tasks.get();
+        newTasks.add(task);
+        tasks.set(newTasks);
+	    taskManager.add(task);
 		write();
 	}
 
@@ -181,13 +188,21 @@ public class TareasIO {
 	// TODO sort the tasks.
 	public ArrayList<Task> getAllTasks() {
 		StorageReader reader = new StorageReader();
-		try {
+        ArrayList<Task> tasks = new ArrayList<Task>();
+		/*try {
 			taskManager.set(reader.read());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return taskManager.get();
+		return taskManager.get();*/
+        try {
+            tasks = reader.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tasks;
 	}
 
 }

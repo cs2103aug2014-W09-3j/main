@@ -1,13 +1,11 @@
 package tareas.storage;
 
+import com.google.gson.Gson;
+import tareas.common.Tasks;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import com.google.gson.Gson;
-
-import tareas.common.*;
 
 /**
  * @author Her Lung
@@ -20,7 +18,7 @@ import tareas.common.*;
 
 public class StorageWriter {
 	
-	public void write(ArrayList<Task> tasks) throws IOException {
+	public void write(Tasks tasks) throws IOException {
 		Gson gson = new Gson();
 		String json = gson.toJson(tasks);
 		

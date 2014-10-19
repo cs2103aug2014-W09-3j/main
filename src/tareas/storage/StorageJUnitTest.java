@@ -1,14 +1,13 @@
 package tareas.storage;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import tareas.common.Task;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.Test;
-
-import tareas.common.*;
+import static org.junit.Assert.assertEquals;
 
 public class StorageJUnitTest {
 	
@@ -28,7 +27,7 @@ public class StorageJUnitTest {
 	public void testWriteToFile() throws IOException {
 		ArrayList<Task> dummyTasks = generateDummyTasks();
 		StorageWriter writer = new StorageWriter();
-		writer.write(dummyTasks);
+		//writer.write(dummyTasks);
 		
 		StorageReader reader = new StorageReader();
 	    ArrayList<Task> result = reader.read();
