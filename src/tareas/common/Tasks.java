@@ -13,4 +13,8 @@ public class Tasks {
     public  Tasks() {
         allTasks = new ArrayList<Task>();
     }
+
+    public ArrayList<Task> get() {
+        return this.allTasks;
+    }
 }

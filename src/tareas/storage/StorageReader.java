@@ -49,7 +49,8 @@ public class StorageReader {
 		BufferedReader br = new BufferedReader(fr);
 		String json = br.readLine();
 		br.close();
-		this.allTasks = gson.fromJson(json, Tasks.class);
+		tasks = gson.fromJson(json, Tasks.class);
+        this.allTasks = tasks.get();
 		return this.allTasks;
 	}
 }

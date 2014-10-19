@@ -40,7 +40,7 @@ public class TaskManager {
      * gets the latest ArrayList of Task in the TaskManager
      */
     public ArrayList<Task> get() {
-        int latestId = this.allTasks.size();
+        int latestId = this.allTasks.size() - 1;
         return this.allTasks.get(latestId);
     }
 
