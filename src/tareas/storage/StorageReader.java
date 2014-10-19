@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 
 public class StorageReader {
 	
-	private TaskManager allTasks = new TaskManager();
+	private TaskManager allTasks = TaskManager.getInstance();
 	
 	public TaskManager read() throws IOException {
 		File file = new File("storage.json");

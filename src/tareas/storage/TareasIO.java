@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 public class TareasIO {
 
-	private TaskManager allTasks = new TaskManager();
+	private TaskManager allTasks = TaskManager.getInstance();
 	
 	private void initialize() {
 		StorageReader reader = new StorageReader();
@@ -64,9 +64,6 @@ public class TareasIO {
 	 */
 	public void insertTask(Task task) {
 		initialize();
-        if (allTasks == null) {
-            allTasks = new TaskManager();
-        }
 		task.setTaskID(allTasks.getNextID());
 		allTasks.add(task);
 		write();
@@ -184,7 +181,6 @@ public class TareasIO {
 	// TODO sort the tasks.
 	public TaskManager getAllTasks() {
 		StorageReader reader = new StorageReader();
-		TaskManager allTasks = new TaskManager();
 		try {
 			allTasks = reader.read();
 		} catch (IOException e) {

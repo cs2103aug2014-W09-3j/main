@@ -85,7 +85,7 @@ public class TareasController {
                 break;
             default:
             	guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                //TODO should we throw a TareasException or the sort?
+                //TODO throw a TareasException
         }
     }
 
