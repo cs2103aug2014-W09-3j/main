@@ -19,6 +19,7 @@ import tareas.controller.TareasController;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class TareasGUIController implements Initializable {
@@ -166,12 +167,12 @@ public class TareasGUIController implements Initializable {
     }
 
     public void sendTaskstoView(ArrayList<Task> tasks) {
+        Collections.reverse(tasks);
         this.tasks = tasks;
         updateView();
     }
 
     private void updateView() {
-        //tilePane.getChildren().removeAll();
         tilePane.getChildren().clear();
         for (Task task : this.tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
