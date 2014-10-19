@@ -105,9 +105,7 @@ public class TaskManager {
      * sets the latestTaskList of the TaskManager into the one given
      */
     public void set(ArrayList<Task> tasks) {
-        int latestId = this.allTasks.size();
-
-        this.allTasks.set(latestId, tasks);
+        this.allTasks.add(tasks);
     }
 
     /**
