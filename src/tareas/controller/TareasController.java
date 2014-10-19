@@ -277,13 +277,13 @@ public class TareasController {
      */
     private void undo() {
         if (isAbleToUndo()) {
-		    TaskManager stateToRevertTo = undoHistory.remove(undoHistory.size() - 1);
+		    ArrayList<Task> stateToRevertTo = taskManager.getUndoState();
 
 		    addToRedoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
-		    //TODO send the state to revert to to the GUI
+            guiController.sendTaskstoView(stateToRevertTo);
 		} else {
-			//TODO feedback to the user that there is nothing to undo
+            guiController.sendWarningToView("Nothing to undo");
 		}
     }
 
@@ -292,13 +292,12 @@ public class TareasController {
      */
     private void redo() {
         if (isAbleToRedo()) {
-		    TaskManager stateToRevertTo = redoHistory.remove(redoHistory.size() - 1);
+		    ArrayList<Task> stateToRevertTo = taskManager.getRedoState();
 
-		    addToUndoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
-		    //TODO send the state to revert to to the GUI
+            guiController.sendTaskstoView(stateToRevertTo);
 		} else {
-			//TODO feedback to the user that there is nothing to undo
+            guiController.sendWarningToView("Nothing to redo");
 		}
     }
 
@@ -308,7 +307,7 @@ public class TareasController {
      * @return whether there is anything to redo
      */
     private boolean isAbleToRedo() {
-        if (redoHistory.isEmpty()) {
+        if (taskManager.getRedoHistory().isEmpty()) {
             return false;
         } else {
             return true;
@@ -321,7 +320,7 @@ public class TareasController {
      * @return whether there is anything to undo
      */
     private boolean isAbleToUndo() {
-        if (undoHistory.isEmpty()) {
+        if (taskManager.getSize() > 1) {
             return false;
         } else {
             return true;
@@ -333,16 +332,7 @@ public class TareasController {
      *
      * @param state of the Tasks to add into the history
      */
-    private void addToUndoHistory(TaskManager state) {
-        undoHistory.add(state);
-    }
-
-    /**
-     * checks if there is any undo history to undo
-     *
-     * @param state of the Tasks to add into the history
-     */
-    private void addToRedoHistory(TaskManager state) {
+    private void addToRedoHistory(ArrayList<Task> state) {
         taskManager.getRedoHistory().add(state);
     }
 

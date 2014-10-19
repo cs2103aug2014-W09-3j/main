@@ -45,6 +45,29 @@ public class TaskManager {
     }
 
     /**
+     * gets the latest state to undo to in the TaskManager
+     */
+    public ArrayList<Task> getUndoState() {
+        int undoHistoryId = this.allTasks.size() - 1;
+        return this.allTasks.get(undoHistoryId);
+    }
+
+    /**
+     * gets the latest state to redo to in the TaskManager
+     */
+    public ArrayList<Task> getRedoState() {
+        int redoHistoryId = this.redoHistory.size() - 1;
+        return this.allTasks.get(redoHistoryId);
+    }
+
+    /**
+     * gets the size of the states inside the TaskManager
+     */
+    public int getSize() {
+        return this.allTasks.size();
+    }
+
+    /**
      * adds a task into the TaskManager by adding a new ArrayList of Task to allTasks
      */
     public void add(Task task) {
