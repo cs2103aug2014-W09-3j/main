@@ -127,8 +127,6 @@ public class TareasGUIController implements Initializable {
 
         TareasController mainController = new TareasController();
         mainController.executeCommand(input);
-
-        sendNotificationToView("Test", "warning");
     }
 
     public void changeCategoryName(String newCategory) {

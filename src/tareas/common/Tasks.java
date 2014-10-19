@@ -16,6 +16,10 @@ public class Tasks {
         latestID = 0;
     }
 
+    public Tasks(Tasks another) {
+        this.allTasks = (ArrayList<Task>) another.allTasks.clone();
+    }
+
     public ArrayList<Task> get() {
         return this.allTasks;
     }

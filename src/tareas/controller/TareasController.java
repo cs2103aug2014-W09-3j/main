@@ -24,6 +24,10 @@ public class TareasController {
     // Instantiate a TaskManager
     NewTaskManager taskManager = NewTaskManager.getInstance();
 
+    public TareasController() {
+        taskManager.set(tareas.getAllTasks());
+    }
+
     /**
      * Takes the user's input from the GUI and does the right stuff to make the program work
      *
@@ -280,10 +284,12 @@ public class TareasController {
      */
     private void undo() {
         if (isAbleToUndo()) {
-		    ArrayList<Task> stateToRevertTo = taskManager.getUndoState();
+            System.out.println(taskManager.get().size());
+            ArrayList<Task> stateToRevertTo = taskManager.getUndoState();
 
 		    //addToRedoHistory(stateToRevertTo);
 		    //TODO send the state to revert to to the Storage
+            System.out.println(stateToRevertTo.size());
             guiController.sendTaskstoView(stateToRevertTo);
 		} else {
             guiController.sendWarningToView("Nothing to undo");
@@ -319,11 +325,7 @@ public class TareasController {
      * @return whether there is anything to undo
      */
     private boolean isAbleToUndo() {
-        if (taskManager.getSize() > 1) {
-            return false;
-        } else {
-            return true;
-        }
+        return taskManager.isAbleToUndo();
     }
 
     /**

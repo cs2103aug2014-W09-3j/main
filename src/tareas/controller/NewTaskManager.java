@@ -46,11 +46,13 @@ public class NewTaskManager {
     }
 
     public void add(Task task) {
-        historyStack.push(latestTasks);
-        ArrayList<Task> newList;
+        Tasks oldTasks = new Tasks(latestTasks);
+        historyStack.push(oldTasks);
+        ArrayList<Task> newList = new ArrayList<Task>();
         newList = latestTasks.get();
         newList.add(task);
-        latestTasks.set(newList);
+        System.out.println(oldTasks.get().size());
+        System.out.println(latestTasks.get().size());
     }
 
     public void remove(int id) {
@@ -73,6 +75,14 @@ public class NewTaskManager {
 
     public boolean isAbleToRedo() {
         if(redoStack.empty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isAbleToUndo() {
+        if(historyStack.empty()) {
             return false;
         } else {
             return true;
