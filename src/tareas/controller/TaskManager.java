@@ -155,7 +155,10 @@ public class TaskManager {
         // Can remove in the future once all the different types are supported
 
         if (command.hasKey("tag")) {
-            //TODO support tagged tasks
+            String taskDescription = command.getPrimaryArgument();
+            String taskTag = command.getArgument("tag");
+
+            taskToReturn = Task.createTaggedTask(taskDescription, taskTag);
         } else if (command.hasKey("from")) {
             //TODO support timed tasks
         } else if (command.hasKey("by")) {

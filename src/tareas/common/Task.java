@@ -187,6 +187,19 @@ public class Task {
     }
 
     /**
+     * This method creates a tagged floating task
+     *
+     * @param description
+     * @return Task
+     */
+    public static Task createTaggedTask(String description, String tag) {
+        Task floatingTaskWithTag = new Task();
+        floatingTaskWithTag.setDescription(description);
+        floatingTaskWithTag.addTag(tag);
+        return floatingTaskWithTag;
+    }
+
+    /**
      * This method creates a deadline task.
      *
      * @param description
