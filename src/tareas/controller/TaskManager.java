@@ -42,6 +42,8 @@ public class TaskManager {
 
     /**
      * gets the latest ArrayList of Task in the TaskManager
+     *
+     * @return an arraylist of task of the latest tasks
      */
     public ArrayList<Task> get(){
         return latestTasks.get();
@@ -49,6 +51,8 @@ public class TaskManager {
 
     /**
      * gets the latest state to undo to in the TaskManager
+     *
+     * @return an arraylist of task of the udno state
      */
     public ArrayList<Task> getUndoState() {
         redoStack.push(latestTasks);
@@ -58,6 +62,8 @@ public class TaskManager {
 
     /**
      * gets the latest state to redo to in the TaskManager
+     *
+     * @return an arraylist of task of the redo state
      */
     public ArrayList<Task> getRedoState() {
         historyStack.push(latestTasks);
@@ -76,6 +82,8 @@ public class TaskManager {
 
     /**
      * sets the latestTasks of the TaskManager into the one given
+     *
+     * @param tasks
      */
     public void set(ArrayList<Task> tasks) {
         latestTasks.set(tasks);
@@ -84,6 +92,8 @@ public class TaskManager {
 
     /**
      * sets the latestTasks of the TaskManager into the one given
+     *
+     * @param tasks
      */
     public void tasksChanged(ArrayList<Task> tasks) {
         historyStack.push(latestTasks);

@@ -34,7 +34,7 @@ public class TareasController {
     /**
      * Takes the user's input from the GUI and does the right stuff to make the program work
      *
-     * @param userInput the user's input from TareasGUI
+     * @param userInput
      */
     public void executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
@@ -100,7 +100,7 @@ public class TareasController {
     /**
      * helps to initialise GUI view by giving the GUI the set of all tasks
      *
-     * @return ArrayList<Task>
+     * @return an arraylist of Task
      */
     public ArrayList<Task> getInitialiseTasks() {
         return tareas.getAllUndoneTasks();
@@ -109,7 +109,7 @@ public class TareasController {
     /**
      * adds a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be built
+     * @param command
      */
     private void addTask(TareasCommand command) {
         Task taskToInsert = taskManager.buildTask(command);
@@ -125,7 +125,7 @@ public class TareasController {
     /**
      * edits a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be edited
+     * @param command
      */
     private void editTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -148,7 +148,7 @@ public class TareasController {
     /**
      * deletes a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be deleted
+     * @param command
      */
     private void deleteTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -164,7 +164,7 @@ public class TareasController {
     /**
      * searches a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be searched
+     * @param command
      */
     private void searchTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -175,7 +175,7 @@ public class TareasController {
     /**
      * completes a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task to be marked as done can be identified
+     * @param command
      */
     private void completeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -191,7 +191,7 @@ public class TareasController {
     /**
      * postpones a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task to be postponed can be identified
+     * @param command
      */
     private void postponeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -207,7 +207,7 @@ public class TareasController {
     /**
      * completes a view request by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the right view to show can be identified
+     * @param command
      */
     private void viewRequest(TareasCommand command) {
         // TODO grab the view type so that can call the right stuff from storage and GUI
@@ -220,7 +220,7 @@ public class TareasController {
     /**
      * prioritize a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task to be prioritized can be identified
+     * @param command
      */
     private void prioritizeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -236,7 +236,7 @@ public class TareasController {
     /**
      * categorize a task by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be built
+     * @param command
      */
     private void categorizeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -252,7 +252,7 @@ public class TareasController {
     /**
      * set a task reminder by calling the appropriate GUI and storage methods
      *
-     * @param command from the user input so that the task can be identified
+     * @param command
      */
     private void setTaskReminder(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
@@ -286,7 +286,7 @@ public class TareasController {
     /**
      * changes Tareas font settings by calling the appropriate GUI method
      *
-     * @param command from the user input so that the font to be changed to can be identified
+     * @param command
      */
     private void changeFont(TareasCommand command) {
         // TODO grab the font arguments to be passed to the GUI
@@ -298,7 +298,7 @@ public class TareasController {
     /**
      * colorize a task by calling the appropriate GUI and storage method
      *
-     * @param command from the user input so that the right task can be colored
+     * @param command
      */
     private void colorizeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
