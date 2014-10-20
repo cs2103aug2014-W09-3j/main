@@ -2,10 +2,13 @@ package tareas.controller;
 
 import tareas.common.Task;
 import tareas.common.Tasks;
+import tareas.common.Exceptions;
+import tareas.common.Log;
 import tareas.parser.TareasCommand;
 import tareas.parser.Parser;
 import tareas.storage.TareasIO;
 import tareas.gui.TareasGUIController;
+// TODO import java's Date util
 
 import java.util.ArrayList;
 
@@ -16,8 +19,10 @@ import java.util.ArrayList;
  */
 
 public class TareasController {
+    // Constant for Logging
+    private static String TAG = "tareas/tareasController";
 
-    //Instantiate a GUI Controller
+    // Instantiate a GUI Controller
     TareasGUIController guiController = TareasGUIController.getInstance();
 
     // Instantiate a TareasIO
@@ -40,6 +45,9 @@ public class TareasController {
      * @param userInput from GUI
      */
     public void executeCommand(String userInput) {
+        // asserting to make sure that the user's input is not an empty string
+        // assert(userInput != "");
+
         TareasCommand command = TareasCommand.fromString(userInput);
 
         // asserting to make sure that the command is really a TareasCommand
@@ -144,6 +152,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully added");
+        Log.i(TAG, "User has performed a task adding action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -171,6 +181,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully edited");
+        Log.i(TAG, "User has performed a task editing action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -191,6 +203,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully deleted");
+        Log.i(TAG, "User has performed a task deletion action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -203,6 +217,8 @@ public class TareasController {
 
         tareas.searchTask(taskId);
         // TODO Add in feedback to user on the GUI side of things
+        // TODO Add in Logging
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -225,6 +241,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully completed Task " + taskId);
+        Log.i(TAG, "User has performed a task completion action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -245,6 +263,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully postponed");
+        Log.i(TAG, "User has performed a task postponing action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -258,6 +278,8 @@ public class TareasController {
         // TODO ask from the storage all the stuff needed for the view
         // TODO call the GUI method to display the view request
         guiController.sendSuccessToView("View has successfully been changed");
+        Log.i(TAG, "User has performed a view change action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -278,6 +300,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully prioritized");
+        Log.i(TAG, "User has performed a task prioritizing action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -298,6 +322,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully categorized");
+        Log.i(TAG, "User has performed a task categorization action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -318,6 +344,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Reminder Set");
+        Log.i(TAG, "User has performed a task reminder action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -326,6 +354,8 @@ public class TareasController {
     private void backup() {
         // TODO tell the storage to backup the data
         guiController.sendSuccessToView("Backup successfully performed");
+        Log.i(TAG, "User has performed a backup action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -338,6 +368,8 @@ public class TareasController {
     	
         // TODO tell the storage to mute everything from time to time
         guiController.sendSuccessToView("Tareas successfully muted");
+        Log.i(TAG, "User has performed a mute action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -350,6 +382,8 @@ public class TareasController {
     	
         // TODO tell the GUI to change the font
         guiController.sendSuccessToView("Font changed successfully");
+        Log.i(TAG, "User has performed a font change action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -370,6 +404,8 @@ public class TareasController {
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully changed color of task");
+        Log.i(TAG, "User has performed a task colorization action");
+        // TODO change logging to include time stamp
     }
 
     /**
@@ -382,8 +418,12 @@ public class TareasController {
             tareas.undoWrite(stateToRevertTo);
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Successfully undo action");
+            Log.i(TAG, "User has performed an undo action");
+            // TODO change logging to include time stamp
 		} else {
             guiController.sendWarningToView("Nothing to undo");
+            Log.e(TAG, "User tried to undo an action when there is nothing to undo");
+            // TODO change logging to include time stamp
 		}
     }
 
@@ -397,8 +437,12 @@ public class TareasController {
             tareas.redoWrite(stateToRevertTo);
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Successfully redo action");
+            Log.i(TAG, "User has performed a redo action");
+            // TODO change logging to include time stamp
 		} else {
             guiController.sendWarningToView("Nothing to redo");
+            Log.e(TAG, "User tried to redo an action when there is nothing to redo");
+            // TODO change logging to include time stamp
 		}
     }
 }
