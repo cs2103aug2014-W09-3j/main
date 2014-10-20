@@ -152,7 +152,6 @@ public class TaskManager {
      */
     public static Task buildTask(TareasCommand command) {
         Task taskToReturn;
-        // Can remove in the future once all the different types are supported
 
         if (command.hasKey("tag")) {
             String taskDescription = command.getPrimaryArgument();
