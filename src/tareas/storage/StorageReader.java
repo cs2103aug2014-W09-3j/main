@@ -20,7 +20,7 @@ public class StorageReader {
 
 	public Tasks read() throws IOException {
 		File file = new File("storage.json");
-		if(file.exists()) {
+		if (file.exists()) {
 			return convertJSONtoObject();
 		} else {
 			// The below method creates a new file and returns an empty ArrayList<Tasks>

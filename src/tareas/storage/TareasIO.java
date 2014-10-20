@@ -198,6 +198,24 @@ public class TareasIO {
 	}
 
     /**
+     * Returns the id to set to
+     *
+     * @return int id
+     */
+    public int getInitialiseLatestId() {
+        StorageReader reader = new StorageReader();
+        Tasks tasks = new Tasks();
+
+        try {
+            tasks = reader.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tasks.getLatestID();
+    }
+
+    /**
      * Returns all undone tasks in Tareas.
      *
      * @return ArrayList of Task
@@ -231,8 +249,9 @@ public class TareasIO {
      *
      * @param stateToRevertTo
      */
-    public void undoWrite(ArrayList<Task> stateToRevertTo) {
-        tasks.set(stateToRevertTo);
+    public void undoWrite(Tasks stateToRevertTo) {
+        tasks.set(stateToRevertTo.get());
+        tasks.setID(stateToRevertTo.getLatestID());
         write();
     }
 
@@ -241,8 +260,9 @@ public class TareasIO {
      *
      * @param stateToRevertTo
      */
-    public void redoWrite(ArrayList<Task> stateToRevertTo) {
-        tasks.set(stateToRevertTo);
+    public void redoWrite(Tasks stateToRevertTo) {
+        tasks.set(stateToRevertTo.get());
+        tasks.setID(stateToRevertTo.getLatestID());
         write();
     }
 

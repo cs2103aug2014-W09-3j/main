@@ -1,6 +1,7 @@
 package tareas.controller;
 
 import tareas.common.Task;
+import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
 import tareas.storage.TareasIO;
 import tareas.gui.TareasGUIController;
@@ -29,6 +30,7 @@ public class TareasController {
      */
     public TareasController() {
         taskManager.set(tareas.getAllUndoneTasks());
+        taskManager.setId(tareas.getInitialiseLatestId());
     }
 
     /**
@@ -118,7 +120,7 @@ public class TareasController {
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully added");
     }
 
@@ -134,14 +136,18 @@ public class TareasController {
         if (command.getArgument("des") != null) {
             taskToInsert.setDescription(command.getArgument("des"));
         }
-        
-        taskToInsert.setTaskID(taskId);
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
+
+        taskToInsert.setTaskID(mappedTaskId);
 
         tareas.editTask(taskToInsert);
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully edited");
     }
 
@@ -153,11 +159,15 @@ public class TareasController {
     private void deleteTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
-        tareas.deleteTask(taskId);
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
+
+        tareas.deleteTask(mappedTaskId);
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully deleted");
     }
 
@@ -179,12 +189,16 @@ public class TareasController {
      */
     private void completeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
-        tareas.markTaskAsCompleted(taskId);
+        tareas.markTaskAsCompleted(mappedTaskId);
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully completed Task " + taskId);
     }
 
@@ -195,12 +209,16 @@ public class TareasController {
      */
     private void postponeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO postpone the task to the Storage
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully postponed");
     }
 
@@ -224,12 +242,16 @@ public class TareasController {
      */
     private void prioritizeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO tell the storage that a task has been prioritized
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully prioritized");
     }
 
@@ -240,12 +262,16 @@ public class TareasController {
      */
     private void categorizeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO tell the storage that a task has been categorized
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully categorized");
     }
 
@@ -256,12 +282,16 @@ public class TareasController {
      */
     private void setTaskReminder(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO tell the storage that a task has a reminder set
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Reminder Set");
     }
 
@@ -302,12 +332,16 @@ public class TareasController {
      */
     private void colorizeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
     	
         // TODO tell the storage to change the color of the task
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
-        guiController.sendTaskstoView(tareas.getAllUndoneTasks());
+        guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully changed color of task");
     }
 
@@ -316,12 +350,10 @@ public class TareasController {
      */
     private void undo() {
         if (taskManager.isAbleToUndo()) {
-            System.out.println(taskManager.get().size());
-            ArrayList<Task> stateToRevertTo = taskManager.getUndoState();
+            Tasks stateToRevertTo = taskManager.getUndoState();
 
             tareas.undoWrite(stateToRevertTo);
-            System.out.println(stateToRevertTo.size());
-            guiController.sendTaskstoView(stateToRevertTo);
+            guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Successfully undo action");
 		} else {
             guiController.sendWarningToView("Nothing to undo");
@@ -333,10 +365,10 @@ public class TareasController {
      */
     private void redo() {
         if (taskManager.isAbleToRedo()) {
-		    ArrayList<Task> stateToRevertTo = taskManager.getRedoState();
+		    Tasks stateToRevertTo = taskManager.getRedoState();
 
             tareas.redoWrite(stateToRevertTo);
-            guiController.sendTaskstoView(stateToRevertTo);
+            guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Successfully redo action");
 		} else {
             guiController.sendWarningToView("Nothing to redo");

@@ -12,12 +12,13 @@ public class Tasks {
     private ArrayList<Task> allTasks;
 
     public Tasks() {
-        allTasks = new ArrayList<Task>();
+        allTasks = new ArrayList<>();
         latestID = 0;
     }
 
     public Tasks(Tasks another) {
         this.allTasks = (ArrayList<Task>) another.allTasks.clone();
+        this.latestID = another.getLatestID();
     }
 
     public ArrayList<Task> get() {
@@ -34,5 +35,9 @@ public class Tasks {
 
     public void incrementID() {
         latestID++;
+    }
+
+    public void setID(int id) {
+        this.latestID = id;
     }
 }

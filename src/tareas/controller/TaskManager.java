@@ -54,10 +54,15 @@ public class TaskManager {
      *
      * @return an arraylist of task of the udno state
      */
-    public ArrayList<Task> getUndoState() {
-        redoStack.push(latestTasks);
-        latestTasks.set(historyStack.pop().get());
-        return latestTasks.get();
+    public Tasks getUndoState() {
+        Tasks toPushToRedoStack = new Tasks(latestTasks);
+        redoStack.push(toPushToRedoStack);
+
+        Tasks historyState = historyStack.pop();
+
+        latestTasks.set(historyState.get());
+        latestTasks.setID(historyState.getLatestID());
+        return latestTasks;
     }
 
     /**
@@ -65,10 +70,15 @@ public class TaskManager {
      *
      * @return an arraylist of task of the redo state
      */
-    public ArrayList<Task> getRedoState() {
-        historyStack.push(latestTasks);
-        latestTasks.set(redoStack.pop().get());
-        return latestTasks.get();
+    public Tasks getRedoState() {
+        Tasks toPushToHistory = new Tasks(latestTasks);
+        historyStack.push(toPushToHistory);
+
+        Tasks redoState = redoStack.pop();
+
+        latestTasks.set(redoState.get());
+        latestTasks.setID(redoState.getLatestID());
+        return latestTasks;
     }
 
     /**
@@ -89,6 +99,15 @@ public class TaskManager {
         latestTasks.set(tasks);
     }
 
+    /**
+     * sets the latestTasks's id of TaskManager
+     *
+     * @param id
+     */
+    public void setId(int id) {
+        latestTasks.setID(id);
+    }
+
 
     /**
      * sets the latestTasks of the TaskManager into the one given
@@ -96,7 +115,8 @@ public class TaskManager {
      * @param tasks
      */
     public void tasksChanged(ArrayList<Task> tasks) {
-        historyStack.push(latestTasks);
+        Tasks toPushToHistory = new Tasks(latestTasks);
+        historyStack.push(toPushToHistory);
         latestTasks.set(tasks);
     }
 
