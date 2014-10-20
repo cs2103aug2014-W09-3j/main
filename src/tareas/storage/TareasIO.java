@@ -215,7 +215,7 @@ public class TareasIO {
         int tasksSize = tasks.size();
 
         for (int i = 0; i < tasksSize;) {
-            if (tasks.get(i).isTaskCompleted() == true) {
+            if (tasks.get(i).isTaskCompleted()) {
                 tasks.remove(i);
                 tasksSize--;
             } else {
