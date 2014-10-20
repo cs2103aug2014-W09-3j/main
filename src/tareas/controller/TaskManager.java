@@ -9,9 +9,9 @@ import java.util.Iterator;
 import java.util.Stack;
 
 /**
- * Created by Her Lung on 20/10/2014.
- *
- * This class manages the Task objects and keeps the historystack and redostack intact to support undo and redo
+ * @author Yap Jun Hao
+ *         <p/>
+ *         This class manages the Task objects and keeps the historystack and redostack intact to support undo and redo
  */
 public class TaskManager {
     private static TaskManager instance = null;
@@ -50,7 +50,7 @@ public class TaskManager {
     /**
      * gets the latest state to undo to in the TaskManager
      */
-    public ArrayList<Task> getUndoState(){
+    public ArrayList<Task> getUndoState() {
         redoStack.push(latestTasks);
         latestTasks.set(historyStack.pop().get());
         return latestTasks.get();
@@ -94,7 +94,7 @@ public class TaskManager {
         ArrayList<Task> newList;
         newList = latestTasks.get();
         Iterator<Task> iter = newList.iterator();
-        while(iter.hasNext()) {
+        while (iter.hasNext()) {
             Task task = iter.next();
             if(task.getTaskID() == id) {
                 iter.remove();
@@ -110,13 +110,22 @@ public class TaskManager {
         latestTasks.set(tasks);
     }
 
+
+    /**
+     * sets the latestTasks of the TaskManager into the one given
+     */
+    public void edit(ArrayList<Task> tasks) {
+        historyStack.push(latestTasks);
+        latestTasks.set(tasks);
+    }
+
     /**
      * checks if there is any redo history to redo
      *
      * @return whether there is anything to redo
      */
     public boolean isAbleToRedo() {
-        if(redoStack.empty()) {
+        if (redoStack.empty()) {
             return false;
         } else {
             return true;
@@ -129,7 +138,7 @@ public class TaskManager {
      * @return whether there is anything to undo
      */
     public boolean isAbleToUndo() {
-        if(historyStack.empty()) {
+        if (historyStack.empty()) {
             return false;
         } else {
             return true;

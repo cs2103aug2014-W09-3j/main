@@ -22,7 +22,6 @@ public class TareasIO {
 	private void initialize() {
 		StorageReader reader = new StorageReader();
 		try {
-			//this.taskManager.set(reader.read());
             tasks = reader.read();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -73,7 +72,6 @@ public class TareasIO {
         newTasks = tasks.get();
         newTasks.add(task);
         tasks.set(newTasks);
-	    //taskManager.add(task);
 		write();
 	}
 
@@ -189,14 +187,7 @@ public class TareasIO {
 	// TODO sort the tasks.
 	public ArrayList<Task> getAllTasks() {
 		StorageReader reader = new StorageReader();
-        ArrayList<Task> tasks = new ArrayList<Task>();
-		/*try {
-			taskManager.set(reader.read());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return taskManager.get();*/
+        ArrayList<Task> tasks = new ArrayList<>();
         try {
             tasks = reader.read().get();
         } catch (IOException e) {
@@ -205,5 +196,34 @@ public class TareasIO {
 
         return tasks;
 	}
+
+    /**
+     * Returns all undone tasks in Tareas.
+     *
+     * @return ArrayList of Task
+     */
+    public ArrayList<Task> getAllUndoneTasks() {
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read().get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        for (int i = 0; i < tasksSize;) {
+            if (tasks.get(i).isTaskCompleted() == true) {
+                tasks.remove(i);
+                tasksSize--;
+            } else {
+                i++;
+            }
+        }
+
+        return tasks;
+    }
 
 }
