@@ -1,29 +1,33 @@
 package tareas.controller;
 
 import tareas.common.Task;
+import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Stack;
 
 /**
- * @author Yap Jun Hao
+ * Created by Her Lung on 20/10/2014.
  *
- * This class manages the Task objects and keeps the redohistory and undohistory intact to support undo and redo
+ * This class manages the Task objects and keeps the historystack and redostack intact to support undo and redo
  */
-
 public class TaskManager {
-    private int latestID = 1;
-    private ArrayList<ArrayList<Task>> allTasks;
     private static TaskManager instance = null;
 
-    // Keeping an ArrayList of states for both redoing and undoing
-    private ArrayList<ArrayList<Task>> redoHistory = new ArrayList<>();
+    // Keep a pointer to the latest set of tasks
+    private Tasks latestTasks = new Tasks();
+
+    // Keeping a stack of states for both redoing and undoing
+    private Stack<Tasks> historyStack = new Stack<>();
+    private Stack<Tasks> redoStack = new Stack<>();
 
     /**
      * private constructor - singleton
      */
     private TaskManager() {
-        this.allTasks = new ArrayList<>();
+        // do nothing
     }
 
     /**
@@ -39,89 +43,104 @@ public class TaskManager {
     /**
      * gets the latest ArrayList of Task in the TaskManager
      */
-    public ArrayList<Task> get() {
-        int latestId = this.allTasks.size() - 1;
-        return this.allTasks.get(latestId);
+    public ArrayList<Task> get(){
+        return latestTasks.get();
     }
 
     /**
      * gets the latest state to undo to in the TaskManager
      */
-    public ArrayList<Task> getUndoState() {
-        int undoHistoryId = this.allTasks.size() - 1;
-        return this.allTasks.get(undoHistoryId);
+    public ArrayList<Task> getUndoState(){
+        redoStack.push(latestTasks);
+        latestTasks.set(historyStack.pop().get());
+        return latestTasks.get();
     }
 
     /**
      * gets the latest state to redo to in the TaskManager
      */
     public ArrayList<Task> getRedoState() {
-        int redoHistoryId = this.redoHistory.size() - 1;
-        return this.allTasks.get(redoHistoryId);
+        historyStack.push(latestTasks);
+        latestTasks.set(redoStack.pop().get());
+        return latestTasks.get();
     }
 
     /**
-     * gets the size of the states inside the TaskManager
+     * gets the size of the history stack
+     *
+     * @return size of history stack
      */
-    public int getSize() {
-        return this.allTasks.size();
+    public int getSize(){
+        return historyStack.size();
     }
 
     /**
-     * adds a task into the TaskManager by adding a new ArrayList of Task to allTasks
+     * adds a task into the TaskManager
      */
     public void add(Task task) {
-        ArrayList<Task> latestTaskList = this.get();
-        ArrayList<Task> withTaskAdded = new ArrayList<Task>();
-
-        int latestId = this.allTasks.size();
-
-        for (int i = 0; i < latestId; i++) {
-            withTaskAdded.add(latestTaskList.get(i));
-        }
-
-        withTaskAdded.add(task);
-        this.allTasks.add(withTaskAdded);
+        Tasks oldTasks = new Tasks(latestTasks);
+        historyStack.push(oldTasks);
+        ArrayList<Task> newList = latestTasks.get();
+        newList.add(task);
+        System.out.println(oldTasks.get().size());
+        System.out.println(latestTasks.get().size());
     }
 
     /**
-     * removes a task from the TaskManager by adding a new ArrayList of Task to allTasks without the task to remove
+     * removes a task from the TaskManager
      */
     public void remove(int id) {
-        ArrayList<Task> latestTaskList = this.get();
-        ArrayList<Task> withTaskRemoved = new ArrayList<Task>();
-
-        int latestId = this.allTasks.size();
-
-        for (int i = 0; i < latestId; i++) {
-            withTaskRemoved.add(latestTaskList.get(i));
+        historyStack.push(latestTasks);
+        ArrayList<Task> newList;
+        newList = latestTasks.get();
+        Iterator<Task> iter = newList.iterator();
+        while(iter.hasNext()) {
+            Task task = iter.next();
+            if(task.getTaskID() == id) {
+                iter.remove();
+            }
         }
-
-        withTaskRemoved.remove(id);
-        this.allTasks.remove(id);
+        latestTasks.set(newList);
     }
 
     /**
-     * sets the latestTaskList of the TaskManager into the one given
+     * sets the latestTasks of the TaskManager into the one given
      */
     public void set(ArrayList<Task> tasks) {
-        this.allTasks.add(tasks);
+        latestTasks.set(tasks);
     }
 
     /**
-     * gets the next ID to assign to a task being built
+     * checks if there is any redo history to redo
+     *
+     * @return whether there is anything to redo
      */
-    public int getNextID() {
-        int nextID = this.latestID;
-        this.latestID++;
-        return nextID;
+    public boolean isAbleToRedo() {
+        if(redoStack.empty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
-     * gets the latest redo history from the task manager
+     * checks if there is any undo history to undo
+     *
+     * @return whether there is anything to undo
      */
-    public ArrayList<ArrayList<Task>> getRedoHistory() {
-        return this.redoHistory;
+    public boolean isAbleToUndo() {
+        if(historyStack.empty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * clears the redo history after any other action other than undo
+     */
+    public void clearRedoState() {
+        redoStack.clear();
     }
 
     /**
@@ -151,5 +170,4 @@ public class TaskManager {
 
         return taskToReturn;
     }
-
 }

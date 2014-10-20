@@ -22,7 +22,7 @@ public class TareasController {
     TareasIO tareas = new TareasIO();
 
     // Instantiate a TaskManager
-    NewTaskManager taskManager = NewTaskManager.getInstance();
+    TaskManager taskManager = TaskManager.getInstance();
 
     public TareasController() {
         taskManager.set(tareas.getAllTasks());
@@ -113,8 +113,8 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert);
         guiController.sendTaskstoView(tareas.getAllTasks());
-        guiController.sendSuccessToView("Successfully added a task!");
-        clearRedoState();
+        guiController.sendSuccessToView("Task successfully added");
+        taskManager.clearRedoState();
     }
 
     /**
@@ -133,8 +133,8 @@ public class TareasController {
         taskToInsert.setTaskID(taskId);
 
         tareas.editTask(taskToInsert);
-        guiController.sendSuccessToView("Successfully edited a task!");
-        clearRedoState();
+        guiController.sendSuccessToView("Task successfully edited");
+        taskManager.clearRedoState();
     }
 
     /**
@@ -146,7 +146,8 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         tareas.deleteTask(taskId);
-        clearRedoState();
+        guiController.sendSuccessToView("Task successfully deleted");
+        taskManager.clearRedoState();
     }
 
     /**
@@ -170,7 +171,7 @@ public class TareasController {
         
         tareas.markTaskAsCompleted(taskId);
         guiController.sendSuccessToView("Successfully completed Task " + taskId);
-        clearRedoState();
+        taskManager.clearRedoState();
     }
 
     /**
@@ -183,7 +184,8 @@ public class TareasController {
         
         //TODO postpone the task to the Storage
         //TODO tell the GUI that a task has been postponed
-        clearRedoState();
+        guiController.sendSuccessToView("Task has been successfully postponed");
+        taskManager.clearRedoState();
     }
 
     /**
@@ -196,6 +198,7 @@ public class TareasController {
         
         //TODO ask from the storage all the stuff needed for the view
         //TODO call the GUI method to display the view request
+        guiController.sendSuccessToView("View has successfully been changed");
     }
 
     /**
@@ -208,7 +211,8 @@ public class TareasController {
         
         //TODO tell the storage that a task has been prioritized
         //TODO tell the GUI that a task has been prioritized
-        clearRedoState();
+        guiController.sendSuccessToView("Task has been successfully prioritized");
+        taskManager.clearRedoState();
     }
 
     /**
@@ -221,7 +225,8 @@ public class TareasController {
         
         //TODO tell the storage that a task has been categorized
         //TODO tell the GUI that a task has been categorized
-        clearRedoState();
+        guiController.sendSuccessToView("Task has been successfully categorized");
+        taskManager.clearRedoState();
     }
 
     /**
@@ -234,7 +239,8 @@ public class TareasController {
         
         //TODO tell the storage that a task has a reminder set
         //TODO tell the GUI that a task has a reminder set
-        clearRedoState();
+        guiController.sendSuccessToView("Reminder Set");
+        taskManager.clearRedoState();
     }
 
     /**
@@ -242,7 +248,7 @@ public class TareasController {
      */
     private void backup() {
         //TODO tell the storage to backup the data
-        //TODO feedback to the GUI that the backup of data has been done
+        guiController.sendSuccessToView("Backup successfully performed");
     }
 
     /**
@@ -252,7 +258,7 @@ public class TareasController {
         //TODO grab the time start and end to be passed to TareasIO
     	
         //TODO tell the storage to mute everything from time to time
-        //TODO feedback to the GUI that the muting has been done
+        guiController.sendSuccessToView("Tareas successfully muted");
     }
 
     /**
@@ -264,6 +270,7 @@ public class TareasController {
         //TODO grab the font arguments to be passed to the GUI
     	
         //TODO tell the GUI to change the font
+        guiController.sendSuccessToView("Font changed successfully");
     }
 
     /**
@@ -275,15 +282,15 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
     	
         //TODO tell the storage to change the color of the task
-        //TODO feedback to the GUI that the color has been changed
-        clearRedoState();
+        guiController.sendSuccessToView("Successfully changed color of task");
+        taskManager.clearRedoState();
     }
 
     /**
      * undoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
     private void undo() {
-        if (isAbleToUndo()) {
+        if (taskManager.isAbleToUndo()) {
             System.out.println(taskManager.get().size());
             ArrayList<Task> stateToRevertTo = taskManager.getUndoState();
 
@@ -291,6 +298,7 @@ public class TareasController {
 		    //TODO send the state to revert to to the Storage
             System.out.println(stateToRevertTo.size());
             guiController.sendTaskstoView(stateToRevertTo);
+            guiController.sendSuccessToView("Successfully undo action");
 		} else {
             guiController.sendWarningToView("Nothing to undo");
 		}
@@ -300,48 +308,15 @@ public class TareasController {
      * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
     private void redo() {
-        if (isAbleToRedo()) {
+        if (taskManager.isAbleToRedo()) {
 		    ArrayList<Task> stateToRevertTo = taskManager.getRedoState();
 
 		    //TODO send the state to revert to to the Storage
             guiController.sendTaskstoView(stateToRevertTo);
+            guiController.sendSuccessToView("Successfully redo action");
 		} else {
             guiController.sendWarningToView("Nothing to redo");
 		}
-    }
-
-    /**
-     * checks if there is any redo history to redo
-     *
-     * @return whether there is anything to redo
-     */
-    private boolean isAbleToRedo() {
-        return taskManager.isAbleToRedo();
-    }
-
-    /**
-     * checks if there is any undo history to undo
-     *
-     * @return whether there is anything to undo
-     */
-    private boolean isAbleToUndo() {
-        return taskManager.isAbleToUndo();
-    }
-
-    /**
-     * checks if there is any undo history to undo
-     *
-     * @param state of the Tasks to add into the history
-     */
-    /*private void addToRedoHistory(ArrayList<Task> state) {
-        taskManager.getRedoHistory().add(state);
-    }*/
-
-    /**
-     * clears the redo history after any other action other than undo
-     */
-    private void clearRedoState() {
-        taskManager.clearRedoState();
     }
 
 }

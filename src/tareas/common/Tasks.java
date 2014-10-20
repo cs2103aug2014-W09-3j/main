@@ -3,7 +3,7 @@ package tareas.common;
 import java.util.ArrayList;
 
 /**
- * @author Yap Jun Hao
+ * @author Wong Her Lung
  *         <p/>
  *         This class is for Gson to use
  */
@@ -11,7 +11,7 @@ public class Tasks {
     private int latestID;
     private ArrayList<Task> allTasks;
 
-    public  Tasks() {
+    public Tasks() {
         allTasks = new ArrayList<Task>();
         latestID = 0;
     }
