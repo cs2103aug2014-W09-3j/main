@@ -2,7 +2,6 @@ package tareas.storage;
 
 import tareas.common.Task;
 import tareas.common.Tasks;
-import tareas.controller.TaskManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.Iterator;
 
 public class TareasIO {
 
-	private TaskManager taskManager = TaskManager.getInstance();
     private Tasks tasks = new Tasks();
 	
 	private void initialize() {
@@ -48,7 +46,7 @@ public class TareasIO {
 	}
 
     private Task getTask(int id) {
-        Iterator<Task> iter = taskManager.get().iterator();
+        Iterator<Task> iter = getAllTasks().iterator();
         Task searchTask = new Task();
         while(iter.hasNext()) {
             Task task = iter.next();
@@ -62,6 +60,7 @@ public class TareasIO {
 	
 	/**
 	 * Inserts a task into Tareas using a Task object
+     *
 	 * @param task
 	 */
 	public void insertTask(Task task) {
@@ -77,90 +76,132 @@ public class TareasIO {
 
 	/**
 	 * Removes a task with a given ID
+     *
 	 * @param id
 	 */
 	public void deleteTask(int id) {
 		initialize();
-		if(id < 1 || id > taskManager.get().size()) {
+		if(id < 1 || id > getTasks().getLatestID()) {
 			// TODO: Add exception for Invalid ID.
-			System.out.println("Inavlid Task ID.");
+			System.out.println("Invalid Task ID.");
 		} else {
-			ArrayList<Task> temp = taskManager.get();
-			removeTaskFromArray(id, temp);
-			taskManager.set(temp);
+            int taskIdToRemove = -1;
+
+			Iterator<Task> iter = getAllTasks().iterator();
+
+            while (iter.hasNext()) {
+                Task task = iter.next();
+                if(task.getTaskID() == id) {
+                    taskIdToRemove = id;
+                }
+            }
+
+            ArrayList<Task> temp = getAllTasks();
+
+            if (taskIdToRemove != -1) {
+                removeTaskFromArray(taskIdToRemove, temp);
+            }
+
+            tasks.set(temp);
+
 			write();
 		}
 	}
 
     /**
      * This method updates tasks in storage.
+     *
      * @param newTask
      */
     public void editTask(Task newTask) {
         initialize();
         int id = newTask.getTaskID();
 
-        Iterator<Task> iter = taskManager.get().iterator();
+        Iterator<Task> iter = getAllTasks().iterator();
+
+        Task taskToChange = new Task();
+
+        int taskIdToChange = -1;
+
         while(iter.hasNext()) {
-            Task task = iter.next();
-            if(task.getTaskID() == id) {
-                if(newTask.getDescription() != null) {
-                    task.setDescription(newTask.getDescription());
+            Task taskToBuild = iter.next();
+            if (taskToBuild.getTaskID() == id) {
+                if (newTask.getDescription() != null) {
+                    taskToBuild.setDescription(newTask.getDescription());
                 }
-                if(newTask.getCategory() != null) {
-                    task.setCategory(newTask.getCategory());
+                if (newTask.getCategory() != null) {
+                    taskToBuild.setCategory(newTask.getCategory());
                 }
-                if(newTask.getDeadline() != null) {
-                    task.setDeadline(newTask.getDeadline());
+                if (newTask.getDeadline() != null) {
+                    taskToBuild.setDeadline(newTask.getDeadline());
                 }
-                if(newTask.getStartDateTime() != null) {
-                    task.setStartDateTime(newTask.getStartDateTime());
+                if (newTask.getStartDateTime() != null) {
+                    taskToBuild.setStartDateTime(newTask.getStartDateTime());
                 }
-                if(newTask.getEndDateTime() != null) {
-                    task.setEndDateTime(newTask.getEndDateTime());
+                if (newTask.getEndDateTime() != null) {
+                    taskToBuild.setEndDateTime(newTask.getEndDateTime());
                 }
-                if(newTask.getRecurrenceFrequency() != null) {
-                    task.setRecurrenceFrequency(newTask.getRecurrenceFrequency());
+                if (newTask.getRecurrenceFrequency() != null) {
+                    taskToBuild.setRecurrenceFrequency(newTask.getRecurrenceFrequency());
                 }
-                if(newTask.getRecurrenceDate() != null) {
-                    task.setRecurrenceDate(newTask.getRecurrenceDate());
+                if (newTask.getRecurrenceDate() != null) {
+                    taskToBuild.setRecurrenceDate(newTask.getRecurrenceDate());
                 }
-                if(newTask.getRecurrenceDay() != null) {
-                    task.setRecurrenceDay(newTask.getRecurrenceDay());
+                if (newTask.getRecurrenceDay() != null) {
+                    taskToBuild.setRecurrenceDay(newTask.getRecurrenceDay());
                 }
 
                 // TODO: tags are left out first
 
-                if(newTask.isTaskCompleted() != task.isTaskCompleted()) {
+                if (newTask.isTaskCompleted() != taskToBuild.isTaskCompleted()) {
                     if(newTask.isTaskCompleted()) {
-                        task.markTaskCompleted();
+                        taskToBuild.markTaskCompleted();
                     } else {
-                        task.markTaskUncompleted();
+                        taskToBuild.markTaskUncompleted();
                     }
                 }
 
-                if(newTask.isTaskPriority() != task.isTaskPriority()) {
+                if (newTask.isTaskPriority() != taskToBuild.isTaskPriority()) {
                     if(newTask.isTaskPriority()) {
-                        task.setTaskAsPriority();
+                        taskToBuild.setTaskAsPriority();
                     } else {
-                        task.setTaskAsNotPriority();
+                        taskToBuild.setTaskAsNotPriority();
                     }
                 }
 
-                if(newTask.getReminderDateTime() != null) {
-                    task.setReminderDateTime(newTask.getReminderDateTime());
+                if (newTask.getReminderDateTime() != null) {
+                    taskToBuild.setReminderDateTime(newTask.getReminderDateTime());
                 }
 
-                if(newTask.getColor() != null) {
-                    task.setColor(newTask.getColor());
+                if (newTask.getColor() != null) {
+                    taskToBuild.setColor(newTask.getColor());
                 }
+
+                taskToChange = taskToBuild;
             }
         }
+
+        ArrayList<Task> temp = getAllTasks();
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToChange = i;
+            }
+        }
+
+        if (taskIdToChange != -1) {
+            temp.set(taskIdToChange, taskToChange);
+        }
+
+        tasks.set(temp);
+
         write();
     }
 
     /**
      * This method searches for a task using the ID
+     *
      * @param id
      * @return Task
      */
@@ -171,21 +212,38 @@ public class TareasIO {
 
     /**
      * This method allows tasks to be marked as completed.
+     *
      * @param id
      */
     public void markTaskAsCompleted(int id) {
         initialize();
-        Task task = getTask(id);
-        task.markTaskCompleted();
+
+        ArrayList<Task> temp = getAllTasks();
+
+        int taskIdToComplete = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToComplete = i;
+            }
+        }
+
+        if (taskIdToComplete != -1) {
+            temp.get(taskIdToComplete).markTaskCompleted();
+        }
+
+        tasks.set(temp);
+
         write();
     }
 
 	/**
 	 * Returns all tasks in Tareas.
+     *
 	 * @return allTasks
 	 */
-	// TODO sort the tasks.
-	public ArrayList<Task> getAllTasks() {
+	private ArrayList<Task> getAllTasks() {
 		StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
         try {
@@ -196,6 +254,24 @@ public class TareasIO {
 
         return tasks;
 	}
+
+    /**
+     * Returns Tasks in Tareas
+     *
+     * @return Tasks
+     */
+    public Tasks getTasks() {
+        StorageReader reader = new StorageReader();
+        Tasks tasks = new Tasks();
+
+        try {
+            tasks = reader.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tasks;
+    }
 
     /**
      * Returns the id to set to

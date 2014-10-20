@@ -180,6 +180,7 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         tareas.searchTask(taskId);
+        // TODO Add in feedback to user on the GUI side of things
     }
 
     /**
@@ -193,6 +194,8 @@ public class TareasController {
         int tasksSize = taskManager.get().size();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
+
+        System.out.println(mappedTaskId);
         
         tareas.markTaskAsCompleted(mappedTaskId);
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();

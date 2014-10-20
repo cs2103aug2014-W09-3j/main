@@ -70,7 +70,6 @@ public class TareasGUIController implements Initializable {
         // Initialization of Tilepane
         initializeTilePane();
 
-        // TODO Add JH new method to get all tasks for initialization
         TareasController logicController = new TareasController();
         sendTaskstoView(logicController.getInitialiseTasks());
 
