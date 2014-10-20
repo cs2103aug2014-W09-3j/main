@@ -5,7 +5,6 @@ import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Stack;
 
 /**
@@ -43,7 +42,7 @@ public class TaskManager {
     /**
      * gets the latest ArrayList of Task in the TaskManager
      *
-     * @return an arraylist of task of the latest tasks
+     * @return an ArrayList of task of the latest tasks
      */
     public ArrayList<Task> get(){
         return latestTasks.get();
@@ -52,7 +51,7 @@ public class TaskManager {
     /**
      * gets the latest state to undo to in the TaskManager
      *
-     * @return an arraylist of task of the udno state
+     * @return an ArrayList of task of the undo state
      */
     public Tasks getUndoState() {
         Tasks toPushToRedoStack = new Tasks(latestTasks);
@@ -68,7 +67,7 @@ public class TaskManager {
     /**
      * gets the latest state to redo to in the TaskManager
      *
-     * @return an arraylist of task of the redo state
+     * @return an ArrayList of task of the redo state
      */
     public Tasks getRedoState() {
         Tasks toPushToHistory = new Tasks(latestTasks);
@@ -91,18 +90,18 @@ public class TaskManager {
     }
 
     /**
-     * sets the latestTasks of the TaskManager into the one given
+     * sets the latest tasks of the TaskManager into the one given
      *
-     * @param tasks
+     * @param tasks to be set
      */
     public void set(ArrayList<Task> tasks) {
         latestTasks.set(tasks);
     }
 
     /**
-     * sets the latestTasks's id of TaskManager
+     * sets the latest tasks id of TaskManager
      *
-     * @param id
+     * @param id to be set
      */
     public void setId(int id) {
         latestTasks.setID(id);
@@ -112,7 +111,7 @@ public class TaskManager {
     /**
      * sets the latestTasks of the TaskManager into the one given
      *
-     * @param tasks
+     * @param tasks that has been changed to be updated to task manager
      */
     public void tasksChanged(ArrayList<Task> tasks) {
         Tasks toPushToHistory = new Tasks(latestTasks);
@@ -126,11 +125,7 @@ public class TaskManager {
      * @return whether there is anything to redo
      */
     public boolean isAbleToRedo() {
-        if (redoStack.empty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return redoStack.empty();
     }
 
     /**
@@ -139,11 +134,7 @@ public class TaskManager {
      * @return whether there is anything to undo
      */
     public boolean isAbleToUndo() {
-        if (historyStack.empty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return historyStack.empty();
     }
 
     /**
@@ -156,7 +147,7 @@ public class TaskManager {
     /**
      * builds a task using the command given by the user after being parsed by the parser
      *
-     * @param command
+     * @param command to be parsed into a Task object
      * @return Task
      */
     public static Task buildTask(TareasCommand command) {
