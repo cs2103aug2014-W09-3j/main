@@ -103,7 +103,8 @@ public class TaskManager {
      *
      * @return size of history stack
      */
-    public int getSize(){
+    public int getSize() {
+        // TODO Check if this method is even being used
         return historyStack.size();
     }
 
@@ -163,6 +164,13 @@ public class TaskManager {
     }
 
     /**
+     * for testing purposes - clears the history stack
+     */
+    protected void clearHistoryState() {
+        historyStack.clear();
+    }
+
+    /**
      * builds a task using the command given by the user after being parsed by the parser
      *
      * @param command to be parsed into a Task object
@@ -201,5 +209,4 @@ public class TaskManager {
 
         return taskToReturn;
     }
-
 }

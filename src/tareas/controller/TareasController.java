@@ -401,5 +401,4 @@ public class TareasController {
             guiController.sendWarningToView("Nothing to redo");
 		}
     }
-
 }

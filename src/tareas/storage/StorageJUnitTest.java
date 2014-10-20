@@ -52,6 +52,5 @@ public class StorageJUnitTest {
 		allTasks.add(task2);
 		return allTasks;
 	}
-	
 
 }
