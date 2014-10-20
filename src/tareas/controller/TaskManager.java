@@ -151,7 +151,7 @@ public class TaskManager {
      * @return Task
      */
     public static Task buildTask(TareasCommand command) {
-        Task taskToReturn = new Task();
+        Task taskToReturn;
         // Can remove in the future once all the different types are supported
 
         if (command.hasKey("tag")) {
@@ -160,11 +160,21 @@ public class TaskManager {
 
             taskToReturn = Task.createTaggedTask(taskDescription, taskTag);
         } else if (command.hasKey("from")) {
-            //TODO support timed tasks
+            String taskDescription = command.getPrimaryArgument();
+            String taskStartTime = command.getArgument("from");
+            String taskEndTime = command.getArgument("to");
+
+            taskToReturn = Task.createTimedTask(taskDescription, taskStartTime, taskEndTime);
         } else if (command.hasKey("by")) {
-            //TODO support deadline tasks
+            String taskDescription = command.getPrimaryArgument();
+            String taskDeadline = command.getArgument("by");
+
+            taskToReturn = Task.createDeadlineTask(taskDescription, taskDeadline);
         } else if (command.hasKey("recurring")) {
-            //TODO support recurring tasks
+            String taskDescription = command.getPrimaryArgument();
+            String taskRecurringType = command.getArgument("recurring");
+
+            taskToReturn = Task.createRecurringTask(taskDescription, taskRecurringType);
         } else {
             // By default, the task type will be floating tasks
             String taskDescription = command.getPrimaryArgument();
@@ -174,4 +184,5 @@ public class TaskManager {
 
         return taskToReturn;
     }
+
 }
