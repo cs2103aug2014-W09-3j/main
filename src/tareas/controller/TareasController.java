@@ -39,6 +39,9 @@ public class TareasController {
     public void executeCommand(String userInput) {
         TareasCommand command = TareasCommand.fromString(userInput);
 
+        // asserting to make sure that the command is really a TareasCommand
+        assert(command != null);
+
         switch (command.getType()) {
             case ADD_COMMAND:
                 addTask(command);
@@ -112,7 +115,8 @@ public class TareasController {
         Task taskToInsert = taskManager.buildTask(command);
 
         tareas.insertTask(taskToInsert);
-        taskManager.add(taskToInsert);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Task successfully added");
@@ -135,7 +139,7 @@ public class TareasController {
 
         tareas.editTask(taskToInsert);
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-        taskManager.edit(newTasks);
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Task successfully edited");
@@ -150,7 +154,8 @@ public class TareasController {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         tareas.deleteTask(taskId);
-        taskManager.remove(taskId);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Task successfully deleted");
@@ -177,7 +182,7 @@ public class TareasController {
         
         tareas.markTaskAsCompleted(taskId);
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-        taskManager.edit(newTasks);
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Successfully completed Task " + taskId);
@@ -193,7 +198,7 @@ public class TareasController {
         
         // TODO postpone the task to the Storage
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-        taskManager.edit(newTasks);
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Task has been successfully postponed");
@@ -222,7 +227,7 @@ public class TareasController {
         
         // TODO tell the storage that a task has been prioritized
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-        taskManager.edit(newTasks);
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Task has been successfully prioritized");
@@ -238,7 +243,7 @@ public class TareasController {
         
         // TODO tell the storage that a task has been categorized
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-        taskManager.edit(newTasks);
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Task has been successfully categorized");
@@ -254,7 +259,7 @@ public class TareasController {
         
         // TODO tell the storage that a task has a reminder set
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-        taskManager.edit(newTasks);
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Reminder Set");
@@ -300,7 +305,7 @@ public class TareasController {
     	
         // TODO tell the storage to change the color of the task
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-        taskManager.edit(newTasks);
+        taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(tareas.getAllUndoneTasks());
         guiController.sendSuccessToView("Successfully changed color of task");

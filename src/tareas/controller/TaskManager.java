@@ -75,35 +75,6 @@ public class TaskManager {
     }
 
     /**
-     * adds a task into the TaskManager
-     */
-    public void add(Task task) {
-        Tasks oldTasks = new Tasks(latestTasks);
-        historyStack.push(oldTasks);
-        ArrayList<Task> newList = latestTasks.get();
-        newList.add(task);
-        System.out.println(oldTasks.get().size());
-        System.out.println(latestTasks.get().size());
-    }
-
-    /**
-     * removes a task from the TaskManager
-     */
-    public void remove(int id) {
-        historyStack.push(latestTasks);
-        ArrayList<Task> newList;
-        newList = latestTasks.get();
-        Iterator<Task> iter = newList.iterator();
-        while (iter.hasNext()) {
-            Task task = iter.next();
-            if(task.getTaskID() == id) {
-                iter.remove();
-            }
-        }
-        latestTasks.set(newList);
-    }
-
-    /**
      * sets the latestTasks of the TaskManager into the one given
      */
     public void set(ArrayList<Task> tasks) {
@@ -114,7 +85,7 @@ public class TaskManager {
     /**
      * sets the latestTasks of the TaskManager into the one given
      */
-    public void edit(ArrayList<Task> tasks) {
+    public void tasksChanged(ArrayList<Task> tasks) {
         historyStack.push(latestTasks);
         latestTasks.set(tasks);
     }
