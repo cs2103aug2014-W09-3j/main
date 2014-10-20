@@ -319,7 +319,7 @@ public class TareasController {
             System.out.println(taskManager.get().size());
             ArrayList<Task> stateToRevertTo = taskManager.getUndoState();
 
-		    // TODO send the state to revert to to the Storage
+            tareas.undoWrite(stateToRevertTo);
             System.out.println(stateToRevertTo.size());
             guiController.sendTaskstoView(stateToRevertTo);
             guiController.sendSuccessToView("Successfully undo action");
@@ -335,7 +335,7 @@ public class TareasController {
         if (taskManager.isAbleToRedo()) {
 		    ArrayList<Task> stateToRevertTo = taskManager.getRedoState();
 
-		    // TODO send the state to revert to to the Storage
+            tareas.redoWrite(stateToRevertTo);
             guiController.sendTaskstoView(stateToRevertTo);
             guiController.sendSuccessToView("Successfully redo action");
 		} else {

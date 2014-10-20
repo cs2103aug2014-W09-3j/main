@@ -226,4 +226,24 @@ public class TareasIO {
         return tasks;
     }
 
+    /**
+     * This method writes completely to the storage after an undo action
+     *
+     * @param stateToRevertTo
+     */
+    public void undoWrite(ArrayList<Task> stateToRevertTo) {
+        tasks.set(stateToRevertTo);
+        write();
+    }
+
+    /**
+     * This method writes completely to the storage after a redo action
+     *
+     * @param stateToRevertTo
+     */
+    public void redoWrite(ArrayList<Task> stateToRevertTo) {
+        tasks.set(stateToRevertTo);
+        write();
+    }
+
 }
