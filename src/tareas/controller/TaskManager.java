@@ -51,7 +51,7 @@ public class TaskManager {
     /**
      * gets the latest state to undo to in the TaskManager
      *
-     * @return an ArrayList of task of the undo state
+     * @return a Tasks object containing ArrayList of task of the undo state
      */
     public Tasks getUndoState() {
         Tasks toPushToRedoStack = new Tasks(latestTasks);
@@ -67,7 +67,7 @@ public class TaskManager {
     /**
      * gets the latest state to redo to in the TaskManager
      *
-     * @return an ArrayList of task of the redo state
+     * @return a Tasks object containing ArrayList of task of the redo state
      */
     public Tasks getRedoState() {
         Tasks toPushToHistory = new Tasks(latestTasks);
@@ -78,6 +78,24 @@ public class TaskManager {
         latestTasks.set(redoState.get());
         latestTasks.setID(redoState.getLatestID());
         return latestTasks;
+    }
+
+    /**
+     * for testing purposes - returns the redo stack
+     *
+     * @return the redoStack
+     */
+    protected Stack<Tasks> getRedoStack() {
+        return this.redoStack;
+    }
+
+    /**
+     * for testing purposes - returns the history stack
+     *
+     * @return the historyStack
+     */
+    protected Stack<Tasks> getUndoStack() {
+        return this.historyStack;
     }
 
     /**
@@ -125,7 +143,7 @@ public class TaskManager {
      * @return whether there is anything to redo
      */
     public boolean isAbleToRedo() {
-        return redoStack.empty();
+        return !redoStack.empty();
     }
 
     /**
@@ -134,7 +152,7 @@ public class TaskManager {
      * @return whether there is anything to undo
      */
     public boolean isAbleToUndo() {
-        return historyStack.empty();
+        return !historyStack.empty();
     }
 
     /**
