@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * @author Yap Jun Hao
  *         <p/>
- *         This class contains the tests for the Tareas Controller.
+ *         This class contains the stub integration tests for Tareas - TODO
  */
 
 public class ControllerTests {
@@ -49,7 +49,7 @@ public class ControllerTests {
      */
     @Test
     public void addATimedTaskMultipleDays() throws IOException {
-        tareasController.executeCommand("family camping at sentosa -from 23/09/2014 0700 -to 25/09/2014 1200");
+        tareasController.executeCommand("family camping at California -from 23/09/2014 0700 -to 25/09/2014 1200");
 
         //TODO add the right assertion
     }

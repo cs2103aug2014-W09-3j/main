@@ -124,7 +124,7 @@ public class TareasController {
     /**
      * helps to initialise GUI view by giving the GUI the set of all tasks
      *
-     * @return an arraylist of Task
+     * @return an ArrayList of Task
      */
     public ArrayList<Task> getInitialiseTasks() {
         return tareas.getAllUndoneTasks();
