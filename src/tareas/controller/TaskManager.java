@@ -99,16 +99,6 @@ public class TaskManager {
     }
 
     /**
-     * gets the size of the history stack
-     *
-     * @return size of history stack
-     */
-    public int getSize() {
-        // TODO Check if this method is even being used
-        return historyStack.size();
-    }
-
-    /**
      * sets the latest tasks of the TaskManager into the one given
      *
      * @param tasks to be set
