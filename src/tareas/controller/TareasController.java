@@ -379,26 +379,7 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void categorizeTask(TareasCommand command) {
-        int taskId = Integer.parseInt(command.getPrimaryArgument());
-
-        int tasksSize = taskManager.get().size();
-
-        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
-
-        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-        
-        // TODO tell the storage that a task has been categorized
-
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
-
-        taskManager.tasksChanged(newTasks);
-        taskManager.clearRedoState();
-
-        guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task has been successfully categorized - " + taskDescriptionForFeedback);
-
-        Date now = new Date();
-        Log.i(TAG, "User has performed a task categorization action at " + now.toString());
+        // Do nothing, categorize no longer supported - TODO remove in future
     }
 
     /**
