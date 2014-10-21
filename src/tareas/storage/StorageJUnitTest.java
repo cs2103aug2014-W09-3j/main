@@ -19,9 +19,11 @@ public class StorageJUnitTest {
 
     public static void main(String[] args) {
 		// TODO Auto-generated method stub
-	}
 
-	
+    }
+
+
+	//Testing createFile method in StorageWriter.
 	@Test
 	public void testCreateFile() {
 		StorageWriter writer = new StorageWriter();
@@ -29,7 +31,8 @@ public class StorageJUnitTest {
 		File f = new File("storage.json");
 		assertEquals(true, f.exists());
 	}
-	
+
+    //Testing write method in StorageWriter.
 	@Test
 	public void testWriteToFile() throws IOException {
         Task task = new Task();
@@ -38,35 +41,46 @@ public class StorageJUnitTest {
         task.setDescription("task one");
         newTasks.add(task);
 
+        //Multiple input case.
+        Task task2 = new Task();
+        task2.setDescription("task two");
+        newTasks.add(task2);
+
         writer.write(tasks);
 
-	    Tasks result = reader.read();
-		assertEquals("task one", result.get().get(0).getDescription());
-	}
-	
+        Tasks result = reader.read();
+        assertEquals("task one", result.get().get(0).getDescription());
+        assertEquals("task two", result.get().get(1).getDescription());
+
+
+    }
+
+  //  Testing deleteTask method in TareasIO.
 	@Test
 	public void testDeleteTask() throws IOException {
         newTasks = tasks.get();
 
-        Task task2 = new Task();
-        newTasks.add(task2);
-        task2.setDescription("task two");
+        Task task3 = new Task();
+        newTasks.add(task3);
+        task3.setDescription("task three");
         writer.write(tasks);
 
-//        TareasIO delete = new TareasIO();
-        test.deleteTask(1);
+        test.deleteTask(0);
 
         Tasks result = reader.read();
-		assertEquals("task two", result.get().get(0).getDescription());
-	}
+		assertEquals("task three", result.get().get(0).getDescription());
+    }
+
 
     @Test
     public void testMassDelete() throws IOException {
         test.massDelete();
+        writer.write(tasks);
+
         Tasks result = reader.read();
 
         assertEquals(true, result.get().isEmpty());
-        
+
     }
 
     @Test
@@ -75,9 +89,15 @@ public class StorageJUnitTest {
         task3.setDescription("task three");
         test.insertTask(task3);
 
+        //Multiple input case.
+        Task task4 = new Task();
+        task4.setDescription("task four");
+        test.insertTask(task4);
+
         Tasks result = reader.read();
 
         assertEquals("task three", result.get().get(0).getDescription());
+        assertEquals("task four", result.get().get(1).getDescription());
 
     }
 
@@ -102,23 +122,20 @@ public class StorageJUnitTest {
 
     }
 
-
-//    @Test
-//    public void testSearchTask() throws IOException {
+    @Test
+    public void testMarkTaskCompleted() throws IOException {
 //        Tasks result = reader.read();
-//
-//        Task task4 = result.get().get(1);
-//
-//        Task taskTesting = test.searchTask(2);
-//
-//
-//      //  assertEquals(false, task4.equals(taskTesting));
-//        assertEquals("Task four", test.searchTask(1).getDescription());
-//
-//
-//    }
+//        Task task3 = result.get().get(0);
+
+        test.markTaskAsCompleted(0);
+//        task3.markTaskCompleted();
+
+        Tasks result = reader.read();
+
+        assertEquals(true, result.get().get(0).isTaskCompleted());
+    }
 
 
-	
+
 
 }
