@@ -40,4 +40,6 @@ public class Tasks {
     public void setID(int id) {
         this.latestID = id;
     }
+
+    public void removeAll() { allTasks.clear(); }
 }
