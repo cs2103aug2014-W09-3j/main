@@ -16,6 +16,7 @@ public class StorageJUnitTest {
     private ArrayList<Task> newTasks;
     private StorageReader reader = new StorageReader();
     private TareasIO test = new TareasIO();
+
     public static void main(String[] args) {
 		// TODO Auto-generated method stub
 	}
@@ -80,18 +81,44 @@ public class StorageJUnitTest {
 
     }
 
+    @Test
+    public void testEditTask() throws IOException {
+        Task task3 = new Task();
+        task3.setTaskID(0);
+        task3.setDescription("I am task three");
+        test.editTask(task3);
 
-	
-	private ArrayList<Task> generateDummyTasks() {
-		Task task1 = new Task();
-		task1.setDescription("task one");
-		Task task2 = new Task();
-		task2.setDescription("task two");
-		ArrayList<Task> allTasks = new ArrayList<Task>();
-		allTasks.add(task1);
-		allTasks.add(task2);
-		return allTasks;
-	}
+        //Multiple inputs case.
+        Task task4 = new Task();
+        task4.setDescription("Task four");
+        test.insertTask(task4);
+
+        Task task5 = new Task();
+        test.insertTask(task5);
+
+        Tasks result = reader.read();
+        assertEquals("I am task three", result.get().get(0).getDescription());
+        assertEquals("Task four", result.get().get(1).getDescription());
+
+    }
+
+
+//    @Test
+//    public void testSearchTask() throws IOException {
+//        Tasks result = reader.read();
+//
+//        Task task4 = result.get().get(1);
+//
+//        Task taskTesting = test.searchTask(2);
+//
+//
+//      //  assertEquals(false, task4.equals(taskTesting));
+//        assertEquals("Task four", test.searchTask(1).getDescription());
+//
+//
+//    }
+
+
 	
 
 }
