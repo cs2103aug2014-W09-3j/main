@@ -125,20 +125,43 @@ public class TaskManagerTests {
     }
 
     /**
-     * TaskManager test for making sure that TaskManager's redoStack allows for pushing
-     */
-    @Test
-    public void redoStackAllowPushing() throws IOException {
-        // TODO add testing for this case and correct assert case
-
-        assertEquals(true, false);
-    }
-
-    /**
      * TaskManager test for making sure that TaskManager historyStack allows for pushing
      */
     @Test
     public void historyStackAllowPushing() throws IOException {
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
+
+        testArrayListTask1.add(testTask);
+
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        taskManager.tasksChanged(testArrayListTask2);
+
+        Stack<Tasks> testHistoryStack = new Stack<>();
+
+        Tasks testTasks = new Tasks();
+        testTasks.set(testArrayListTask1);
+
+        testHistoryStack.push(testTasks);
+
+        // unable to test for equality of the stack, so we test size since this test is quite controlled
+        assertEquals(testHistoryStack.peek().get().size(), taskManager.getUndoStack().peek().get().size());
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager's redoStack allows for pushing
+     */
+    @Test
+    public void redoStackAllowPushing() throws IOException {
         // TODO add testing for this case and correct assert case
 
         assertEquals(true, false);
