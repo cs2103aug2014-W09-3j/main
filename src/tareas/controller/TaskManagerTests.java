@@ -51,9 +51,19 @@ public class TaskManagerTests {
      */
     @Test
     public void latestTasksIsIdChangesAfterSettingIt() throws IOException {
-        // TODO add testing for this case and correct assert case
+        taskManager.setId(0);
 
-        assertEquals(true, false);
+        assertEquals(0, taskManager.getId());
+
+        taskManager.setId(3);
+
+        assertEquals(3, taskManager.getId());
+
+        taskManager.setId(-1);
+
+        assertEquals(-1, taskManager.getId());
+
+        taskManager.setId(0);
     }
 
     /**

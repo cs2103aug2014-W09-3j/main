@@ -116,6 +116,15 @@ public class TaskManager {
         latestTasks.setID(id);
     }
 
+    /**
+     * for testing purposes - gets the latest tasks id that is most recently set
+     *
+     * @return latest id to be set
+     */
+    protected int getId() {
+        return latestTasks.getLatestID();
+    }
+
 
     /**
      * sets the latestTasks of the TaskManager into the one given
