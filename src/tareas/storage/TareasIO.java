@@ -362,7 +362,7 @@ public class TareasIO {
      * This method postpones tasks to different deadlines.
      * @param task
      */
-    public void postponeTask(Task task) {
+    public void postponeTask(Task task){
         editTask(task);
     }
 
