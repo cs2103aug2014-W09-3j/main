@@ -177,7 +177,17 @@ public class TareasController {
             taskToInsert.setDescription(command.getArgument("des"));
         }
 
-        // TODO add in the other stuff that can be possibly edited
+        if (command.getArgument("start") != null) {
+            taskToInsert.setStartDateTime(command.getArgument("start"));
+        }
+
+        if (command.getArgument("end") != null) {
+            taskToInsert.setEndDateTime(command.getArgument("end"));
+        }
+
+        if (command.getArgument("deadline") != null) {
+            taskToInsert.setDeadline(command.getArgument("deadline"));
+        }
 
         int tasksSize = taskManager.get().size();
 
