@@ -150,8 +150,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task successfully added");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Task successfully added - " + taskToInsert.getDescription());
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task adding action " + now.toString());
@@ -181,8 +180,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task successfully edited");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Task successfully edited - " + taskToInsert.getDescription());
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task editing action at " + now.toString());
@@ -198,6 +196,8 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
         tareas.deleteTask(mappedTaskId);
@@ -205,8 +205,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task successfully deleted");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task deletion action at " + now.toString());
@@ -238,6 +237,8 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
         System.out.println(mappedTaskId);
@@ -247,8 +248,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Successfully completed Task " + taskId);
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Successfully completed Task - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task completion action at " + now.toString());
@@ -264,6 +264,8 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO postpone the task to the Storage
@@ -271,8 +273,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task has been successfully postponed");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task postponing action at " + now.toString());
@@ -305,6 +306,8 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO tell the storage that a task has been prioritized
@@ -312,8 +315,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task has been successfully prioritized");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Task has been successfully prioritized - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task prioritizing action at" + now.toString());
@@ -329,6 +331,8 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO tell the storage that a task has been categorized
@@ -336,8 +340,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task has been successfully categorized");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Task has been successfully categorized - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task categorization action at " + now.toString());
@@ -353,6 +356,8 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
         // TODO tell the storage that a task has a reminder set
@@ -360,8 +365,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Reminder Set");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task reminder action at " + now.toString());
@@ -386,7 +390,7 @@ public class TareasController {
         // TODO grab the time start and end to be passed to TareasIO
     	
         // TODO tell the storage to mute everything from time to time
-        guiController.sendSuccessToView("Tareas successfully muted");
+        guiController.sendSuccessToView("Tareas successfully muted from time1 to time2");
         // TODO change feedback to include task description for useful user feedback
 
         Date now = new Date();
@@ -402,7 +406,7 @@ public class TareasController {
         // TODO grab the font arguments to be passed to the GUI
     	
         // TODO tell the GUI to change the font
-        guiController.sendSuccessToView("Font changed successfully");
+        guiController.sendSuccessToView("Font changed successfully to {{fontType}}");
         // TODO change feedback to include task description for useful user feedback
 
         Date now = new Date();
@@ -419,6 +423,8 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
     	
         // TODO tell the storage to change the color of the task
@@ -426,8 +432,7 @@ public class TareasController {
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Successfully changed color of task");
-        // TODO change feedback to include task description for useful user feedback
+        guiController.sendSuccessToView("Successfully changed color of task - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task colorization action at " + now.toString());
@@ -464,8 +469,9 @@ public class TareasController {
             tareas.redoWrite(stateToRevertTo);
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Successfully redo action");
-            Log.i(TAG, "User has performed a redo action");
-            // TODO change logging to include time stamp
+
+            Date now = new Date();
+            Log.i(TAG, "User has performed a redo action at " + now.toString());
 		} else {
             guiController.sendWarningToView("Nothing to redo");
 
