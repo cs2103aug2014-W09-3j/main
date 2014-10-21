@@ -153,8 +153,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully added");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task adding action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task adding action " + now.toString());
     }
 
     /**
@@ -183,8 +184,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully edited");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task editing action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task editing action at " + now.toString());
     }
 
     /**
@@ -206,8 +208,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully deleted");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task deletion action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task deletion action at " + now.toString());
     }
 
     /**
@@ -221,8 +224,9 @@ public class TareasController {
         tareas.searchTask(taskId);
         // TODO Add in feedback to user on the GUI side of things
         // TODO change feedback to include task description for useful user feedback
-        // TODO Add in Logging
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task search action at " + now.toString());
     }
 
     /**
@@ -246,8 +250,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully completed Task " + taskId);
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task completion action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task completion action at " + now.toString());
     }
 
     /**
@@ -269,8 +274,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully postponed");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task postponing action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task postponing action at " + now.toString());
     }
 
     /**
@@ -285,8 +291,9 @@ public class TareasController {
         // TODO call the GUI method to display the view request
         guiController.sendSuccessToView("View has successfully been changed");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a view change action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a view change action at " + now.toString());
     }
 
     /**
@@ -308,8 +315,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully prioritized");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task prioritizing action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task prioritizing action at" + now.toString());
     }
 
     /**
@@ -331,8 +339,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully categorized");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task categorization action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task categorization action at " + now.toString());
     }
 
     /**
@@ -354,8 +363,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Reminder Set");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task reminder action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task reminder action at " + now.toString());
     }
 
     /**
@@ -379,8 +389,9 @@ public class TareasController {
         // TODO tell the storage to mute everything from time to time
         guiController.sendSuccessToView("Tareas successfully muted");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a mute action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a mute action at " + now.toString());
     }
 
     /**
@@ -394,8 +405,9 @@ public class TareasController {
         // TODO tell the GUI to change the font
         guiController.sendSuccessToView("Font changed successfully");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a font change action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a font change action at " + now.toString());
     }
 
     /**
@@ -417,8 +429,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully changed color of task");
         // TODO change feedback to include task description for useful user feedback
-        Log.i(TAG, "User has performed a task colorization action");
-        // TODO change logging to include time stamp
+
+        Date now = new Date();
+        Log.i(TAG, "User has performed a task colorization action at " + now.toString());
     }
 
     /**
@@ -431,12 +444,14 @@ public class TareasController {
             tareas.undoWrite(stateToRevertTo);
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Successfully undo action");
-            Log.i(TAG, "User has performed an undo action");
-            // TODO change logging to include time stamp
+
+            Date now = new Date();
+            Log.i(TAG, "User has performed an undo action at " + now.toString());
 		} else {
             guiController.sendWarningToView("Nothing to undo");
-            Log.e(TAG, "User tried to undo an action when there is nothing to undo");
-            // TODO change logging to include time stamp
+
+            Date now = new Date();
+            Log.e(TAG, "User tried to undo an action when there is nothing to undo at " + now.toString());
 		}
     }
 
@@ -454,8 +469,9 @@ public class TareasController {
             // TODO change logging to include time stamp
 		} else {
             guiController.sendWarningToView("Nothing to redo");
-            Log.e(TAG, "User tried to redo an action when there is nothing to redo");
-            // TODO change logging to include time stamp
+
+            Date now = new Date();
+            Log.e(TAG, "User tried to redo an action when there is nothing to redo at " + now.toString());
 		}
     }
 }
