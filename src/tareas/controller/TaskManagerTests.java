@@ -34,9 +34,16 @@ public class TaskManagerTests {
      */
     @Test
     public void latestTasksIsNotEmptyAfterSet() throws IOException {
-        // TODO add testing for this case and correct assert case
+        Task testTask = new Task();
+        ArrayList<Task> testArrayListTask = new ArrayList<>();
 
-        assertEquals(true, false);
+        testArrayListTask.add(testTask);
+
+        taskManager.set(testArrayListTask);
+
+        assertEquals(1, taskManager.get().size());
+
+        taskManager.set(new ArrayList<>());
     }
 
     /**
