@@ -363,8 +363,8 @@ public class TareasIO {
      * @param task
      */
     public void postponeTask(Task task){
-        allTasks.remove(task.getTaskID());
-        allTasks.add(task);
+        deleteTask(task.getTaskID());
+        insertTask(task);
         write();
     }
 
@@ -372,7 +372,7 @@ public class TareasIO {
      * This method deletes all ongoing tasks in the list.
      */
     public void massDelete(){
-        allTasks.removeAll();
+        tasks.removeAll();
         write();
     }
 

@@ -41,6 +41,13 @@ public class StorageJUnitTest {
 		dummyTasks.remove(1);
 		assertEquals(1, dummyTasks.size());
 	}
+
+    @Test
+    public void testMassDelete() throws IOException {
+        ArrayList<Task> dummyTasks = generateDummyTasks();
+        dummyTasks.removeAll(dummyTasks);
+        assertEquals(0, dummyTasks.size());
+    }
 	
 	private ArrayList<Task> generateDummyTasks() {
 		Task task1 = new Task();
