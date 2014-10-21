@@ -41,7 +41,7 @@ public class TaskManagerTests {
 
         taskManager.set(testArrayListTask);
 
-        assertEquals(1, taskManager.get().size());
+        assertNotEquals(0, taskManager.get().size());
 
         taskManager.set(new ArrayList<>());
     }
@@ -63,7 +63,7 @@ public class TaskManagerTests {
 
         assertEquals(-1, taskManager.getId());
 
-        taskManager.setId(0);
+        taskManager.setId(1);
     }
 
     /**
@@ -111,9 +111,17 @@ public class TaskManagerTests {
      */
     @Test
     public void taskChangedSupported() throws IOException {
-        // TODO add testing for this case and correct assert case
+        Task testTask = new Task();
+        ArrayList<Task> testArrayListTask = new ArrayList<>();
 
-        assertEquals(false, false);
+        testArrayListTask.add(testTask);
+
+        taskManager.tasksChanged(testArrayListTask);
+
+        assertEquals(testArrayListTask, taskManager.get());
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
     }
 
     /**
