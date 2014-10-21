@@ -5,8 +5,10 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
+
 import tareas.common.Task;
 import tareas.common.Tasks;
+import tareas.parser.TareasCommand;
 
 import static org.junit.Assert.*;
 
@@ -209,9 +211,14 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingFloatingTasks() throws IOException {
-        // TODO add testing for this case and correct assert case
+        TareasCommand testTareasCommand = TareasCommand.fromString("buy ham");
 
-        assertEquals(true, false);
+        Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
+
+        assertEquals(testBuyHamTask.getDescription(), "buy ham");
+        assertEquals(testBuyHamTask.getStartDateTime(), null);
+        assertEquals(testBuyHamTask.getEndDateTime(), null);
+        assertEquals(testBuyHamTask.getDeadline(), null);
     }
 
     /**
