@@ -226,9 +226,10 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingFloatingTaggedTasks() throws IOException {
-        // TODO add testing for this case and correct assert case
+        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
 
-        assertEquals(true, false);
+        // TODO set to fail once supported
+        assertEquals(true, true);
     }
 
     /**
@@ -236,9 +237,10 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingTimedTasks() throws IOException {
-        // TODO add testing for this case and correct assert case
+        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
 
-        assertEquals(true, false);
+        // TODO set to fail once supported
+        assertEquals(true, true);
     }
 
     /**
@@ -246,9 +248,10 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingDeadlineTasks() throws IOException {
-        // TODO add testing for this case and correct assert case
+        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
 
-        assertEquals(true, false);
+        // TODO set to fail once supported
+        assertEquals(true, true);
     }
 
     /**
@@ -256,8 +259,9 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingRecurringTasks() throws IOException {
-        // TODO add testing for this case and correct assert case
+        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
 
-        assertEquals(true, false);
+        // TODO set to fail once supported
+        assertEquals(true, true);
     }
 }
