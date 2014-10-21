@@ -169,6 +169,8 @@ public class TareasController {
             taskToInsert.setDescription(command.getArgument("des"));
         }
 
+        // TODO add in the other stuff that can be possibly edited
+
         int tasksSize = taskManager.get().size();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
