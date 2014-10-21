@@ -1,0 +1,26 @@
+#taskpane {
+    -fx-background-color: linear-gradient(to bottom, derive(#d9d9d9, 20%), #b1b1b1);
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
+    -fx-effect: dropshadow(three-pass-box, derive(gray, -20%), 10, 0, 4, 4);
+}
+
+#taskDescription {
+    -fx-text-fill: black;
+    -fx-translate-x: 60;
+    -fx-translate-y: 10;
+    -fx-font-size: 20;
+}
+
+#idLabel {
+    -fx-text-fill: gray;
+    -fx-translate-x: 10;
+    -fx-translate-y: 10;
+    -fx-font-size: 20;
+}
+
+#deadlineLabel {
+    -fx-font-size: 10;
+    -fx-translate-x: 60;
+    -fx-translate-y: 40;
+}

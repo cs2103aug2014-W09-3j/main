@@ -18,7 +18,8 @@ import java.util.HashSet;
  */
 
 public class TareasCommand {
-    private static String PRIMARY_ARGUMENT_KEY = "!primary";
+    private static String PRIMARY_ARGUMENT_KEY = "!primary_argument";
+
 
     public static class CommandArgument {
         private String mKey;
@@ -40,6 +41,7 @@ public class TareasCommand {
 
     private CommandType mType;
     private HashMap<String, String> mSecondaryArguments;
+    private String mPrimaryKey;
 
     //region Constructors
 
@@ -85,6 +87,14 @@ public class TareasCommand {
         return getArgument(PRIMARY_ARGUMENT_KEY);
     }
 
+    public String getPrimaryKey() {
+        return mPrimaryKey;
+    }
+
+    private void setPrimaryKey(String primaryKey) {
+        this.mPrimaryKey = primaryKey;
+    }
+
     /**
      * Retrieve the set of secondary keywords.
      *
@@ -121,6 +131,10 @@ public class TareasCommand {
     public static TareasCommand fromString(String command) {
         command = command.trim();
 
+        assert !command.equals("") : "Command should not be empty";
+
+        if (command.equals("")) return new TareasCommand(CommandType.UNKNOWN_COMMAND);
+
         // if the command doesn't start with the delimiter (i.e. it's a special command),
         // add the primary keyword back to normalize the command.
         if (!command.startsWith(Constants.COMMAND_DELIMITER)) {
@@ -150,6 +164,7 @@ public class TareasCommand {
             }
         }
 
+        ret.setPrimaryKey(primaryKeyword);
         ret.setType(CommandType.fromPrimaryKeyword(primaryKeyword));
         return ret;
     }

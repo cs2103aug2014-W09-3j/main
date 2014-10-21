@@ -1,14 +1,11 @@
 package tareas.storage;
 
+import com.google.gson.Gson;
+import tareas.common.Tasks;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import com.google.gson.Gson;
-
-import tareas.common.*;
-import java.util.logging.Logger;
-
 
 /**
  * @author Her Lung
@@ -20,19 +17,14 @@ import java.util.logging.Logger;
  */
 
 public class StorageWriter {
-
-    private final static Logger LOGGER = Logger.getLogger(StorageWriter.class.getName());
-/* LOGGER.setLevel(Level.INFO); */
-
-
-    public void write(Tasks tasks) throws IOException {
+	
+	public void write(Tasks tasks) throws IOException {
 		Gson gson = new Gson();
 		String json = gson.toJson(tasks);
 		
 		FileWriter writer = new FileWriter("storage.json");
 		writer.write(json);
 		writer.close();
-
 	}
 	
     public void createFile () {

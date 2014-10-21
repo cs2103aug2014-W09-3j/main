@@ -1,14 +1,9 @@
 package tareas.storage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import com.google.gson.Gson;
-
 import tareas.common.Tasks;
+
+import java.io.*;
 
 /**
  * @author Her Lung
@@ -20,12 +15,12 @@ import tareas.common.Tasks;
  */
 
 public class StorageReader {
-	
-	private Tasks allTasks = new Tasks();
-	
+
+    private Tasks tasks = new Tasks();
+
 	public Tasks read() throws IOException {
 		File file = new File("storage.json");
-		if(file.exists()) {
+		if (file.exists()) {
 			return convertJSONtoObject();
 		} else {
 			// The below method creates a new file and returns an empty ArrayList<Tasks>
@@ -37,7 +32,7 @@ public class StorageReader {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
 		writer.createFile();
-		return allTasks;
+		return tasks;
 	}
 
 	private Tasks convertJSONtoObject() throws FileNotFoundException,
@@ -47,7 +42,7 @@ public class StorageReader {
 		BufferedReader br = new BufferedReader(fr);
 		String json = br.readLine();
 		br.close();
-		this.allTasks = gson.fromJson(json, Tasks.class);
-		return this.allTasks;
+		tasks = gson.fromJson(json, Tasks.class);
+        return tasks;
 	}
 }

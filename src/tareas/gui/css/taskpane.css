@@ -1,5 +1,5 @@
 #taskpane {
-    -fx-background-color: linear-gradient(to bottom, derive(#d9d9d9, 20%), #d1d1d1);
+    -fx-background-color: linear-gradient(to bottom, derive(#d9d9d9, 20%), #b1b1b1);
     -fx-border-radius: 5 5 5 5;
     -fx-background-radius: 5 5 5 5;
     -fx-effect: dropshadow(three-pass-box, derive(gray, -20%), 10, 0, 4, 4);

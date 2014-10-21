@@ -2,7 +2,6 @@
 ### Java template
 *.class
 .idea
-workspace.xml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -20,3 +19,5 @@ hs_err_pid*
 
 # For build paths
 .classpath
+
+*.log
