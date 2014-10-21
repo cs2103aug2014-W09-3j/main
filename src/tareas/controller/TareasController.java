@@ -295,9 +295,19 @@ public class TareasController {
 
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
-        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-        
-        // TODO postpone the task to the Storage
+        Task taskToPostpone = taskManager.get().get(tasksSize - taskId);
+
+        if (command.getArgument("to") != null) {
+            taskToPostpone.setDeadline(command.getArgument("to"));
+
+            // TODO support postpone for timed tasks as well? - ask for opinions first
+        }
+
+        if (command.getArgument("by") != null) {
+            // TODO support the by format for both deadline and timed tasks - ask for opinions on timed tasks
+        }
+
+        tareas.postponeTask(taskToPostpone);
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
 
@@ -340,9 +350,16 @@ public class TareasController {
 
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
+        Task taskToPrioritize= taskManager.get().get(tasksSize - taskId);
+
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-        
-        // TODO tell the storage that a task has been prioritized
+
+        if (taskToPrioritize.isTaskPriority()) {
+            tareas.prioritizeTask(mappedTaskId, false);
+            // TODO talk to team about allow de-prioritize stuff
+        } else {
+            tareas.prioritizeTask(mappedTaskId, true);
+        }
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
 
