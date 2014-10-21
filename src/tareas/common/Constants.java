@@ -9,6 +9,6 @@ package tareas.common;
  */
 
 public class Constants {
-    public static String COMMAND_DELIMITER = "-";
+    public static String COMMAND_DELIMITER = "/";
     public static boolean LOGGING_ENABLED = true;
 }
