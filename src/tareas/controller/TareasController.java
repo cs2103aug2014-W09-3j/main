@@ -125,7 +125,6 @@ public class TareasController {
                 break;
             default:
             	guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO throw a TareasException
         }
     }
 
