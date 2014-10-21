@@ -182,9 +182,26 @@ public class TaskManagerTests {
      */
     @Test
     public void ableToUndo() throws IOException {
-        // TODO add testing for this case and correct assert case
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
 
-        assertEquals(true, false);
+        testArrayListTask1.add(testTask);
+
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        taskManager.tasksChanged(testArrayListTask2);
+
+        boolean isAbleToUndo = taskManager.isAbleToUndo();
+
+        assertEquals(true, isAbleToUndo);
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
     }
 
     /**
