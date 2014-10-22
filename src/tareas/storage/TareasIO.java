@@ -363,9 +363,7 @@ public class TareasIO {
      * @param task
      */
     public void postponeTask(Task task){
-        deleteTask(task.getTaskID());
-        insertTask(task);
-        write();
+        editTask(task);
     }
 
     /**

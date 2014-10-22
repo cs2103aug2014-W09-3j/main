@@ -30,10 +30,10 @@ public class Task {
     private String endDateTime;
 
     // Recurrence of the task;
-    private HashMap<String, String> recurrence = new HashMap<String, String>();
+    private HashMap<String, String> recurrence = new HashMap<>();
 
     // Tags given to the task
-    private ArrayList<String> tags = new ArrayList<String>();
+    private ArrayList<String> tags = new ArrayList<>();
 
     // Flag to determine if task is already done or not
     private boolean completed = false;
@@ -214,6 +214,20 @@ public class Task {
     }
 
     /**
+     * This method creates a recurring task
+     *
+     * @param description
+     * @param taskRecurringType
+     * @return Task
+     */
+    public static Task createRecurringTask(String description, String taskRecurringType) {
+        Task deadlineTask = new Task();
+        deadlineTask.setDescription(description);
+        deadlineTask.setRecurrenceFrequency(taskRecurringType);
+        return deadlineTask;
+    }
+
+    /**
      * This method creates a timed task.
      *
      * @param description
@@ -228,5 +242,4 @@ public class Task {
         timedTask.setEndDateTime(endDateTime);
         return timedTask;
     }
-
 }

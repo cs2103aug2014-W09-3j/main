@@ -44,14 +44,14 @@ public class TaskManager {
      *
      * @return an ArrayList of task of the latest tasks
      */
-    public ArrayList<Task> get(){
+    public ArrayList<Task> get() {
         return latestTasks.get();
     }
 
     /**
      * gets the latest state to undo to in the TaskManager
      *
-     * @return an ArrayList of task of the undo state
+     * @return a Tasks object containing ArrayList of task of the undo state
      */
     public Tasks getUndoState() {
         Tasks toPushToRedoStack = new Tasks(latestTasks);
@@ -67,7 +67,7 @@ public class TaskManager {
     /**
      * gets the latest state to redo to in the TaskManager
      *
-     * @return an ArrayList of task of the redo state
+     * @return a Tasks object containing ArrayList of task of the redo state
      */
     public Tasks getRedoState() {
         Tasks toPushToHistory = new Tasks(latestTasks);
@@ -81,12 +81,21 @@ public class TaskManager {
     }
 
     /**
-     * gets the size of the history stack
+     * for testing purposes - returns the redo stack
      *
-     * @return size of history stack
+     * @return the redoStack
      */
-    public int getSize(){
-        return historyStack.size();
+    protected Stack<Tasks> getRedoStack() {
+        return this.redoStack;
+    }
+
+    /**
+     * for testing purposes - returns the history stack
+     *
+     * @return the historyStack
+     */
+    protected Stack<Tasks> getUndoStack() {
+        return this.historyStack;
     }
 
     /**
@@ -107,6 +116,15 @@ public class TaskManager {
         latestTasks.setID(id);
     }
 
+    /**
+     * for testing purposes - gets the latest tasks id that is most recently set
+     *
+     * @return latest id to be set
+     */
+    protected int getId() {
+        return latestTasks.getLatestID();
+    }
+
 
     /**
      * sets the latestTasks of the TaskManager into the one given
@@ -125,7 +143,7 @@ public class TaskManager {
      * @return whether there is anything to redo
      */
     public boolean isAbleToRedo() {
-        return redoStack.empty();
+        return !redoStack.empty();
     }
 
     /**
@@ -134,7 +152,7 @@ public class TaskManager {
      * @return whether there is anything to undo
      */
     public boolean isAbleToUndo() {
-        return historyStack.empty();
+        return !historyStack.empty();
     }
 
     /**
@@ -145,14 +163,20 @@ public class TaskManager {
     }
 
     /**
+     * for testing purposes - clears the history stack
+     */
+    protected void clearHistoryState() {
+        historyStack.clear();
+    }
+
+    /**
      * builds a task using the command given by the user after being parsed by the parser
      *
      * @param command to be parsed into a Task object
      * @return Task
      */
     public static Task buildTask(TareasCommand command) {
-        Task taskToReturn = new Task();
-        // Can remove in the future once all the different types are supported
+        Task taskToReturn;
 
         if (command.hasKey("tag")) {
             String taskDescription = command.getPrimaryArgument();
@@ -160,11 +184,21 @@ public class TaskManager {
 
             taskToReturn = Task.createTaggedTask(taskDescription, taskTag);
         } else if (command.hasKey("from")) {
-            //TODO support timed tasks
+            String taskDescription = command.getPrimaryArgument();
+            String taskStartTime = command.getArgument("from");
+            String taskEndTime = command.getArgument("to");
+
+            taskToReturn = Task.createTimedTask(taskDescription, taskStartTime, taskEndTime);
         } else if (command.hasKey("by")) {
-            //TODO support deadline tasks
+            String taskDescription = command.getPrimaryArgument();
+            String taskDeadline = command.getArgument("by");
+
+            taskToReturn = Task.createDeadlineTask(taskDescription, taskDeadline);
         } else if (command.hasKey("recurring")) {
-            //TODO support recurring tasks
+            String taskDescription = command.getPrimaryArgument();
+            String taskRecurringType = command.getArgument("recurring");
+
+            taskToReturn = Task.createRecurringTask(taskDescription, taskRecurringType);
         } else {
             // By default, the task type will be floating tasks
             String taskDescription = command.getPrimaryArgument();

@@ -21,7 +21,7 @@ public class StorageJUnitTest {
 		// TODO Auto-generated method stub
 	}
 
-	
+
 	@Test
 	public void testCreateFile() {
 		StorageWriter writer = new StorageWriter();
@@ -29,7 +29,7 @@ public class StorageJUnitTest {
 		File f = new File("storage.json");
 		assertEquals(true, f.exists());
 	}
-	
+
 	@Test
 	public void testWriteToFile() throws IOException {
         Task task = new Task();
@@ -43,7 +43,7 @@ public class StorageJUnitTest {
 	    Tasks result = reader.read();
 		assertEquals("task one", result.get().get(0).getDescription());
 	}
-	
+
 	@Test
 	public void testDeleteTask() throws IOException {
         newTasks = tasks.get();
@@ -66,7 +66,7 @@ public class StorageJUnitTest {
         Tasks result = reader.read();
 
         assertEquals(true, result.get().isEmpty());
-        
+
     }
 
     @Test
@@ -119,6 +119,6 @@ public class StorageJUnitTest {
 //    }
 
 
-	
+
 
 }
