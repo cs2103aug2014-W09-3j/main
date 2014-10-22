@@ -53,14 +53,17 @@ public class TaskManagerTests {
      */
     @Test
     public void latestTasksIsIdChangesAfterSettingIt() throws IOException {
+        // 0
         taskManager.setId(0);
 
         assertEquals(0, taskManager.getId());
 
+        // Positive value
         taskManager.setId(3);
 
         assertEquals(3, taskManager.getId());
 
+        // Negative value
         taskManager.setId(-1);
 
         assertEquals(-1, taskManager.getId());
@@ -138,11 +141,13 @@ public class TaskManagerTests {
 
         testArrayListTask1.add(testTask);
 
+        // simulate first task added
         taskManager.tasksChanged(testArrayListTask1);
 
         testArrayListTask2.add(testTask);
         testArrayListTask2.add(testTask2);
 
+        // simulate second task added
         taskManager.tasksChanged(testArrayListTask2);
 
         Stack<Tasks> testHistoryStack = new Stack<>();
@@ -152,8 +157,11 @@ public class TaskManagerTests {
 
         testHistoryStack.push(testTasks);
 
-        // unable to test for equality of the stack, so we test size since this test is quite controlled
-        assertEquals(testHistoryStack.peek().get().size(), taskManager.getUndoStack().peek().get().size());
+        Stack<Tasks> undoStack = taskManager.getUndoStack();
+
+        // unable to test for equality of the stack, so we test size and task equality since this test is quite controlled
+        assertEquals(testHistoryStack.peek().get().size(), undoStack.peek().get().size());
+        assertEquals(testHistoryStack.peek().get().get(0), undoStack.peek().get().get(0));
 
         taskManager.set(new ArrayList<>());
         taskManager.clearHistoryState();
@@ -164,9 +172,42 @@ public class TaskManagerTests {
      */
     @Test
     public void redoStackAllowPushing() throws IOException {
-        // TODO add testing for this case and correct assert case
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
 
-        assertEquals(true, false);
+        testArrayListTask1.add(testTask);
+
+        // simulate first task added
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        // simulate second task added
+        taskManager.tasksChanged(testArrayListTask2);
+
+        // simulate an undo action
+        taskManager.getUndoState();
+
+        Stack<Tasks> testHistoryStack = new Stack<>();
+
+        Tasks testTasks = new Tasks();
+        testTasks.set(testArrayListTask2);
+
+        testHistoryStack.push(testTasks);
+
+        Stack<Tasks> redoStack = taskManager.getRedoStack();
+
+        // unable to test for equality of the stack, so we test size and task equality since this test is quite controlled
+        assertEquals(testHistoryStack.peek().get().size(), redoStack.peek().get().size());
+        assertEquals(testHistoryStack.peek().get().get(0), redoStack.peek().get().get(0));
+        assertEquals(testHistoryStack.peek().get().get(1), redoStack.peek().get().get(1));
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+        taskManager.clearRedoState();
     }
 
     /**
@@ -174,9 +215,32 @@ public class TaskManagerTests {
      */
     @Test
     public void ableToRedo() throws IOException {
-        // TODO add testing for this case and correct assert case
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
 
-        assertEquals(true, false);
+        testArrayListTask1.add(testTask);
+
+        // simulate first task added
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        // simulate second task added
+        taskManager.tasksChanged(testArrayListTask2);
+
+        // simulate an undo action
+        taskManager.getUndoState();
+
+        boolean isAbleToRedo = taskManager.isAbleToRedo();
+
+        assertEquals(true, isAbleToRedo);
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+        taskManager.clearRedoState();
     }
 
     /**
@@ -191,11 +255,13 @@ public class TaskManagerTests {
 
         testArrayListTask1.add(testTask);
 
+        // simulate first task added
         taskManager.tasksChanged(testArrayListTask1);
 
         testArrayListTask2.add(testTask);
         testArrayListTask2.add(testTask2);
 
+        // simulate second task added
         taskManager.tasksChanged(testArrayListTask2);
 
         boolean isAbleToUndo = taskManager.isAbleToUndo();
@@ -215,6 +281,7 @@ public class TaskManagerTests {
 
         Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
 
+        // make sure it has description but not any kind of deadline or start time end time
         assertEquals(testBuyHamTask.getDescription(), "buy ham");
         assertEquals(testBuyHamTask.getStartDateTime(), null);
         assertEquals(testBuyHamTask.getEndDateTime(), null);
