@@ -2,13 +2,17 @@ package tareas.gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -17,6 +21,7 @@ import tareas.common.Log;
 import tareas.common.Task;
 import tareas.controller.TareasController;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -181,10 +186,28 @@ public class TareasGUIController implements Initializable {
             FlowPane taskPane = generator.generateTaskPane();
             taskPane.setOnMouseClicked(event -> {
                 System.out.println("Clicked on Task");
+                showDetailedView(event);
             });
             flowPane.getChildren().add(taskPane);
         }
         idCount = 1;
+    }
+
+    public void showDetailedView(MouseEvent event) {
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("TasksDetailedView.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("My New Stage Title");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+
+            //hide this current window (if this is whant you want
+            //((Node)(event.getSource())).getScene().getWindow().hide();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void hideNotificationAfter(int ms) {
