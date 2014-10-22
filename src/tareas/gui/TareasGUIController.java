@@ -9,8 +9,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import org.controlsfx.control.NotificationPane;
 import tareas.common.Log;
@@ -33,7 +33,7 @@ public class TareasGUIController implements Initializable {
     public GridPane root;
     public TextField commandLine;
     public Button closeButton;
-    public TilePane tilePane;
+    public FlowPane flowPane;
     public ScrollPane scrollPane;
 
     // Data Variables
@@ -82,9 +82,9 @@ public class TareasGUIController implements Initializable {
     }
 
     private void initializeTilePane() {
-        tilePane.setHgap(20);
-        tilePane.setVgap(3);
-        tilePane.getStylesheets().add("tareas/gui/css/tilepane.css");
+        flowPane.setHgap(20);
+        flowPane.setVgap(3);
+        flowPane.getStylesheets().add("tareas/gui/css/tilepane.css");
     }
 
     private void initializeNotifications() {
@@ -105,7 +105,7 @@ public class TareasGUIController implements Initializable {
     }
 
     private void initializeScrollPane() {
-        scrollPane.setContent(tilePane);
+        scrollPane.setContent(flowPane);
         scrollPane.setStyle("-fx-background-color: transparent");
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -168,14 +168,14 @@ public class TareasGUIController implements Initializable {
     }
 
     private void updateView() {
-        tilePane.getChildren().clear();
+        flowPane.getChildren().clear();
         Label categoryLabel = new Label(categoryText);
         categoryLabel.setId("categoryLabel");
-        tilePane.getChildren().add(categoryLabel);
+        flowPane.getChildren().add(categoryLabel);
 
         for (Task task : this.tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
-            tilePane.getChildren().add(generator.generateTaskPane());
+            flowPane.getChildren().add(generator.generateTaskPane());
         }
         idCount = 1;
     }
