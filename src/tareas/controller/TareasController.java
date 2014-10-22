@@ -386,7 +386,7 @@ public class TareasController {
         guiController.sendSuccessToView("Task has been successfully prioritized - " + taskDescriptionForFeedback);
 
         Date now = new Date();
-        Log.i(TAG, "User has performed a task prioritizing action at" + now.toString());
+        Log.i(TAG, "User has performed a task prioritizing action at " + now.toString());
     }
 
     /**

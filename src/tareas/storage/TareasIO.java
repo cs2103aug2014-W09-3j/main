@@ -347,14 +347,26 @@ public class TareasIO {
      * @param id
      * @param priority
      */
-    public void prioritizeTask(int id, boolean priority){
-        Task task = getTask(id);
-        if(priority){
-            task.setTaskAsPriority();
+    public void prioritizeTask(int id, boolean priority) {
+        initialize();
+
+        ArrayList<Task> temp = getAllTasks();
+
+        int taskIdToPrioritize = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToPrioritize = i;
+            }
         }
-        else{
-            task.setTaskAsNotPriority();
+
+        if (taskIdToPrioritize != -1) {
+            temp.get(taskIdToPrioritize).setTaskAsPriority();
         }
+
+        tasks.set(temp);
+
         write();
     }
 
