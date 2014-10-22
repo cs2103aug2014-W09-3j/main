@@ -30,4 +30,15 @@ public class TasksJUnitTest {
         assertEquals(5, clonedTasksWithID.getLatestID());
     }
 
+    @Test
+    // This is a test case to show that the incrementID method of Tasks is working as
+    // expected. This test also somewhat showcases the boundary value analysis heuristics.
+    public void incrementIDTest() {
+        tasks.setID(0);
+        tasks.incrementID();
+        assertEquals(false, tasks.getLatestID() == 0);
+        assertEquals(true, tasks.getLatestID() == 1);
+        assertEquals(false, tasks.getLatestID() == 2);
+    }
+
 }
