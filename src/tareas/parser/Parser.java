@@ -3,6 +3,8 @@ package tareas.parser;
 import tareas.common.Constants;
 import tareas.common.Log;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
 /**
@@ -14,7 +16,7 @@ import java.util.HashSet;
 public class Parser {
     private static String TAG = "tareas/parser";
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         Constants.LOGGING_ENABLED = false;
 
         String[] tests = {
@@ -72,7 +74,7 @@ public class Parser {
         CommandType type = command.getType();
 
         if (type == CommandType.UNKNOWN_COMMAND) {
-            Log.i(TAG, "unknown command");
+            Log.i(TAG, "unknown command: " + command.getPrimaryKey());
             return new ParsingResult(ParsingStatus.UNKNOWN_COMMAND, command.getPrimaryKey());
         }
 
@@ -96,13 +98,13 @@ public class Parser {
                 }
             }
 
-            Log.i(TAG, "parsed successfully");
+            Log.i(TAG, "success: " + command);
             return new ParsingResult(ParsingStatus.SUCCESS);
 
         } else { // if not, check whether the command matches an overloading signature, i.e. the set of keywords matches
             for (HashSet<String> overload : type.getOverloadKeywordList()) {
                 if (overload.equals(command.getSecondaryKeys())) {
-                    Log.i(TAG, "parsed successfully");
+                    Log.i(TAG, "success: " + command);
                     return new ParsingResult(ParsingStatus.SUCCESS);
                 }
             }
@@ -112,5 +114,43 @@ public class Parser {
         }
     }
 
+    public static LocalDateTime getDateTimeFromString(String input) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy HH:mm");
+        return LocalDateTime.parse(input, formatter);
+    }
 
+    /*public static LocalDateTime getDateTimeFromString(String input) {
+        LocalDateTime now = LocalDateTime.now();
+
+
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                //.appendPattern("d-M-yy K[:mm]a")
+                //.appendPattern("d-M-yyyy K[:mm]a")
+
+
+                .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
+                .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
+                .parseDefaulting(ChronoField.YEAR, now.getYear())
+
+                .append(DateTimeFormatter.ofPattern("[d-M-yy ]K[:mm]a"))
+                        //append(DateTimeFormatter.ofPattern("d-M-yyyy K[:mm]a"))
+//                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+//                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 30)
+
+
+                .toFormatter();
+
+
+        return LocalDateTime.parse(input.toUpperCase(), formatter);
+    }*/
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(getDateTimeFromString("14-03-17 4:10pm"));
+            //System.out.println(LocalTime.parse("4AM", DateTimeFormatter.ofPattern("Ha")));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 }
