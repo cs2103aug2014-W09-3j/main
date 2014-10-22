@@ -1,6 +1,8 @@
 package tareas.gui;
 
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import tareas.common.Task;
 
@@ -31,6 +33,9 @@ class TaskPaneGenerator {
         // Deadline Label
         taskPane.getChildren().add(getDeadline(task.getDeadline()));
 
+        // Prioritise picture
+        taskPane.getChildren().add(getPriority(task.isTaskPriority()));
+
         return taskPane;
     }
 
@@ -51,7 +56,23 @@ class TaskPaneGenerator {
 
     private Label getDeadline(String deadline) {
         Label deadlineLabel = new Label(deadline);
+        if(deadline == null){
+            deadline = "";
+        }
         deadlineLabel.setId("deadlineLabel");
         return deadlineLabel;
+    }
+
+    private ImageView getPriority(boolean hasPriority) {
+        Image image = new Image("bookmark.png");
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setFitHeight(40);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        imageView.setId("prioritisePicture");
+
+        return imageView;
     }
 }
