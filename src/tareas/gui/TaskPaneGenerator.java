@@ -20,7 +20,6 @@ class TaskPaneGenerator {
         // Initialization of taskPane
         FlowPane taskPane = new FlowPane();
         taskPane.setId("taskpane");
-        taskPane.setPrefSize(745, 40);
         taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
 
         // ID Label
