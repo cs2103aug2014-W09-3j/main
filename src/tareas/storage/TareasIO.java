@@ -243,7 +243,7 @@ public class TareasIO {
      *
 	 * @return allTasks
 	 */
-	private ArrayList<Task> getAllTasks() {
+	public ArrayList<Task> getAllTasks() {
 		StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
         try {
