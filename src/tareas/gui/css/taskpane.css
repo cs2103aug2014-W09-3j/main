@@ -14,14 +14,20 @@
     -fx-pref-width: 50px;
     -fx-text-fill: gray;
     -fx-font-size: 15;
+    -fx-font-weight: bolder;
 }
 
 #taskDescription {
     -fx-text-fill: black;
     -fx-font-size: 15;
-    -fx-max-width: 600px;
+    -fx-pref-width: 550px;
+    /*-fx-translate-x: 25;*/
 }
 
 #deadlineLabel {
-    -fx-font-size: 10;
+    -fx-text-fill: #193861;
+    -fx-font-size: 13;
+    -fx-alignment: center-right;
+    -fx-pref-width: 80px;
+    -fx-font-weight: bold;
 }

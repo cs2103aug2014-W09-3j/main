@@ -29,7 +29,7 @@ class TaskPaneGenerator {
         taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
 
         // Deadline Label
-        //taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        taskPane.getChildren().add(getDeadline(task.getDeadline()));
 
         return taskPane;
     }
@@ -50,7 +50,7 @@ class TaskPaneGenerator {
     }
 
     private Label getDeadline(String deadline) {
-        Label deadlineLabel = new Label("By " + deadline);
+        Label deadlineLabel = new Label(deadline);
         deadlineLabel.setId("deadlineLabel");
         return deadlineLabel;
     }
