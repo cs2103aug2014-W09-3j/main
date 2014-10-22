@@ -185,22 +185,21 @@ public class TareasGUIController implements Initializable {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             FlowPane taskPane = generator.generateTaskPane();
             taskPane.setOnMouseClicked(event -> {
-                System.out.println("Clicked on Task");
-                showDetailedView(event);
+                showDetailedView(event, task);
             });
             flowPane.getChildren().add(taskPane);
         }
         idCount = 1;
     }
 
-    public void showDetailedView(MouseEvent event) {
+    public void showDetailedView(MouseEvent event, Task task) {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("TasksDetailedView.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("My New Stage Title");
-            stage.setScene(new Scene(root, 450, 450));
-            stage.show();
+            Stage detailedView = new Stage();
+            detailedView.setTitle("Task Detailed View");
+            detailedView.setScene(new Scene(root, 450, 450));
+            detailedView.show();
 
             //hide this current window (if this is whant you want
             //((Node)(event.getSource())).getScene().getWindow().hide();
