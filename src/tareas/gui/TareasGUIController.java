@@ -35,11 +35,11 @@ public class TareasGUIController implements Initializable {
     public Button closeButton;
     public TilePane tilePane;
     public ScrollPane scrollPane;
-    public Label category;
 
     // Data Variables
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private NotificationPane notificationPane;
+    private String categoryText = "Today's Tasks";
 
     public TareasGUIController() {
     }
@@ -59,9 +59,6 @@ public class TareasGUIController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Log.i(TAG, "Initialized!");
-
-        // Initialization of category
-        category.setText("All Tasks");
 
         // Initialization of scrollPane
         initializeScrollPane();
@@ -130,7 +127,7 @@ public class TareasGUIController implements Initializable {
     }
 
     public void changeCategoryName(String newCategory) {
-        category.setText(newCategory);
+        categoryText = newCategory;
     }
 
     public void sendWarningToView(String message) {
@@ -172,6 +169,10 @@ public class TareasGUIController implements Initializable {
 
     private void updateView() {
         tilePane.getChildren().clear();
+        Label categoryLabel = new Label(categoryText);
+        categoryLabel.setId("categoryLabel");
+        tilePane.getChildren().add(categoryLabel);
+
         for (Task task : this.tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             tilePane.getChildren().add(generator.generateTaskPane());
