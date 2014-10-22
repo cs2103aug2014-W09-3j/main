@@ -86,7 +86,7 @@ public class TareasGUIController implements Initializable {
 
     private void initializeTilePane() {
         tilePane.setHgap(20);
-        tilePane.setVgap(20);
+        tilePane.setVgap(3);
         tilePane.getStylesheets().add("tareas/gui/css/tilepane.css");
     }
 

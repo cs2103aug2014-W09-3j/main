@@ -20,7 +20,7 @@ class TaskPaneGenerator {
         // Initialization of taskPane
         Pane taskPane = new Pane();
         taskPane.setId("taskpane");
-        taskPane.setPrefSize(745, 80);
+        taskPane.setPrefSize(745, 40);
         taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
 
         // Task Description
@@ -30,7 +30,7 @@ class TaskPaneGenerator {
         taskPane.getChildren().add(getIDLabel(controller.getIdCount()));
 
         // Deadline Label
-        taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        //taskPane.getChildren().add(getDeadline(task.getDeadline()));
 
         return taskPane;
     }
