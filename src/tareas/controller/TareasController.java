@@ -414,11 +414,7 @@ public class TareasController {
      * backups all tasks data by calling the appropriate GUI and storage methods
      */
     private void backup() {
-        // TODO tell the storage to backup the data
-        guiController.sendSuccessToView("Backup successfully performed");
-
-        Date now = new Date();
-        Log.i(TAG, "User has performed a backup action at " + now.toString());
+        // Do nothing, backup no longer supported - TODO remove in future
     }
 
     /**
