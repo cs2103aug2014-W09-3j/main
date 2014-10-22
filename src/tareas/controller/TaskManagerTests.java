@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 /**
  * @author Yap Jun Hao
  *         <p/>
- *         This class contains the unit test for the TaskManager class
+ *         This class contains the unit tests for the TaskManager class
  */
 public class TaskManagerTests {
 
@@ -23,6 +23,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that this TaskManager's latestTasks is empty
+     *
+     * boundary case for when latestTasks is empty upon initialization
      */
     @Test
     public void latestTasksIsEmpty() throws IOException {
@@ -33,6 +35,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager supports sets the ArrayList of Task properly
+     *
+     * normal case for when latestTasks is not empty after adding something
      */
     @Test
     public void latestTasksIsNotEmptyAfterSet() throws IOException {
@@ -44,16 +48,20 @@ public class TaskManagerTests {
         taskManager.set(testArrayListTask);
 
         assertNotEquals(0, taskManager.get().size());
+        assertNotEquals(null, taskManager.get().get(0));
 
         taskManager.set(new ArrayList<>());
     }
 
     /**
      * TaskManager test for making sure that TaskManager supports sets Id properly
+     *
+     * equivalence partitioning test for TaskManager's setting id method - i.e. zero, positive and negative numbers are
+     * all tested
      */
     @Test
     public void latestTasksIsIdChangesAfterSettingIt() throws IOException {
-        // 0
+        // Zero
         taskManager.setId(0);
 
         assertEquals(0, taskManager.getId());
@@ -73,6 +81,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that this TaskManager's redoStack is an empty stack
+     *
+     * boundary case for when redoStack is empty upon initialization
      */
     @Test
     public void redoStackIsEmpty() throws IOException {
@@ -83,6 +93,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that this TaskManager's historyStack is an empty stack
+     *
+     * boundary case for when historyStack is empty upon initialization
      */
     @Test
     public void historyStackIsEmpty() throws IOException {
@@ -93,6 +105,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager with empty redoStack disallows for redoing
+     *
+     * boundary case for when redoStack is empty upon initialization and should disallow users from doing a redo action
      */
     @Test
     public void unableToRedo() throws IOException {
@@ -103,6 +117,9 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager with empty historyStack disallows for undoing
+     *
+     * boundary case for when historyStack is empty upon initialization and should disallow users from doing a redo
+     * action
      */
     @Test
     public void UnableToUndo() throws IOException {
@@ -113,6 +130,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager allows for a task change
+     *
+     * normal case for whenever a the Tasks state has changed
      */
     @Test
     public void taskChangedSupported() throws IOException {
@@ -131,6 +150,9 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager historyStack allows for pushing
+     *
+     * normal case for when historyStack is empty upon initialization and should allow for a state to be pushed in
+     * through a simulation of a task change action (any action that involves changing the Tasks state)
      */
     @Test
     public void historyStackAllowPushing() throws IOException {
@@ -169,6 +191,9 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager's redoStack allows for pushing
+     *
+     * normal case for when redoStack is empty upon initialization and should allow for a state to be pushed in
+     * through a simulation of an undo action
      */
     @Test
     public void redoStackAllowPushing() throws IOException {
@@ -212,6 +237,9 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager with a non-empty historyStack allows for undoing
+     *
+     * normal case for when redoStack is not empty after simulation of an undo action and allows the user to do a redo
+     * action
      */
     @Test
     public void ableToRedo() throws IOException {
@@ -245,6 +273,9 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager with a non-empty historyStack allows for undoing
+     *
+     * normal case for when redoStack is not empty after simulation of a task change and allows the user to do an undo
+     * action
      */
     @Test
     public void ableToUndo() throws IOException {
@@ -274,6 +305,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager supports building floating tasks
+     *
+     * normal case for TaskManager supporting building of floating tasks
      */
     @Test
     public void supportBuildingFloatingTasks() throws IOException {
@@ -290,6 +323,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager supports building floating tagged tasks
+     *
+     * normal case for TaskManager supporting building of floating tagged tasks
      */
     @Test
     public void supportBuildingFloatingTaggedTasks() throws IOException {
@@ -301,6 +336,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager supports building timed tasks
+     *
+     * normal case for TaskManager supporting building of timed tasks
      */
     @Test
     public void supportBuildingTimedTasks() throws IOException {
@@ -312,6 +349,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager supports building deadline tasks
+     *
+     * normal case for TaskManager supporting building of deadline tasks
      */
     @Test
     public void supportBuildingDeadlineTasks() throws IOException {
@@ -323,6 +362,8 @@ public class TaskManagerTests {
 
     /**
      * TaskManager test for making sure that TaskManager supports building recurring tasks
+     *
+     * normal case for TaskManager supporting building of recurring tasks
      */
     @Test
     public void supportBuildingRecurringTasks() throws IOException {
