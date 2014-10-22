@@ -158,7 +158,7 @@ public class TareasController {
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task successfully added - " + taskToInsert.getDescription());
+        guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task adding action " + now.toString());
@@ -491,7 +491,8 @@ public class TareasController {
             tareas.undoWrite(stateToRevertTo);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            guiController.sendSuccessToView("Successfully undo action");
+            guiController.sendSuccessToView("Undo Successful");
+            // TODO make the feedback show something more helpful
 
             Date now = new Date();
             Log.i(TAG, "User has performed an undo action at " + now.toString());
@@ -513,7 +514,8 @@ public class TareasController {
             tareas.redoWrite(stateToRevertTo);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            guiController.sendSuccessToView("Successfully redo action");
+            guiController.sendSuccessToView("Redo Successful");
+            // TODO make the feedback show something more helpful
 
             Date now = new Date();
             Log.i(TAG, "User has performed a redo action at " + now.toString());
