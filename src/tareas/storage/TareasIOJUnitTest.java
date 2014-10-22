@@ -69,7 +69,9 @@ public class TareasIOJUnitTest {
         result = reader.read();
         assertEquals("great", result.get().get(1).getDescription());
 
-
+        //Testing getLatestID method.
+        int latestID = result.getLatestID();
+        assertEquals(3, latestID);
     }
 
 }
