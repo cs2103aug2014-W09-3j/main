@@ -175,7 +175,11 @@ public class TareasGUIController implements Initializable {
 
         for (Task task : this.tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
-            flowPane.getChildren().add(generator.generateTaskPane());
+            FlowPane taskPane = generator.generateTaskPane();
+            taskPane.setOnMouseClicked(event -> {
+                System.out.println("HELLO");
+            });
+            flowPane.getChildren().add(taskPane);
         }
         idCount = 1;
     }
