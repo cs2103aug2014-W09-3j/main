@@ -32,7 +32,13 @@ public class TasksJUnitTest {
 
     @Test
     // This is a test case to show that the incrementID method of Tasks is working as
-    // expected. This test also somewhat showcases the boundary value analysis heuristics.
+    // expected.
+    // This test somewhat showcases the boundary value analysis heuristics.
+    //      The boundary values used here are 0, 1, 2 where 1 is the correct value.
+    // There is also an element of equivalence partitioning here.
+    //      0 is used to represent all values below 1 that produces the wrong result
+    //      1 is used to represent the true value
+    //      2 is used to represent all values above 1 that produces the wrong result
     public void incrementIDTest() {
         tasks.setID(0);
         tasks.incrementID();

@@ -1,16 +1,16 @@
 package tareas.controller;
 
 import org.junit.Test;
+import tareas.common.Task;
+import tareas.common.Tasks;
+import tareas.parser.TareasCommand;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import tareas.common.Task;
-import tareas.common.Tasks;
-import tareas.parser.TareasCommand;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author Yap Jun Hao
@@ -20,6 +20,30 @@ import static org.junit.Assert.*;
 public class TaskManagerTests {
 
     TaskManager taskManager = TaskManager.getInstance();
+
+    /**
+     *  Task Manager test for making sure that there can only be 1
+     *  instance of TaskManager at any time.
+     */
+    @Test
+    public void testTaskManagerSingleTon() {
+        TaskManager manager1 = TaskManager.getInstance();
+        manager1.setId(100);
+        ArrayList<Task> uniqueTasks = new ArrayList<>();
+        manager1.set(uniqueTasks);
+
+        TaskManager manager2 = TaskManager.getInstance();
+
+        // Boundary values here are 99, 100, 101
+        // 99 and 101 represents the partitions that are not correct
+        assertEquals(false, manager2.getId() == 99);
+        assertEquals(true, manager2.getId() == 100);
+        assertEquals(false, manager2.getId() == 101);
+
+        // This showcases that the Arraylist in manager2 is the exact same object as
+        // the one that is set in manager1
+        assertEquals(true, manager2.get() == uniqueTasks);
+    }
 
     /**
      * TaskManager test for making sure that this TaskManager's latestTasks is empty
