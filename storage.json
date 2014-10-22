@@ -1,1 +1,1 @@
-{"latestID":3,"allTasks":[{"taskID":0,"description":"I am task one!","recurrence":{},"tags":[],"completed":true,"priority":false},{"taskID":1,"description":"world","recurrence":{},"tags":[],"completed":false,"priority":false},{"taskID":2,"description":"great","recurrence":{},"tags":[],"completed":true,"priority":false}]}
+{"latestID":3,"allTasks":[{"taskID":0,"description":"I am task one!","recurrence":{},"tags":[],"completed":true,"priority":false},{"taskID":2,"description":"great","recurrence":{},"tags":[],"completed":true,"priority":false}]}

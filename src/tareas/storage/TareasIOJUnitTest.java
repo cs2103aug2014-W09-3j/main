@@ -64,6 +64,10 @@ public class TareasIOJUnitTest {
         result = reader.read();
         assertEquals(true, result.get().get(2).isTaskCompleted());
 
+        //Testing delete.
+        test.deleteTask(1);
+        result = reader.read();
+        assertEquals("great", result.get().get(1).getDescription());
 
 
     }
