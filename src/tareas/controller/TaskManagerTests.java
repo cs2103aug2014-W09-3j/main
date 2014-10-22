@@ -24,6 +24,8 @@ public class TaskManagerTests {
     /**
      *  Task Manager test for making sure that there can only be 1
      *  instance of TaskManager at any time.
+     *
+     *  @author Delon Wong - Outsourced because he doesn't have enough tests to do.
      */
     @Test
     public void testTaskManagerSingleTon() {

@@ -9,8 +9,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import org.controlsfx.control.NotificationPane;
 import tareas.common.Log;
@@ -33,13 +33,13 @@ public class TareasGUIController implements Initializable {
     public GridPane root;
     public TextField commandLine;
     public Button closeButton;
-    public TilePane tilePane;
+    public FlowPane flowPane;
     public ScrollPane scrollPane;
-    public Label category;
 
     // Data Variables
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private NotificationPane notificationPane;
+    private String categoryText = "Today's Tasks";
 
     public TareasGUIController() {
     }
@@ -60,14 +60,11 @@ public class TareasGUIController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Log.i(TAG, "Initialized!");
 
-        // Initialization of category
-        category.setText("All Tasks");
-
         // Initialization of scrollPane
         initializeScrollPane();
 
         // Initialization of Tilepane
-        initializeTilePane();
+        initializeFlowPane();
 
         TareasController logicController = new TareasController();
         sendTaskstoView(logicController.getInitialiseTasks());
@@ -84,10 +81,10 @@ public class TareasGUIController implements Initializable {
                 "-add", "-delete");*/
     }
 
-    private void initializeTilePane() {
-        tilePane.setHgap(20);
-        tilePane.setVgap(20);
-        tilePane.getStylesheets().add("tareas/gui/css/tilepane.css");
+    private void initializeFlowPane() {
+        flowPane.setHgap(20);
+        flowPane.setVgap(3);
+        flowPane.getStylesheets().add("tareas/gui/css/flowpane.css");
     }
 
     private void initializeNotifications() {
@@ -108,7 +105,7 @@ public class TareasGUIController implements Initializable {
     }
 
     private void initializeScrollPane() {
-        scrollPane.setContent(tilePane);
+        scrollPane.setContent(flowPane);
         scrollPane.setStyle("-fx-background-color: transparent");
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -130,7 +127,7 @@ public class TareasGUIController implements Initializable {
     }
 
     public void changeCategoryName(String newCategory) {
-        category.setText(newCategory);
+        categoryText = newCategory;
     }
 
     public void sendWarningToView(String message) {
@@ -171,10 +168,14 @@ public class TareasGUIController implements Initializable {
     }
 
     private void updateView() {
-        tilePane.getChildren().clear();
+        flowPane.getChildren().clear();
+        Label categoryLabel = new Label(categoryText);
+        categoryLabel.setId("categoryLabel");
+        flowPane.getChildren().add(categoryLabel);
+
         for (Task task : this.tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
-            tilePane.getChildren().add(generator.generateTaskPane());
+            flowPane.getChildren().add(generator.generateTaskPane());
         }
         idCount = 1;
     }
