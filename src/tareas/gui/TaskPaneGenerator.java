@@ -73,6 +73,10 @@ class TaskPaneGenerator {
         imageView.setCache(true);
         imageView.setId("prioritisePicture");
 
+        if(!hasPriority) {
+            imageView.setOpacity(0);
+        }
+
         return imageView;
     }
 }
