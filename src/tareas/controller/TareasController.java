@@ -45,8 +45,11 @@ public class TareasController {
      * @param userInput from GUI
      */
     public void executeCommand(String userInput) {
-        // asserting to make sure that the user's input is not an empty string
-        // assert(userInput != "");
+        // if the user's input is an empty string, we treat it as if nothing happened
+        if (userInput.equals("")) {
+            return;
+        }
+        // TODO abstract into a method
 
         TareasCommand command = TareasCommand.fromString(userInput);
 
@@ -78,6 +81,7 @@ public class TareasController {
                 // TODO make the feedback show something more helpful
                 return;
         }
+        // TODO abstract into a method
 
         switch (command.getType()) {
             case ADD_COMMAND:
@@ -131,6 +135,7 @@ public class TareasController {
             default:
             	guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
         }
+        // TODO abstract into a method
     }
 
     /**
@@ -188,6 +193,8 @@ public class TareasController {
         if (command.getArgument("deadline") != null) {
             taskToInsert.setDeadline(command.getArgument("deadline"));
         }
+
+        // TODO abstract edit changes into a method
 
         int tasksSize = taskManager.get().size();
 

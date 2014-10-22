@@ -44,7 +44,7 @@ public class TaskManager {
      *
      * @return an ArrayList of task of the latest tasks
      */
-    public ArrayList<Task> get(){
+    public ArrayList<Task> get() {
         return latestTasks.get();
     }
 
