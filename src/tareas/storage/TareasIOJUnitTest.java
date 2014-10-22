@@ -17,9 +17,9 @@ public class TareasIOJUnitTest {
     StorageReader reader = new StorageReader();
     TareasIO test = new TareasIO();
 
-
+    //Testing for insert method.
     @Test
-    public void testTareasIO() throws IOException {
+    public void testInsert() throws IOException {
         reader.overwrite();
 
         //Testing multiple insertion.
@@ -44,6 +44,7 @@ public class TareasIOJUnitTest {
 
     }
 
+    //Testing for edit task.
     @Test
     public void testEditTask () throws IOException {
         reader.overwrite();
@@ -60,6 +61,7 @@ public class TareasIOJUnitTest {
         assertEquals("I am task one!", result.get().get(0).getDescription());
     }
 
+    //Testing for search task.
     @Test
     public void testSearchTask () throws IOException {
         reader.overwrite();
@@ -80,6 +82,7 @@ public class TareasIOJUnitTest {
 
     }
 
+    //Testing for markAsCompleted.
     @Test
     public void testMarkAsComplete() throws IOException {
         reader.overwrite();
@@ -104,6 +107,7 @@ public class TareasIOJUnitTest {
 
     }
 
+    //Testing for delete.
     @Test
     public void testDelete() throws IOException {
         reader.overwrite();
@@ -122,6 +126,7 @@ public class TareasIOJUnitTest {
         assertEquals("hello", result.get().get(0).getDescription());
     }
 
+    //Testing for getLatestID.
     @Test
     public void testGetLatestID() throws IOException {
         reader.overwrite();
