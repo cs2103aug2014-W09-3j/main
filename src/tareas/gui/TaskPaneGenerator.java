@@ -31,7 +31,7 @@ class TaskPaneGenerator {
         taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
 
         // Deadline Label
-        taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        taskPane.getChildren().add(getDeadline(task.getDeadline().toString()));
 
         // Prioritise picture
         taskPane.getChildren().add(getPriority(task.isTaskPriority()));

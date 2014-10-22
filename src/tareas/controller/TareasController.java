@@ -183,15 +183,15 @@ public class TareasController {
         }
 
         if (command.getArgument("start") != null) {
-            taskToInsert.setStartDateTime(command.getArgument("start"));
+            taskToInsert.setStartDateTime(Parser.getDateTimeFromString(command.getArgument("start")));
         }
 
         if (command.getArgument("end") != null) {
-            taskToInsert.setEndDateTime(command.getArgument("end"));
+            taskToInsert.setEndDateTime(Parser.getDateTimeFromString(command.getArgument("end")));
         }
 
         if (command.getArgument("deadline") != null) {
-            taskToInsert.setDeadline(command.getArgument("deadline"));
+            taskToInsert.setDeadline(Parser.getDateTimeFromString(command.getArgument("deadline")));
         }
 
         // TODO abstract edit changes into a method
@@ -305,7 +305,7 @@ public class TareasController {
         Task taskToPostpone = taskManager.get().get(tasksSize - taskId);
 
         if (command.getArgument("to") != null) {
-            taskToPostpone.setDeadline(command.getArgument("to"));
+            taskToPostpone.setDeadline(Parser.getDateTimeFromString(command.getArgument("to")));
 
             // TODO support postpone for timed tasks as well? - ask for opinions first
         }

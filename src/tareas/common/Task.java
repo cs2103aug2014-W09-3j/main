@@ -3,6 +3,8 @@ package tareas.common;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Her Lung
  *         <p/>
@@ -21,13 +23,13 @@ public class Task {
     private String description;
 
     // Deadline of the task
-    private String deadline;
+    private LocalDateTime deadline;
 
     // Start date-time of the task
-    private String startDatetime;
+    private LocalDateTime startDatetime;
 
     // End date-time of the task
-    private String endDateTime;
+    private LocalDateTime endDateTime;
 
     // Recurrence of the task;
     private HashMap<String, String> recurrence = new HashMap<>();
@@ -78,27 +80,27 @@ public class Task {
         this.description = description;
     }
 
-    public String getDeadline() {
+    public LocalDateTime getDeadline() {
         return this.deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
-    public String getStartDateTime() {
+    public LocalDateTime getStartDateTime() {
         return this.startDatetime;
     }
 
-    public void setStartDateTime(String dateTime) {
+    public void setStartDateTime(LocalDateTime dateTime) {
         this.startDatetime = dateTime;
     }
 
-    public String getEndDateTime() {
+    public LocalDateTime getEndDateTime() {
         return this.endDateTime;
     }
 
-    public void setEndDateTime(String dateTime) {
+    public void setEndDateTime(LocalDateTime dateTime) {
         this.endDateTime = dateTime;
     }
 
@@ -206,7 +208,7 @@ public class Task {
      * @param deadline
      * @return Task
      */
-    public static Task createDeadlineTask(String description, String deadline) {
+    public static Task createDeadlineTask(String description, LocalDateTime deadline) {
         Task deadlineTask = new Task();
         deadlineTask.setDescription(description);
         deadlineTask.setDeadline(deadline);
@@ -235,7 +237,7 @@ public class Task {
      * @param endDateTime
      * @return Task
      */
-    public static Task createTimedTask(String description, String startDateTime, String endDateTime) {
+    public static Task createTimedTask(String description, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         Task timedTask = new Task();
         timedTask.setDescription(description);
         timedTask.setStartDateTime(startDateTime);

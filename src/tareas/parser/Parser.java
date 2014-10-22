@@ -115,7 +115,7 @@ public class Parser {
     }
 
     public static LocalDateTime getDateTimeFromString(String input) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy H:mm");
         return LocalDateTime.parse(input, formatter);
     }
 
