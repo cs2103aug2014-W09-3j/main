@@ -18,13 +18,16 @@ public class TasksJUnitTest {
     // to the Tasks class. We need to clone the Tasks object for the purpose of undo-ing
     // and redo-ing where we save states.
     public void cloneTasksTest() {
-        // Control Test - To show that cloning can't be done using single equals
-        Tasks notClonedTasks = tasks;
-        assertEquals(true, notClonedTasks == tasks);
-
-        // Actual Test - To show that the clone constructor really works
+        // Checks that both clonedTasks and tasks are not referencing
+        // to the same object.
         Tasks clonedTasks = new Tasks(tasks);
-        assertEquals(false, clonedTasks == tasks);
+        assertEquals(false, clonedTasks.get() == tasks.get() &&
+            clonedTasks.getClass().equals(tasks.getClass()));
+
+        // Ensure that cloned tasks also carry the same ID
+        tasks.setID(5);
+        Tasks clonedTasksWithID = new Tasks(tasks);
+        assertEquals(5, clonedTasksWithID.getLatestID());
     }
 
 }
