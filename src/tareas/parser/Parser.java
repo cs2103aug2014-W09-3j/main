@@ -115,7 +115,7 @@ public class Parser {
     }
 
     public static LocalDateTime getDateTimeFromString(String input) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy H:mm");
         return LocalDateTime.parse(input, formatter);
     }
 
@@ -146,7 +146,7 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(getDateTimeFromString("14-03-17 4:10pm"));
+            System.out.println(getDateTimeFromString("14-03-17 14:10"));
             //System.out.println(LocalTime.parse("4AM", DateTimeFormatter.ofPattern("Ha")));
         } catch (Exception e) {
             System.out.println(e.getMessage());
