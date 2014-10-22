@@ -189,6 +189,7 @@ public class TareasGUIController implements Initializable {
         idCount = 1;
     }
 
+
     private void hideNotificationAfter(int ms) {
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
