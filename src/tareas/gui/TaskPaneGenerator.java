@@ -37,7 +37,6 @@ class TaskPaneGenerator {
 
     private Label getDescriptionLabel(String text) {
         Label taskDescription = new Label(text);
-        taskDescription.setMaxWidth(650);
         taskDescription.setId("taskDescription");
         return taskDescription;
     }

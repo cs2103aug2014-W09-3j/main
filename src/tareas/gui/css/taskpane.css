@@ -8,15 +8,17 @@
     -fx-padding: 10, 0, 0, 0;
 }
 
+#idLabel {
+    -fx-min-width: 50px;
+    -fx-text-fill: gray;
+    -fx-font-size: 15;
+    /*-fx-max-width: 20px;*/
+}
+
 #taskDescription {
     -fx-text-fill: black;
     -fx-font-size: 15;
-}
-
-#idLabel {
-    -fx-text-fill: gray;
-    -fx-font-size: 15;
-    -fx-max-width: 20px;
+    -fx-max-width: 600px;
 }
 
 #deadlineLabel {
