@@ -60,6 +60,9 @@ public class TareasGUIController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Log.i(TAG, "Initialized!");
 
+        // Set placeholder for command line
+        commandLine.setPromptText("Type a command here...");
+
         // Initialization of scrollPane
         initializeScrollPane();
 
@@ -177,7 +180,7 @@ public class TareasGUIController implements Initializable {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             FlowPane taskPane = generator.generateTaskPane();
             taskPane.setOnMouseClicked(event -> {
-                System.out.println("HELLO");
+                System.out.println("Clicked on Task");
             });
             flowPane.getChildren().add(taskPane);
         }
