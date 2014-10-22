@@ -18,9 +18,10 @@ public class TareasIOJUnitTest {
     TareasIO test = new TareasIO();
 
 
-
     @Test
     public void testTareasIO() throws IOException {
+        reader.overwrite();
+
         //Testing multiple insertion.
         Task task3 = new Task();
         task3.setDescription("hello");
@@ -41,37 +42,103 @@ public class TareasIOJUnitTest {
         assertEquals("world", result.get().get(1).getDescription());
         assertEquals("great", result.get().get(2).getDescription());
 
-        //Testing edit after add.
+    }
+
+    @Test
+    public void testEditTask () throws IOException {
+        reader.overwrite();
+        Task task3 = new Task();
+        task3.setDescription("helloWorld");
+        test.insertTask(task3);
+
         Task task1 = new Task();
         task1.setTaskID(0);
         task1.setDescription("I am task one!");
         test.editTask(task1);
 
-        result = reader.read();
+        Tasks result = reader.read();
         assertEquals("I am task one!", result.get().get(0).getDescription());
+    }
+
+    @Test
+    public void testSearchTask () throws IOException {
+        reader.overwrite();
+
+        Task task3 = new Task();
+        task3.setDescription("hello");
+        test.insertTask(task3);
+
+        //Multiple input case.
+        Task task4 = new Task();
+        task4.setDescription("world");
+        test.insertTask(task4);
+
 
         //Testing search task after insertions and edited tasks.
-        Task compare = test.searchTask(2);
-        assertEquals("great", compare.getDescription());
+        Task compare = test.searchTask(1);
+        assertEquals("world", compare.getDescription());
 
-        //Testing mark task as completed.
+    }
+
+    @Test
+    public void testMarkAsComplete() throws IOException {
+        reader.overwrite();
+
+        Task task3 = new Task();
+        task3.setDescription("hello");
+        test.insertTask(task3);
+
+        Task task4 = new Task();
+        task4.setDescription("world");
+        test.insertTask(task4);
+
         test.markTaskAsCompleted(0);
-        result = reader.read();
+        Tasks result = reader.read();
         assertEquals(true, result.get().get(0).isTaskCompleted());
 
         //Mark another task as completed.
-        test.markTaskAsCompleted(2);
+        test.markTaskAsCompleted(1);
         result = reader.read();
-        assertEquals(true, result.get().get(2).isTaskCompleted());
+        assertEquals(true, result.get().get(1).isTaskCompleted());
 
-        //Testing delete.
+
+    }
+
+    @Test
+    public void testDelete() throws IOException {
+        reader.overwrite();
+
+        Task task3 = new Task();
+        task3.setDescription("hello");
+        test.insertTask(task3);
+
+        //Multiple input case.
+        Task task4 = new Task();
+        task4.setDescription("world");
+        test.insertTask(task4);
+
         test.deleteTask(1);
-        result = reader.read();
-        assertEquals("great", result.get().get(1).getDescription());
+        Tasks result = reader.read();
+        assertEquals("hello", result.get().get(0).getDescription());
+    }
 
-        //Testing getLatestID method.
+    @Test
+    public void testGetLatestID() throws IOException {
+        reader.overwrite();
+
+        Task task3 = new Task();
+        task3.setDescription("hello");
+        test.insertTask(task3);
+
+        //Multiple input case.
+        Task task4 = new Task();
+        task4.setDescription("world");
+        test.insertTask(task4);
+
+        Tasks result = reader.read();
         int latestID = result.getLatestID();
-        assertEquals(3, latestID);
+        assertEquals(2, latestID);
+
     }
 
 }

@@ -28,6 +28,11 @@ public class StorageReader {
 		}
 	}
 
+    public void overwrite() {
+        File file = new File("storage.json");
+        file.delete();
+       }
+
 	private Tasks createNewFile() {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
