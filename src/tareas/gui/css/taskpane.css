@@ -7,20 +7,17 @@
 
 #taskDescription {
     -fx-text-fill: black;
-    -fx-translate-x: 60;
-    -fx-translate-y: 10;
     -fx-font-size: 15;
 }
 
 #idLabel {
     -fx-text-fill: gray;
-    -fx-translate-x: 10;
-    -fx-translate-y: 10;
     -fx-font-size: 15;
+    -fx-max-width: 20px;
 }
 
 #deadlineLabel {
     -fx-font-size: 10;
-    -fx-translate-x: 60;
-    -fx-translate-y: 40;
+    /*-fx-translate-x: 60;*/
+    /*-fx-translate-y: 40;*/
 }

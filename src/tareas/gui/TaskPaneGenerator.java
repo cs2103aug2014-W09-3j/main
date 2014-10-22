@@ -1,7 +1,7 @@
 package tareas.gui;
 
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.FlowPane;
 import tareas.common.Task;
 
 /**
@@ -14,20 +14,20 @@ class TaskPaneGenerator {
         this.task = task;
     }
 
-    protected Pane generateTaskPane() {
+    protected FlowPane generateTaskPane() {
         TareasGUIController controller = TareasGUIController.getInstance();
 
         // Initialization of taskPane
-        Pane taskPane = new Pane();
+        FlowPane taskPane = new FlowPane();
         taskPane.setId("taskpane");
         taskPane.setPrefSize(745, 40);
         taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
 
-        // Task Description
-        taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
-
         // ID Label
         taskPane.getChildren().add(getIDLabel(controller.getIdCount()));
+
+        // Task Description
+        taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
 
         // Deadline Label
         //taskPane.getChildren().add(getDeadline(task.getDeadline()));
@@ -45,8 +45,7 @@ class TaskPaneGenerator {
     private Label getIDLabel(int id) {
         TareasGUIController controller = TareasGUIController.getInstance();
 
-        Label idLabel = new Label("#" + Integer.toString(id));
-        idLabel.setMaxWidth(50);
+        Label idLabel = new Label(Integer.toString(id) + ".");
         idLabel.setId("idLabel");
         controller.incrementIdCount();
         return idLabel;
