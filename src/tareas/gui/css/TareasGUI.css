@@ -51,6 +51,8 @@
 }
 
 #categoryLabel {
-    -fx-alignment: center-left;
+    -fx-alignment: center;
     -fx-font-size: 20;
+    -fx-translate-y: -10;
+    -fx-pref-width: 745;
 }

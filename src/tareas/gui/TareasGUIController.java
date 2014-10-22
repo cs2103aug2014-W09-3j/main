@@ -64,7 +64,7 @@ public class TareasGUIController implements Initializable {
         initializeScrollPane();
 
         // Initialization of Tilepane
-        initializeTilePane();
+        initializeFlowPane();
 
         TareasController logicController = new TareasController();
         sendTaskstoView(logicController.getInitialiseTasks());
@@ -81,10 +81,10 @@ public class TareasGUIController implements Initializable {
                 "-add", "-delete");*/
     }
 
-    private void initializeTilePane() {
+    private void initializeFlowPane() {
         flowPane.setHgap(20);
         flowPane.setVgap(3);
-        flowPane.getStylesheets().add("tareas/gui/css/tilepane.css");
+        flowPane.getStylesheets().add("tareas/gui/css/flowpane.css");
     }
 
     private void initializeNotifications() {
