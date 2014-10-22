@@ -1,1 +1,1 @@
-{"latestID":0,"allTasks":[]}
+{"latestID":1,"allTasks":[{"taskID":0,"description":"buy ham","deadline":{"date":{"year":2014,"month":10,"day":23},"time":{"hour":3,"minute":30,"second":0,"nano":0}},"recurrence":{},"tags":[],"completed":false,"priority":false}]}

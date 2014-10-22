@@ -334,12 +334,21 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void viewRequest(TareasCommand command) {
-        // TODO grab the view type so that can call the right stuff from storage and GUI
-        
-        // TODO ask from the storage all the stuff needed for the view
-        // TODO call the GUI method to display the view request
-        guiController.sendSuccessToView("View has successfully been changed");
-        // TODO change feedback to include task description for useful user feedback
+        // assert that the primary argument viewType to be extracted is a string
+        assert(command.getPrimaryArgument().getClass().equals(String.class));
+
+        String viewType = command.getPrimaryArgument();
+
+        ArrayList<Task> tasksToShowToUser = new ArrayList<>();
+
+        // only today view supported for now
+        if (viewType.equals("today")) {
+            tasksToShowToUser = tareas.getAllUndoneTasks();
+        }
+        // TODO add support for other types of view
+
+        guiController.sendTaskstoView(tasksToShowToUser);
+        guiController.sendSuccessToView("View has successfully been changed to " + viewType);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a view change action at " + now.toString());
