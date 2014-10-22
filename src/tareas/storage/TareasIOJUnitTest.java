@@ -1,3 +1,9 @@
+/**
+ * @author Lareina Ting
+ *
+ * This class is to test methods in TareasIO.
+ */
+
 package tareas.storage;
 
  import org.junit.Test;

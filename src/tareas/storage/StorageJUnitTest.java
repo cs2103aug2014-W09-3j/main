@@ -1,3 +1,9 @@
+/**
+ * @author Lareina Ting
+ *
+ * This class is used to test methods for the storageWriter.
+ */
+
 package tareas.storage;
 
 import org.junit.Test;
