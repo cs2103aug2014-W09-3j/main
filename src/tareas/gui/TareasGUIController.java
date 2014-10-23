@@ -245,6 +245,11 @@ public class TareasGUIController implements Initializable {
         detailedView.show(taskPane);
     }
 
+    // TODO: Expose method for Junhao to show detailed view.
+    private void openDetailedView(Task task) {
+        PopOver pop = new PopOver();
+    }
+
     private Label getTaskDescription(Task task) {
         Label taskDescription = new Label(task.getDescription());
         taskDescription.setWrapText(true);
