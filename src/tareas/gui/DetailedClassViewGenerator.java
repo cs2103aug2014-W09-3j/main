@@ -42,10 +42,13 @@ class DetailedTaskViewGenerator {
             body.setVgap(10);
             // Insert contents
             body.getChildren().addAll(getDeadline(), getStartTime(),
-                    getEndTime(), getCompleted());
+                    getEndTime(), getCompleted(), getPriority(), getReminderDateTime());
 
             FlowPane footer = nodes.get(2);
             footer.setId("footer");
+            Label quitMessage = new Label("Press <Tab> to go back...");
+            quitMessage.setId("exitMessage");
+            footer.getChildren().add(quitMessage);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,22 +120,63 @@ class DetailedTaskViewGenerator {
     private TextFlow getCompleted() {
         String value;
         if(task.isTaskCompleted()) {
-            value = "Completed";
+            value = "Yes";
         } else {
-            value = "Not Completed";
+            value = "No";
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
-        Text label = new Text("Status: ");
+        Text label = new Text("Completed: ");
         label.setStyle("-fx-font-weight: bold;");
         Text field = new Text(value);
         if(task.isTaskCompleted()) {
-            field.setStyle("-fx-text-fill: green");
+            field.setStyle("-fx-text-fill: green;");
         } else {
-            field.setStyle("-fx-text-fill: maroon");
+            field.setStyle("-fx-text-fill: maroon;");
         }
         textFlow.getChildren().addAll(label, field);
         textFlow.setId("getCompleted");
+
+        return textFlow;
+    }
+
+    private TextFlow getPriority() {
+        String value;
+        if(task.isTaskPriority()) {
+            value = "Yes";
+        } else {
+            value = "No";
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Priority: ");
+        label.setStyle("-fx-font-weight: bold;");
+        Text field = new Text(value);
+        if(task.isTaskPriority()) {
+            field.setStyle("-fx-text-fill: green;");
+        } else {
+            field.setStyle("-fx-text-fill: maroon;");
+        }
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("getPriority");
+
+        return textFlow;
+    }
+
+    private TextFlow getReminderDateTime() {
+        String value;
+        if(task.getReminderDateTime() == null) {
+            value = " - ";
+        } else {
+            value = task.getReminderDateTime();
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Reminder: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("reminderDateTime");
 
         return textFlow;
     }

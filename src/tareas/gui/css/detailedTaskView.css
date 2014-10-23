@@ -33,3 +33,16 @@
 #getCompleted {
     -fx-font-size: 15;
 }
+
+#getPriority {
+    -fx-font-size: 15;
+}
+
+#reminderDateTime {
+    -fx-font-size: 15;
+}
+
+#exitMessage {
+    -fx-font-size: 10;
+    -fx-alignment: bottom-right;
+}
