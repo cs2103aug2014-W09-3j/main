@@ -16,7 +16,7 @@ public class TareasGUIView extends Application {
 
     @Override
     public void start(final Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("TareasGUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/TareasGUI.fxml"));
 
         primaryStage.setTitle("Tareas");
         primaryStage.initStyle(StageStyle.TRANSPARENT);

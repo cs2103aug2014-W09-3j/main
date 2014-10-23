@@ -3,16 +3,20 @@ package tareas.gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.controlsfx.control.NotificationPane;
+import org.controlsfx.control.PopOver;
 import tareas.common.Log;
 import tareas.common.Task;
 import tareas.controller.TareasController;
@@ -182,9 +186,7 @@ public class TareasGUIController implements Initializable {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             FlowPane taskPane = generator.generateTaskPane();
             taskPane.setOnMouseClicked(event -> {
-                DetailedTaskView detailedTaskView =
-                        new DetailedTaskView(event, task);
-                detailedTaskView.show();
+                setDetailedViewToTaskPane(taskPane, task);
             });
             flowPane.getChildren().add(taskPane);
         }
@@ -194,14 +196,46 @@ public class TareasGUIController implements Initializable {
 
     private void hideNotificationAfter(int ms) {
         new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        notificationPane.hide();
-                    }
-                },
-                ms
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    notificationPane.hide();
+                }
+            },
+            ms
         );
+    }
+
+    private void setDetailedViewToTaskPane(FlowPane taskPane, Task task) {
+        PopOver detailedView = new PopOver();
+        Scene thisScene = taskPane.getScene();
+
+        thisScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                detailedView.hide();
+            }
+        });
+        thisScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                detailedView.hide();
+            }
+        });
+
+        detailedView.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+        detailedView.setCornerRadius(0);
+        detailedView.setOpacity(0.9);
+        DetailedTaskViewGenerator gen = new DetailedTaskViewGenerator(task);
+        detailedView.setContentNode(gen.generate());
+        detailedView.show(taskPane);
+    }
+
+    private Label getTaskDescription(Task task) {
+        Label taskDescription = new Label(task.getDescription());
+        taskDescription.setWrapText(true);
+        taskDescription.setId("taskDescription");
+        return taskDescription;
     }
 
     protected int getIdCount() {
