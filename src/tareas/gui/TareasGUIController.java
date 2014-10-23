@@ -48,6 +48,9 @@ public class TareasGUIController implements Initializable {
     public TareasGUIController() {
     }
 
+    /**
+     * This method is for the singleton design pattern
+     */
     public static TareasGUIController getInstance() {
         if (instance == null) {
             instance = new TareasGUIController();
@@ -55,11 +58,22 @@ public class TareasGUIController implements Initializable {
         return instance;
     }
 
+    /**
+     * This method is to ensure that the singleton pattern will
+     * not be violated
+     * @return
+     * @throws CloneNotSupportedException
+     */
     @Override
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
 
+    /**
+     * This is the method the GUI will run first when initialised
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Log.i(TAG, "Initialized!");
