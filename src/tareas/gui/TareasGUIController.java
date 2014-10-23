@@ -176,6 +176,7 @@ public class TareasGUIController implements Initializable {
         categoryLabel.setId("categoryLabel");
         flowPane.getChildren().add(categoryLabel);
 
+        // Inserting listeners to each taskPane
         for (Task task : this.tasks) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             FlowPane taskPane = generator.generateTaskPane();
@@ -208,5 +209,9 @@ public class TareasGUIController implements Initializable {
 
     protected void incrementIdCount() {
         idCount++;
+    }
+
+    protected void resetIdCount() {
+        idCount = 1;
     }
 }

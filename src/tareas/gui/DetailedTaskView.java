@@ -6,8 +6,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tareas.common.Task;
@@ -33,10 +35,41 @@ class DetailedTaskView {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getResource("TasksDetailedView.fxml"));
+
+            //hide this current window (if this is want you want
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+
             Stage stage = new Stage();
             stage.setTitle("Tasks Detailed View");
             stage.initStyle(StageStyle.TRANSPARENT);
-            stage.setScene(new Scene(root, 450, 450));
+
+            Scene scene = new Scene(root, 800, 600);
+            scene.setFill(Color.TRANSPARENT);
+
+            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent t) {
+                    // Hide current window
+                    stage.hide();
+
+                    // Reset ID count back to 1 since contoller is a Singleton
+                    TareasGUIController guiController = TareasGUIController.getInstance();
+                    guiController.resetIdCount();
+
+                    // Show back main view
+                    Scene mainScene = ((Node)(event.getSource())).getScene();
+                    Stage newStage = new Stage();
+                    //newStage.setScene(mainScene);
+                    TareasGUIView mainView = new TareasGUIView();
+                    try {
+                        mainView.start(newStage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            stage.setScene(scene);
             stage.show();
 
             // To allow the stage to be draggable
@@ -54,9 +87,6 @@ class DetailedTaskView {
                     stage.setY(event.getScreenY() - yOffset);
                 }
             });
-
-            //hide this current window (if this is want you want
-            //((Node)(event.getSource())).getScene().getWindow().hide();
 
             // Retrieve all children of root
             ArrayList<FlowPane> nodes = new ArrayList<>();
