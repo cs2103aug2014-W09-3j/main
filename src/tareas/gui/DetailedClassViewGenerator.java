@@ -39,9 +39,10 @@ class DetailedTaskViewGenerator {
 
             FlowPane body = nodes.get(1);
             body.setId("body");
+            body.setVgap(10);
             // Insert contents
             body.getChildren().addAll(getDeadline(), getStartTime(),
-                    getEndTime());
+                    getEndTime(), getCompleted());
 
             FlowPane footer = nodes.get(2);
             footer.setId("footer");
@@ -109,6 +110,29 @@ class DetailedTaskViewGenerator {
         Text field = new Text(value);
         textFlow.getChildren().addAll(label, field);
         textFlow.setId("endDateTime");
+
+        return textFlow;
+    }
+
+    private TextFlow getCompleted() {
+        String value;
+        if(task.isTaskCompleted()) {
+            value = "Completed";
+        } else {
+            value = "Not Completed";
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Status: ");
+        label.setStyle("-fx-font-weight: bold;");
+        Text field = new Text(value);
+        if(task.isTaskCompleted()) {
+            field.setStyle("-fx-text-fill: green");
+        } else {
+            field.setStyle("-fx-text-fill: maroon");
+        }
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("getCompleted");
 
         return textFlow;
     }
