@@ -225,7 +225,7 @@ public class TareasGUIController implements Initializable {
 
         detailedView.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
         detailedView.setCornerRadius(0);
-        detailedView.setOpacity(0.9);
+        detailedView.setOpacity(0.95);
         DetailedTaskViewGenerator gen = new DetailedTaskViewGenerator(task);
         detailedView.setContentNode(gen.generate());
         detailedView.show(taskPane);

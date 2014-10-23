@@ -39,8 +39,9 @@ class DetailedTaskViewGenerator {
 
             FlowPane body = nodes.get(1);
             body.setId("body");
-            // Insert Deadline
-            body.getChildren().add(getDeadline());
+            // Insert contents
+            body.getChildren().addAll(getDeadline(), getStartTime(),
+                    getEndTime());
 
             FlowPane footer = nodes.get(2);
             footer.setId("footer");
@@ -66,13 +67,48 @@ class DetailedTaskViewGenerator {
             value = task.getDeadline();
         }
         TextFlow textFlow = new TextFlow();
-        textFlow.setLayoutY(30);
-        textFlow.setLayoutX(100);
+        textFlow.setPrefWidth(193);
         Text label = new Text("Deadline: ");
         label.setStyle("-fx-font-weight: bold");
         Text field = new Text(value);
         textFlow.getChildren().addAll(label, field);
         textFlow.setId("deadline");
+
+        return textFlow;
+    }
+
+    private TextFlow getStartTime() {
+        String value;
+        if(task.getStartDateTime() == null) {
+            value = " - ";
+        } else {
+            value = task.getStartDateTime();
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Start: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("startDateTime");
+
+        return textFlow;
+    }
+
+    private TextFlow getEndTime() {
+        String value;
+        if(task.getEndDateTime() == null) {
+            value = " - ";
+        } else {
+            value = task.getEndDateTime();
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("End: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("endDateTime");
 
         return textFlow;
     }

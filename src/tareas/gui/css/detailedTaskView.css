@@ -8,7 +8,7 @@
 }
 
 #body {
-    -fx-padding: 20, 20, 20, 20;
+    -fx-padding: 10, 10, 10, 10;
 }
 
 #taskDescription {
@@ -19,5 +19,13 @@
 }
 
 #deadline {
+    -fx-font-size: 15;
+}
+
+#startDateTime {
+    -fx-font-size: 15;
+}
+
+#endDateTime {
     -fx-font-size: 15;
 }
