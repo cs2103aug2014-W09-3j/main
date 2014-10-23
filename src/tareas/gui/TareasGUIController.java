@@ -103,6 +103,7 @@ public class TareasGUIController implements Initializable {
             public void handle(ActionEvent event) {
                 Stage stage = (Stage) closeButton.getScene().getWindow();
                 stage.close();
+                Log.i(TAG, "User exited the program.");
             }
         });
     }
