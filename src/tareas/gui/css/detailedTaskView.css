@@ -44,5 +44,6 @@
 
 #exitMessage {
     -fx-font-size: 10;
-    -fx-alignment: bottom-right;
+    -fx-translate-x: 245;
+    -fx-translate-y: 50;
 }
