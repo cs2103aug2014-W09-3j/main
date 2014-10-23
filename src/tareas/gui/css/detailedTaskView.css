@@ -1,0 +1,23 @@
+.root {
+    -fx-background-color: rgba(118, 120, 115, 0.85);
+}
+
+#header {
+    -fx-padding: 20, 20, 20, 20;
+    -fx-background-color: rgba(104, 103, 103, 0.85);
+}
+
+#body {
+    -fx-padding: 20, 20, 20, 20;
+}
+
+#taskDescription {
+    -fx-font-size: 30;
+    -fx-pref-width: 780;
+    -fx-pref-height: 110;
+    -fx-alignment: center;
+}
+
+#deadline {
+    -fx-font-size: 15;
+}

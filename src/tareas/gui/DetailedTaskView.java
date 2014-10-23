@@ -10,6 +10,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tareas.common.Task;
@@ -95,13 +97,46 @@ class DetailedTaskView {
             }
 
             FlowPane header = nodes.get(0);
-            FlowPane body = nodes.get(1);
-            FlowPane footer = nodes.get(2);
+            header.setId("header");
+            // Insert Task Description
+            header.getChildren().add(getTaskDescription());
 
-            header.getChildren().add(new Label("TEST"));
+            FlowPane body = nodes.get(1);
+            body.setId("body");
+            // Insert Deadline
+            body.getChildren().add(getDeadline());
+
+            FlowPane footer = nodes.get(2);
+            footer.setId("footer");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Label getTaskDescription() {
+        Label taskDescription = new Label(task.getDescription());
+        taskDescription.setWrapText(true);
+        taskDescription.setId("taskDescription");
+        return taskDescription;
+    }
+
+    private TextFlow getDeadline() {
+        String value;
+        if(task.getDeadline() == null) {
+            value = " - ";
+        } else {
+            value = task.getDeadline();
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setLayoutY(30);
+        textFlow.setLayoutX(100);
+        Text label = new Text("Deadline: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("deadline");
+
+        return textFlow;
     }
 }

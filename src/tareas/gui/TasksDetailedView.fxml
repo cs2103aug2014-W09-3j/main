@@ -3,19 +3,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="98.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="234.0" minHeight="10.0" prefHeight="207.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+
+<FlowPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="/tareas/gui/css/detailedTaskView.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <FlowPane fx:id="header" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" />
-      <FlowPane fx:id="body" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-      <FlowPane fx:id="footer" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+      <FlowPane fx:id="header" prefHeight="150.0" prefWidth="800.0" />
+      <FlowPane fx:id="body" prefHeight="300.0" prefWidth="800.0" />
+      <FlowPane fx:id="footer" prefHeight="150.0" prefWidth="800.0" />
    </children>
-</GridPane>
+</FlowPane>
