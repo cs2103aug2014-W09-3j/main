@@ -141,7 +141,7 @@ public class TareasGUIController implements Initializable {
                 }
                 if(DOWN.match(t)) {
                     if(commandStackAfter.empty()) {
-                        //sendWarningToView("No more commands in history.");
+                        commandLine.setText("");
                     } else {
                         String futureCommand = commandStackAfter.pop();
                         commandLine.setText(futureCommand);
