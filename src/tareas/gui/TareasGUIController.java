@@ -101,33 +101,29 @@ public class TareasGUIController implements Initializable {
     }
 
     private void initializeKeyCombinations() {
-        /*root.getScene().getAccelerators().put(
-            new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_ANY),
-            new Runnable() {
-                @Override public void run() {
-                    goToNextPage();
-                }
-            }
-        );*/
-
         root.setOnKeyReleased(new EventHandler<KeyEvent>() {
             final KeyCombination CTRL_RIGHT = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN);
             final KeyCombination CTRL_LEFT = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN);
             final KeyCombination CTRL_UP = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN);
             final KeyCombination CTRL_DOWN = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN);
+            final KeyCombination ESCAPE = new KeyCodeCombination(KeyCode.ESCAPE);
 
             public void handle(KeyEvent t) {
-                if (CTRL_RIGHT.match(t)) {
+                if(CTRL_RIGHT.match(t)) {
                     goToNextPage();
                 }
-                if (CTRL_LEFT.match(t)) {
+                if(CTRL_LEFT.match(t)) {
                     goToPrevPage();
                 }
-                if (CTRL_UP.match(t)) {
+                if(CTRL_UP.match(t)) {
                     goToFirstPage();
                 }
-                if (CTRL_DOWN.match(t)) {
+                if(CTRL_DOWN.match(t)) {
                     goToLastPage();
+                }
+                if(ESCAPE.match(t)) {
+                    Stage stage = (Stage) root.getScene().getWindow();
+                    stage.close();
                 }
             }
         });
@@ -302,7 +298,7 @@ public class TareasGUIController implements Initializable {
                 if((pageCount-1)*maxTasksPerPage + i > tasks.size()-1) {
                     break;
                 }
-                Task task = tasks.get((pageCount-1)*maxTasksPerPage + i);
+                Task task = tasks.get((pageCount - 1) * maxTasksPerPage + i);
                 // GUI TaskID is set into the Task object's taskID attribute.
                 task.setTaskID((pageCount-1)*maxTasksPerPage + i + 1);
                 currentPage.add(task);
