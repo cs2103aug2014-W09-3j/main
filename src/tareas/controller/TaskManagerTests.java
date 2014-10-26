@@ -6,6 +6,8 @@ import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -364,7 +366,7 @@ public class TaskManagerTests {
         ArrayList<String> testTaskTags = new ArrayList<>();
         testTaskTags.add("yolo");
 
-        // make sure it has description but not any kind of deadline or start time end time or other attributes
+        // make sure it has description and tag
         assertEquals(testBuyHamTaggedTask.getDescription(), "buy ham");
         assertEquals(testBuyHamTaggedTask.getTags(), testTaskTags);
         assertEquals(testBuyHamTaggedTask.getStartDateTime(), null);
@@ -392,9 +394,20 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingDeadlineTasks() throws IOException {
-        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
+        TareasCommand testTareasCommand = TareasCommand.fromString("buy ham /by 22-10-14 13:00");
 
-        // TODO set to fail once supported
-        assertEquals(true, false);
+        Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
+
+        ArrayList<String> testTaskTags = new ArrayList<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy H:mm");
+        LocalDateTime testTime = LocalDateTime.parse("22-10-14 13:00", formatter);
+
+        // make sure it has description and deadline but no tag(s)
+        assertEquals(testBuyHamTask.getDescription(), "buy ham");
+        assertEquals(testBuyHamTask.getTags(), testTaskTags);
+        assertEquals(testBuyHamTask.getStartDateTime(), null);
+        assertEquals(testBuyHamTask.getEndDateTime(), null);
+        assertEquals(testBuyHamTask.getDeadline(), testTime);
     }
 }
