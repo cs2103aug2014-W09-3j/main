@@ -33,7 +33,15 @@ class TaskPaneGenerator {
         taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
 
         // Deadline Label
-        taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        if(task.getDeadline() != null) {
+            taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        } else if(task.getStartDateTime() == null && task.getEndDateTime() != null) {
+            taskPane.getChildren().add(getDeadline(task.getEndDateTime()));
+        } else if(task.getStartDateTime() != null && task.getEndDateTime() != null){
+            //taskPane.getChildren().add(getInterval(task.getStartDateTime(), task.getEndDateTime()));
+        } else {
+            // TODO: Find a filler label here to pad the empty space
+        }
 
         // Prioritise picture
         taskPane.getChildren().add(getPriority(task.isTaskPriority()));
@@ -64,6 +72,11 @@ class TaskPaneGenerator {
         deadlineLabel.setId("deadlineLabel");
         return deadlineLabel;
     }
+
+    // TODO: Create a double line label
+    /*private Label getInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+
+    }*/
 
     private ImageView getPriority(boolean hasPriority) {
         Image image = new Image("bookmark.png");
