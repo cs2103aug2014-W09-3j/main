@@ -222,8 +222,8 @@ public class TareasGUIController implements Initializable {
     public void sendTaskstoView(ArrayList<Task> tasks) {
         Collections.reverse(tasks);
         this.tasks = tasks;
-        this.pageCount = 1;
-        this.idCount = 1;
+        pageCount = 1;
+        idCount = 1;
         updateView();
     }
 
@@ -242,6 +242,8 @@ public class TareasGUIController implements Initializable {
             });
             flowPane.getChildren().add(taskPane);
         }
+
+        this.idCount = this.tasks.size() / maxTasksPerPage;
     }
 
 
@@ -300,7 +302,9 @@ public class TareasGUIController implements Initializable {
                 if((pageCount-1)*maxTasksPerPage + i > tasks.size()-1) {
                     break;
                 }
-                currentPage.add(tasks.get((pageCount-1)*maxTasksPerPage + i));
+                Task task = tasks.get((pageCount-1)*maxTasksPerPage + i);
+                task.setTaskID((pageCount-1)*maxTasksPerPage + i + 1);
+                currentPage.add(task);
             }
         return currentPage;
     }
@@ -328,8 +332,6 @@ public class TareasGUIController implements Initializable {
         int nextPage = this.pageCount + 1;
         if(isPageNumberValid(nextPage)) {
             pageCount++;
-            idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
-            System.out.println(idCount);
             updateView();
         } else {
             sendWarningToView("You have reached the last page.");
@@ -340,8 +342,6 @@ public class TareasGUIController implements Initializable {
         int prevPage = this.pageCount - 1;
         if(isPageNumberValid(prevPage)) {
             pageCount--;
-            idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
-            System.out.println(idCount);
             updateView();
         } else {
             sendWarningToView("You are at the first page.");
@@ -350,7 +350,6 @@ public class TareasGUIController implements Initializable {
 
     public void goToFirstPage() {
         pageCount = 1;
-        idCount = 1;
         updateView();
     }
 
@@ -361,19 +360,6 @@ public class TareasGUIController implements Initializable {
         } else {
             pageCount = totalNumber / maxTasksPerPage;
         }
-        idCount = (totalNumber / maxTasksPerPage) * maxTasksPerPage;
         updateView();
-    }
-
-    protected int getIdCount() {
-        return idCount;
-    }
-
-    protected void incrementIdCount() {
-        idCount++;
-    }
-
-    protected void resetIdCount() {
-        idCount = 1;
     }
 }

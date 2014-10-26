@@ -27,7 +27,7 @@ class TaskPaneGenerator {
         taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
 
         // ID Label
-        taskPane.getChildren().add(getIDLabel(controller.getIdCount()));
+        taskPane.getChildren().add(getIDLabel(task.getTaskID()));
 
         // Task Description
         taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
@@ -48,11 +48,8 @@ class TaskPaneGenerator {
     }
 
     private Label getIDLabel(int id) {
-        TareasGUIController controller = TareasGUIController.getInstance();
-
         Label idLabel = new Label(Integer.toString(id) + ".");
         idLabel.setId("idLabel");
-        controller.incrementIdCount();
         return idLabel;
     }
 
