@@ -28,10 +28,6 @@ import java.util.ResourceBundle;
 public class TareasGUIController implements Initializable {
     private static String TAG = "TareasGUIController";
 
-    private static TareasGUIController instance = null;
-    private String input;
-    private int idCount = 1;
-
     // FXML Variables
     public GridPane root;
     public TextField commandLine;
@@ -39,9 +35,14 @@ public class TareasGUIController implements Initializable {
     public FlowPane flowPane;
 
     // Data Variables
+    private static TareasGUIController instance = null;
+    private String input;
+    private int idCount = 1;
+    private int pageCount = 1;
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private NotificationPane notificationPane;
     private String categoryText = "Today's Tasks";
+    private final int maxTasksPerPage = 10;
 
     public TareasGUIController() {
     }
@@ -132,8 +133,20 @@ public class TareasGUIController implements Initializable {
 
         TareasController mainController = new TareasController();
 
-        Log.i(TAG, "User entered in command: " + input);
-        mainController.executeCommand(input);
+        // TEST CODE
+        if(input.equals("next")) {
+            goToNextPage();
+        } else if(input.equals("prev")) {
+            goToPrevPage();
+        } else if(input.equals("first")) {
+            goToFirstPage();
+        } else if(input.equals("last")) {
+            goToLastPage();
+        } else {
+            Log.i(TAG, "User entered in command: " + input);
+            mainController.executeCommand(input);
+
+        }
     }
 
     public void changeCategoryName(String newCategory) {
@@ -174,6 +187,8 @@ public class TareasGUIController implements Initializable {
     public void sendTaskstoView(ArrayList<Task> tasks) {
         Collections.reverse(tasks);
         this.tasks = tasks;
+        this.pageCount = 1;
+        this.idCount = 1;
         updateView();
     }
 
@@ -184,7 +199,7 @@ public class TareasGUIController implements Initializable {
         flowPane.getChildren().add(categoryLabel);
 
         // Inserting listeners to each taskPane
-        for (Task task : this.tasks) {
+        for (Task task : getPageView()) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
             FlowPane taskPane = generator.generateTaskPane();
             taskPane.setOnMouseClicked(event -> {
@@ -192,7 +207,6 @@ public class TareasGUIController implements Initializable {
             });
             flowPane.getChildren().add(taskPane);
         }
-        idCount = 1;
     }
 
 
@@ -243,6 +257,75 @@ public class TareasGUIController implements Initializable {
         taskDescription.setWrapText(true);
         taskDescription.setId("taskDescription");
         return taskDescription;
+    }
+
+    private ArrayList<Task> getPageView() {
+        ArrayList<Task> currentPage = new ArrayList<Task>();
+            for(int i = 0; i < maxTasksPerPage; i++) {
+                if((pageCount-1)*maxTasksPerPage + i > tasks.size()-1) {
+                    break;
+                }
+                currentPage.add(tasks.get((pageCount-1)*maxTasksPerPage + i));
+            }
+        return currentPage;
+    }
+
+    private boolean isPageNumberValid(int pageNumber) {
+        int totalSize = this.tasks.size();
+        if(totalSize % maxTasksPerPage > 0) {
+            if(pageNumber > (totalSize/maxTasksPerPage)+1 ||
+                pageNumber < 1) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if(pageNumber > (totalSize/maxTasksPerPage) ||
+                pageNumber < 1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    public void goToNextPage() {
+        int nextPage = this.pageCount + 1;
+        if(isPageNumberValid(nextPage)) {
+            this.pageCount++;
+            this.idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
+            updateView();
+        } else {
+            sendWarningToView("You have reached the last page.");
+        }
+    }
+
+    public void goToPrevPage() {
+        int prevPage = this.pageCount - 1;
+        if(isPageNumberValid(prevPage)) {
+            this.pageCount--;
+            this.idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
+            updateView();
+        } else {
+            sendWarningToView("You are at the first page.");
+        }
+    }
+
+    public void goToFirstPage() {
+        this.pageCount = 1;
+        this.idCount = 1;
+        updateView();
+    }
+
+    public void goToLastPage() {
+        int totalNumber = this.tasks.size();
+        if(totalNumber % maxTasksPerPage > 0) {
+            this.pageCount = totalNumber / maxTasksPerPage + 1;
+        } else {
+            this.pageCount = totalNumber / maxTasksPerPage;
+        }
+        this.idCount = (totalNumber / maxTasksPerPage) * maxTasksPerPage;
+        updateView();
     }
 
     protected int getIdCount() {
