@@ -20,10 +20,7 @@ import tareas.common.Task;
 import tareas.controller.TareasController;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.*;
 
 public class TareasGUIController implements Initializable {
     private static String TAG = "TareasGUIController";
@@ -37,7 +34,6 @@ public class TareasGUIController implements Initializable {
     // Data Variables
     private static TareasGUIController instance = null;
     private String input;
-    private int idCount = 1;
     private int pageCount = 1;
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private NotificationPane notificationPane;
@@ -233,7 +229,6 @@ public class TareasGUIController implements Initializable {
         Collections.reverse(tasks);
         this.tasks = tasks;
         pageCount = 1;
-        idCount = 1;
         updateView();
     }
 
@@ -253,7 +248,6 @@ public class TareasGUIController implements Initializable {
             flowPane.getChildren().add(taskPane);
         }
 
-        this.idCount = this.tasks.size() / maxTasksPerPage;
     }
 
 
@@ -294,16 +288,30 @@ public class TareasGUIController implements Initializable {
         detailedView.show(taskPane);
     }
 
-    // TODO: Expose method for Junhao to show detailed view.
-    private void openDetailedView(Task task) {
-        PopOver pop = new PopOver();
-    }
+    // TODO: Try to make the view appear near the actual taskPane
+    public void showDetailedView(Task task) {
+        PopOver detailedView = new PopOver();
+        Scene thisScene = root.getScene();
 
-    private Label getTaskDescription(Task task) {
-        Label taskDescription = new Label(task.getDescription());
-        taskDescription.setWrapText(true);
-        taskDescription.setId("taskDescription");
-        return taskDescription;
+        thisScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                detailedView.hide();
+            }
+        });
+        thisScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                detailedView.hide();
+            }
+        });
+
+        detailedView.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
+        detailedView.setCornerRadius(0);
+        detailedView.setOpacity(0.95);
+        DetailedTaskViewGenerator gen = new DetailedTaskViewGenerator(task);
+        detailedView.setContentNode(gen.generate());
+        detailedView.show(commandLine);
     }
 
     private ArrayList<Task> getPageView() {

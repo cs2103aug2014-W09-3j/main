@@ -7,7 +7,7 @@
     -fx-effect: dropshadow(three-pass-box, derive(gray, -20%), 3, 0, 2, 2);
     -fx-padding: 0, 0, 0, 0;
     -fx-pref-height: 40px;
-    -fx-pref-width: 745px;
+    -fx-pref-width: 760px;
 }
 
 #idLabel {
