@@ -101,22 +101,32 @@ public class TareasGUIController implements Initializable {
     }
 
     private void initializeKeyCombinations() {
-        root.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            final KeyCombination CTRL_RIGHT = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_ANY);
-            final KeyCombination CTRL_LEFT = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_ANY);
-            final KeyCombination CTRL_UP = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_ANY);
-            final KeyCombination CTRL_DOWN = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_ANY);
-            public void handle(KeyEvent t) {
-                if(CTRL_RIGHT.match(t)) {
+        /*root.getScene().getAccelerators().put(
+            new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_ANY),
+            new Runnable() {
+                @Override public void run() {
                     goToNextPage();
                 }
-                if(CTRL_LEFT.match(t)) {
+            }
+        );*/
+
+        root.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            final KeyCombination CTRL_RIGHT = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_LEFT = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_UP = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_DOWN = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN);
+
+            public void handle(KeyEvent t) {
+                if (CTRL_RIGHT.match(t)) {
+                    goToNextPage();
+                }
+                if (CTRL_LEFT.match(t)) {
                     goToPrevPage();
                 }
-                if(CTRL_UP.match(t)) {
+                if (CTRL_UP.match(t)) {
                     goToFirstPage();
                 }
-                if(CTRL_DOWN.match(t)) {
+                if (CTRL_DOWN.match(t)) {
                     goToLastPage();
                 }
             }
@@ -317,8 +327,9 @@ public class TareasGUIController implements Initializable {
     public void goToNextPage() {
         int nextPage = this.pageCount + 1;
         if(isPageNumberValid(nextPage)) {
-            this.pageCount++;
-            this.idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
+            pageCount++;
+            idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
+            System.out.println(idCount);
             updateView();
         } else {
             sendWarningToView("You have reached the last page.");
@@ -328,8 +339,9 @@ public class TareasGUIController implements Initializable {
     public void goToPrevPage() {
         int prevPage = this.pageCount - 1;
         if(isPageNumberValid(prevPage)) {
-            this.pageCount--;
-            this.idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
+            pageCount--;
+            idCount = (this.pageCount - 1) * maxTasksPerPage + 1;
+            System.out.println(idCount);
             updateView();
         } else {
             sendWarningToView("You are at the first page.");
@@ -337,19 +349,19 @@ public class TareasGUIController implements Initializable {
     }
 
     public void goToFirstPage() {
-        this.pageCount = 1;
-        this.idCount = 1;
+        pageCount = 1;
+        idCount = 1;
         updateView();
     }
 
     public void goToLastPage() {
         int totalNumber = this.tasks.size();
         if(totalNumber % maxTasksPerPage > 0) {
-            this.pageCount = totalNumber / maxTasksPerPage + 1;
+            pageCount = totalNumber / maxTasksPerPage + 1;
         } else {
-            this.pageCount = totalNumber / maxTasksPerPage;
+            pageCount = totalNumber / maxTasksPerPage;
         }
-        this.idCount = (totalNumber / maxTasksPerPage) * maxTasksPerPage;
+        idCount = (totalNumber / maxTasksPerPage) * maxTasksPerPage;
         updateView();
     }
 
