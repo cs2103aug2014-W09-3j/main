@@ -381,10 +381,22 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingTimedTasks() throws IOException {
-        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
+        TareasCommand testTareasCommand = TareasCommand.fromString("camping /from 22-10-14 13:00 /to 22-10-14 17:00");
 
-        // TODO set to fail once supported
-        assertEquals(true, false);
+        Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
+
+        ArrayList<String> testTaskTags = new ArrayList<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy H:mm");
+        LocalDateTime testFromTime = LocalDateTime.parse("22-10-14 13:00", formatter);
+        LocalDateTime testByTime = LocalDateTime.parse("22-10-14 17:00", formatter);
+
+        // make sure it has description, start time and end time but no tag(s)
+        assertEquals(testBuyHamTask.getDescription(), "camping");
+        assertEquals(testBuyHamTask.getTags(), testTaskTags);
+        assertEquals(testBuyHamTask.getStartDateTime(), testFromTime);
+        assertEquals(testBuyHamTask.getEndDateTime(), testByTime);
+        assertEquals(testBuyHamTask.getDeadline(), null);
     }
 
     /**
