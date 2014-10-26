@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class TareasGUIController implements Initializable {
     private static String TAG = "TareasGUIController";
@@ -42,6 +43,8 @@ public class TareasGUIController implements Initializable {
     private NotificationPane notificationPane;
     private String categoryText = "Today's Tasks";
     private final int maxTasksPerPage = 10;
+    private Stack<String> commandStackBefore = new Stack<>();
+    private Stack<String> commandStackAfter = new Stack<>();
 
     public TareasGUIController() {
     }
@@ -107,6 +110,8 @@ public class TareasGUIController implements Initializable {
             final KeyCombination CTRL_UP = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN);
             final KeyCombination CTRL_DOWN = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN);
             final KeyCombination ESCAPE = new KeyCodeCombination(KeyCode.ESCAPE);
+            final KeyCombination UP = new KeyCodeCombination(KeyCode.UP);
+            final KeyCombination DOWN = new KeyCodeCombination(KeyCode.DOWN);
 
             public void handle(KeyEvent t) {
                 if(CTRL_RIGHT.match(t)) {
@@ -124,6 +129,24 @@ public class TareasGUIController implements Initializable {
                 if(ESCAPE.match(t)) {
                     Stage stage = (Stage) root.getScene().getWindow();
                     stage.close();
+                }
+                if(UP.match(t)) {
+                    if(commandStackBefore.empty()) {
+                        //sendWarningToView("No more commands in history.");
+                    } else {
+                        String prevCommand = commandStackBefore.pop();
+                        commandLine.setText(prevCommand);
+                        commandStackAfter.push(prevCommand);
+                    }
+                }
+                if(DOWN.match(t)) {
+                    if(commandStackAfter.empty()) {
+                        //sendWarningToView("No more commands in history.");
+                    } else {
+                        String futureCommand = commandStackAfter.pop();
+                        commandLine.setText(futureCommand);
+                        commandStackBefore.push(futureCommand);
+                    }
                 }
             }
         });
@@ -164,20 +187,11 @@ public class TareasGUIController implements Initializable {
 
         TareasController mainController = new TareasController();
 
-        // TEST CODE
-        if(input.equals("next")) {
-            goToNextPage();
-        } else if(input.equals("prev")) {
-            goToPrevPage();
-        } else if(input.equals("first")) {
-            goToFirstPage();
-        } else if(input.equals("last")) {
-            goToLastPage();
-        } else {
-            Log.i(TAG, "User entered in command: " + input);
-            mainController.executeCommand(input);
+        commandStackBefore.push(input);
+        commandStackAfter.clear();
+        Log.i(TAG, "User entered in command: " + input);
+        mainController.executeCommand(input);
 
-        }
     }
 
     public void changeCategoryName(String newCategory) {
