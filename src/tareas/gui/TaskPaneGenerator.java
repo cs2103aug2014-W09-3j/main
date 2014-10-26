@@ -6,6 +6,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import tareas.common.Task;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by Her Lung on 13/10/2014.
  */
@@ -54,11 +56,14 @@ class TaskPaneGenerator {
         return idLabel;
     }
 
-    private Label getDeadline(String deadline) {
-        Label deadlineLabel = new Label(deadline);
+    private Label getDeadline(LocalDateTime deadline) {
+        String date;
         if(deadline == null){
-            deadline = "";
+            date = "";
+        } else {
+            date = deadline.toString();
         }
+        Label deadlineLabel = new Label(date);
         deadlineLabel.setId("deadlineLabel");
         return deadlineLabel;
     }

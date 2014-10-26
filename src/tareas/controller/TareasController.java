@@ -183,15 +183,15 @@ public class TareasController {
         }
 
         if (command.getArgument("start") != null) {
-            taskToInsert.setStartDateTime(command.getArgument("start"));
+            taskToInsert.setStartDateTime(Parser.getDateTimeFromString(command.getArgument("start")));
         }
 
         if (command.getArgument("end") != null) {
-            taskToInsert.setEndDateTime(command.getArgument("end"));
+            taskToInsert.setEndDateTime(Parser.getDateTimeFromString(command.getArgument("end")));
         }
 
         if (command.getArgument("deadline") != null) {
-            taskToInsert.setDeadline(command.getArgument("deadline"));
+            taskToInsert.setDeadline(Parser.getDateTimeFromString(command.getArgument("deadline")));
         }
 
         // TODO abstract edit changes into a method
@@ -305,7 +305,7 @@ public class TareasController {
         Task taskToPostpone = taskManager.get().get(tasksSize - taskId);
 
         if (command.getArgument("to") != null) {
-            taskToPostpone.setDeadline(command.getArgument("to"));
+            taskToPostpone.setDeadline(Parser.getDateTimeFromString(command.getArgument("to")));
 
             // TODO support postpone for timed tasks as well? - ask for opinions first
         }
@@ -334,12 +334,21 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void viewRequest(TareasCommand command) {
-        // TODO grab the view type so that can call the right stuff from storage and GUI
-        
-        // TODO ask from the storage all the stuff needed for the view
-        // TODO call the GUI method to display the view request
-        guiController.sendSuccessToView("View has successfully been changed");
-        // TODO change feedback to include task description for useful user feedback
+        // assert that the primary argument viewType to be extracted is a string
+        assert(command.getPrimaryArgument().getClass().equals(String.class));
+
+        String viewType = command.getPrimaryArgument();
+
+        ArrayList<Task> tasksToShowToUser = new ArrayList<>();
+
+        // only today view supported for now
+        if (viewType.equals("today")) {
+            tasksToShowToUser = tareas.getAllUndoneTasks();
+        }
+        // TODO add support for other types of view
+
+        guiController.sendTaskstoView(tasksToShowToUser);
+        guiController.sendSuccessToView("View has successfully been changed to " + viewType);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a view change action at " + now.toString());
@@ -377,7 +386,7 @@ public class TareasController {
         guiController.sendSuccessToView("Task has been successfully prioritized - " + taskDescriptionForFeedback);
 
         Date now = new Date();
-        Log.i(TAG, "User has performed a task prioritizing action at" + now.toString());
+        Log.i(TAG, "User has performed a task prioritizing action at " + now.toString());
     }
 
     /**
