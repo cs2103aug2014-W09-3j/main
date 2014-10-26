@@ -68,7 +68,8 @@ class DetailedTaskViewGenerator {
         if(task.getDeadline() == null) {
             value = " - ";
         } else {
-            value = task.getDeadline();
+            value = "";
+//            value = task.getDeadline();
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
@@ -86,7 +87,8 @@ class DetailedTaskViewGenerator {
         if(task.getStartDateTime() == null) {
             value = " - ";
         } else {
-            value = task.getStartDateTime();
+            value = "";
+//            value = task.getStartDateTime();
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
@@ -104,7 +106,8 @@ class DetailedTaskViewGenerator {
         if(task.getEndDateTime() == null) {
             value = " - ";
         } else {
-            value = task.getEndDateTime();
+            value = "";
+//            value = task.getEndDateTime();
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
