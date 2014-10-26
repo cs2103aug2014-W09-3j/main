@@ -9,8 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -92,10 +91,36 @@ public class TareasGUIController implements Initializable {
         // Initialization of notification bar
         initializeNotifications();
 
+        // Initialization of shortcut keys
+        initializeKeyCombinations();
+
         // TODO: Explore auto-complete
         /*TextFields.bindAutoCompletion(
                 commandLine,
                 "-add", "-delete");*/
+    }
+
+    private void initializeKeyCombinations() {
+        root.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            final KeyCombination CTRL_RIGHT = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_ANY);
+            final KeyCombination CTRL_LEFT = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_ANY);
+            final KeyCombination CTRL_UP = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_ANY);
+            final KeyCombination CTRL_DOWN = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_ANY);
+            public void handle(KeyEvent t) {
+                if(CTRL_RIGHT.match(t)) {
+                    goToNextPage();
+                }
+                if(CTRL_LEFT.match(t)) {
+                    goToPrevPage();
+                }
+                if(CTRL_UP.match(t)) {
+                    goToFirstPage();
+                }
+                if(CTRL_DOWN.match(t)) {
+                    goToLastPage();
+                }
+            }
+        });
     }
 
     private void initializeFlowPane() {
