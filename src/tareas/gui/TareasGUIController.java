@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,7 +37,6 @@ public class TareasGUIController implements Initializable {
     public TextField commandLine;
     public Button closeButton;
     public FlowPane flowPane;
-    public ScrollPane scrollPane;
 
     // Data Variables
     private ArrayList<Task> tasks = new ArrayList<Task>();
@@ -81,9 +79,6 @@ public class TareasGUIController implements Initializable {
         // Set placeholder for command line
         commandLine.setPromptText("Type a command here...");
 
-        // Initialization of scrollPane
-        initializeScrollPane();
-
         // Initialization of Tilepane
         initializeFlowPane();
 
@@ -109,7 +104,7 @@ public class TareasGUIController implements Initializable {
     }
 
     private void initializeNotifications() {
-        notificationPane = new NotificationPane(scrollPane);
+        notificationPane = new NotificationPane(flowPane);
         notificationPane.setShowFromTop(false);
         notificationPane.setMinSize(800, 100);
         root.add(notificationPane, 0, 1);
@@ -124,13 +119,6 @@ public class TareasGUIController implements Initializable {
                 Log.i(TAG, "User exited the program.");
             }
         });
-    }
-
-    private void initializeScrollPane() {
-        scrollPane.setContent(flowPane);
-        scrollPane.setStyle("-fx-background-color: transparent");
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
 
     public void onEnter() {
