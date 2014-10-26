@@ -303,6 +303,7 @@ public class TareasGUIController implements Initializable {
                     break;
                 }
                 Task task = tasks.get((pageCount-1)*maxTasksPerPage + i);
+                // GUI TaskID is set into the Task object's taskID attribute.
                 task.setTaskID((pageCount-1)*maxTasksPerPage + i + 1);
                 currentPage.add(task);
             }
