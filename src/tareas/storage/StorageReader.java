@@ -18,25 +18,40 @@ public class StorageReader {
 
     private Tasks tasks = new Tasks();
 
-	public Tasks read() throws IOException {
-		File file = new File("storage.json");
-		if (file.exists()) {
-			return convertJSONtoObject();
-		} else {
-			// The below method creates a new file and returns an empty ArrayList<Tasks>
-			return createNewFile();
-		}
-	}
+	public Tasks read(int runType) throws IOException {
+        File file ;
+
+        if(runType == 1) {
+            file = new File("storage.json");
+            if (file.exists()) {
+                return convertJSONtoObject();
+            } else {
+                // The below method creates a new file and returns an empty ArrayList<Tasks>
+                return createNewFile("storage.json");
+            }
+        }
+        else if (runType == 2) {
+            file = new File("testing.json");
+            if (file.exists()) {
+                return convertJSONtoObject();
+            } else {
+                // The below method creates a new file and returns an empty ArrayList<Tasks>
+                return createNewFile("testing.json");
+            }
+        }
+
+        return createNewFile("storage.json");
+    }
 
     public void overwrite() {
-        File file = new File("storage.json");
+        File file = new File("testing.json");
         file.delete();
        }
 
-	private Tasks createNewFile() {
+	private Tasks createNewFile(String fileName) {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
-		writer.createFile("storage.json");
+		writer.createFile(fileName);
 		return tasks;
 	}
 

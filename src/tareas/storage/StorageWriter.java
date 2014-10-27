@@ -18,11 +18,11 @@ import java.io.IOException;
 
 public class StorageWriter {
 	
-	public void write(Tasks tasks) throws IOException  {
+	public void write(Tasks tasks, String fileName) throws IOException  {
 		Gson gson = new Gson();
 		String json = gson.toJson(tasks);
 		
-		FileWriter writer = new FileWriter("storage.json");
+		FileWriter writer = new FileWriter(fileName);
 	//	FileWriter writerTest = new FileWriter("testing.json");
 
         writer.write(json);

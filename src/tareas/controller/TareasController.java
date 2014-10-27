@@ -35,8 +35,8 @@ public class TareasController {
      * constructor for controller, will set the pointer for the task manager
      */
     public TareasController() {
-        taskManager.set(tareas.getAllUndoneTasks());
-        taskManager.setId(tareas.getInitialiseLatestId());
+        taskManager.set(tareas.getAllUndoneTasks(1));
+        taskManager.setId(tareas.getInitialiseLatestId(1));
     }
 
     /**
@@ -144,7 +144,7 @@ public class TareasController {
      * @return an ArrayList of Task
      */
     public ArrayList<Task> getInitialiseTasks() {
-        return tareas.getAllUndoneTasks();
+        return tareas.getAllUndoneTasks(1);
     }
 
     /**
@@ -155,9 +155,9 @@ public class TareasController {
     private void addTask(TareasCommand command) {
         Task taskToInsert = TaskManager.buildTask(command);
 
-        tareas.insertTask(taskToInsert);
+        tareas.insertTask(taskToInsert, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -202,9 +202,9 @@ public class TareasController {
 
         taskToInsert.setTaskID(mappedTaskId);
 
-        tareas.editTask(taskToInsert);
+        tareas.editTask(taskToInsert, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -230,9 +230,9 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        tareas.deleteTask(mappedTaskId);
+        tareas.deleteTask(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -252,7 +252,7 @@ public class TareasController {
     private void searchTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
-        tareas.searchTask(taskId);
+        tareas.searchTask(taskId, 1);
         // TODO Add in feedback to user on the GUI side of things
         // TODO change feedback to include task description for useful user feedback
 
@@ -276,9 +276,9 @@ public class TareasController {
 
         System.out.println(mappedTaskId);
         
-        tareas.markTaskAsCompleted(mappedTaskId);
+        tareas.markTaskAsCompleted(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -314,9 +314,9 @@ public class TareasController {
             // TODO support the by format for both deadline and timed tasks - ask for opinions on timed tasks
         }
 
-        tareas.postponeTask(taskToPostpone);
+        tareas.postponeTask(taskToPostpone, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -343,7 +343,7 @@ public class TareasController {
 
         // only today view supported for now
         if (viewType.equals("today")) {
-            tasksToShowToUser = tareas.getAllUndoneTasks();
+            tasksToShowToUser = tareas.getAllUndoneTasks(1);
         }
         // TODO add support for other types of view
 
@@ -371,13 +371,13 @@ public class TareasController {
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
         if (taskToPrioritize.isTaskPriority()) {
-            tareas.prioritizeTask(mappedTaskId, false);
+            tareas.prioritizeTask(mappedTaskId, false, 1);
             // TODO talk to team about allow de-prioritize stuff
         } else {
-            tareas.prioritizeTask(mappedTaskId, true);
+            tareas.prioritizeTask(mappedTaskId, true, 1);
         }
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -414,7 +414,7 @@ public class TareasController {
         
         // TODO tell the storage that a task has a reminder set
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -481,7 +481,7 @@ public class TareasController {
     	
         // TODO tell the storage to change the color of the task
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -500,7 +500,7 @@ public class TareasController {
         if (taskManager.isAbleToUndo()) {
             Tasks stateToRevertTo = taskManager.getUndoState();
 
-            tareas.undoWrite(stateToRevertTo);
+            tareas.undoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Undo Successful");
@@ -523,7 +523,7 @@ public class TareasController {
         if (taskManager.isAbleToRedo()) {
 		    Tasks stateToRevertTo = taskManager.getRedoState();
 
-            tareas.redoWrite(stateToRevertTo);
+            tareas.redoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Redo Successful");
