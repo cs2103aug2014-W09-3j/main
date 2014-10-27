@@ -63,15 +63,14 @@ public class StorageJUnitTest {
 //      //  newTasks.add(task1);
 //        task1.setDescription("task one");
 //        test.insertTask(task1, 2);
-//    //    writer.write(tasks, "testing.json");
+//        writer.write(tasks, "testing.json");
 //
 //        Task task2 = new Task();
 //    //    newTasks.add(task2);
 //        task2.setDescription("task two");
 //        test.insertTask(task2, 2);
-//     //   writer.write(tasks, "testing.json");
+//        writer.write(tasks, "testing.json");
 //
-////        TareasIO delete = new TareasIO();
 //        test.deleteTask(1, 2);
 //
 //        writer.write(tasks, "testing.json");
