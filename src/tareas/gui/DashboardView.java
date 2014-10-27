@@ -127,7 +127,7 @@ public class DashboardView {
                     }
                 }));
         tl.setCycleCount(Animation.INDEFINITE);
-        //tl.play();
+        tl.play();
 
         return barChart;
     }
