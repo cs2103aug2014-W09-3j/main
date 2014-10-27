@@ -129,39 +129,33 @@ public class TareasController {
         values.push(numberOfCompletedTaskToday);
         values.push(numberOfUncompletedTaskToday);
 
-        // TODO get number of uncompleted + completed tasks second day v0.3
-        int numberOfCompletedTaskSecondDay = 0;
-        int numberOfUncompletedTaskSecondDay = 0;
+        int numberOfCompletedTaskSecondDay = getNumberOfCompletedTasksSecondDay(allTasks);
+        int numberOfUncompletedTaskSecondDay = getNumberOfUncompletedTasksSecondDay(allTasks);
         values.push(numberOfCompletedTaskSecondDay);
         values.push(numberOfUncompletedTaskSecondDay);
 
-        // TODO get number of uncompleted + completed tasks third day v0.3
-        int numberOfCompletedTaskThirdDay = 0;
-        int numberOfUncompletedTaskThirdDay = 0;
+        int numberOfCompletedTaskThirdDay = getNumberOfCompletedTasksThirdDay(allTasks);
+        int numberOfUncompletedTaskThirdDay = getNumberOfUncompletedTasksThirdDay(allTasks);
         values.push(numberOfCompletedTaskThirdDay);
         values.push(numberOfUncompletedTaskThirdDay);
 
-        // TODO get number of uncompleted + completed tasks fourth day v0.3
-        int numberOfCompletedTaskFourthDay = 0;
-        int numberOfUncompletedTaskFourthDay = 0;
+        int numberOfCompletedTaskFourthDay = getNumberOfCompletedTasksFourthDay(allTasks);
+        int numberOfUncompletedTaskFourthDay = getNumberOfUncompletedTasksFourthDay(allTasks);
         values.push(numberOfCompletedTaskFourthDay);
         values.push(numberOfUncompletedTaskFourthDay);
 
-        // TODO get number of uncompleted + completed tasks fifth day v0.3
-        int numberOfCompletedTaskFifthDay = 0;
-        int numberOfUncompletedTaskFifthDay = 0;
+        int numberOfCompletedTaskFifthDay = getNumberOfCompletedTasksFifthDay(allTasks);
+        int numberOfUncompletedTaskFifthDay = getNumberOfUncompletedTasksFifthDay(allTasks);
         values.push(numberOfCompletedTaskFifthDay);
         values.push(numberOfUncompletedTaskFifthDay);
 
-        // TODO get number of uncompleted + completed tasks sixth day v0.3
-        int numberOfCompletedTaskSixthDay = 0;
-        int numberOfUncompletedTaskSixthDay = 0;
+        int numberOfCompletedTaskSixthDay = getNumberOfCompletedTasksSixthDay(allTasks);
+        int numberOfUncompletedTaskSixthDay = getNumberOfUncompletedTasksSixthDay(allTasks);
         values.push(numberOfCompletedTaskSixthDay);
         values.push(numberOfUncompletedTaskSixthDay);
 
-        // TODO get number of uncompleted + completed tasks seventh day v0.3
-        int numberOfCompletedTaskSeventhDay = 0;
-        int numberOfUncompletedTaskSeventhDay = 0;
+        int numberOfCompletedTaskSeventhDay = getNumberOfCompletedTasksSeventhDay(allTasks);
+        int numberOfUncompletedTaskSeventhDay = getNumberOfUncompletedTasksSeventhDay(allTasks);
         values.push(numberOfCompletedTaskSeventhDay);
         values.push(numberOfUncompletedTaskSeventhDay);
 
@@ -305,6 +299,318 @@ public class TareasController {
         }
 
         return numberOfUncompletedTasksToday;
+    }
+
+    private int getNumberOfCompletedTasksSecondDay(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasksSecondDay = 0;
+
+        LocalDate secondDay = LocalDate.now().plusDays(1);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(secondDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksSecondDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(secondDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksSecondDay++;
+                }
+            }
+        }
+
+        return numberOfCompletedTasksSecondDay;
+    }
+
+    private int getNumberOfUncompletedTasksSecondDay(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTasksSecondDay = 0;
+
+        LocalDate secondDay = LocalDate.now().plusDays(1);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(secondDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksSecondDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(secondDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksSecondDay++;
+                }
+            }
+        }
+
+        return numberOfUncompletedTasksSecondDay;
+    }
+
+    private int getNumberOfCompletedTasksThirdDay(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasksThirdDay = 0;
+
+        LocalDate thirdDay = LocalDate.now().plusDays(2);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(thirdDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksThirdDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(thirdDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksThirdDay++;
+                }
+            }
+        }
+
+        return numberOfCompletedTasksThirdDay;
+    }
+
+    private int getNumberOfUncompletedTasksThirdDay(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTasksThirdDay = 0;
+
+        LocalDate thirdDay = LocalDate.now().plusDays(2);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(thirdDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksThirdDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(thirdDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksThirdDay++;
+                }
+            }
+        }
+
+        return numberOfUncompletedTasksThirdDay;
+    }
+
+    private int getNumberOfCompletedTasksFourthDay(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasksFourthDay = 0;
+
+        LocalDate fourthDay = LocalDate.now().plusDays(3);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(fourthDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksFourthDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(fourthDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksFourthDay++;
+                }
+            }
+        }
+
+        return numberOfCompletedTasksFourthDay;
+    }
+
+    private int getNumberOfUncompletedTasksFourthDay(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTasksFourthDay = 0;
+
+        LocalDate fourthDay = LocalDate.now().plusDays(3);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(fourthDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksFourthDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(fourthDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksFourthDay++;
+                }
+            }
+        }
+
+        return numberOfUncompletedTasksFourthDay;
+    }
+
+    private int getNumberOfCompletedTasksFifthDay(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasksFifthDay = 0;
+
+        LocalDate fifthDay = LocalDate.now().plusDays(4);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(fifthDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksFifthDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(fifthDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksFifthDay++;
+                }
+            }
+        }
+
+        return numberOfCompletedTasksFifthDay;
+    }
+
+    private int getNumberOfUncompletedTasksFifthDay(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTasksToday = 0;
+
+        LocalDate fifthDay = LocalDate.now().plusDays(4);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(fifthDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksToday++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(fifthDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksToday++;
+                }
+            }
+        }
+
+        return numberOfUncompletedTasksToday;
+    }
+
+    private int getNumberOfCompletedTasksSixthDay(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasksSixthDay = 0;
+
+        LocalDate sixthDay = LocalDate.now().plusDays(5);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(sixthDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksSixthDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(sixthDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksSixthDay++;
+                }
+            }
+        }
+
+        return numberOfCompletedTasksSixthDay;
+    }
+
+    private int getNumberOfUncompletedTasksSixthDay(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTasksSixthDay = 0;
+
+        LocalDate sixthDay = LocalDate.now().plusDays(5);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(sixthDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksSixthDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(sixthDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksSixthDay++;
+                }
+            }
+        }
+
+        return numberOfUncompletedTasksSixthDay;
+    }
+
+    private int getNumberOfCompletedTasksSeventhDay(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasksSeventhDay = 0;
+
+        LocalDate seventhDay = LocalDate.now().plusDays(6);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(seventhDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksSeventhDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(seventhDay) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksSeventhDay++;
+                }
+            }
+        }
+
+        return numberOfCompletedTasksSeventhDay;
+    }
+
+    private int getNumberOfUncompletedTasksSeventhDay(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTasksSeventhDay = 0;
+
+        LocalDate seventhDay = LocalDate.now().plusDays(6);
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(seventhDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksSeventhDay++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(seventhDay) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksSeventhDay++;
+                }
+            }
+        }
+
+        return numberOfUncompletedTasksSeventhDay;
     }
 
     /**
