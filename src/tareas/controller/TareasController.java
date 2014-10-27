@@ -793,6 +793,12 @@ public class TareasController {
             case SEARCH_COMMAND:
                 searchTask(command);
                 break;
+            case DETAILED_COMMAND:
+                detailedTask(command);
+                break;
+            case TAG_COMMAND:
+                addTagToTask(command);
+                break;
             case DONE_COMMAND:
                 completeTask(command);
                 break;
@@ -950,11 +956,11 @@ public class TareasController {
     }
 
     /**
-     * searches a task by calling the appropriate GUI and storage methods
+     * adds a tag to a task by calling the appropriate GUI and storage methods
      *
      * @param command after being parsed from the parser
      */
-    private void searchTask(TareasCommand command) {
+    private void addTagToTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         int tasksSize = taskManager.get().size();
@@ -963,12 +969,67 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        Task taskToShow = tareas.searchTask(mappedTaskId, 1);
+        String tagToAdd = command.getArgument("with");
+
+        tareas.addTags(mappedTaskId, tagToAdd, 1);
+
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
+
+        taskManager.tasksChanged(newTasks);
+        taskManager.clearRedoState();
+
+        guiController.sendTaskstoView(newTasks);
+        // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
+        guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+
+        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "User has performed a task deletion action at " + now.toString());
+    }
+
+    /**
+     * shows a detailed view of a task by calling the appropriate GUI and storage methods
+     *
+     * @param command after being parsed from the parser
+     */
+    private void detailedTask(TareasCommand command) {
+        int taskId = Integer.parseInt(command.getPrimaryArgument());
+
+        int tasksSize = taskManager.get().size();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
+
+        Task taskToShow = tareas.detailedTask(mappedTaskId, 1);
 
         guiController.showDetailedView(taskToShow);
         // TODO think about how to settle the view whenever an action is done v0.4
         guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "User has performed a task search action at " + now.toString());
+    }
+
+    /**
+     * searches a task by calling the appropriate GUI and storage methods
+     *
+     * @param command after being parsed from the parser
+     */
+    private void searchTask(TareasCommand command) {
+        String searchString = command.getPrimaryArgument();
+
+        ArrayList<Task> tasksToShow = tareas.searchTask(searchString, 1);
+
+        guiController.sendTaskstoView(tasksToShow);
+        // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
+
+        if (tasksToShow.size() == 0) {
+            guiController.sendErrorToView("No tasks found - provide another search term or tag?");
+        } else {
+            guiController.sendSuccessToView(tasksToShow.size() + " tasks found");
+        }
 
         LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task search action at " + now.toString());

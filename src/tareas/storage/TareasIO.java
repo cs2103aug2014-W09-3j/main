@@ -160,7 +160,7 @@ public class TareasIO {
                     taskToBuild.setRecurrenceDay(newTask.getRecurrenceDay());
                 }
 
-                // TODO: tags are left out first
+                // TODO tags editing, how should we do that?
 
                 if (newTask.isTaskCompleted() != taskToBuild.isTaskCompleted()) {
                     if(newTask.isTaskCompleted()) {
@@ -214,9 +214,29 @@ public class TareasIO {
      * @param id
      * @return Task
      */
-    public Task searchTask(int id, int runType) {
+    public Task detailedTask(int id, int runType) {
         initialize(runType);
         return getTask(id, runType);
+    }
+
+    /**
+     * This method searches for a task using the ID
+     *
+     * @param searchString
+     * @return Task
+     */
+    public ArrayList<Task> searchTask(String searchString, int runType) {
+        initialize(runType);
+
+        ArrayList<Task> searchedTasks = new ArrayList<>();
+
+        ArrayList<Task> searchedTagTasks = searchTags(searchString, runType);
+        ArrayList<Task> searchedDescriptionTasks = searchByDescription(searchString, runType);
+
+        searchedTasks.addAll(searchedTagTasks);
+        searchedTasks.addAll(searchedDescriptionTasks);
+
+        return searchedTasks;
     }
 
     /**
@@ -362,38 +382,6 @@ public class TareasIO {
     public void postponeTask(Task task, int runType){
         editTask(task, runType);
     }
-
-    /**
-     * This method retrieves all task today. Parameter runType is to determine
-     * whether the file is under testing or running.
-     * @param runType
-     * @return
-     */
-    public ArrayList<Task> retrieveTodayTask(int runType){
-        StorageReader reader = new StorageReader();
-        ArrayList<Task> tasks = new ArrayList<>();
-
-        try {
-            tasks = reader.read(runType).get();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-
-        int tasksSize = tasks.size();
-
-        LocalDateTime currentTime = LocalDateTime.now();
-
-        for(int i = 0; i < tasksSize; i++) {
-            if(tasks.get(i).getDeadline().equals(currentTime)) {
-                tasks.remove(i);
-                i--;
-            }
-        }
-
-        return tasks;
-    }
-
 
     /**
      * This method retrieves an arrayList of task for different task type.
@@ -557,24 +545,37 @@ public class TareasIO {
     /**
      * This method add tags to tasks.
      * @param id
-     * @param tagDescription
+     * @param tag
      * @param runType
      */
-    public void addTags(int id, String tagDescription, int runType){
-        // TODO doesn't work
-        Task task = getTask(id, runType);
-        task.addTag(tagDescription);
+    public void addTags(int id, String tag, int runType){
+        ArrayList<Task> temp = getAllTasks(runType);
+
+        int taskIdToAddTags = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToAddTags = i;
+            }
+        }
+
+        if (taskIdToAddTags != -1) {
+            temp.get(taskIdToAddTags).addTag(tag);
+        }
+
+        tasks.set(temp);
+
         write(runType);
     }
 
-
     /**
      * This method search for tags and return an arrayList of related tasks.
-     * @param tagDescription
+     * @param searchTag
      * @param runType
      * @return
      */
-    public ArrayList<Task> searchTags(String tagDescription, int runType){
+    private ArrayList<Task> searchTags(String searchTag, int runType){
         StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -587,10 +588,14 @@ public class TareasIO {
         int tasksSize = tasks.size();
 
         for (int i = 0; i < tasksSize; i++) {
+            ArrayList<String> taskTags = tasks.get(i).getTags();
 
-            if (!tasks.get(i).getTags().equals(tagDescription)) {
-                tasks.remove(i);
-                tasksSize--;
+            for (String tag : taskTags) {
+                if (!(tag.equals(searchTag))) {
+                    tasks.remove(i);
+                    i--;
+                    break;
+                }
             }
         }
 
@@ -604,7 +609,7 @@ public class TareasIO {
      * @param runType
      * @return
      */
-    public ArrayList<Task> searchByDescription(String description, int runType){
+    private ArrayList<Task> searchByDescription(String description, int runType){
         StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -617,10 +622,9 @@ public class TareasIO {
         int tasksSize = tasks.size();
 
         for (int i = 0; i < tasksSize; i++) {
-
             if (!tasks.get(i).getDescription().contains(description)) {
                 tasks.remove(i);
-                tasksSize--;
+                i--;
             }
         }
 
@@ -635,9 +639,23 @@ public class TareasIO {
      * @param runType
      */
     public void setTaskReminder(int id, LocalDateTime reminderDateTime, int runType) {
-        // TODO doesn't work
-        Task task = getTask(id, runType);
-        task.setReminderDateTime(reminderDateTime);
+        ArrayList<Task> temp = getAllTasks(runType);
+
+        int taskIdToSetReminder = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToSetReminder = i;
+            }
+        }
+
+        if (taskIdToSetReminder != -1) {
+            temp.get(taskIdToSetReminder).setReminderDateTime(reminderDateTime);
+        }
+
+        tasks.set(temp);
+
         write(runType);
     }
 }
