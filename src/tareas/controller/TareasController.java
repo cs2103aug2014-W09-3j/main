@@ -162,6 +162,12 @@ public class TareasController {
         return values;
     }
 
+    /**
+     * Finds the number of completed tasks for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks
+     */
     private int getNumberOfCompletedTasks(ArrayList<Task> allTasks) {
         int numberOfCompletedTasks = 0;
 
@@ -174,6 +180,12 @@ public class TareasController {
         return numberOfCompletedTasks;
     }
 
+    /**
+     * Finds the number of overdue tasks for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of overdue tasks
+     */
     private int getNumberOfOverdueTasks(ArrayList<Task> allTasks) {
         int numberOfOverdueTasks = 0;
 
@@ -200,6 +212,12 @@ public class TareasController {
         return numberOfOverdueTasks;
     }
 
+    /**
+     * Finds the number of uncompleted deadline tasks for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted deadline tasks
+     */
     private int getNumberOfUncompletedDeadlineTasks(ArrayList<Task> allTasks) {
         int numberOfUncompletedDeadlineTasks = 0;
 
@@ -212,6 +230,12 @@ public class TareasController {
         return numberOfUncompletedDeadlineTasks;
     }
 
+    /**
+     * Finds the number of uncompleted timed tasks for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted time tasks
+     */
     private int getNumberOfUncompletedTimedTasks(ArrayList<Task> allTasks) {
         int numberOfUncompletedTimedTasks = 0;
 
@@ -224,6 +248,12 @@ public class TareasController {
         return numberOfUncompletedTimedTasks;
     }
 
+    /**
+     * Finds the number of uncompleted floating tasks for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted floating tasks
+     */
     private int getNumberOfUncompletedFloatingTasks(ArrayList<Task> allTasks) {
         int numberOfUncompletedFloatingTasks = 0;
 
@@ -237,6 +267,12 @@ public class TareasController {
         return numberOfUncompletedFloatingTasks;
     }
 
+    /**
+     * Finds the number of uncompleted important tasks for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted important tasks
+     */
     private int getNumberOfUncompletedImportantTasks(ArrayList<Task> allTasks) {
         int numberOfUncompletedImportantTasks = 0;
 
@@ -249,6 +285,12 @@ public class TareasController {
         return numberOfUncompletedImportantTasks;
     }
 
+    /**
+     * Finds the number of completed tasks for today for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks for today
+     */
     private int getNumberOfCompletedTasksToday(ArrayList<Task> allTasks) {
         int numberOfCompletedTasksToday = 0;
 
@@ -275,6 +317,12 @@ public class TareasController {
         return numberOfCompletedTasksToday;
     }
 
+    /**
+     * Finds the number of uncompleted tasks for today for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted tasks for today
+     */
     private int getNumberOfUncompletedTasksToday(ArrayList<Task> allTasks) {
         int numberOfUncompletedTasksToday = 0;
 
@@ -301,6 +349,12 @@ public class TareasController {
         return numberOfUncompletedTasksToday;
     }
 
+    /**
+     * Finds the number of completed tasks for second day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks for second day
+     */
     private int getNumberOfCompletedTasksSecondDay(ArrayList<Task> allTasks) {
         int numberOfCompletedTasksSecondDay = 0;
 
@@ -327,6 +381,12 @@ public class TareasController {
         return numberOfCompletedTasksSecondDay;
     }
 
+    /**
+     * Finds the number of uncompleted tasks for second day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted tasks for second day
+     */
     private int getNumberOfUncompletedTasksSecondDay(ArrayList<Task> allTasks) {
         int numberOfUncompletedTasksSecondDay = 0;
 
@@ -353,6 +413,12 @@ public class TareasController {
         return numberOfUncompletedTasksSecondDay;
     }
 
+    /**
+     * Finds the number of completed tasks for third day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks for third day
+     */
     private int getNumberOfCompletedTasksThirdDay(ArrayList<Task> allTasks) {
         int numberOfCompletedTasksThirdDay = 0;
 
@@ -379,6 +445,12 @@ public class TareasController {
         return numberOfCompletedTasksThirdDay;
     }
 
+    /**
+     * Finds the number of uncompleted tasks for third day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted tasks for third day
+     */
     private int getNumberOfUncompletedTasksThirdDay(ArrayList<Task> allTasks) {
         int numberOfUncompletedTasksThirdDay = 0;
 
@@ -405,6 +477,12 @@ public class TareasController {
         return numberOfUncompletedTasksThirdDay;
     }
 
+    /**
+     * Finds the number of completed tasks for fourth day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks for fourth day
+     */
     private int getNumberOfCompletedTasksFourthDay(ArrayList<Task> allTasks) {
         int numberOfCompletedTasksFourthDay = 0;
 
@@ -431,6 +509,12 @@ public class TareasController {
         return numberOfCompletedTasksFourthDay;
     }
 
+    /**
+     * Finds the number of uncompleted tasks for fourth day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted tasks for fourth day
+     */
     private int getNumberOfUncompletedTasksFourthDay(ArrayList<Task> allTasks) {
         int numberOfUncompletedTasksFourthDay = 0;
 
@@ -457,6 +541,12 @@ public class TareasController {
         return numberOfUncompletedTasksFourthDay;
     }
 
+    /**
+     * Finds the number of completed tasks for fifth day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks for fifth day
+     */
     private int getNumberOfCompletedTasksFifthDay(ArrayList<Task> allTasks) {
         int numberOfCompletedTasksFifthDay = 0;
 
@@ -483,6 +573,12 @@ public class TareasController {
         return numberOfCompletedTasksFifthDay;
     }
 
+    /**
+     * Finds the number of uncompleted tasks for fifth day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted tasks for fifth day
+     */
     private int getNumberOfUncompletedTasksFifthDay(ArrayList<Task> allTasks) {
         int numberOfUncompletedTasksToday = 0;
 
@@ -509,6 +605,12 @@ public class TareasController {
         return numberOfUncompletedTasksToday;
     }
 
+    /**
+     * Finds the number of completed tasks for sixth day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks for sixth day
+     */
     private int getNumberOfCompletedTasksSixthDay(ArrayList<Task> allTasks) {
         int numberOfCompletedTasksSixthDay = 0;
 
@@ -535,6 +637,12 @@ public class TareasController {
         return numberOfCompletedTasksSixthDay;
     }
 
+    /**
+     * Finds the number of uncompleted tasks for sixth day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted tasks for sixth day
+     */
     private int getNumberOfUncompletedTasksSixthDay(ArrayList<Task> allTasks) {
         int numberOfUncompletedTasksSixthDay = 0;
 
@@ -561,6 +669,12 @@ public class TareasController {
         return numberOfUncompletedTasksSixthDay;
     }
 
+    /**
+     * Finds the number of completed tasks for seventh day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of completed tasks for seventh day
+     */
     private int getNumberOfCompletedTasksSeventhDay(ArrayList<Task> allTasks) {
         int numberOfCompletedTasksSeventhDay = 0;
 
@@ -587,6 +701,12 @@ public class TareasController {
         return numberOfCompletedTasksSeventhDay;
     }
 
+    /**
+     * Finds the number of uncompleted tasks for seventh day for dashboard view
+     *
+     * @param allTasks all the task stored in Storage
+     * @return int number of uncompleted tasks for seventh day
+     */
     private int getNumberOfUncompletedTasksSeventhDay(ArrayList<Task> allTasks) {
         int numberOfUncompletedTasksSeventhDay = 0;
 
