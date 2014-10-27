@@ -1069,8 +1069,7 @@ public class TareasController {
                         viewType.equals("overdue") || viewType.equals("dashboard")) {
 
             if (viewType.equals("all")) {
-                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getTasks(1).get();
             }
 
             if (viewType.equals("deadline")) {
@@ -1088,24 +1087,20 @@ public class TareasController {
                 // TODO use the correct method once Lareina supports it on the storage side v0.3
             }
 
+            if (viewType.equals("undone")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, 0);
+            }
+
             if (viewType.equals("today")) {
-                // tasksToShowToUser = tareas.getParticularDateTask(0, someDate);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, 1);
             }
 
             if (viewType.equals("tomorrow")) {
-                // tasksToShowToUser = tareas.getParticularDateTask(0, someDate);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, 2);
             }
 
             if (viewType.equals("done")) {
-                // tasksToShowToUser = tareas.getAllDoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
-            }
-
-            if (viewType.equals("undone")) {
-                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, 3);
             }
 
             if (viewType.equals("important")) {
@@ -1125,10 +1120,9 @@ public class TareasController {
 
         } else {
             // if it's not then it's a particular date then we parse it into a date type
-            LocalDateTime timeToPassToStorage = Parser.getDateTimeFromString(viewType);
+            LocalDate dateToPassToStorage = Parser.getDateTimeFromString(viewType).toLocalDate();
 
-            // tasksToShowToUser = tareas.getParticularDateTask(0, someDate);
-            // TODO use the correct method once Lareina supports it on the storage side v0.3
+            tasksToShowToUser = tareas.getParticularDateTask(1, dateToPassToStorage);
         }
 
         return tasksToShowToUser;
