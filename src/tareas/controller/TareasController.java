@@ -379,7 +379,7 @@ public class TareasController {
 
         ArrayList<Task> tasksToShowToUser;
 
-        tasksToShowToUser = checkViewTypeAndGetFromStorage(viewType);
+        tasksToShowToUser = checkViewTypeAndExecute(viewType);
 
         guiController.sendTaskstoView(tasksToShowToUser);
         guiController.sendSuccessToView("View has successfully been changed to " + viewType);
@@ -394,31 +394,61 @@ public class TareasController {
      * @param viewType the view type that is parsed by the parser
      * @return the ArrayList of task that is gotten from the Storage
      */
-    private ArrayList<Task> checkViewTypeAndGetFromStorage(String viewType) {
+    private ArrayList<Task> checkViewTypeAndExecute(String viewType) {
         ArrayList<Task> tasksToShowToUser = new ArrayList<>();
 
         // if the view type is equal to the view types supported for natural languages
-        if (viewType.equals("today") || viewType.equals("tomorrow") || viewType.equals("done") ||
-                viewType.equals("undone")) {
+        if (viewType.equals("all") || viewType.equals("deadline") || viewType.equals("timed") ||
+                viewType.equals("floating") || viewType.equals("today") || viewType.equals("tomorrow") ||
+                    viewType.equals("done") || viewType.equals("undone") || viewType.equals("important") ||
+                        viewType.equals("overdue") || viewType.equals("dashboard") || viewType.equals("help")) {
+
+            if (viewType.equals("all")) {
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("deadline")) {
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("timed")) {
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("floating")) {
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
 
             if (viewType.equals("today")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("tomorrow")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
-                // TODO use the correct method once Lareina supports it on the storage side
-            }
-
-            if (viewType.equals("undone")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("done")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
                 // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("undone")) {
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("important")) {
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("overdue")) {
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("dashboard")) {
+                // TODO use the correct method once Her Lung supports it on the GUI side
+            }
+
+            if (viewType.equals("help")) {
+                // TODO use the correct method once Her Lung supports it on the GUI side
             }
 
         } else {
