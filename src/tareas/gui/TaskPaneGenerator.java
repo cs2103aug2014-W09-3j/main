@@ -38,9 +38,9 @@ class TaskPaneGenerator {
         } else if(task.getStartDateTime() == null && task.getEndDateTime() != null) {
             taskPane.getChildren().add(getDeadline(task.getEndDateTime()));
         } else if(task.getStartDateTime() != null && task.getEndDateTime() != null){
-            //taskPane.getChildren().add(getInterval(task.getStartDateTime(), task.getEndDateTime()));
+            taskPane.getChildren().add(getInterval(task.getStartDateTime(), task.getEndDateTime()));
         } else {
-            // TODO: Find a filler label here to pad the empty space
+            taskPane.getChildren().add(generateEmptyLabel(100, 30));
         }
 
         // Prioritise picture
@@ -74,9 +74,20 @@ class TaskPaneGenerator {
     }
 
     // TODO: Create a double line label
-    /*private Label getInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-
-    }*/
+    private Label getInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        String startDate;
+        String endDate;
+        if(startDateTime == null && endDateTime == null) {
+            startDate = "";
+            endDate = "";
+        } else {
+            startDate = startDateTime.toString();
+            endDate = endDateTime.toString();
+        }
+        Label startEndDateTime = new Label(startDate + "\n" + endDate);
+        startEndDateTime.setId("startEndLabel");
+        return startEndDateTime;
+    }
 
     private ImageView getPriority(boolean hasPriority) {
         Image image = new Image("bookmark.png");
@@ -93,5 +104,11 @@ class TaskPaneGenerator {
         }
 
         return imageView;
+    }
+
+    private Label generateEmptyLabel(int width, int height) {
+        Label label = new Label();
+        label.setPrefSize(width, height);
+        return label;
     }
 }
