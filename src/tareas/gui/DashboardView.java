@@ -1,6 +1,5 @@
 package tareas.gui;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -15,6 +14,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import tareas.controller.TareasController;
 
+import java.util.Calendar;
 import java.util.Stack;
 
 /**
@@ -38,8 +38,8 @@ public class DashboardView {
         root.getStylesheets().add("tareas/gui/css/dashboard.css");
 
         Label title = labelGenerator("Tareas Dashboard", "title", 780, 20);
-        FlowPane overall = getOverallComponent(390, 200);
-        FlowPane statistics = getStatisticsComponent(390, 200);
+        FlowPane overall = getOverallComponent(390, 150);
+        FlowPane statistics = getStatisticsComponent(390, 150);
 
         FlowPane barGraphArea = new FlowPane();
         barGraphArea.getChildren().add(getBarChart());
@@ -96,25 +96,25 @@ public class DashboardView {
 
         xAxis.setLabel("Number of tasks");
         yAxis.setLabel("Category");
-        barChart.setPrefSize(780, 300);
+        barChart.setPrefSize(780, 360);
         barChart.setBarGap(0);
 
         XYChart.Series series1 = new XYChart.Series();
         XYChart.Series series2 = new XYChart.Series();
-        series1.getData().add(new XYChart.Data(values.pop(), "Today"));
-        series2.getData().add(new XYChart.Data(values.pop(), "Today"));
-        series1.getData().add(new XYChart.Data(values.pop(), "Tomorrow"));
-        series2.getData().add(new XYChart.Data(values.pop(), "Tomorrow"));
-        series1.getData().add(new XYChart.Data(values.pop(), "Wednesday"));
-        series2.getData().add(new XYChart.Data(values.pop(), "Wednesday"));
-        series1.getData().add(new XYChart.Data(values.pop(), "Thursday"));
-        series2.getData().add(new XYChart.Data(values.pop(), "Thursday"));
-        series1.getData().add(new XYChart.Data(values.pop(), "Friday"));
-        series2.getData().add(new XYChart.Data(values.pop(), "Friday"));
-        series1.getData().add(new XYChart.Data(values.pop(), "Saturday"));
-        series2.getData().add(new XYChart.Data(values.pop(), "Saturday"));
-        series1.getData().add(new XYChart.Data(values.pop(), "Sunday"));
-        series2.getData().add(new XYChart.Data(values.pop(), "Sunday"));
+        series1.getData().add(new XYChart.Data(0, "Today"));
+        series2.getData().add(new XYChart.Data(0, "Today"));
+        series1.getData().add(new XYChart.Data(0, day(1)));
+        series2.getData().add(new XYChart.Data(0, day(1)));
+        series1.getData().add(new XYChart.Data(0, day(2)));
+        series2.getData().add(new XYChart.Data(0, day(2)));
+        series1.getData().add(new XYChart.Data(0, day(3)));
+        series2.getData().add(new XYChart.Data(0, day(3)));
+        series1.getData().add(new XYChart.Data(0, day(4)));
+        series2.getData().add(new XYChart.Data(0, day(4)));
+        series1.getData().add(new XYChart.Data(0, day(5)));
+        series2.getData().add(new XYChart.Data(0, day(5)));
+        series1.getData().add(new XYChart.Data(0, day(6)));
+        series2.getData().add(new XYChart.Data(0, day(6)));
 
         barChart.setLegendVisible(false);
         barChart.getData().addAll(series1, series2);
@@ -125,13 +125,13 @@ public class DashboardView {
                     @Override public void handle(ActionEvent actionEvent) {
                         for (XYChart.Series<Number, String> series : barChart.getData()) {
                             for (XYChart.Data<Number, String> data : series.getData()) {
-                                data.setXValue(20);
+                                data.setXValue(values.pop());
                             }
                         }
                     }
                 }));
-        tl.setCycleCount(Animation.INDEFINITE);
-        //tl.play();
+        tl.setCycleCount(1);
+        tl.play();
 
         return barChart;
     }
@@ -155,6 +155,30 @@ public class DashboardView {
         );
 
         return statistics;
+    }
+
+    private String day(int daysFromNow) {
+        Calendar calender = Calendar.getInstance();
+        calender.add(Calendar.DATE, daysFromNow);
+        int day = calender.get(Calendar.DAY_OF_WEEK);
+        switch(day) {
+            case Calendar.SUNDAY:
+                return "Sunday";
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            case Calendar.SATURDAY:
+                return "Saturday";
+            default:
+                return "Error";
+        }
     }
 
     private Label labelGenerator(String value, String id, int width) {

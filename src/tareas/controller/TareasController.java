@@ -126,37 +126,33 @@ public class TareasController {
 
         int numberOfCompletedTaskToday = getNumberOfCompletedTasksToday(allTasks);
         int numberOfUncompletedTaskToday = getNumberOfUncompletedTasksToday(allTasks);
-        values.push(numberOfCompletedTaskToday);
-        values.push(numberOfUncompletedTaskToday);
-
         int numberOfCompletedTaskSecondDay = getNumberOfCompletedTasksSecondDay(allTasks);
         int numberOfUncompletedTaskSecondDay = getNumberOfUncompletedTasksSecondDay(allTasks);
-        values.push(numberOfCompletedTaskSecondDay);
-        values.push(numberOfUncompletedTaskSecondDay);
-
         int numberOfCompletedTaskThirdDay = getNumberOfCompletedTasksThirdDay(allTasks);
         int numberOfUncompletedTaskThirdDay = getNumberOfUncompletedTasksThirdDay(allTasks);
-        values.push(numberOfCompletedTaskThirdDay);
-        values.push(numberOfUncompletedTaskThirdDay);
-
         int numberOfCompletedTaskFourthDay = getNumberOfCompletedTasksFourthDay(allTasks);
         int numberOfUncompletedTaskFourthDay = getNumberOfUncompletedTasksFourthDay(allTasks);
-        values.push(numberOfCompletedTaskFourthDay);
-        values.push(numberOfUncompletedTaskFourthDay);
-
         int numberOfCompletedTaskFifthDay = getNumberOfCompletedTasksFifthDay(allTasks);
         int numberOfUncompletedTaskFifthDay = getNumberOfUncompletedTasksFifthDay(allTasks);
-        values.push(numberOfCompletedTaskFifthDay);
-        values.push(numberOfUncompletedTaskFifthDay);
-
         int numberOfCompletedTaskSixthDay = getNumberOfCompletedTasksSixthDay(allTasks);
         int numberOfUncompletedTaskSixthDay = getNumberOfUncompletedTasksSixthDay(allTasks);
-        values.push(numberOfCompletedTaskSixthDay);
-        values.push(numberOfUncompletedTaskSixthDay);
-
         int numberOfCompletedTaskSeventhDay = getNumberOfCompletedTasksSeventhDay(allTasks);
         int numberOfUncompletedTaskSeventhDay = getNumberOfUncompletedTasksSeventhDay(allTasks);
+
+        values.push(numberOfCompletedTaskToday);
+        values.push(numberOfCompletedTaskSecondDay);
+        values.push(numberOfCompletedTaskThirdDay);
+        values.push(numberOfCompletedTaskFourthDay);
+        values.push(numberOfCompletedTaskFifthDay);
+        values.push(numberOfCompletedTaskSixthDay);
         values.push(numberOfCompletedTaskSeventhDay);
+
+        values.push(numberOfUncompletedTaskToday);
+        values.push(numberOfUncompletedTaskSecondDay);
+        values.push(numberOfUncompletedTaskThirdDay);
+        values.push(numberOfUncompletedTaskFourthDay);
+        values.push(numberOfUncompletedTaskFifthDay);
+        values.push(numberOfUncompletedTaskSixthDay);
         values.push(numberOfUncompletedTaskSeventhDay);
 
         return values;

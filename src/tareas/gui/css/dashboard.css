@@ -10,7 +10,7 @@
 
 #overall {
     -fx-background-color: #c6c6c6;
-    -fx-vgap: 15;
+    -fx-vgap: 6;
 }
 
 #statistics {
@@ -19,22 +19,22 @@
 }
 
 #headings {
-    -fx-font-size: 25;
+    -fx-font-size: 20;
     -fx-alignment: center;
 }
 
 #numbers {
-    -fx-font-size: 30;
+    -fx-font-size: 25;
     -fx-alignment: center;
 }
 
 #mini-headings {
-    -fx-font-size: 15;
+    -fx-font-size: 10;
     -fx-alignment: center;
 }
 
 #mini-numbers {
-    -fx-font-size: 30;
+    -fx-font-size: 25;
     -fx-alignment: center;
 }
 
