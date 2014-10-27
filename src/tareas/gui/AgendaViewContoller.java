@@ -5,7 +5,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import jfxtras.scene.control.agenda.Agenda;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Her Lung on 27/10/2014.
@@ -17,17 +19,35 @@ public class AgendaViewContoller {
         this.agenda = agenda;
     }
 
+    static private Calendar getFirstDayOfWeekCalendar(Locale locale, Calendar c)
+    {
+        // result
+        int lFirstDayOfWeek = Calendar.getInstance(locale).getFirstDayOfWeek();
+        int lCurrentDayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        int lDelta = 0;
+        if (lFirstDayOfWeek <= lCurrentDayOfWeek)
+        {
+            lDelta = -lCurrentDayOfWeek + lFirstDayOfWeek;
+        }
+        else
+        {
+            lDelta = -lCurrentDayOfWeek - (7-lFirstDayOfWeek);
+        }
+        c = ((Calendar)c.clone());
+        c.add(Calendar.DATE, lDelta);
+        return c;
+    }
+
     public void showAgendaView() {
-        Agenda agenda = new Agenda();
-
         GregorianCalendar start = new GregorianCalendar();
-        start.set(2014, 10, 27);
-
+        start.set(2014, 10, 27, 10, 30);
         GregorianCalendar end = new GregorianCalendar();
-        end.set(2014, 10, 29);
+        end.set(2014, 10, 27, 11, 30);
 
-        /*agenda.appointments().add(new Agenda.AppointmentImpl()
-            .withStartTime(start).withEndTime(end));*/
+        this.agenda.appointments().add(
+                new Agenda.AppointmentImpl()
+                        .withStartTime(start)
+                        .withEndTime(end));
 
         StackPane secondaryLayout = new StackPane();
         secondaryLayout.getChildren().add(agenda);
@@ -36,8 +56,9 @@ public class AgendaViewContoller {
 
         Stage secondStage = new Stage();
         secondStage.setTitle("Agenda View");
-        secondStage.setScene(secondScene);
+        secondStage.setScene(agenda.getScene());
 
         secondStage.show();
+
     }
 }
