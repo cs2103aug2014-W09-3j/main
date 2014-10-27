@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -26,15 +27,32 @@ public class DashboardView {
         root.setId("dashboard");
         root.getStylesheets().add("tareas/gui/css/dashboard.css");
 
-        FlowPane overall = getOverallComponent(380, 280);
-        FlowPane statistics = getStatisticsComponent(380, 280);
+        Label title = labelGenerator("Tareas Dashboard", "title", 780, 20);
+        FlowPane overall = getOverallComponent(390, 200);
+        FlowPane statistics = getStatisticsComponent(390, 200);
 
         FlowPane barGraphArea = new FlowPane();
         barGraphArea.getChildren().add(getBarChart());
 
-        root.getChildren().addAll(overall, statistics, barGraphArea);
+        Label message = labelGenerator("Press any key to continue...",
+                "dashboard-message", 780, 20);
+
+        root.getChildren().addAll(title, overall, statistics, barGraphArea, message);
 
         Scene scene = new Scene(root, 800, 600);
+
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                Stage innerStage = (Stage) scene.getWindow();
+                innerStage.close();
+            }
+        });
+        scene.setOnMouseClicked(t -> {
+            Stage innerStage = (Stage) scene.getWindow();
+            innerStage.close();
+        });
+
         Stage stage = new Stage();
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setTitle("Dashboard");
@@ -63,31 +81,17 @@ public class DashboardView {
         BarChart<Number, String> barChart = new BarChart<Number, String>(xAxis, yAxis);
 
         xAxis.setLabel("Number of tasks");
-        xAxis.setTickLabelRotation(90);
         yAxis.setLabel("Category");
-        barChart.setPrefSize(760, 280);
+        barChart.setPrefSize(780, 300);
         barChart.setBarGap(0);
-        //barChart.setCategoryGap(0);
 
         XYChart.Series series1 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(50, "Today"));
-
-        //XYChart.Series series1 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(50, "Tomorrow"));
-
-        //XYChart.Series series1 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(50, "Wednesday"));
-
-        //XYChart.Series series1 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(50, "Thursday"));
-
-        //XYChart.Series series1 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(50, "Friday"));
-
-        //XYChart.Series series6 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(50, "Saturday"));
-
-        //XYChart.Series series7 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(50, "Sunday"));
 
         barChart.setLegendVisible(false);
