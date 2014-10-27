@@ -9,6 +9,7 @@ import tareas.parser.Parser;
 import tareas.storage.TareasIO;
 import tareas.gui.TareasGUIController;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -81,26 +82,21 @@ public class TareasController {
                 break;
             case UNKNOWN_COMMAND:
                 guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
                 return;
             case MISSING_PRIMARY_ARGUMENT:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input ");
                 return;
             case UNEXPECTED_PRIMARY_ARGUMENT:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input ");
                 return;
             case UNKNOWN_KEYWORD:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input ");
                 return;
             case SIGNATURE_NOT_MATCHED:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input ");
                 return;
             default:
-                // do nothing - should not reach here ever
+                // do nothing - should not reach here ever, if it does it means bad stuff is happening
         }
     }
 
@@ -138,6 +134,9 @@ public class TareasController {
             case VIEW_COMMAND:
                 viewRequest(command);
                 break;
+            case HELP_COMMAND:
+                helpRequest();
+                break;
             case PRIORITIZE_COMMAND:
                 prioritizeTask(command);
                 break;
@@ -154,7 +153,7 @@ public class TareasController {
                 colorizeTask(command);
                 break;
             default:
-                // do nothing - unrecognized command
+                // do nothing - unrecognized command, view feedback handled by check command validity
         }
     }
 
@@ -300,8 +299,6 @@ public class TareasController {
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-
-        System.out.println(mappedTaskId);
         
         tareas.markTaskAsCompleted(mappedTaskId);
 
@@ -333,12 +330,10 @@ public class TareasController {
 
         if (command.getArgument("to") != null) {
             taskToPostpone.setDeadline(Parser.getDateTimeFromString(command.getArgument("to")));
-
-            // TODO support postpone for timed tasks as well? - ask for opinions first
         }
 
         if (command.getArgument("by") != null) {
-            // TODO support the by format for both deadline and timed tasks - ask for opinions on timed tasks
+            // TODO support for more natural-ish command for postponing
         }
 
         tareas.postponeTask(taskToPostpone);
@@ -361,24 +356,69 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void viewRequest(TareasCommand command) {
-        // assert that the primary argument viewType to be extracted is a string
-        assert(command.getPrimaryArgument().getClass().equals(String.class));
-
         String viewType = command.getPrimaryArgument();
 
-        ArrayList<Task> tasksToShowToUser = new ArrayList<>();
+        ArrayList<Task> tasksToShowToUser;
 
-        // only today view supported for now
-        if (viewType.equals("today")) {
-            tasksToShowToUser = tareas.getAllUndoneTasks();
-        }
-        // TODO add support for other types of view
+        tasksToShowToUser = checkViewTypeAndGetFromStorage(viewType);
 
         guiController.sendTaskstoView(tasksToShowToUser);
         guiController.sendSuccessToView("View has successfully been changed to " + viewType);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a view change action at " + now.toString());
+    }
+
+    /**
+     * completes a view request by calling the appropriate GUI and storage methods
+     *
+     * @param viewType the view type that is parsed by the parser
+     * @return the ArrayList of task that is gotten from the Storage
+     */
+    private ArrayList<Task> checkViewTypeAndGetFromStorage(String viewType) {
+        ArrayList<Task> tasksToShowToUser = new ArrayList<>();
+
+        // if the view type is equal to the view types supported for natural languages
+        if (viewType.equals("today") || viewType.equals("tomorrow") || viewType.equals("done") ||
+                viewType.equals("undone")) {
+
+            if (viewType.equals("today")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks();
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("tomorrow")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks();
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("undone")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks();
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("done")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks();
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+        } else {
+            // if it's not then it's a particular date then we parse it into a date type
+            LocalDateTime timeToPassToStorage = Parser.getDateTimeFromString(viewType);
+
+            // tasksToShowToUser = tareas.getTasksFromParticularDate(timeToPassToStorage);
+            // TODO use the correct method once Lareina supports it on the storage side
+        }
+
+        return tasksToShowToUser;
+    }
+
+    /**
+     * sets the view to the help view to give the user quick help tips
+     */
+    private void helpRequest() {
+        // guiController.setViewToHelp();
+        // TODO get Her Lung to have such a view
     }
 
     /**
@@ -397,11 +437,14 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
+        String prioritizedOrNot;
+
         if (taskToPrioritize.isTaskPriority()) {
             tareas.prioritizeTask(mappedTaskId, false);
-            // TODO talk to team about allow de-prioritize stuff
+            prioritizedOrNot = "prioritized";
         } else {
             tareas.prioritizeTask(mappedTaskId, true);
+            prioritizedOrNot = "unprioritized";
         }
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
@@ -410,7 +453,7 @@ public class TareasController {
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task has been successfully prioritized - " + taskDescriptionForFeedback);
+        guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task prioritizing action at " + now.toString());
@@ -429,8 +472,8 @@ public class TareasController {
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-        
-        // TODO tell the storage that a task has a reminder set
+
+        // tareas.setTaskReminder(mappedTaskId, reminderDateTime);
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
 
@@ -450,11 +493,12 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void mute(TareasCommand command) {
-        // TODO grab the time start and end to be passed to TareasIO
-    	
-        // TODO tell the storage to mute everything from time to time
-        guiController.sendSuccessToView("Tareas successfully muted from time1 to time2");
-        // TODO change feedback to include task description for useful user feedback
+        LocalDateTime startTime = Parser.getDateTimeFromString(command.getPrimaryArgument());
+        LocalDateTime endTime = Parser.getDateTimeFromString(command.getArgument("to"));
+
+        // tareas.addMuteTiming(startTime, endTime);
+
+        guiController.sendSuccessToView("Tareas successfully muted from " + startTime.toString() + " " + endTime.toString());
 
         Date now = new Date();
         Log.i(TAG, "User has performed a mute action at " + now.toString());
@@ -466,11 +510,19 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void changeFont(TareasCommand command) {
-        // TODO grab the font arguments to be passed to the GUI
-    	
-        // TODO tell the GUI to change the font
-        guiController.sendSuccessToView("Font changed successfully to {{fontType}}");
-        // TODO change feedback to include task description for useful user feedback
+        String fontType = command.getPrimaryArgument();
+        int fontSize;
+
+        if (command.hasKey("size")) {
+            fontSize = Integer.parseInt(command.getArgument("size"));
+        } else {
+            fontSize = 0;
+            // fontSize = tareas.getFontSize();
+        }
+
+        // tareas.saveFontType(fontType, fontSize);
+
+        guiController.sendSuccessToView("Font changed successfully to - " + fontType + " and " + fontSize);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a font change action at " + now.toString());
@@ -489,8 +541,8 @@ public class TareasController {
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-    	
-        // TODO tell the storage to change the color of the task
+
+        // tareas.changeTaskColor(mappedTaskId, color);
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
 

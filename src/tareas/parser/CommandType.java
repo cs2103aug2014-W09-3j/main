@@ -69,6 +69,7 @@ public enum CommandType {
     // the undo command does not accept any argument
     UNDO_COMMAND("undo", 0),
 
+    // the redo command does not accept any argument
     REDO_COMMAND("redo", 0),
 
     POSTPONE_COMMAND(
@@ -78,6 +79,9 @@ public enum CommandType {
     ),
 
     VIEW_COMMAND("view"),
+
+    // the help command does not accept any argument
+    HELP_COMMAND("help, 0"),
 
     PRIORITIZE_COMMAND("prioritize"),
 
