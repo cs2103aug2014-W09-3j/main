@@ -108,6 +108,7 @@ public class TareasGUIController implements Initializable {
             final KeyCombination ESCAPE = new KeyCodeCombination(KeyCode.ESCAPE);
             final KeyCombination UP = new KeyCodeCombination(KeyCode.UP);
             final KeyCombination DOWN = new KeyCodeCombination(KeyCode.DOWN);
+            final KeyCombination CTRL_M = new KeyCodeCombination(KeyCode.M, KeyCodeCombination.CONTROL_DOWN);
 
             public void handle(KeyEvent t) {
                 if(CTRL_RIGHT.match(t)) {
@@ -143,6 +144,10 @@ public class TareasGUIController implements Initializable {
                         commandLine.setText(futureCommand);
                         commandStackBefore.push(futureCommand);
                     }
+                }
+                if(CTRL_M.match(t)) {
+                    Stage stage = (Stage) root.getScene().getWindow();
+                    stage.setIconified(true);
                 }
             }
         });

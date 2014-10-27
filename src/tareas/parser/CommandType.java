@@ -69,6 +69,7 @@ public enum CommandType {
     // the undo command does not accept any argument
     UNDO_COMMAND("undo", 0),
 
+    // the redo command does not accept any argument
     REDO_COMMAND("redo", 0),
 
     POSTPONE_COMMAND(
@@ -79,19 +80,15 @@ public enum CommandType {
 
     VIEW_COMMAND("view"),
 
-    PRIORITIZE_COMMAND("prioritize"),
+    // the help command does not accept any argument
+    HELP_COMMAND("help, 0"),
 
-    CATEGORIZE_COMMAND(
-            "categorize",
-            new String[] {"to"}
-    ),
+    PRIORITIZE_COMMAND("prioritize"),
 
     REMIND_COMMAND(
             "remind",
             new String[] {"on"}
     ),
-
-    BACKUP_COMMAND("backup", 0),
 
     MUTE_COMMAND(
             "mute",
