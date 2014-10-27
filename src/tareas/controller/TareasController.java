@@ -10,6 +10,7 @@ import tareas.storage.TareasIO;
 import tareas.gui.TareasGUIController;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Stack;
 import java.util.ArrayList;
 
@@ -39,8 +40,8 @@ public class TareasController {
      * constructor for controller, will set the pointer for the task manager
      */
     public TareasController() {
-        taskManager.set(tareas.getAllUndoneTasks());
-        taskManager.setId(tareas.getInitialiseLatestId());
+        taskManager.set(tareas.getAllUndoneTasks(1, 0));
+        taskManager.setId(tareas.getInitialiseLatestId(1));
     }
 
     /**
@@ -70,7 +71,7 @@ public class TareasController {
      * @return an ArrayList of Task
      */
     public ArrayList<Task> getInitialiseTasks() {
-        return tareas.getAllUndoneTasks();
+        return tareas.getAllUndoneTasks(1, 0);
     }
 
     /**
@@ -103,35 +104,28 @@ public class TareasController {
     public Stack<Integer> getInitialiseValues() {
         Stack<Integer> values = new Stack<>();
 
-        ArrayList<Task> allTasks = tareas.getTasks().get();
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
 
-        // TODO get number of completed tasks v0.3
-        int numberOfCompletedTasks = 0;
+        int numberOfCompletedTasks = getNumberOfCompletedTasks(allTasks);
         values.push(numberOfCompletedTasks);
 
-        // TODO get number of overdue v0.3
-        int numberOfOverdueTasks = 0;
+        int numberOfOverdueTasks = getNumberOfOverdueTasks(allTasks);
         values.push(numberOfOverdueTasks);
 
-        // TODO get number of uncompleted deadline v0.3
-        int numberOfUncompletedDeadlineTasks = 0;
+        int numberOfUncompletedDeadlineTasks = getNumberOfUncompletedDeadlineTasks(allTasks);
         values.push(numberOfUncompletedDeadlineTasks);
 
-        // TODO get number of uncompleted timed tasks v0.3
-        int numberOfUncompletedTimedTasks = 0;
+        int numberOfUncompletedTimedTasks = getNumberOfUncompletedTimedTasks(allTasks);
         values.push(numberOfUncompletedTimedTasks);
 
-        // TODO get number of uncompleted floating tasks v0.3
-        int numberOfUncompletedFloatingTasks = 0;
+        int numberOfUncompletedFloatingTasks = getNumberOfUncompletedFloatingTasks(allTasks);
         values.push(numberOfUncompletedFloatingTasks);
 
-        // TODO get number of uncompleted important tasks v0.3
-        int numberOfUncompletedImportantTasks = 0;
+        int numberOfUncompletedImportantTasks = getNumberOfUncompletedImportantTasks(allTasks);
         values.push(numberOfUncompletedImportantTasks);
 
-        // TODO get number of uncompleted + completed tasks today v0.3
-        int numberOfCompletedTaskToday = 0;
-        int numberOfUncompletedTaskToday = 0;
+        int numberOfCompletedTaskToday = getNumberOfCompletedTasksToday(allTasks);
+        int numberOfUncompletedTaskToday = getNumberOfUncompletedTasksToday(allTasks);
         values.push(numberOfCompletedTaskToday);
         values.push(numberOfUncompletedTaskToday);
 
@@ -172,6 +166,145 @@ public class TareasController {
         values.push(numberOfUncompletedTaskSeventhDay);
 
         return values;
+    }
+
+    private int getNumberOfCompletedTasks(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasks = 0;
+
+        for (Task task : allTasks) {
+            if (task.isTaskCompleted()) {
+                numberOfCompletedTasks++;
+            }
+        }
+
+        return numberOfCompletedTasks;
+    }
+
+    private int getNumberOfOverdueTasks(ArrayList<Task> allTasks) {
+        int numberOfOverdueTasks = 0;
+
+        LocalDateTime now = LocalDateTime.now();
+
+        for (Task task : allTasks) {
+            if (task.getEndDateTime() != null) {
+                LocalDateTime endDateTime = task.getEndDateTime();
+
+                if (endDateTime.isAfter(now)) {
+                    numberOfOverdueTasks++;
+                }
+            }
+
+            if (task.getDeadline() != null) {
+                LocalDateTime deadline = task.getDeadline();
+
+                if (deadline.isAfter(now)) {
+                    numberOfOverdueTasks++;
+                }
+            }
+        }
+
+        return numberOfOverdueTasks;
+    }
+
+    private int getNumberOfUncompletedDeadlineTasks(ArrayList<Task> allTasks) {
+        int numberOfUncompletedDeadlineTasks = 0;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null && !task.isTaskCompleted()) {
+               numberOfUncompletedDeadlineTasks++;
+            }
+        }
+
+        return numberOfUncompletedDeadlineTasks;
+    }
+
+    private int getNumberOfUncompletedTimedTasks(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTimedTasks = 0;
+
+        for (Task task : allTasks) {
+            if (task.getStartDateTime() != null && task.getEndDateTime() != null && !task.isTaskCompleted()) {
+                numberOfUncompletedTimedTasks++;
+            }
+        }
+
+        return numberOfUncompletedTimedTasks;
+    }
+
+    private int getNumberOfUncompletedFloatingTasks(ArrayList<Task> allTasks) {
+        int numberOfUncompletedFloatingTasks = 0;
+
+        for (Task task : allTasks) {
+            if (task.getStartDateTime() == null && task.getEndDateTime() == null &&
+                    task.getDeadline() == null && !task.isTaskCompleted()) {
+                numberOfUncompletedFloatingTasks++;
+            }
+        }
+
+        return numberOfUncompletedFloatingTasks;
+    }
+
+    private int getNumberOfUncompletedImportantTasks(ArrayList<Task> allTasks) {
+        int numberOfUncompletedImportantTasks = 0;
+
+        for (Task task : allTasks) {
+            if (task.isTaskPriority()) {
+                numberOfUncompletedImportantTasks++;
+            }
+        }
+
+        return numberOfUncompletedImportantTasks;
+    }
+
+    private int getNumberOfCompletedTasksToday(ArrayList<Task> allTasks) {
+        int numberOfCompletedTasksToday = 0;
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(today) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksToday++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(today) && task.isTaskCompleted()) {
+                    numberOfCompletedTasksToday++;
+                }
+            }
+        }
+
+        return numberOfCompletedTasksToday;
+    }
+
+    private int getNumberOfUncompletedTasksToday(ArrayList<Task> allTasks) {
+        int numberOfUncompletedTasksToday = 0;
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate taskDate;
+
+        for (Task task : allTasks) {
+            if (task.getDeadline() != null) {
+                taskDate = task.getDeadline().toLocalDate();
+                if (taskDate.equals(today) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksToday++;
+                }
+            }
+
+            if (task.getEndDateTime() != null) {
+                taskDate = task.getEndDateTime().toLocalDate();
+                if (taskDate.equals(today) && !task.isTaskCompleted()) {
+                    numberOfUncompletedTasksToday++;
+                }
+            }
+        }
+
+        return numberOfUncompletedTasksToday;
     }
 
     /**
@@ -272,9 +405,9 @@ public class TareasController {
     private void addTask(TareasCommand command) {
         Task taskToInsert = TaskManager.buildTask(command);
 
-        tareas.insertTask(taskToInsert);
+        tareas.insertTask(taskToInsert, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -306,9 +439,9 @@ public class TareasController {
 
         taskToUpdate.setTaskID(mappedTaskId);
 
-        tareas.editTask(taskToUpdate);
+        tareas.editTask(taskToUpdate, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -362,9 +495,9 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        tareas.deleteTask(mappedTaskId);
+        tareas.deleteTask(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -393,7 +526,7 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        Task taskToShow = tareas.searchTask(mappedTaskId);
+        Task taskToShow = tareas.searchTask(mappedTaskId, 1);
 
         guiController.showDetailedView(taskToShow);
         // TODO think about how to settle the view whenever an action is done v0.4
@@ -417,9 +550,9 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        tareas.markTaskAsCompleted(mappedTaskId);
+        tareas.markTaskAsCompleted(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -457,9 +590,9 @@ public class TareasController {
             // TODO want to abstract into a method v0.3, if cannot v0.4
         }
 
-        tareas.postponeTask(taskToPostpone);
+        tareas.postponeTask(taskToPostpone, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -602,14 +735,14 @@ public class TareasController {
         String prioritizedOrNot;
 
         if (taskToPrioritize.isTaskPriority()) {
-            tareas.prioritizeTask(mappedTaskId, false);
+            tareas.prioritizeTask(mappedTaskId, false, 1);
             prioritizedOrNot = "prioritized";
         } else {
-            tareas.prioritizeTask(mappedTaskId, true);
+            tareas.prioritizeTask(mappedTaskId, true, 1);
             prioritizedOrNot = "unprioritized";
         }
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -641,7 +774,7 @@ public class TareasController {
         // tareas.setTaskReminder(mappedTaskId, reminderDateTime);
         // TODO once supported by Storage - Lareina v0.3
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -713,7 +846,7 @@ public class TareasController {
         // tareas.changeTaskColor(mappedTaskId, color);
         // TODO once supported by Storage - Lareina v0.4
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -735,7 +868,7 @@ public class TareasController {
         if (taskManager.isAbleToUndo()) {
             Tasks stateToRevertTo = taskManager.getUndoState();
 
-            tareas.undoWrite(stateToRevertTo);
+            tareas.undoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             // TODO think about how to settle the view whenever an action is done v0.4
@@ -759,7 +892,7 @@ public class TareasController {
         if (taskManager.isAbleToRedo()) {
 		    Tasks stateToRevertTo = taskManager.getRedoState();
 
-            tareas.redoWrite(stateToRevertTo);
+            tareas.redoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             // TODO think about how to settle the view whenever an action is done v0.4
