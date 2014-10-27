@@ -67,6 +67,10 @@ public class DashboardView {
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setTitle("Dashboard");
         stage.setScene(scene);
+
+        stage.setAlwaysOnTop(true);
+        stage.requestFocus();
+
         stage.show();
     }
 
@@ -127,7 +131,7 @@ public class DashboardView {
                     }
                 }));
         tl.setCycleCount(Animation.INDEFINITE);
-        tl.play();
+        //tl.play();
 
         return barChart;
     }

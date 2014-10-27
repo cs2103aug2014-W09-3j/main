@@ -42,8 +42,8 @@ public class TareasGUIController implements Initializable {
     private NotificationPane notificationPane;
     private String categoryText = "Today's Tasks";
     private final int maxTasksPerPage = 10;
-    private Stack<String> commandStackBefore = new Stack<>();
-    private Stack<String> commandStackAfter = new Stack<>();
+    private Stack<String> commandStackBefore = new Stack<String>();
+    private Stack<String> commandStackAfter = new Stack<String>();
 
     public TareasGUIController() {
     }
@@ -100,6 +100,8 @@ public class TareasGUIController implements Initializable {
         /*TextFields.bindAutoCompletion(
                 commandLine,
                 "-add", "-delete");*/
+        /*DashboardView dashboard = new DashboardView();
+        dashboard.showDashboard();*/
     }
 
     private void initializeKeyCombinations() {
