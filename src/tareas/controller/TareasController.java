@@ -191,8 +191,7 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
 
-        // setPreviousActionType("");
-        // TODO set it to a value that is a useful feedback to the user
+        setPreviousActionType("Task with description " + taskToInsert.getDescription() + " removed");
 
         LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task adding action " + now.toString());
@@ -225,8 +224,7 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
 
-        // setPreviousActionType("");
-        // TODO set it to a value that is a useful feedback to the user
+        setPreviousActionType("Task with description " + taskToUpdate.getDescription() + " edit reverted");
 
         LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task editing action at " + now.toString());
@@ -411,53 +409,60 @@ public class TareasController {
         if (viewType.equals("all") || viewType.equals("deadline") || viewType.equals("timed") ||
                 viewType.equals("floating") || viewType.equals("today") || viewType.equals("tomorrow") ||
                     viewType.equals("done") || viewType.equals("undone") || viewType.equals("important") ||
-                        viewType.equals("overdue") || viewType.equals("dashboard") || viewType.equals("help")) {
+                        viewType.equals("overdue") || viewType.equals("dashboard")) {
 
             if (viewType.equals("all")) {
+                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("deadline")) {
+                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("timed")) {
+                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("floating")) {
+                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("today")) {
+                // tasksToShowToUser = tareas.getParticularDateTask(0, someDate);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("tomorrow")) {
+                // tasksToShowToUser = tareas.getParticularDateTask(0, someDate);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("done")) {
+                // tasksToShowToUser = tareas.getAllDoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("undone")) {
+                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("important")) {
+                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("overdue")) {
+                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("dashboard")) {
-                // TODO use the correct method once Her Lung supports it on the GUI side
-            }
-
-            if (viewType.equals("help")) {
+                // guiController.setViewToDashboard();
                 // TODO use the correct method once Her Lung supports it on the GUI side
             }
 
@@ -465,7 +470,7 @@ public class TareasController {
             // if it's not then it's a particular date then we parse it into a date type
             LocalDateTime timeToPassToStorage = Parser.getDateTimeFromString(viewType);
 
-            // tasksToShowToUser = tareas.getTasksFromParticularDate(timeToPassToStorage);
+            // tasksToShowToUser = tareas.getParticularDateTask(0, someDate);
             // TODO use the correct method once Lareina supports it on the storage side
         }
 
@@ -477,7 +482,7 @@ public class TareasController {
      */
     private void helpRequest() {
         // guiController.setViewToHelp();
-        // TODO get Her Lung to have such a view
+        // TODO get Her Lung to have such a view v0.3 hopefully, if not then v0.4
     }
 
     /**
@@ -583,7 +588,7 @@ public class TareasController {
         guiController.sendSuccessToView("Font changed successfully to - " + newFontType);
 
         // setPreviousActionType("Font changed back to " + previousFontType);
-        // TODO once supported by Storage - Lareina
+        // TODO once supported by Storage - Lareina v0.4
 
         LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a font change action at " + now.toString());
@@ -604,6 +609,7 @@ public class TareasController {
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
         // tareas.changeTaskColor(mappedTaskId, color);
+        // TODO once supported by Storage - Lareina v0.4
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
 
@@ -630,6 +636,7 @@ public class TareasController {
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Undo Successful - " + getPreviousActionType());
+            // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.4
 
             LocalDateTime now = LocalDateTime.now();
             Log.i(TAG, "User has performed an undo action at " + now.toString());
@@ -652,7 +659,7 @@ public class TareasController {
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Redo Successful - " + getPreviousActionType());
-            // TODO allow for multiple redo and a proper feedback - now is like anyhow
+            // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.4
 
             LocalDateTime now = LocalDateTime.now();
             Log.i(TAG, "User has performed a redo action at " + now.toString());
