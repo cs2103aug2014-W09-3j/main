@@ -13,6 +13,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import jfxtras.scene.control.agenda.Agenda;
 import org.controlsfx.control.NotificationPane;
 import org.controlsfx.control.PopOver;
 import tareas.common.Log;
@@ -20,7 +21,10 @@ import tareas.common.Task;
 import tareas.controller.TareasController;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class TareasGUIController implements Initializable {
     private static String TAG = "TareasGUIController";
@@ -109,6 +113,7 @@ public class TareasGUIController implements Initializable {
             final KeyCombination UP = new KeyCodeCombination(KeyCode.UP);
             final KeyCombination DOWN = new KeyCodeCombination(KeyCode.DOWN);
             final KeyCombination CTRL_M = new KeyCodeCombination(KeyCode.M, KeyCodeCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_C = new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN);
 
             public void handle(KeyEvent t) {
                 if(CTRL_RIGHT.match(t)) {
@@ -148,6 +153,10 @@ public class TareasGUIController implements Initializable {
                 if(CTRL_M.match(t)) {
                     Stage stage = (Stage) root.getScene().getWindow();
                     stage.setIconified(true);
+                }
+                if(CTRL_C.match(t)) {
+                    AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
+                    agendaView.showAgendaView();
                 }
             }
         });
