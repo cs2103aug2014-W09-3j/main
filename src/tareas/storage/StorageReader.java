@@ -6,7 +6,7 @@ import tareas.common.Tasks;
 import java.io.*;
 
 /**
- * @author Her Lung
+ * @author Lareina Ting
  * 
  * IMPORTANT NOTE: Add gson-2.3.jar (found in our root directory) as an external JAR to your IDE.
  * 
@@ -31,17 +31,12 @@ public class StorageReader {
     public void overwrite() {
         File file = new File("storage.json");
         file.delete();
-    }
+       }
 
 	private Tasks createNewFile() {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
-		writer.createFile();
-        try {
-            writer.write(new Tasks());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		writer.createFile("storage.json");
 		return tasks;
 	}
 

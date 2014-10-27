@@ -31,7 +31,7 @@ public class StorageJUnitTest {
 	@Test
 	public void testCreateFile() {
 		StorageWriter writer = new StorageWriter();
-		writer.createFile();
+		writer.createFile("storage.json");
 		File f = new File("storage.json");
 		assertEquals(true, f.exists());
 	}
