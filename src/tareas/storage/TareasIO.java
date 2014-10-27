@@ -430,26 +430,46 @@ public class TareasIO {
                  for (int i = 0; i < tasksSize; i++) {
                      LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
-                     if (tasks.get(i).isTaskCompleted() || !tasks.get(i).getDeadline().equals(currentDate)) {
+                     if (tasks.get(i).isTaskCompleted() || !taskDate.isEqual(currentDate)) {
                          tasks.remove(i);
                          tasksSize--;
                      }
                  }
                  break;
 
-             //retrieve tommorrow's tasks.
+             //retrieve tomorrow's tasks.
             case 2:
                 for (int i = 0; i < tasksSize; i++) {
                     LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
-                    if (tasks.get(i).isTaskCompleted() || !tasks.get(i).getDeadline().equals(tmrDate)) {
+                    if (tasks.get(i).isTaskCompleted() || !taskDate.isEqual(tmrDate)) {
                         tasks.remove(i);
                         tasksSize--;
                     }
                 }
                 break;
 
+            //retrieve all done tasks.
+            case 3:
+                for (int i = 0; i < tasksSize; i++) {
 
+                    if (!tasks.get(i).isTaskCompleted()) {
+                        tasks.remove(i);
+                        tasksSize--;
+                    }
+                }
+                break;
+
+            //retrieve all tasks on particular date.
+            case 4:
+                for (int i = 0; i < tasksSize; i++) {
+
+                if (!tasks.get(i).isTaskCompleted()) {
+                    tasks.remove(i);
+                    tasksSize--;
+                }
+            }
+            break;
 
         }
 
