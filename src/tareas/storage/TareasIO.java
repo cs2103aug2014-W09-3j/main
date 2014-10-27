@@ -361,8 +361,12 @@ public class TareasIO {
             }
         }
 
-        if (taskIdToPrioritize != -1) {
+        if (taskIdToPrioritize != -1 && priority) {
             temp.get(taskIdToPrioritize).setTaskAsPriority();
+        }
+
+        if (taskIdToPrioritize != -1 && !priority) {
+            temp.get(taskIdToPrioritize).setTaskAsNotPriority();
         }
 
         tasks.set(temp);
