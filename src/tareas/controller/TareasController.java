@@ -36,6 +36,9 @@ public class TareasController {
     // Instantiate a TaskManager
     TaskManager taskManager = TaskManager.getInstance();
 
+    // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.4
+    // TODO Handle SOME exceptions v0.4
+
     /**
      * constructor for controller, will set the pointer for the task manager
      */
