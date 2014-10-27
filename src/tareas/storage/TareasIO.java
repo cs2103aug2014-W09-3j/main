@@ -4,6 +4,8 @@ import tareas.common.Task;
 import tareas.common.Tasks;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -298,34 +300,6 @@ public class TareasIO {
         return tasks.getLatestID();
     }
 
-    /**
-     * Returns all undone tasks in Tareas.
-     *
-     * @return ArrayList of Task
-     */
-    public ArrayList<Task> getAllUndoneTasks(int runType) {
-        StorageReader reader = new StorageReader();
-        ArrayList<Task> tasks = new ArrayList<>();
-
-        try {
-            tasks = reader.read(runType).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        int tasksSize = tasks.size();
-
-        for (int i = 0; i < tasksSize;) {
-            if (tasks.get(i).isTaskCompleted()) {
-                tasks.remove(i);
-                tasksSize--;
-            } else {
-                i++;
-            }
-        }
-
-        return tasks;
-    }
 
     /**
      * This method writes completely to the storage after an undo action
@@ -384,6 +358,104 @@ public class TareasIO {
     public void postponeTask(Task task, int runType){
         editTask(task, runType);
     }
+
+    /**
+     * This method retrieves all task today. Parameter runType is to determine
+     * whether the file is under testing or running.
+     * @param runType
+     * @return
+     */
+    public ArrayList<Task> retrieveTodayTask(int runType){
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        for(int i = 0; i < tasksSize;){
+            if(tasks.get(i).getDeadline().equals(currentTime)) {
+                tasks.remove(i);
+                tasksSize--;
+            }
+            else {
+                i++;
+            }
+        }
+
+        return tasks;
+    }
+
+
+    /**
+     * This method retrieves all undone tasks.
+     * @param runType
+     * @return
+     */
+    public ArrayList<Task> getAllUndoneTasks(int runType, int taskType) {
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate tmrDate = currentDate.plusDays(1);
+
+        switch(taskType){
+            //retrieve all undone tasks.
+            case 0:
+                for (int i = 0; i < tasksSize; i++) {
+
+                    if (tasks.get(i).isTaskCompleted()) {
+                        tasks.remove(i);
+                        tasksSize--;
+                    }
+                }
+                break;
+
+            //retrieve today tasks.
+             case 1:
+                 for (int i = 0; i < tasksSize; i++) {
+                     LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
+
+                     if (tasks.get(i).isTaskCompleted() || !tasks.get(i).getDeadline().equals(currentDate)) {
+                         tasks.remove(i);
+                         tasksSize--;
+                     }
+                 }
+                 break;
+
+             //retrieve tommorrow's tasks.
+            case 2:
+                for (int i = 0; i < tasksSize; i++) {
+                    LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
+
+                    if (tasks.get(i).isTaskCompleted() || !tasks.get(i).getDeadline().equals(tmrDate)) {
+                        tasks.remove(i);
+                        tasksSize--;
+                    }
+                }
+                break;
+
+
+
+        }
+
+        return tasks;
+    }
+
 
 //
 //    /**

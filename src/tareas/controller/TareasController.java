@@ -39,8 +39,8 @@ public class TareasController {
      * constructor for controller, will set the pointer for the task manager
      */
     public TareasController() {
-        taskManager.set(tareas.getAllUndoneTasks());
-        taskManager.setId(tareas.getInitialiseLatestId());
+        taskManager.set(tareas.getAllUndoneTasks(1));
+        taskManager.setId(tareas.getInitialiseLatestId(1));
     }
 
     /**
@@ -70,7 +70,7 @@ public class TareasController {
      * @return an ArrayList of Task
      */
     public ArrayList<Task> getInitialiseTasks() {
-        return tareas.getAllUndoneTasks();
+        return tareas.getAllUndoneTasks(1);
     }
 
     /**
@@ -171,9 +171,9 @@ public class TareasController {
     private void addTask(TareasCommand command) {
         Task taskToInsert = TaskManager.buildTask(command);
 
-        tareas.insertTask(taskToInsert);
+        tareas.insertTask(taskToInsert, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -205,9 +205,9 @@ public class TareasController {
 
         taskToUpdate.setTaskID(mappedTaskId);
 
-        tareas.editTask(taskToUpdate);
+        tareas.editTask(taskToUpdate, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -261,9 +261,9 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        tareas.deleteTask(mappedTaskId);
+        tareas.deleteTask(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -291,7 +291,7 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        Task taskToShow = tareas.searchTask(mappedTaskId);
+        Task taskToShow = tareas.searchTask(mappedTaskId, 1);
 
         guiController.showDetailedView(taskToShow);
         guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
@@ -314,9 +314,9 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
         
-        tareas.markTaskAsCompleted(mappedTaskId);
+        tareas.markTaskAsCompleted(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -353,9 +353,9 @@ public class TareasController {
             // TODO want to abstract into a method
         }
 
-        tareas.postponeTask(taskToPostpone);
+        tareas.postponeTask(taskToPostpone, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -402,22 +402,22 @@ public class TareasController {
                 viewType.equals("undone")) {
 
             if (viewType.equals("today")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
+                tasksToShowToUser = tareas.getAllUndoneTasks(1);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("tomorrow")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
+                tasksToShowToUser = tareas.getAllUndoneTasks(1);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("undone")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
+                tasksToShowToUser = tareas.getAllUndoneTasks(1);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
             if (viewType.equals("done")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks();
+                tasksToShowToUser = tareas.getAllUndoneTasks(1);
                 // TODO use the correct method once Lareina supports it on the storage side
             }
 
@@ -459,14 +459,14 @@ public class TareasController {
         String prioritizedOrNot;
 
         if (taskToPrioritize.isTaskPriority()) {
-            tareas.prioritizeTask(mappedTaskId, false);
+            tareas.prioritizeTask(mappedTaskId, false, 1);
             prioritizedOrNot = "prioritized";
         } else {
-            tareas.prioritizeTask(mappedTaskId, true);
+            tareas.prioritizeTask(mappedTaskId, true, 1);
             prioritizedOrNot = "unprioritized";
         }
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -496,7 +496,7 @@ public class TareasController {
 
         // tareas.setTaskReminder(mappedTaskId, reminderDateTime);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -565,7 +565,7 @@ public class TareasController {
 
         // tareas.changeTaskColor(mappedTaskId, color);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -586,7 +586,7 @@ public class TareasController {
         if (taskManager.isAbleToUndo()) {
             Tasks stateToRevertTo = taskManager.getUndoState();
 
-            tareas.undoWrite(stateToRevertTo);
+            tareas.undoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Undo Successful - " + getPreviousActionType());
@@ -608,7 +608,7 @@ public class TareasController {
         if (taskManager.isAbleToRedo()) {
 		    Tasks stateToRevertTo = taskManager.getRedoState();
 
-            tareas.redoWrite(stateToRevertTo);
+            tareas.redoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Redo Successful - " + getPreviousActionType());
