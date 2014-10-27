@@ -395,8 +395,10 @@ public class TareasIO {
 
 
     /**
-     * This method retrieves all undone tasks.
+     * This method retrieves an arrayList of task for different task type.
+     * Task type can be of undone, today's, tomorrow's or done type of task.
      * @param runType
+     * @param taskType
      * @return
      */
     public ArrayList<Task> getAllUndoneTasks(int runType, int taskType) {
@@ -468,6 +470,12 @@ public class TareasIO {
         return tasks;
     }
 
+    /**
+     * This method retrieves the list of task that is on a particular date.addde
+     * @param runType
+     * @param particularDate
+     * @return
+     */
     public ArrayList<Task> getParticularDateTask(int runType, LocalDate particularDate) {
         StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
