@@ -13,7 +13,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import jfxtras.scene.control.agenda.Agenda;
 import org.controlsfx.control.NotificationPane;
 import org.controlsfx.control.PopOver;
 import tareas.common.Log;
@@ -116,24 +115,24 @@ public class TareasGUIController implements Initializable {
             final KeyCombination CTRL_C = new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN);
 
             public void handle(KeyEvent t) {
-                if(CTRL_RIGHT.match(t)) {
+                if (CTRL_RIGHT.match(t)) {
                     goToNextPage();
                 }
-                if(CTRL_LEFT.match(t)) {
+                if (CTRL_LEFT.match(t)) {
                     goToPrevPage();
                 }
-                if(CTRL_UP.match(t)) {
+                if (CTRL_UP.match(t)) {
                     goToFirstPage();
                 }
-                if(CTRL_DOWN.match(t)) {
+                if (CTRL_DOWN.match(t)) {
                     goToLastPage();
                 }
-                if(ESCAPE.match(t)) {
+                if (ESCAPE.match(t)) {
                     Stage stage = (Stage) root.getScene().getWindow();
                     stage.close();
                 }
-                if(UP.match(t)) {
-                    if(commandStackBefore.empty()) {
+                if (UP.match(t)) {
+                    if (commandStackBefore.empty()) {
                         //sendWarningToView("No more commands in history.");
                     } else {
                         String prevCommand = commandStackBefore.pop();
@@ -141,8 +140,8 @@ public class TareasGUIController implements Initializable {
                         commandStackAfter.push(prevCommand);
                     }
                 }
-                if(DOWN.match(t)) {
-                    if(commandStackAfter.empty()) {
+                if (DOWN.match(t)) {
+                    if (commandStackAfter.empty()) {
                         commandLine.setText("");
                     } else {
                         String futureCommand = commandStackAfter.pop();
@@ -150,13 +149,15 @@ public class TareasGUIController implements Initializable {
                         commandStackBefore.push(futureCommand);
                     }
                 }
-                if(CTRL_M.match(t)) {
+                if (CTRL_M.match(t)) {
                     Stage stage = (Stage) root.getScene().getWindow();
                     stage.setIconified(true);
                 }
-                if(CTRL_C.match(t)) {
-                    AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
-                    agendaView.showAgendaView();
+                if (CTRL_C.match(t)) {
+                    /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
+                    agendaView.showAgendaView();*/
+                    DashboardView dashboard = new DashboardView();
+                    dashboard.showDashboard();
                 }
             }
         });
@@ -267,13 +268,13 @@ public class TareasGUIController implements Initializable {
 
     private void hideNotificationAfter(int ms) {
         new java.util.Timer().schedule(
-            new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    notificationPane.hide();
-                }
-            },
-            ms
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        notificationPane.hide();
+                    }
+                },
+                ms
         );
     }
 

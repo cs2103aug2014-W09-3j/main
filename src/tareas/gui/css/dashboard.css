@@ -1,0 +1,28 @@
+#dashboard {
+    -fx-padding: 20, 20, 20, 20;
+}
+
+#overall {
+    -fx-background-color: gray;
+    -fx-vgap: 5;
+}
+
+#headings {
+    -fx-font-size: 30;
+    -fx-alignment: center;
+}
+
+#numbers {
+    -fx-font-size: 60;
+    -fx-alignment: center;
+}
+
+#mini-headings {
+    -fx-font-size: 20;
+    -fx-alignment: center;
+}
+
+#mini-numbers {
+    -fx-font-size: 40;
+    -fx-alignment: center;
+}
