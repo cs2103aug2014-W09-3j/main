@@ -33,6 +33,15 @@
     -fx-font-weight: bold;
 }
 
+#startEndLabel {
+    -fx-text-fill: #193861;
+    -fx-font-size: 11;
+    -fx-alignment: center-right;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 30px;
+    -fx-font-weight: bold;
+}
+
 #prioritisePicture {;
     -fx-translate-y: -4;
     -fx-translate-x: 10;
