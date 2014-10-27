@@ -23,6 +23,9 @@ public class TareasController {
     // Constant for Logging
     private static String TAG = "tareas/tareasController";
 
+    // Instantiate a String for feedback when a user does a redo / undo
+    private String previousActionType = "No previous action";
+
     // Instantiate a GUI Controller
     TareasGUIController guiController = TareasGUIController.getInstance();
 
@@ -81,19 +84,22 @@ public class TareasController {
                 // no feedback, continue on since it's a valid command
                 break;
             case UNKNOWN_COMMAND:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
+                guiController.sendErrorToView("Unrecognized command, please input a recognized command");
                 return;
             case MISSING_PRIMARY_ARGUMENT:
-                guiController.sendErrorToView("Please input ");
+                guiController.sendErrorToView("Please input something after the action - " +
+                        command.getPrimaryKey());
                 return;
             case UNEXPECTED_PRIMARY_ARGUMENT:
-                guiController.sendErrorToView("Please input ");
+                guiController.sendErrorToView("Please input a valid input after the action - " +
+                        command.getPrimaryKey());
                 return;
             case UNKNOWN_KEYWORD:
-                guiController.sendErrorToView("Please input ");
+                guiController.sendErrorToView("Please input a valid action - " + command.getPrimaryKey() +
+                        " is not recognized");
                 return;
             case SIGNATURE_NOT_MATCHED:
-                guiController.sendErrorToView("Please input ");
+                guiController.sendErrorToView("Please input matching actions - refer to /help for reference");
                 return;
             default:
                 // do nothing - should not reach here ever, if it does it means bad stuff is happening
@@ -175,6 +181,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
 
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
+
         Date now = new Date();
         Log.i(TAG, "User has performed a task adding action " + now.toString());
     }
@@ -205,6 +214,9 @@ public class TareasController {
 
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task editing action at " + now.toString());
@@ -259,6 +271,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
 
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
+
         Date now = new Date();
         Log.i(TAG, "User has performed a task deletion action at " + now.toString());
     }
@@ -281,6 +296,9 @@ public class TareasController {
 
         guiController.showDetailedView(taskToShow);
         guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task search action at " + now.toString());
@@ -310,6 +328,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully completed Task - " + taskDescriptionForFeedback);
 
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
+
         Date now = new Date();
         Log.i(TAG, "User has performed a task completion action at " + now.toString());
     }
@@ -333,7 +354,8 @@ public class TareasController {
         }
 
         if (command.getArgument("by") != null) {
-            // TODO support for more natural-ish command for postponing
+            // TODO support for more natural-ish command for postponing from parser, if logic here gets too long, might
+            // TODO want to abstract into a method
         }
 
         tareas.postponeTask(taskToPostpone);
@@ -345,6 +367,9 @@ public class TareasController {
 
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task postponing action at " + now.toString());
@@ -364,6 +389,9 @@ public class TareasController {
 
         guiController.sendTaskstoView(tasksToShowToUser);
         guiController.sendSuccessToView("View has successfully been changed to " + viewType);
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a view change action at " + now.toString());
@@ -455,6 +483,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
 
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
+
         Date now = new Date();
         Log.i(TAG, "User has performed a task prioritizing action at " + now.toString());
     }
@@ -483,6 +514,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
 
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
+
         Date now = new Date();
         Log.i(TAG, "User has performed a task reminder action at " + now.toString());
     }
@@ -499,6 +533,9 @@ public class TareasController {
         // tareas.addMuteTiming(startTime, endTime);
 
         guiController.sendSuccessToView("Tareas successfully muted from " + startTime.toString() + " " + endTime.toString());
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a mute action at " + now.toString());
@@ -523,6 +560,9 @@ public class TareasController {
         // tareas.saveFontType(fontType, fontSize);
 
         guiController.sendSuccessToView("Font changed successfully to - " + fontType + " and " + fontSize);
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a font change action at " + now.toString());
@@ -552,6 +592,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully changed color of task - " + taskDescriptionForFeedback);
 
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
+
         Date now = new Date();
         Log.i(TAG, "User has performed a task colorization action at " + now.toString());
     }
@@ -566,8 +609,7 @@ public class TareasController {
             tareas.undoWrite(stateToRevertTo);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            guiController.sendSuccessToView("Undo Successful");
-            // TODO make the feedback show something more helpful
+            guiController.sendSuccessToView("Undo Successful - " + getPreviousActionType());
 
             Date now = new Date();
             Log.i(TAG, "User has performed an undo action at " + now.toString());
@@ -589,8 +631,7 @@ public class TareasController {
             tareas.redoWrite(stateToRevertTo);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            guiController.sendSuccessToView("Redo Successful");
-            // TODO make the feedback show something more helpful
+            guiController.sendSuccessToView("Redo Successful - " + getPreviousActionType());
 
             Date now = new Date();
             Log.i(TAG, "User has performed a redo action at " + now.toString());
@@ -600,5 +641,19 @@ public class TareasController {
             Date now = new Date();
             Log.e(TAG, "User tried to redo an action when there is nothing to redo at " + now.toString());
 		}
+    }
+
+    /**
+     * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
+     */
+    private String getPreviousActionType() {
+        return previousActionType;
+    }
+
+    /**
+     * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
+     */
+    private void setPreviousActionType(String actionType) {
+        previousActionType = actionType;
     }
 }
