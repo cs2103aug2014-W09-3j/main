@@ -13,14 +13,24 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import tareas.controller.TareasController;
+
+import java.util.Stack;
 
 /**
  * Created by Her Lung on 27/10/2014.
  */
 public class DashboardView {
     Timeline timeline;
+    Stack<Integer> values = new Stack<>();
 
-    public DashboardView() {}
+    public DashboardView() {
+        TareasController tareasController = new TareasController();
+        Stack<Integer> tempStack = tareasController.getInitialiseValues();
+        while(!tempStack.empty()) {
+            values.push(tempStack.pop());
+        }
+    }
 
     public void showDashboard() {
         FlowPane root = new FlowPane();
@@ -67,9 +77,9 @@ public class DashboardView {
 
         overall.getChildren().addAll(
                 labelGenerator("Completed Tasks", "headings", width),
-                labelGenerator("9", "numbers", width),
+                labelGenerator(values.pop().toString(), "numbers", width),
                 labelGenerator("Overdue Tasks", "headings", width),
-                labelGenerator("21", "numbers", width)
+                labelGenerator(values.pop().toString(), "numbers", width)
         );
 
         return overall;
@@ -86,16 +96,24 @@ public class DashboardView {
         barChart.setBarGap(0);
 
         XYChart.Series series1 = new XYChart.Series();
-        series1.getData().add(new XYChart.Data(50, "Today"));
-        series1.getData().add(new XYChart.Data(50, "Tomorrow"));
-        series1.getData().add(new XYChart.Data(50, "Wednesday"));
-        series1.getData().add(new XYChart.Data(50, "Thursday"));
-        series1.getData().add(new XYChart.Data(50, "Friday"));
-        series1.getData().add(new XYChart.Data(50, "Saturday"));
-        series1.getData().add(new XYChart.Data(50, "Sunday"));
+        XYChart.Series series2 = new XYChart.Series();
+        series1.getData().add(new XYChart.Data(values.pop(), "Today"));
+        series2.getData().add(new XYChart.Data(values.pop(), "Today"));
+        series1.getData().add(new XYChart.Data(values.pop(), "Tomorrow"));
+        series2.getData().add(new XYChart.Data(values.pop(), "Tomorrow"));
+        series1.getData().add(new XYChart.Data(values.pop(), "Wednesday"));
+        series2.getData().add(new XYChart.Data(values.pop(), "Wednesday"));
+        series1.getData().add(new XYChart.Data(values.pop(), "Thursday"));
+        series2.getData().add(new XYChart.Data(values.pop(), "Thursday"));
+        series1.getData().add(new XYChart.Data(values.pop(), "Friday"));
+        series2.getData().add(new XYChart.Data(values.pop(), "Friday"));
+        series1.getData().add(new XYChart.Data(values.pop(), "Saturday"));
+        series2.getData().add(new XYChart.Data(values.pop(), "Saturday"));
+        series1.getData().add(new XYChart.Data(values.pop(), "Sunday"));
+        series2.getData().add(new XYChart.Data(values.pop(), "Sunday"));
 
         barChart.setLegendVisible(false);
-        barChart.getData().addAll(series1);
+        barChart.getData().addAll(series1, series2);
 
         Timeline tl = new Timeline();
         tl.getKeyFrames().add(new KeyFrame(Duration.millis(500),
@@ -121,15 +139,15 @@ public class DashboardView {
 
         statistics.getChildren().addAll(
                 labelGenerator("Uncompleted Tasks", "headings", width),
-                labelGenerator("34", "numbers", width),
+                //labelGenerator("34", "numbers", width),
                 labelGenerator("Deadline Tasks", "mini-headings", 190),
                 labelGenerator("Timed Tasks", "mini-headings", 190),
-                labelGenerator("12", "mini-numbers", 190),
-                labelGenerator("8", "mini-numbers", 190),
+                labelGenerator(values.pop().toString(), "mini-numbers", 190),
+                labelGenerator(values.pop().toString(), "mini-numbers", 190),
                 labelGenerator("Floating Tasks", "mini-headings", 190),
                 labelGenerator("Important Tasks", "mini-headings", 190),
-                labelGenerator("2", "mini-numbers", 190),
-                labelGenerator("5", "mini-numbers", 190)
+                labelGenerator(values.pop().toString(), "mini-numbers", 190),
+                labelGenerator(values.pop().toString(), "mini-numbers", 190)
         );
 
         return statistics;

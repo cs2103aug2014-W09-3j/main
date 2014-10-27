@@ -15,6 +15,7 @@
 
 #statistics {
     -fx-background-color: #c6c6c6;
+    -fx-vgap: 5;
 }
 
 #headings {
@@ -43,7 +44,11 @@
 }
 
 .default-color0.chart-bar {
-    -fx-bar-fill: #898989;
+    -fx-bar-fill: green;
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: red;
 }
 
 .chart {

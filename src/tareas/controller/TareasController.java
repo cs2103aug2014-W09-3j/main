@@ -89,15 +89,15 @@ public class TareasController {
      * 9. Number of completed tasks one day from now
      * 10. Number of uncompleted tasks one day from now
      * 11. Number of tasks completed two days from now
-     * 11. Number of tasks uncompleted two days from now
-     * 12. Number of tasks completed three days from now
-     * 13. Number of tasks uncompleted three days from now
-     * 14. Number of tasks completed four days from now
-     * 15. Number of tasks uncompleted four days from now
-     * 16. Number of tasks completed five from now
-     * 17. Number of tasks uncompleted five from now
-     * 18. Number of tasks completed six days from now
-     * 19. Number of tasks uncompleted six days from now
+     * 12. Number of tasks uncompleted two days from now
+     * 13. Number of tasks completed three days from now
+     * 14. Number of tasks uncompleted three days from now
+     * 15. Number of tasks completed four days from now
+     * 16. Number of tasks uncompleted four days from now
+     * 17. Number of tasks completed five from now
+     * 18. Number of tasks uncompleted five from now
+     * 19. Number of tasks completed six days from now
+     * 20. Number of tasks uncompleted six days from now
      *
      * @return a Stack of Integers
      */
