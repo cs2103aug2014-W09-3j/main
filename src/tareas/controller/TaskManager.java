@@ -3,6 +3,9 @@ package tareas.controller;
 import tareas.common.Task;
 import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
+import tareas.parser.Parser;
+
+import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -14,6 +17,8 @@ import java.util.Stack;
  */
 public class TaskManager {
     private static TaskManager instance = null;
+
+
 
     // Keep a pointer to the latest set of tasks
     private Tasks latestTasks = new Tasks();
@@ -185,13 +190,13 @@ public class TaskManager {
             taskToReturn = Task.createTaggedTask(taskDescription, taskTag);
         } else if (command.hasKey("from")) {
             String taskDescription = command.getPrimaryArgument();
-            String taskStartTime = command.getArgument("from");
-            String taskEndTime = command.getArgument("to");
+            LocalDateTime taskStartTime = Parser.getDateTimeFromString(command.getArgument("from"));
+            LocalDateTime taskEndTime = Parser.getDateTimeFromString(command.getArgument("to"));
 
             taskToReturn = Task.createTimedTask(taskDescription, taskStartTime, taskEndTime);
         } else if (command.hasKey("by")) {
             String taskDescription = command.getPrimaryArgument();
-            String taskDeadline = command.getArgument("by");
+            LocalDateTime taskDeadline = Parser.getDateTimeFromString(command.getArgument("by"));
 
             taskToReturn = Task.createDeadlineTask(taskDescription, taskDeadline);
         } else if (command.hasKey("recurring")) {

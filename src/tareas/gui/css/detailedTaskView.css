@@ -1,0 +1,49 @@
+.root {
+    -fx-background-color: rgba(118, 120, 115, 0.85);
+}
+
+#header {
+    -fx-padding: 10, 10, 10, 10;
+    -fx-background-color: rgba(104, 103, 103, 0.85);
+}
+
+#body {
+    -fx-padding: 10, 10, 10, 10;
+}
+
+#taskDescription {
+    -fx-font-size: 15;
+    -fx-pref-width: 580;
+    -fx-pref-height: 55;
+    -fx-alignment: center;
+}
+
+#deadline {
+    -fx-font-size: 15;
+}
+
+#startDateTime {
+    -fx-font-size: 15;
+}
+
+#endDateTime {
+    -fx-font-size: 15;
+}
+
+#getCompleted {
+    -fx-font-size: 15;
+}
+
+#getPriority {
+    -fx-font-size: 15;
+}
+
+#reminderDateTime {
+    -fx-font-size: 15;
+}
+
+#exitMessage {
+    -fx-font-size: 10;
+    -fx-translate-x: 245;
+    -fx-translate-y: 50;
+}

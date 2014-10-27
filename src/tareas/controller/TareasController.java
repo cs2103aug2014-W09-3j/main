@@ -2,13 +2,14 @@ package tareas.controller;
 
 import tareas.common.Task;
 import tareas.common.Tasks;
-import tareas.common.Exceptions;
+// import tareas.common.Exceptions;
 import tareas.common.Log;
 import tareas.parser.TareasCommand;
 import tareas.parser.Parser;
 import tareas.storage.TareasIO;
 import tareas.gui.TareasGUIController;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -21,6 +22,9 @@ import java.util.ArrayList;
 public class TareasController {
     // Constant for Logging
     private static String TAG = "tareas/tareasController";
+
+    // Instantiate a String for feedback when a user does a redo / undo
+    private String previousActionType = "No previous action";
 
     // Instantiate a GUI Controller
     TareasGUIController guiController = TareasGUIController.getInstance();
@@ -35,8 +39,8 @@ public class TareasController {
      * constructor for controller, will set the pointer for the task manager
      */
     public TareasController() {
-        taskManager.set(tareas.getAllUndoneTasks());
-        taskManager.setId(tareas.getInitialiseLatestId());
+        taskManager.set(tareas.getAllUndoneTasks(1,0));
+        taskManager.setId(tareas.getInitialiseLatestId(1));
     }
 
     /**
@@ -49,40 +53,65 @@ public class TareasController {
         if (userInput.equals("")) {
             return;
         }
-        // TODO abstract into a method
 
         TareasCommand command = TareasCommand.fromString(userInput);
 
         // asserting to make sure that the command is really a TareasCommand
         assert(command != null);
 
+        checkCommandValidity(command);
+
+        checkCommandAndExecute(command);
+    }
+
+    /**
+     * helps to initialise GUI view by giving the GUI the set of all tasks
+     *
+     * @return an ArrayList of Task
+     */
+    public ArrayList<Task> getInitialiseTasks() {
+        return tareas.getAllUndoneTasks(1,0);
+    }
+
+    /**
+     * checks whether the command parsed is valid
+     *
+     * @param command the command formed by the parser
+     */
+    private void checkCommandValidity(TareasCommand command) {
         switch (Parser.checkCommandValidity(command).getStatus()) {
             case SUCCESS:
                 // no feedback, continue on since it's a valid command
                 break;
             case UNKNOWN_COMMAND:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Unrecognized command, please input a recognized command");
                 return;
             case MISSING_PRIMARY_ARGUMENT:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input something after the action - " +
+                        command.getPrimaryKey());
                 return;
             case UNEXPECTED_PRIMARY_ARGUMENT:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input a valid input after the action - " +
+                        command.getPrimaryKey());
                 return;
             case UNKNOWN_KEYWORD:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input a valid action - " + command.getPrimaryKey() +
+                        " is not recognized");
                 return;
             case SIGNATURE_NOT_MATCHED:
-                guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
-                // TODO make the feedback show something more helpful
+                guiController.sendErrorToView("Please input matching actions - refer to /help for reference");
                 return;
+            default:
+                // do nothing - should not reach here ever, if it does it means bad stuff is happening
         }
-        // TODO abstract into a method
+    }
 
+    /**
+     * checks the type of the command and executes it
+     *
+     * @param command the command formed by the parser
+     */
+    private void checkCommandAndExecute(TareasCommand command) {
         switch (command.getType()) {
             case ADD_COMMAND:
                 addTask(command);
@@ -111,17 +140,14 @@ public class TareasController {
             case VIEW_COMMAND:
                 viewRequest(command);
                 break;
+            case HELP_COMMAND:
+                helpRequest();
+                break;
             case PRIORITIZE_COMMAND:
                 prioritizeTask(command);
                 break;
-            case CATEGORIZE_COMMAND:
-                categorizeTask(command);
-                break;
             case REMIND_COMMAND:
                 setTaskReminder(command);
-                break;
-            case BACKUP_COMMAND:
-                backup();
                 break;
             case MUTE_COMMAND:
                 mute(command);
@@ -133,18 +159,8 @@ public class TareasController {
                 colorizeTask(command);
                 break;
             default:
-            	guiController.sendErrorToView("Unrecognized command, please input a recognized command.");
+                // do nothing - unrecognized command, view feedback handled by check command validity
         }
-        // TODO abstract into a method
-    }
-
-    /**
-     * helps to initialise GUI view by giving the GUI the set of all tasks
-     *
-     * @return an ArrayList of Task
-     */
-    public ArrayList<Task> getInitialiseTasks() {
-        return tareas.getAllUndoneTasks();
     }
 
     /**
@@ -155,15 +171,18 @@ public class TareasController {
     private void addTask(TareasCommand command) {
         Task taskToInsert = TaskManager.buildTask(command);
 
-        tareas.insertTask(taskToInsert);
+        tareas.insertTask(taskToInsert, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task adding action " + now.toString());
@@ -176,44 +195,56 @@ public class TareasController {
      */
     private void editTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
-        Task taskToInsert = new Task();
+        Task taskToUpdate = new Task();
 
-        if (command.getArgument("des") != null) {
-            taskToInsert.setDescription(command.getArgument("des"));
-        }
-
-        if (command.getArgument("start") != null) {
-            taskToInsert.setStartDateTime(command.getArgument("start"));
-        }
-
-        if (command.getArgument("end") != null) {
-            taskToInsert.setEndDateTime(command.getArgument("end"));
-        }
-
-        if (command.getArgument("deadline") != null) {
-            taskToInsert.setDeadline(command.getArgument("deadline"));
-        }
-
-        // TODO abstract edit changes into a method
+        taskToUpdate = updateTask(command, taskToUpdate);
 
         int tasksSize = taskManager.get().size();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        taskToInsert.setTaskID(mappedTaskId);
+        taskToUpdate.setTaskID(mappedTaskId);
 
-        tareas.editTask(taskToInsert);
+        tareas.editTask(taskToUpdate, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task successfully edited - " + taskToInsert.getDescription());
+        guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
+
+        // setPreviousActionType("");
+        // TODO set it to a value that is a useful feedback to the user
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task editing action at " + now.toString());
+    }
+
+    /**
+     * helper method for editTask to update the task with supported editing types
+     *
+     * @param command after being parsed from the parser and taskToUpdate the task being updated
+     */
+    private Task updateTask(TareasCommand command, Task taskToUpdate) {
+        if (command.getArgument("des") != null) {
+            taskToUpdate.setDescription(command.getArgument("des"));
+        }
+
+        if (command.getArgument("start") != null) {
+            taskToUpdate.setStartDateTime(Parser.getDateTimeFromString(command.getArgument("start")));
+        }
+
+        if (command.getArgument("end") != null) {
+            taskToUpdate.setEndDateTime(Parser.getDateTimeFromString(command.getArgument("end")));
+        }
+
+        if (command.getArgument("deadline") != null) {
+            taskToUpdate.setDeadline(Parser.getDateTimeFromString(command.getArgument("deadline")));
+        }
+
+        return taskToUpdate;
     }
 
     /**
@@ -230,15 +261,17 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        tareas.deleteTask(mappedTaskId);
+        tareas.deleteTask(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+
+        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task deletion action at " + now.toString());
@@ -252,9 +285,16 @@ public class TareasController {
     private void searchTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
-        tareas.searchTask(taskId);
-        // TODO Add in feedback to user on the GUI side of things
-        // TODO change feedback to include task description for useful user feedback
+        int tasksSize = taskManager.get().size();
+
+        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
+
+        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
+
+        Task taskToShow = tareas.searchTask(mappedTaskId, 1);
+
+        guiController.showDetailedView(taskToShow);
+        guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task search action at " + now.toString());
@@ -273,18 +313,18 @@ public class TareasController {
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-
-        System.out.println(mappedTaskId);
         
-        tareas.markTaskAsCompleted(mappedTaskId);
+        tareas.markTaskAsCompleted(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully completed Task - " + taskDescriptionForFeedback);
+
+        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer completed");
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task completion action at " + now.toString());
@@ -305,24 +345,25 @@ public class TareasController {
         Task taskToPostpone = taskManager.get().get(tasksSize - taskId);
 
         if (command.getArgument("to") != null) {
-            taskToPostpone.setDeadline(command.getArgument("to"));
-
-            // TODO support postpone for timed tasks as well? - ask for opinions first
+            taskToPostpone.setDeadline(Parser.getDateTimeFromString(command.getArgument("to")));
         }
 
         if (command.getArgument("by") != null) {
-            // TODO support the by format for both deadline and timed tasks - ask for opinions on timed tasks
+            // TODO support for more natural-ish command for postponing from parser, if logic here gets too long, might
+            // TODO want to abstract into a method
         }
 
-        tareas.postponeTask(taskToPostpone);
+        tareas.postponeTask(taskToPostpone, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
+
+        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " unpostponed");
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task postponing action at " + now.toString());
@@ -334,15 +375,69 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void viewRequest(TareasCommand command) {
-        // TODO grab the view type so that can call the right stuff from storage and GUI
-        
-        // TODO ask from the storage all the stuff needed for the view
-        // TODO call the GUI method to display the view request
-        guiController.sendSuccessToView("View has successfully been changed");
-        // TODO change feedback to include task description for useful user feedback
+        String viewType = command.getPrimaryArgument();
+
+        ArrayList<Task> tasksToShowToUser;
+
+        tasksToShowToUser = checkViewTypeAndGetFromStorage(viewType);
+
+        guiController.sendTaskstoView(tasksToShowToUser);
+        guiController.sendSuccessToView("View has successfully been changed to " + viewType);
 
         Date now = new Date();
         Log.i(TAG, "User has performed a view change action at " + now.toString());
+    }
+
+    /**
+     * completes a view request by calling the appropriate GUI and storage methods
+     *
+     * @param viewType the view type that is parsed by the parser
+     * @return the ArrayList of task that is gotten from the Storage
+     */
+    private ArrayList<Task> checkViewTypeAndGetFromStorage(String viewType) {
+        ArrayList<Task> tasksToShowToUser = new ArrayList<>();
+
+        // if the view type is equal to the view types supported for natural languages
+        if (viewType.equals("today") || viewType.equals("tomorrow") || viewType.equals("done") ||
+                viewType.equals("undone")) {
+
+            if (viewType.equals("today")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks(1,0);
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("tomorrow")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks(1,0);
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("undone")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks(1,0);
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+            if (viewType.equals("done")) {
+                tasksToShowToUser = tareas.getAllUndoneTasks(1,0);
+                // TODO use the correct method once Lareina supports it on the storage side
+            }
+
+        } else {
+            // if it's not then it's a particular date then we parse it into a date type
+            LocalDateTime timeToPassToStorage = Parser.getDateTimeFromString(viewType);
+
+            // tasksToShowToUser = tareas.getTasksFromParticularDate(timeToPassToStorage);
+            // TODO use the correct method once Lareina supports it on the storage side
+        }
+
+        return tasksToShowToUser;
+    }
+
+    /**
+     * sets the view to the help view to give the user quick help tips
+     */
+    private void helpRequest() {
+        // guiController.setViewToHelp();
+        // TODO get Her Lung to have such a view
     }
 
     /**
@@ -361,32 +456,28 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
+        String prioritizedOrNot;
+
         if (taskToPrioritize.isTaskPriority()) {
-            tareas.prioritizeTask(mappedTaskId, false);
-            // TODO talk to team about allow de-prioritize stuff
+            tareas.prioritizeTask(mappedTaskId, false, 1);
+            prioritizedOrNot = "prioritized";
         } else {
-            tareas.prioritizeTask(mappedTaskId, true);
+            tareas.prioritizeTask(mappedTaskId, true, 1);
+            prioritizedOrNot = "unprioritized";
         }
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
-        guiController.sendSuccessToView("Task has been successfully prioritized - " + taskDescriptionForFeedback);
+        guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
+
+        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer prioritized");
 
         Date now = new Date();
-        Log.i(TAG, "User has performed a task prioritizing action at" + now.toString());
-    }
-
-    /**
-     * categorize a task by calling the appropriate GUI and storage methods
-     *
-     * @param command after being parsed from the parser
-     */
-    private void categorizeTask(TareasCommand command) {
-        // Do nothing, categorize no longer supported - TODO remove in future
+        Log.i(TAG, "User has performed a task prioritizing action at " + now.toString());
     }
 
     /**
@@ -402,10 +493,10 @@ public class TareasController {
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-        
-        // TODO tell the storage that a task has a reminder set
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        // tareas.setTaskReminder(mappedTaskId, reminderDateTime);
+
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -413,15 +504,10 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
 
+        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " reminder removed");
+
         Date now = new Date();
         Log.i(TAG, "User has performed a task reminder action at " + now.toString());
-    }
-
-    /**
-     * backups all tasks data by calling the appropriate GUI and storage methods
-     */
-    private void backup() {
-        // Do nothing, backup no longer supported - TODO remove in future
     }
 
     /**
@@ -430,11 +516,14 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void mute(TareasCommand command) {
-        // TODO grab the time start and end to be passed to TareasIO
-    	
-        // TODO tell the storage to mute everything from time to time
-        guiController.sendSuccessToView("Tareas successfully muted from time1 to time2");
-        // TODO change feedback to include task description for useful user feedback
+        LocalDateTime startTime = Parser.getDateTimeFromString(command.getPrimaryArgument());
+        LocalDateTime endTime = Parser.getDateTimeFromString(command.getArgument("to"));
+
+        // tareas.addMuteTiming(startTime, endTime);
+
+        guiController.sendSuccessToView("Tareas successfully muted from " + startTime.toString() + " " + endTime.toString());
+
+        setPreviousActionType("Mute timing from " + startTime.toString() + " " + endTime.toString() + " removed");
 
         Date now = new Date();
         Log.i(TAG, "User has performed a mute action at " + now.toString());
@@ -446,11 +535,15 @@ public class TareasController {
      * @param command after being parsed from the parser
      */
     private void changeFont(TareasCommand command) {
-        // TODO grab the font arguments to be passed to the GUI
-    	
-        // TODO tell the GUI to change the font
-        guiController.sendSuccessToView("Font changed successfully to {{fontType}}");
-        // TODO change feedback to include task description for useful user feedback
+        String newFontType = command.getPrimaryArgument();
+        // String previousFontType = tareas.getFontType();
+
+        // tareas.saveFontType(fontType, fontSize);
+
+        guiController.sendSuccessToView("Font changed successfully to - " + newFontType);
+
+        // setPreviousActionType("Font changed back to " + previousFontType);
+        // TODO once supported by Storage - Lareina
 
         Date now = new Date();
         Log.i(TAG, "User has performed a font change action at " + now.toString());
@@ -469,16 +562,18 @@ public class TareasController {
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-    	
-        // TODO tell the storage to change the color of the task
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
+        // tareas.changeTaskColor(mappedTaskId, color);
+
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1,0);
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         guiController.sendSuccessToView("Successfully changed color of task - " + taskDescriptionForFeedback);
+
+        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " color unset");
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task colorization action at " + now.toString());
@@ -491,11 +586,10 @@ public class TareasController {
         if (taskManager.isAbleToUndo()) {
             Tasks stateToRevertTo = taskManager.getUndoState();
 
-            tareas.undoWrite(stateToRevertTo);
+            tareas.undoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            guiController.sendSuccessToView("Undo Successful");
-            // TODO make the feedback show something more helpful
+            guiController.sendSuccessToView("Undo Successful - " + getPreviousActionType());
 
             Date now = new Date();
             Log.i(TAG, "User has performed an undo action at " + now.toString());
@@ -514,11 +608,10 @@ public class TareasController {
         if (taskManager.isAbleToRedo()) {
 		    Tasks stateToRevertTo = taskManager.getRedoState();
 
-            tareas.redoWrite(stateToRevertTo);
+            tareas.redoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            guiController.sendSuccessToView("Redo Successful");
-            // TODO make the feedback show something more helpful
+            guiController.sendSuccessToView("Redo Successful - " + getPreviousActionType());
 
             Date now = new Date();
             Log.i(TAG, "User has performed a redo action at " + now.toString());
@@ -528,5 +621,19 @@ public class TareasController {
             Date now = new Date();
             Log.e(TAG, "User tried to redo an action when there is nothing to redo at " + now.toString());
 		}
+    }
+
+    /**
+     * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
+     */
+    private String getPreviousActionType() {
+        return previousActionType;
+    }
+
+    /**
+     * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
+     */
+    private void setPreviousActionType(String actionType) {
+        previousActionType = actionType;
     }
 }

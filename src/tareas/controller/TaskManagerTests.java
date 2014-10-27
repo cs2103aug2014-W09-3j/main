@@ -1,16 +1,18 @@
 package tareas.controller;
 
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Stack;
-
 import tareas.common.Task;
 import tareas.common.Tasks;
 import tareas.parser.TareasCommand;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Stack;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author Yap Jun Hao
@@ -20,6 +22,32 @@ import static org.junit.Assert.*;
 public class TaskManagerTests {
 
     TaskManager taskManager = TaskManager.getInstance();
+
+    /**
+     *  Task Manager test for making sure that there can only be 1
+     *  instance of TaskManager at any time.
+     *
+     *  @author Delon Wong - Outsourced because he doesn't have enough tests to do.
+     */
+    @Test
+    public void testTaskManagerSingleTon() {
+        TaskManager manager1 = TaskManager.getInstance();
+        manager1.setId(100);
+        ArrayList<Task> uniqueTasks = new ArrayList<>();
+        manager1.set(uniqueTasks);
+
+        TaskManager manager2 = TaskManager.getInstance();
+
+        // Boundary values here are 99, 100, 101
+        // 99 and 101 represents the partitions that are not correct
+        assertEquals(false, manager2.getId() == 99);
+        assertEquals(true, manager2.getId() == 100);
+        assertEquals(false, manager2.getId() == 101);
+
+        // This showcases that the Arraylist in manager2 is the exact same object as
+        // the one that is set in manager1
+        assertEquals(true, manager2.get() == uniqueTasks);
+    }
 
     /**
      * TaskManager test for making sure that this TaskManager's latestTasks is empty
@@ -314,8 +342,11 @@ public class TaskManagerTests {
 
         Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
 
-        // make sure it has description but not any kind of deadline or start time end time
+        ArrayList<String> testTaskTags = new ArrayList<>();
+
+        // make sure it has description but not any kind of deadline or start time end time or other attributes
         assertEquals(testBuyHamTask.getDescription(), "buy ham");
+        assertEquals(testBuyHamTask.getTags(), testTaskTags);
         assertEquals(testBuyHamTask.getStartDateTime(), null);
         assertEquals(testBuyHamTask.getEndDateTime(), null);
         assertEquals(testBuyHamTask.getDeadline(), null);
@@ -328,10 +359,19 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingFloatingTaggedTasks() throws IOException {
-        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
+        TareasCommand testTareasCommand = TareasCommand.fromString("buy ham /tag yolo");
 
-        // TODO set to fail once supported
-        assertEquals(true, true);
+        Task testBuyHamTaggedTask = TaskManager.buildTask(testTareasCommand);
+
+        ArrayList<String> testTaskTags = new ArrayList<>();
+        testTaskTags.add("yolo");
+
+        // make sure it has description and tag
+        assertEquals(testBuyHamTaggedTask.getDescription(), "buy ham");
+        assertEquals(testBuyHamTaggedTask.getTags(), testTaskTags);
+        assertEquals(testBuyHamTaggedTask.getStartDateTime(), null);
+        assertEquals(testBuyHamTaggedTask.getEndDateTime(), null);
+        assertEquals(testBuyHamTaggedTask.getDeadline(), null);
     }
 
     /**
@@ -341,10 +381,22 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingTimedTasks() throws IOException {
-        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
+        TareasCommand testTareasCommand = TareasCommand.fromString("camping /from 22-10-14 13:00 /to 22-10-14 17:00");
 
-        // TODO set to fail once supported
-        assertEquals(true, true);
+        Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
+
+        ArrayList<String> testTaskTags = new ArrayList<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy H:mm");
+        LocalDateTime testFromTime = LocalDateTime.parse("22-10-14 13:00", formatter);
+        LocalDateTime testByTime = LocalDateTime.parse("22-10-14 17:00", formatter);
+
+        // make sure it has description, start time and end time but no tag(s)
+        assertEquals(testBuyHamTask.getDescription(), "camping");
+        assertEquals(testBuyHamTask.getTags(), testTaskTags);
+        assertEquals(testBuyHamTask.getStartDateTime(), testFromTime);
+        assertEquals(testBuyHamTask.getEndDateTime(), testByTime);
+        assertEquals(testBuyHamTask.getDeadline(), null);
     }
 
     /**
@@ -354,22 +406,20 @@ public class TaskManagerTests {
      */
     @Test
     public void supportBuildingDeadlineTasks() throws IOException {
-        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
+        TareasCommand testTareasCommand = TareasCommand.fromString("buy ham /by 22-10-14 13:00");
 
-        // TODO set to fail once supported
-        assertEquals(true, true);
-    }
+        Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
 
-    /**
-     * TaskManager test for making sure that TaskManager supports building recurring tasks
-     *
-     * normal case for TaskManager supporting building of recurring tasks
-     */
-    @Test
-    public void supportBuildingRecurringTasks() throws IOException {
-        // TODO add testing for this case and correct assert case (Note: NOT YET SUPPORTED)
+        ArrayList<String> testTaskTags = new ArrayList<>();
 
-        // TODO set to fail once supported
-        assertEquals(true, true);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy H:mm");
+        LocalDateTime testTime = LocalDateTime.parse("22-10-14 13:00", formatter);
+
+        // make sure it has description and deadline but no tag(s)
+        assertEquals(testBuyHamTask.getDescription(), "buy ham");
+        assertEquals(testBuyHamTask.getTags(), testTaskTags);
+        assertEquals(testBuyHamTask.getStartDateTime(), null);
+        assertEquals(testBuyHamTask.getEndDateTime(), null);
+        assertEquals(testBuyHamTask.getDeadline(), testTime);
     }
 }

@@ -1,26 +1,48 @@
+/*Padding format is top, right, bottom, left*/
+
 #taskpane {
     -fx-background-color: linear-gradient(to bottom, derive(#d9d9d9, 20%), #b1b1b1);
     -fx-border-radius: 5 5 5 5;
     -fx-background-radius: 5 5 5 5;
-    -fx-effect: dropshadow(three-pass-box, derive(gray, -20%), 10, 0, 4, 4);
+    -fx-effect: dropshadow(three-pass-box, derive(gray, -20%), 3, 0, 2, 2);
+    -fx-padding: 0, 0, 0, 0;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 760px;
+}
+
+#idLabel {
+    -fx-pref-width: 50px;
+    -fx-alignment: center;
+    -fx-text-fill: gray;
+    -fx-font-size: 15;
+    -fx-font-weight: bolder;
 }
 
 #taskDescription {
     -fx-text-fill: black;
-    -fx-translate-x: 60;
-    -fx-translate-y: 10;
-    -fx-font-size: 20;
-}
-
-#idLabel {
-    -fx-text-fill: gray;
-    -fx-translate-x: 10;
-    -fx-translate-y: 10;
-    -fx-font-size: 20;
+    -fx-font-size: 15;
+    -fx-pref-width: 550px;
+    -fx-alignment: center-left;
 }
 
 #deadlineLabel {
-    -fx-font-size: 10;
-    -fx-translate-x: 60;
-    -fx-translate-y: 40;
+    -fx-text-fill: #193861;
+    -fx-font-size: 11;
+    -fx-alignment: center-right;
+    -fx-pref-width: 100px;
+    -fx-font-weight: bold;
+}
+
+#startEndLabel {
+    -fx-text-fill: #193861;
+    -fx-font-size: 11;
+    -fx-alignment: center-right;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 30px;
+    -fx-font-weight: bold;
+}
+
+#prioritisePicture {;
+    -fx-translate-y: -4;
+    -fx-translate-x: 10;
 }
