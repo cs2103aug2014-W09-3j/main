@@ -52,6 +52,15 @@ public class StorageReader {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
 		writer.createFile(fileName);
+
+        Tasks tasks = new Tasks();
+
+        try{
+            writer.write(tasks, fileName);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
 		return tasks;
 	}
 

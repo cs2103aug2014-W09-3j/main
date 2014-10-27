@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * @author Her Lung
+ * @author Lareina
  *
  * This class acts as the API for the Storage component.
  */
@@ -501,35 +501,86 @@ public class TareasIO {
 
     }
 
+    /**
+     * This method deletes all ongoing tasks in the list.
+     */
+    public void massDelete(int runType){
+        tasks.removeAll();
+        write(runType);
+    }
 
-//
-//    /**
-//     * This method deletes all ongoing tasks in the list.
-//     */
-//    public void massDelete(){
-//        tasks.removeAll();
-//        write();
-//    }
-//
-//    /**
-//     * This method sets the frequency, day and date of a recurring task.
-//     * @param id
-//     * @param frequency
-//     * @param day
-//     * @param date
-//     */
-//    public void recurringTask(int id, String frequency, String day, String date){
-//        Task task = getTask(id);
-//        task.setRecurrenceFrequency(frequency);
-//        task.setRecurrenceDay(day);
-//        task.setRecurrenceDate(date);
-//        write();
-//    }
-//
-//    public void addingTags(int id, String tagDescription){
-//        Task task = getTask(id);
-//        task.addTag(tagDescription);
-//        write();
-//    }
+
+    /**
+     * This method add tags to tasks.
+     * @param id
+     * @param tagDescription
+     * @param runType
+     */
+    public void addingTags(int id, String tagDescription, int runType){
+        Task task = getTask(id, runType);
+        task.addTag(tagDescription);
+        write(runType);
+    }
+
+
+    /**
+     * This method search for tags and return an arrayList of related tasks.
+     * @param tagDescription
+     * @param runType
+     * @return
+     */
+    public ArrayList<Task> searchTags(String tagDescription, int runType){
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        for (int i = 0; i < tasksSize; i++) {
+
+            if (!tasks.get(i).getTags().equals(tagDescription)) {
+                tasks.remove(i);
+                tasksSize--;
+            }
+        }
+
+        return tasks;
+
+    }
+
+    /**
+     * This method search tasks by description and returns a list of related tasks.
+     * @param description
+     * @param runType
+     * @return
+     */
+    public ArrayList<Task> searchByDescription(String description, int runType){
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        for (int i = 0; i < tasksSize; i++) {
+
+            if (!tasks.get(i).getDescription().contains(description)) {
+                tasks.remove(i);
+                tasksSize--;
+            }
+        }
+
+        return tasks;
+
+    }
 
 }
