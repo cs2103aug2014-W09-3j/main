@@ -81,17 +81,10 @@ public enum CommandType {
 
     PRIORITIZE_COMMAND("prioritize"),
 
-    CATEGORIZE_COMMAND(
-            "categorize",
-            new String[] {"to"}
-    ),
-
     REMIND_COMMAND(
             "remind",
             new String[] {"on"}
     ),
-
-    BACKUP_COMMAND("backup", 0),
 
     MUTE_COMMAND(
             "mute",

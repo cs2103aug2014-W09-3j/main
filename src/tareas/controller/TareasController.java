@@ -141,14 +141,8 @@ public class TareasController {
             case PRIORITIZE_COMMAND:
                 prioritizeTask(command);
                 break;
-            case CATEGORIZE_COMMAND:
-                categorizeTask(command);
-                break;
             case REMIND_COMMAND:
                 setTaskReminder(command);
-                break;
-            case BACKUP_COMMAND:
-                backup();
                 break;
             case MUTE_COMMAND:
                 mute(command);
@@ -423,15 +417,6 @@ public class TareasController {
     }
 
     /**
-     * categorize a task by calling the appropriate GUI and storage methods
-     *
-     * @param command after being parsed from the parser
-     */
-    private void categorizeTask(TareasCommand command) {
-        // Do nothing, categorize no longer supported - TODO remove in future
-    }
-
-    /**
      * set a task reminder by calling the appropriate GUI and storage methods
      *
      * @param command after being parsed from the parser
@@ -457,13 +442,6 @@ public class TareasController {
 
         Date now = new Date();
         Log.i(TAG, "User has performed a task reminder action at " + now.toString());
-    }
-
-    /**
-     * backups all tasks data by calling the appropriate GUI and storage methods
-     */
-    private void backup() {
-        // Do nothing, backup no longer supported - TODO remove in future
     }
 
     /**
