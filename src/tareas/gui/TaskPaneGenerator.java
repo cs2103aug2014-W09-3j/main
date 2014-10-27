@@ -27,13 +27,21 @@ class TaskPaneGenerator {
         taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
 
         // ID Label
-        taskPane.getChildren().add(getIDLabel(controller.getIdCount()));
+        taskPane.getChildren().add(getIDLabel(task.getTaskID()));
 
         // Task Description
         taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
 
         // Deadline Label
-        taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        if(task.getDeadline() != null) {
+            taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        } else if(task.getStartDateTime() == null && task.getEndDateTime() != null) {
+            taskPane.getChildren().add(getDeadline(task.getEndDateTime()));
+        } else if(task.getStartDateTime() != null && task.getEndDateTime() != null){
+            taskPane.getChildren().add(getInterval(task.getStartDateTime(), task.getEndDateTime()));
+        } else {
+            taskPane.getChildren().add(generateEmptyLabel(100, 30));
+        }
 
         // Prioritise picture
         taskPane.getChildren().add(getPriority(task.isTaskPriority()));
@@ -48,11 +56,8 @@ class TaskPaneGenerator {
     }
 
     private Label getIDLabel(int id) {
-        TareasGUIController controller = TareasGUIController.getInstance();
-
         Label idLabel = new Label(Integer.toString(id) + ".");
         idLabel.setId("idLabel");
-        controller.incrementIdCount();
         return idLabel;
     }
 
@@ -66,6 +71,22 @@ class TaskPaneGenerator {
         Label deadlineLabel = new Label(date);
         deadlineLabel.setId("deadlineLabel");
         return deadlineLabel;
+    }
+
+    // TODO: Create a double line label
+    private Label getInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        String startDate;
+        String endDate;
+        if(startDateTime == null && endDateTime == null) {
+            startDate = "";
+            endDate = "";
+        } else {
+            startDate = startDateTime.toString();
+            endDate = endDateTime.toString();
+        }
+        Label startEndDateTime = new Label(startDate + "\n" + endDate);
+        startEndDateTime.setId("startEndLabel");
+        return startEndDateTime;
     }
 
     private ImageView getPriority(boolean hasPriority) {
@@ -83,5 +104,11 @@ class TaskPaneGenerator {
         }
 
         return imageView;
+    }
+
+    private Label generateEmptyLabel(int width, int height) {
+        Label label = new Label();
+        label.setPrefSize(width, height);
+        return label;
     }
 }
