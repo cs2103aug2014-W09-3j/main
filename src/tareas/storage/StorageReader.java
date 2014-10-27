@@ -24,7 +24,7 @@ public class StorageReader {
         if(runType == 1) {
             file = new File("storage.json");
             if (file.exists()) {
-                return convertJSONtoObject();
+                return convertJSONtoObject("storage.json");
             } else {
                 // The below method creates a new file and returns an empty ArrayList<Tasks>
                 return createNewFile("storage.json");
@@ -33,7 +33,7 @@ public class StorageReader {
         else if (runType == 2) {
             file = new File("testing.json");
             if (file.exists()) {
-                return convertJSONtoObject();
+                return convertJSONtoObject("testing.json");
             } else {
                 // The below method creates a new file and returns an empty ArrayList<Tasks>
                 return createNewFile("testing.json");
@@ -55,10 +55,10 @@ public class StorageReader {
 		return tasks;
 	}
 
-	private Tasks convertJSONtoObject() throws FileNotFoundException,
+	private Tasks convertJSONtoObject(String fileName) throws FileNotFoundException,
 			IOException {
 		Gson gson = new Gson();
-		FileReader fr = new FileReader("storage.json");
+		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
 		String json = br.readLine();
 		br.close();

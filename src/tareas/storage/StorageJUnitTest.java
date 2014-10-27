@@ -37,35 +37,46 @@ public class StorageJUnitTest {
 		assertEquals(true, f.exists());
 	}
 
-//	@Test
-//	public void testWriteToFile() throws IOException {
-//        reader.overwrite();
-//
-//        Task task = new Task();
-//
-//        newTasks = tasks.get();
-//        task.setDescription("task one");
-//        newTasks.add(task);
-//
-//        writer.write(tasks, "testing.json");
-//
-//	    Tasks result = reader.read(2);
-//		assertEquals("task one", result.get().get(0).getDescription());
-//	}
-//
+	@Test
+	public void testWriteToFile() throws IOException {
+        reader.overwrite();
+
+        Task task = new Task();
+
+        newTasks = tasks.get();
+        task.setDescription("task one");
+        newTasks.add(task);
+
+        test.insertTask(task, 2);
+        writer.write(tasks, "testing.json");
+
+	    Tasks result = reader.read(2);
+		assertEquals("task one", result.get().get(0).getDescription());
+	}
+
 //	@Test
 //	public void testDeleteTask() throws IOException {
+//        reader.overwrite();
 //        newTasks = tasks.get();
 //
+//        Task task1 = new Task();
+//      //  newTasks.add(task1);
+//        task1.setDescription("task one");
+//        test.insertTask(task1, 2);
+//    //    writer.write(tasks, "testing.json");
+//
 //        Task task2 = new Task();
-//        newTasks.add(task2);
+//    //    newTasks.add(task2);
 //        task2.setDescription("task two");
-//        writer.write(tasks, "testing.json");
+//        test.insertTask(task2, 2);
+//     //   writer.write(tasks, "testing.json");
 //
 ////        TareasIO delete = new TareasIO();
 //        test.deleteTask(1, 2);
 //
-//        Tasks result = reader.read();
+//        writer.write(tasks, "testing.json");
+//
+//        Tasks result = reader.read(2);
 //		assertEquals("task two", result.get().get(0).getDescription());
 //	}
 //
