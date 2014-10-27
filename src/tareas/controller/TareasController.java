@@ -10,7 +10,7 @@ import tareas.storage.TareasIO;
 import tareas.gui.TareasGUIController;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Stack;
 import java.util.ArrayList;
 
 /**
@@ -71,6 +71,16 @@ public class TareasController {
      */
     public ArrayList<Task> getInitialiseTasks() {
         return tareas.getAllUndoneTasks();
+    }
+
+    /**
+     * helps to initialise dashboard view by giving the GUI a stack of String values to use
+     *
+     * @return a Stack of Strings
+     */
+    public Stack<String> getInitialiseValues() {
+        Stack<String> values = new Stack<>();
+        return values;
     }
 
     /**
@@ -184,7 +194,7 @@ public class TareasController {
         // setPreviousActionType("");
         // TODO set it to a value that is a useful feedback to the user
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task adding action " + now.toString());
     }
 
@@ -218,7 +228,7 @@ public class TareasController {
         // setPreviousActionType("");
         // TODO set it to a value that is a useful feedback to the user
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task editing action at " + now.toString());
     }
 
@@ -273,7 +283,7 @@ public class TareasController {
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task deletion action at " + now.toString());
     }
 
@@ -296,7 +306,7 @@ public class TareasController {
         guiController.showDetailedView(taskToShow);
         guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task search action at " + now.toString());
     }
 
@@ -313,7 +323,7 @@ public class TareasController {
         String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-        
+
         tareas.markTaskAsCompleted(mappedTaskId);
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks();
@@ -326,7 +336,7 @@ public class TareasController {
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer completed");
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task completion action at " + now.toString());
     }
 
@@ -365,7 +375,7 @@ public class TareasController {
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " unpostponed");
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task postponing action at " + now.toString());
     }
 
@@ -384,7 +394,7 @@ public class TareasController {
         guiController.sendTaskstoView(tasksToShowToUser);
         guiController.sendSuccessToView("View has successfully been changed to " + viewType);
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a view change action at " + now.toString());
     }
 
@@ -506,7 +516,7 @@ public class TareasController {
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer prioritized");
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task prioritizing action at " + now.toString());
     }
 
@@ -536,7 +546,7 @@ public class TareasController {
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " reminder removed");
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task reminder action at " + now.toString());
     }
 
@@ -555,7 +565,7 @@ public class TareasController {
 
         setPreviousActionType("Mute timing from " + startTime.toString() + " " + endTime.toString() + " removed");
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a mute action at " + now.toString());
     }
 
@@ -575,7 +585,7 @@ public class TareasController {
         // setPreviousActionType("Font changed back to " + previousFontType);
         // TODO once supported by Storage - Lareina
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a font change action at " + now.toString());
     }
 
@@ -605,7 +615,7 @@ public class TareasController {
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " color unset");
 
-        Date now = new Date();
+        LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task colorization action at " + now.toString());
     }
 
@@ -621,12 +631,12 @@ public class TareasController {
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Undo Successful - " + getPreviousActionType());
 
-            Date now = new Date();
+            LocalDateTime now = LocalDateTime.now();
             Log.i(TAG, "User has performed an undo action at " + now.toString());
 		} else {
             guiController.sendWarningToView("Nothing to undo");
 
-            Date now = new Date();
+            LocalDateTime now = LocalDateTime.now();
             Log.e(TAG, "User tried to undo an action when there is nothing to undo at " + now.toString());
 		}
     }
@@ -642,13 +652,14 @@ public class TareasController {
 
             guiController.sendTaskstoView(stateToRevertTo.get());
             guiController.sendSuccessToView("Redo Successful - " + getPreviousActionType());
+            // TODO allow for multiple redo and a proper feedback - now is like anyhow
 
-            Date now = new Date();
+            LocalDateTime now = LocalDateTime.now();
             Log.i(TAG, "User has performed a redo action at " + now.toString());
 		} else {
             guiController.sendWarningToView("Nothing to redo");
 
-            Date now = new Date();
+            LocalDateTime now = LocalDateTime.now();
             Log.e(TAG, "User tried to redo an action when there is nothing to redo at " + now.toString());
 		}
     }
