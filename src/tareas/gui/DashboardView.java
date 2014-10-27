@@ -1,5 +1,6 @@
 package tareas.gui;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -50,17 +52,16 @@ public class DashboardView {
         root.getChildren().addAll(title, overall, statistics, barGraphArea, message);
 
         Scene scene = new Scene(root, 800, 600);
+        scene.setFill(Color.TRANSPARENT);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent t) {
-                Stage innerStage = (Stage) scene.getWindow();
-                innerStage.close();
+                closeDashboard(scene);
             }
         });
         scene.setOnMouseClicked(t -> {
-            Stage innerStage = (Stage) scene.getWindow();
-            innerStage.close();
+            closeDashboard(scene);
         });
 
         Stage stage = new Stage();
@@ -72,6 +73,21 @@ public class DashboardView {
         stage.requestFocus();
 
         stage.show();
+    }
+
+    private void closeDashboard(Scene scene) {
+        FadeTransition ft = new FadeTransition(Duration.millis(250), scene.getRoot());
+        ft.setFromValue(1.0);
+        ft.setToValue(0);
+        ft.setCycleCount(1);
+        ft.play();
+        ft.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                Stage innerStage = (Stage) scene.getWindow();
+                innerStage.close();
+            }
+        });
     }
 
     private FlowPane getOverallComponent(int width, int height) {
@@ -143,7 +159,6 @@ public class DashboardView {
 
         statistics.getChildren().addAll(
                 labelGenerator("Uncompleted Tasks", "headings", width),
-                //labelGenerator("34", "numbers", width),
                 labelGenerator("Deadline Tasks", "mini-headings", 190),
                 labelGenerator("Timed Tasks", "mini-headings", 190),
                 labelGenerator(values.pop().toString(), "mini-numbers", 190),
