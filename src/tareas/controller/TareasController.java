@@ -40,7 +40,7 @@ public class TareasController {
      * constructor for controller, will set the pointer for the task manager
      */
     public TareasController() {
-        taskManager.set(tareas.getAllUndoneTasks(1, 0));
+        taskManager.set(tareas.getAllUndoneTasks(1, "undone"));
         taskManager.setId(tareas.getInitialiseLatestId(1));
     }
 
@@ -71,7 +71,8 @@ public class TareasController {
      * @return an ArrayList of Task
      */
     public ArrayList<Task> getInitialiseTasks() {
-        return tareas.getAllUndoneTasks(1, 0);
+        guiController.changeCategoryName("All Tasks");
+        return tareas.getAllUndoneTasks(1, "undone");
     }
 
     /**
@@ -126,36 +127,43 @@ public class TareasController {
 
         int numberOfCompletedTaskToday = getNumberOfCompletedTasksToday(allTasks);
         int numberOfUncompletedTaskToday = getNumberOfUncompletedTasksToday(allTasks);
+        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
         values.push(numberOfCompletedTaskToday);
         values.push(numberOfUncompletedTaskToday);
 
         int numberOfCompletedTaskSecondDay = getNumberOfCompletedTasksSecondDay(allTasks);
         int numberOfUncompletedTaskSecondDay = getNumberOfUncompletedTasksSecondDay(allTasks);
+        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
         values.push(numberOfCompletedTaskSecondDay);
         values.push(numberOfUncompletedTaskSecondDay);
 
         int numberOfCompletedTaskThirdDay = getNumberOfCompletedTasksThirdDay(allTasks);
         int numberOfUncompletedTaskThirdDay = getNumberOfUncompletedTasksThirdDay(allTasks);
+        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
         values.push(numberOfCompletedTaskThirdDay);
         values.push(numberOfUncompletedTaskThirdDay);
 
         int numberOfCompletedTaskFourthDay = getNumberOfCompletedTasksFourthDay(allTasks);
         int numberOfUncompletedTaskFourthDay = getNumberOfUncompletedTasksFourthDay(allTasks);
+        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
         values.push(numberOfCompletedTaskFourthDay);
         values.push(numberOfUncompletedTaskFourthDay);
 
         int numberOfCompletedTaskFifthDay = getNumberOfCompletedTasksFifthDay(allTasks);
         int numberOfUncompletedTaskFifthDay = getNumberOfUncompletedTasksFifthDay(allTasks);
+        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
         values.push(numberOfCompletedTaskFifthDay);
         values.push(numberOfUncompletedTaskFifthDay);
 
         int numberOfCompletedTaskSixthDay = getNumberOfCompletedTasksSixthDay(allTasks);
         int numberOfUncompletedTaskSixthDay = getNumberOfUncompletedTasksSixthDay(allTasks);
+        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
         values.push(numberOfCompletedTaskSixthDay);
         values.push(numberOfUncompletedTaskSixthDay);
 
         int numberOfCompletedTaskSeventhDay = getNumberOfCompletedTasksSeventhDay(allTasks);
         int numberOfUncompletedTaskSeventhDay = getNumberOfUncompletedTasksSeventhDay(allTasks);
+        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
         values.push(numberOfCompletedTaskSeventhDay);
         values.push(numberOfUncompletedTaskSeventhDay);
 
@@ -833,13 +841,14 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , 0);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
 
         setPreviousActionType("Task with description " + taskToInsert.getDescription() + " removed");
@@ -867,13 +876,14 @@ public class TareasController {
 
         tareas.editTask(taskToUpdate, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
 
         setPreviousActionType("Task with description " + taskToUpdate.getDescription() + " edit reverted");
@@ -923,13 +933,14 @@ public class TareasController {
 
         tareas.deleteTask(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , 0);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
@@ -956,6 +967,7 @@ public class TareasController {
 
         guiController.showDetailedView(taskToShow);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
 
         LocalDateTime now = LocalDateTime.now();
@@ -978,13 +990,14 @@ public class TareasController {
 
         tareas.markTaskAsCompleted(mappedTaskId, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Successfully completed Task - " + taskDescriptionForFeedback);
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer completed");
@@ -1018,13 +1031,14 @@ public class TareasController {
 
         tareas.postponeTask(taskToPostpone, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " unpostponed");
@@ -1047,6 +1061,7 @@ public class TareasController {
 
         guiController.sendTaskstoView(tasksToShowToUser);
         // TODO think about how to settle the view whenever an action is done v0.4
+        // View type is handled at checkViewTypeAndExecute instead for this method
         guiController.sendSuccessToView("View has successfully been changed to " + viewType);
 
         LocalDateTime now = LocalDateTime.now();
@@ -1070,47 +1085,52 @@ public class TareasController {
 
             if (viewType.equals("all")) {
                 tasksToShowToUser = tareas.getTasks(1).get();
+                guiController.changeCategoryName("All Tasks");
             }
 
             if (viewType.equals("deadline")) {
-                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "deadline");
+                guiController.changeCategoryName("Deadline Tasks");
             }
 
             if (viewType.equals("timed")) {
-                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "timed");
+                guiController.changeCategoryName("Timed Tasks");
             }
 
             if (viewType.equals("floating")) {
-                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "floating");
+                guiController.changeCategoryName("Floating Tasks");
             }
 
             if (viewType.equals("undone")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks(1, 0);
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "undone");
+                guiController.changeCategoryName("Undone Tasks");
             }
 
             if (viewType.equals("today")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks(1, 1);
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "today");
+                guiController.changeCategoryName("Today's Tasks");
             }
 
             if (viewType.equals("tomorrow")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks(1, 2);
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "tomorrow");
+                guiController.changeCategoryName("Tomorrow's Tasks");
             }
 
             if (viewType.equals("done")) {
-                tasksToShowToUser = tareas.getAllUndoneTasks(1, 3);
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "done");
+                guiController.changeCategoryName("Done Tasks");
             }
 
             if (viewType.equals("important")) {
-                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "important");
+                guiController.changeCategoryName("Important Tasks");
             }
 
             if (viewType.equals("overdue")) {
-                // tasksToShowToUser = tareas.getAllUndoneTasks(0, 0);
-                // TODO use the correct method once Lareina supports it on the storage side v0.3
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "overdue");
+                guiController.changeCategoryName("Overdue Tasks");
             }
 
             if (viewType.equals("dashboard")) {
@@ -1123,6 +1143,7 @@ public class TareasController {
             LocalDate dateToPassToStorage = Parser.getDateTimeFromString(viewType).toLocalDate();
 
             tasksToShowToUser = tareas.getParticularDateTask(1, dateToPassToStorage);
+            guiController.changeCategoryName(dateToPassToStorage.toString() + "'s Tasks");
         }
 
         return tasksToShowToUser;
@@ -1162,13 +1183,14 @@ public class TareasController {
             prioritizedOrNot = "unprioritized";
         }
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer prioritized");
@@ -1191,16 +1213,18 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        // tareas.setTaskReminder(mappedTaskId, reminderDateTime);
-        // TODO once supported by Storage - Lareina v0.3
+        LocalDateTime reminderDateTime = Parser.getDateTimeFromString(command.getArgument("on"));
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
+        tareas.setTaskReminder(mappedTaskId, reminderDateTime, 1);
+
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " reminder removed");
@@ -1266,13 +1290,14 @@ public class TareasController {
         // tareas.changeTaskColor(mappedTaskId, color);
         // TODO once supported by Storage - Lareina v0.4
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, 0);
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
+        guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Successfully changed color of task - " + taskDescriptionForFeedback);
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " color unset");

@@ -44,7 +44,7 @@ public class Task {
     private boolean priority = false;
 
     // Date-time for reminder for this task
-    private String reminderDateTime;
+    private LocalDateTime reminderDateTime;
 
     // Color of task
     private String color;
@@ -160,11 +160,11 @@ public class Task {
         this.priority = true;
     }
 
-    public String getReminderDateTime() {
+    public LocalDateTime getReminderDateTime() {
         return this.reminderDateTime;
     }
 
-    public void setReminderDateTime(String dateTime) {
+    public void setReminderDateTime(LocalDateTime dateTime) {
         this.reminderDateTime = dateTime;
     }
 

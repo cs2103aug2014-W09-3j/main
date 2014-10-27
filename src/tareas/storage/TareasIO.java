@@ -384,13 +384,10 @@ public class TareasIO {
 
         LocalDateTime currentTime = LocalDateTime.now();
 
-        for(int i = 0; i < tasksSize;){
+        for(int i = 0; i < tasksSize; i++) {
             if(tasks.get(i).getDeadline().equals(currentTime)) {
                 tasks.remove(i);
-                tasksSize--;
-            }
-            else {
-                i++;
+                i--;
             }
         }
 
@@ -405,7 +402,7 @@ public class TareasIO {
      * @param taskType
      * @return
      */
-    public ArrayList<Task> getAllUndoneTasks(int runType, int taskType) {
+    public ArrayList<Task> getAllUndoneTasks(int runType, String taskType) {
         StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -419,55 +416,98 @@ public class TareasIO {
         LocalDate currentDate = LocalDate.now();
         LocalDate tmrDate = currentDate.plusDays(1);
 
-        switch(taskType){
-            //retrieve all undone tasks.
-            case 0:
+        switch(taskType) {
+            case "undone":
                 for (int i = 0; i < tasksSize; i++) {
-
                     if (tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
-                        tasksSize--;
+                        i--;
                     }
                 }
                 break;
-
-            //retrieve today tasks.
-             case 1:
+             case "today":
                  for (int i = 0; i < tasksSize; i++) {
                      LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
-                     if (tasks.get(i).isTaskCompleted() || !taskDate.isEqual(currentDate)) {
+                     if (!taskDate.isEqual(currentDate)) {
                          tasks.remove(i);
-                         tasksSize--;
+                         i--;
                      }
                  }
                  break;
-
-             //retrieve tomorrow's tasks.
-            case 2:
+            case "tomorrow":
                 for (int i = 0; i < tasksSize; i++) {
                     LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
-                    if (tasks.get(i).isTaskCompleted() || !taskDate.isEqual(tmrDate)) {
+                    if (!taskDate.isEqual(tmrDate)) {
                         tasks.remove(i);
-                        tasksSize--;
+                        i--;
                     }
                 }
                 break;
-
-            //retrieve all done tasks.
-            case 3:
+            case "done":
                 for (int i = 0; i < tasksSize; i++) {
-
                     if (!tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
-                        tasksSize--;
+                        i--;
                     }
                 }
                 break;
+            case "all":
+                // all tasks, no filtering - do nothing
+                break;
+            case "deadline":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getDeadline() == null) {
+                        tasks.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case "timed":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getStartDateTime() == null || tasks.get(i).getEndDateTime() == null) {
+                        tasks.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case "floating":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getDeadline() != null || tasks.get(i).getEndDateTime() != null ||
+                            tasks.get(i).getStartDateTime() != null) {
+                        tasks.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case "important":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (!tasks.get(i).isTaskPriority()) {
+                        tasks.remove(i);
+                        i--;
+                    }
+                }
+                break;
+            case "overdue":
+                LocalDateTime now = LocalDateTime.now();
 
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now)) {
+                        tasks.remove(i);
+                        i--;
+                    }
+
+                    if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
+                            tasks.get(i).getEndDateTime().isAfter(now)) {
+                        tasks.remove(i);
+                        i--;
+                    }
+                }
+                break;
            default:
                System.out.println("This is an error!");
+               // it should never reach here
                break;
         }
 
@@ -497,7 +537,7 @@ public class TareasIO {
 
                 if (!taskDate.isEqual(particularDate)) {
                     tasks.remove(i);
-                    tasksSize--;
+                    i--;
                 }
             }
 
@@ -520,7 +560,8 @@ public class TareasIO {
      * @param tagDescription
      * @param runType
      */
-    public void addingTags(int id, String tagDescription, int runType){
+    public void addTags(int id, String tagDescription, int runType){
+        // TODO doesn't work
         Task task = getTask(id, runType);
         task.addTag(tagDescription);
         write(runType);
@@ -587,4 +628,16 @@ public class TareasIO {
 
     }
 
+    /**
+     * This method add reminder(s) to tasks
+     * @param id
+     * @param reminderDateTime
+     * @param runType
+     */
+    public void setTaskReminder(int id, LocalDateTime reminderDateTime, int runType) {
+        // TODO doesn't work
+        Task task = getTask(id, runType);
+        task.setReminderDateTime(reminderDateTime);
+        write(runType);
+    }
 }
