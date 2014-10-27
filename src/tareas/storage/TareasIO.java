@@ -19,10 +19,10 @@ public class TareasIO {
 
     private Tasks tasks = new Tasks();
 	
-	private void initialize() {
+	private void initialize(int runType) {
 		StorageReader reader = new StorageReader();
 		try {
-            tasks = reader.read(1);
+            tasks = reader.read(runType);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +72,7 @@ public class TareasIO {
 	 * @param task
 	 */
 	public void insertTask(Task task, int runType) {
-		initialize();
+		initialize(runType);
 		task.setTaskID(tasks.getLatestID());
         tasks.incrementID();
         ArrayList<Task> newTasks;
@@ -88,7 +88,7 @@ public class TareasIO {
 	 * @param id
 	 */
 	public void deleteTask(int id, int runType) {
-		initialize();
+		initialize(runType);
 		if(id < 1 || id > getTasks(runType).getLatestID()) {
 			// TODO: Add exception for Invalid ID.
 			System.out.println("Invalid Task ID.");
@@ -123,7 +123,7 @@ public class TareasIO {
      * @param newTask
      */
     public void editTask(Task newTask, int runType) {
-        initialize();
+        initialize(runType);
         int id = newTask.getTaskID();
 
         Iterator<Task> iter = getAllTasks(runType).iterator();
@@ -215,7 +215,7 @@ public class TareasIO {
      * @return Task
      */
     public Task searchTask(int id, int runType) {
-        initialize();
+        initialize(runType);
         return getTask(id, runType);
     }
 
@@ -225,7 +225,7 @@ public class TareasIO {
      * @param id
      */
     public void markTaskAsCompleted(int id, int runType) {
-        initialize();
+        initialize(runType);
         ArrayList<Task> temp = getAllTasks(runType);
 
         int taskIdToComplete = -1;
@@ -329,7 +329,7 @@ public class TareasIO {
      * @param priority
      */
     public void prioritizeTask(int id, boolean priority, int runType) {
-        initialize();
+        initialize(runType);
 
         ArrayList<Task> temp = getAllTasks(runType);
 
