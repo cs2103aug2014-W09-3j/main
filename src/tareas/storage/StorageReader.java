@@ -37,7 +37,13 @@ public class StorageReader {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
 		writer.createFile("storage.json");
-		return tasks;
+        Tasks tasks = new Tasks();
+        try {
+            writer.write(tasks);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tasks;
 	}
 
 	private Tasks convertJSONtoObject() throws FileNotFoundException,
