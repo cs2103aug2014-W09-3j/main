@@ -460,20 +460,37 @@ public class TareasIO {
                 }
                 break;
 
-            //retrieve all tasks on particular date.
-            case 4:
-                for (int i = 0; i < tasksSize; i++) {
+           default:
+               System.out.println("This is an error!");
+               break;
+        }
 
-                if (!tasks.get(i).isTaskCompleted()) {
+        return tasks;
+    }
+
+    public ArrayList<Task> getParticularDateTask(int runType, LocalDate particularDate) {
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        for (int i = 0; i < tasksSize; i++) {
+                LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
+
+                if (!taskDate.isEqual(particularDate)) {
                     tasks.remove(i);
                     tasksSize--;
                 }
             }
-            break;
-
-        }
 
         return tasks;
+
     }
 
 
