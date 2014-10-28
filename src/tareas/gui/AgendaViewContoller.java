@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import jfxtras.scene.control.agenda.Agenda;
-
 import java.util.GregorianCalendar;
 
 /**
