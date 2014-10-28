@@ -1,5 +1,6 @@
 package tareas.gui;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -128,8 +129,14 @@ public class TareasGUIController implements Initializable {
                     goToLastPage();
                 }
                 if (ESCAPE.match(t)) {
-                    Stage stage = (Stage) root.getScene().getWindow();
-                    stage.close();
+                    FadeTransition ft = GUIAnimation.addFadeOutAnimation(root.getScene());
+                    ft.setOnFinished(new EventHandler<ActionEvent>(){
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            Stage stage = (Stage) root.getScene().getWindow();
+                            stage.close();
+                        }
+                    });
                 }
                 if (UP.match(t)) {
                     if (commandStackBefore.empty()) {
@@ -179,8 +186,14 @@ public class TareasGUIController implements Initializable {
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Stage stage = (Stage) closeButton.getScene().getWindow();
-                stage.close();
+                FadeTransition ft = GUIAnimation.addFadeOutAnimation(root.getScene());
+                ft.setOnFinished(new EventHandler<ActionEvent>(){
+                    @Override
+                    public void handle(ActionEvent arg0) {
+                        Stage stage = (Stage) root.getScene().getWindow();
+                        stage.close();
+                    }
+                });
                 Log.i(TAG, "User exited the program.");
             }
         });

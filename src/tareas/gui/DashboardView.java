@@ -76,11 +76,7 @@ class DashboardView {
     }
 
     private void closeDashboard(Scene scene) {
-        FadeTransition ft = new FadeTransition(Duration.millis(250), scene.getRoot());
-        ft.setFromValue(1.0);
-        ft.setToValue(0);
-        ft.setCycleCount(1);
-        ft.play();
+        FadeTransition ft = GUIAnimation.addFadeOutAnimation(scene);
         ft.setOnFinished(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent arg0) {

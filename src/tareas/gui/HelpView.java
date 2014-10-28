@@ -10,7 +10,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 /**
  * Created by Her Lung on 28/10/2014.
@@ -277,11 +276,7 @@ class HelpView {
     }
 
     private void closeHelpView(Scene scene) {
-        FadeTransition ft = new FadeTransition(Duration.millis(250), scene.getRoot());
-        ft.setFromValue(1.0);
-        ft.setToValue(0);
-        ft.setCycleCount(1);
-        ft.play();
+        FadeTransition ft = GUIAnimation.addFadeOutAnimation(scene);
         ft.setOnFinished(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent arg0) {
