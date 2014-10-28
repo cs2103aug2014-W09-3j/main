@@ -130,44 +130,34 @@ public class TareasController {
 
         int numberOfCompletedTaskToday = getNumberOfCompletedTasksToday(allTasks);
         int numberOfUncompletedTaskToday = getNumberOfUncompletedTasksToday(allTasks);
-        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
-        values.push(numberOfCompletedTaskToday);
-        values.push(numberOfUncompletedTaskToday);
-
         int numberOfCompletedTaskSecondDay = getNumberOfCompletedTasksSecondDay(allTasks);
         int numberOfUncompletedTaskSecondDay = getNumberOfUncompletedTasksSecondDay(allTasks);
-        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
-        values.push(numberOfCompletedTaskSecondDay);
-        values.push(numberOfUncompletedTaskSecondDay);
-
         int numberOfCompletedTaskThirdDay = getNumberOfCompletedTasksThirdDay(allTasks);
         int numberOfUncompletedTaskThirdDay = getNumberOfUncompletedTasksThirdDay(allTasks);
-        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
-        values.push(numberOfCompletedTaskThirdDay);
-        values.push(numberOfUncompletedTaskThirdDay);
-
         int numberOfCompletedTaskFourthDay = getNumberOfCompletedTasksFourthDay(allTasks);
         int numberOfUncompletedTaskFourthDay = getNumberOfUncompletedTasksFourthDay(allTasks);
-        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
-        values.push(numberOfCompletedTaskFourthDay);
-        values.push(numberOfUncompletedTaskFourthDay);
-
         int numberOfCompletedTaskFifthDay = getNumberOfCompletedTasksFifthDay(allTasks);
         int numberOfUncompletedTaskFifthDay = getNumberOfUncompletedTasksFifthDay(allTasks);
-        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
-        values.push(numberOfCompletedTaskFifthDay);
-        values.push(numberOfUncompletedTaskFifthDay);
-
         int numberOfCompletedTaskSixthDay = getNumberOfCompletedTasksSixthDay(allTasks);
         int numberOfUncompletedTaskSixthDay = getNumberOfUncompletedTasksSixthDay(allTasks);
-        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
-        values.push(numberOfCompletedTaskSixthDay);
-        values.push(numberOfUncompletedTaskSixthDay);
-
         int numberOfCompletedTaskSeventhDay = getNumberOfCompletedTasksSeventhDay(allTasks);
         int numberOfUncompletedTaskSeventhDay = getNumberOfUncompletedTasksSeventhDay(allTasks);
-        // TODO abstract into a method that accepts allTasks, completion boolean and date, will cut by alot
+        // TODO ABSTRACT INTO ONE METHOD
+
+        values.push(numberOfCompletedTaskToday);
+        values.push(numberOfCompletedTaskSecondDay);
+        values.push(numberOfCompletedTaskThirdDay);
+        values.push(numberOfCompletedTaskFourthDay);
+        values.push(numberOfCompletedTaskFifthDay);
+        values.push(numberOfCompletedTaskSixthDay);
         values.push(numberOfCompletedTaskSeventhDay);
+
+        values.push(numberOfUncompletedTaskToday);
+        values.push(numberOfUncompletedTaskSecondDay);
+        values.push(numberOfUncompletedTaskThirdDay);
+        values.push(numberOfUncompletedTaskFourthDay);
+        values.push(numberOfUncompletedTaskFifthDay);
+        values.push(numberOfUncompletedTaskSixthDay);
         values.push(numberOfUncompletedTaskSeventhDay);
 
         return values;

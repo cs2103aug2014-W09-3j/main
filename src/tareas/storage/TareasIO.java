@@ -410,6 +410,7 @@ public class TareasIO {
                     if (tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
@@ -420,6 +421,7 @@ public class TareasIO {
                      if (!taskDate.isEqual(currentDate)) {
                          tasks.remove(i);
                          i--;
+                         tasksSize--;
                      }
                  }
                  break;
@@ -430,6 +432,7 @@ public class TareasIO {
                     if (!taskDate.isEqual(tmrDate)) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
@@ -438,6 +441,7 @@ public class TareasIO {
                     if (!tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
@@ -449,6 +453,7 @@ public class TareasIO {
                     if (tasks.get(i).getDeadline() == null) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
@@ -457,6 +462,7 @@ public class TareasIO {
                     if (tasks.get(i).getStartDateTime() == null || tasks.get(i).getEndDateTime() == null) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
@@ -466,6 +472,7 @@ public class TareasIO {
                             tasks.get(i).getStartDateTime() != null) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
@@ -474,6 +481,7 @@ public class TareasIO {
                     if (!tasks.get(i).isTaskPriority()) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
@@ -484,12 +492,14 @@ public class TareasIO {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now)) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
 
                     if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
                             tasks.get(i).getEndDateTime().isAfter(now)) {
                         tasks.remove(i);
                         i--;
+                        tasksSize--;
                     }
                 }
                 break;
