@@ -41,7 +41,7 @@ public class TareasGUIController implements Initializable {
     private int pageCount = 1;
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private NotificationPane notificationPane;
-    private String categoryText = "Today's Tasks";
+    private String categoryText = "All Tasks";
     private final int maxTasksPerPage = 10;
     private Stack<String> commandStackBefore = new Stack<String>();
     private Stack<String> commandStackAfter = new Stack<String>();
@@ -163,7 +163,7 @@ public class TareasGUIController implements Initializable {
                 if (CTRL_C.match(t)) {
                     /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
                     agendaView.showAgendaView();*/
-                    showHelpView();
+                    //showHelpView();
                 }
             }
         });
@@ -213,7 +213,7 @@ public class TareasGUIController implements Initializable {
         commandStackBefore.push(input);
         commandStackAfter.clear();
         Log.i(TAG, "User entered in command: " + input);
-        mainController.executeCommand(input);
+        mainController.executeCommand(input, false);
 
     }
 

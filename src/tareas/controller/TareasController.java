@@ -27,13 +27,10 @@ public class TareasController {
     // Instantiate a String for feedback when a user does a redo / undo
     private String previousActionType = "No previous action";
 
-    // Instantiate a GUI Controller
     TareasGUIController guiController = TareasGUIController.getInstance();
 
-    // Instantiate a TareasIO
     TareasIO tareas = new TareasIO();
 
-    // Instantiate a TaskManager
     TaskManager taskManager = TaskManager.getInstance();
 
     // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.4
@@ -52,7 +49,7 @@ public class TareasController {
      *
      * @param userInput from GUI
      */
-    public void executeCommand(String userInput) {
+    public void executeCommand(String userInput, boolean test) {
         // if the user's input is an empty string, we treat it as if nothing happened
         if (userInput.equals("")) {
             return;
@@ -65,7 +62,7 @@ public class TareasController {
 
         checkCommandValidity(command);
 
-        checkCommandAndExecute(command);
+        checkCommandAndExecute(command, test);
     }
 
     /**
@@ -393,19 +390,19 @@ public class TareasController {
      *
      * @param command the command formed by the parser
      */
-    private void checkCommandAndExecute(TareasCommand command) {
+    private void checkCommandAndExecute(TareasCommand command, boolean test) {
         switch (command.getType()) {
             case ADD_COMMAND:
-                addTask(command);
+                addTask(command, test);
                 break;
             case EDIT_COMMAND:
-                editTask(command);
+                editTask(command, test);
                 break;
             case DELETE_COMMAND:
-                deleteTask(command);
+                deleteTask(command, test);
                 break;
             case SEARCH_COMMAND:
-                searchTask(command);
+                searchTask(command, test);
                 break;
             case DETAILED_COMMAND:
                 detailedTask(command);
@@ -414,7 +411,7 @@ public class TareasController {
                 addTagToTask(command);
                 break;
             case DONE_COMMAND:
-                completeTask(command);
+                completeTask(command, test);
                 break;
             case UNDO_COMMAND:
                 undo();
@@ -423,16 +420,16 @@ public class TareasController {
                 redo();
                 break;
             case POSTPONE_COMMAND:
-                postponeTask(command);
+                postponeTask(command, test);
                 break;
             case VIEW_COMMAND:
                 viewRequest(command);
                 break;
             case PRIORITIZE_COMMAND:
-                prioritizeTask(command);
+                prioritizeTask(command, test);
                 break;
             case REMIND_COMMAND:
-                setTaskReminder(command);
+                setTaskReminder(command, test);
                 break;
             case MUTE_COMMAND:
                 mute(command);
@@ -453,20 +450,25 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void addTask(TareasCommand command) {
+    private void addTask(TareasCommand command, boolean test) {
         Task taskToInsert = TaskManager.buildTask(command);
 
         tareas.insertTask(taskToInsert, 1);
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
+        if (!test) {
+            // only do GUI stuff if it's not testing
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
+        }
 
         setPreviousActionType("Task with description " + taskToInsert.getDescription() + " removed");
 
@@ -479,7 +481,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void editTask(TareasCommand command) {
+    private void editTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         Task taskToUpdate = new Task();
 
@@ -495,13 +497,17 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
+        if (!test) {
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
+        }
 
         setPreviousActionType("Task with description " + taskToUpdate.getDescription() + " edit reverted");
 
@@ -539,7 +545,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void deleteTask(TareasCommand command) {
+    private void deleteTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         int tasksSize = taskManager.get().size();
@@ -552,13 +558,17 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+        if (!test) {
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+        }
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
 
@@ -586,7 +596,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
@@ -627,7 +639,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void searchTask(TareasCommand command) {
+    private void searchTask(TareasCommand command, boolean test) {
         String searchString = command.getPrimaryArgument();
 
         ArrayList<Task> tasksToShow = tareas.searchTask(searchString, 1);
@@ -636,10 +648,12 @@ public class TareasController {
         // TODO think about how to settle the view whenever an action is done v0.4
         guiController.changeCategoryName("Tasks Found - '" + searchString + "'");
 
-        if (tasksToShow.size() == 0) {
-            guiController.sendErrorToView("No tasks found - provide another search term or tag?");
-        } else {
-            guiController.sendSuccessToView(tasksToShow.size() + " tasks found");
+        if (!test) {
+            if (tasksToShow.size() == 0) {
+                guiController.sendErrorToView("No tasks found - provide another search term or tag?");
+            } else {
+                guiController.sendSuccessToView(tasksToShow.size() + " tasks found");
+            }
         }
 
         LocalDateTime now = LocalDateTime.now();
@@ -651,7 +665,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void completeTask(TareasCommand command) {
+    private void completeTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         int tasksSize = taskManager.get().size();
@@ -664,13 +678,17 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Successfully completed Task - " + taskDescriptionForFeedback);
+        if (!test) {
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Successfully completed Task - " + taskDescriptionForFeedback);
+        }
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer completed");
 
@@ -683,7 +701,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void postponeTask(TareasCommand command) {
+    private void postponeTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         int tasksSize = taskManager.get().size();
@@ -705,13 +723,17 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
+        if (!test) {
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
+        }
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " unpostponed");
 
@@ -758,7 +780,7 @@ public class TareasController {
                         viewType.equals("overdue") || viewType.equals("dashboard") || viewType.equals("help")) {
 
             if (viewType.equals("all")) {
-                tasksToShowToUser = tareas.getTasks(1).get();
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "undone");
                 guiController.changeCategoryName("All Tasks");
             }
 
@@ -832,7 +854,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void prioritizeTask(TareasCommand command) {
+    private void prioritizeTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         int tasksSize = taskManager.get().size();
@@ -855,13 +877,17 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
+        if (!test) {
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
+        }
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " no longer prioritized");
 
@@ -874,7 +900,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void setTaskReminder(TareasCommand command) {
+    private void setTaskReminder(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         int tasksSize = taskManager.get().size();
@@ -889,13 +915,17 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
+        if (!test) {
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
+        }
 
         setPreviousActionType("Task with description " + taskDescriptionForFeedback + " reminder removed");
 
@@ -962,7 +992,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
