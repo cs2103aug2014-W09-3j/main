@@ -4,6 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import tareas.common.DateParser;
 import tareas.common.Task;
 
 import java.time.LocalDateTime;
@@ -66,7 +67,7 @@ class TaskPaneGenerator {
         if(deadline == null){
             date = "";
         } else {
-            date = deadline.toString();
+            date = DateParser.getDateTime(deadline);
         }
         Label deadlineLabel = new Label(date);
         deadlineLabel.setId("deadlineLabel");
@@ -81,8 +82,8 @@ class TaskPaneGenerator {
             startDate = "";
             endDate = "";
         } else {
-            startDate = startDateTime.toString();
-            endDate = endDateTime.toString();
+            startDate = DateParser.getDateTime(startDateTime);
+            endDate = DateParser.getDateTime(endDateTime);
         }
         Label startEndDateTime = new Label(startDate + "\n" + endDate);
         startEndDateTime.setId("startEndLabel");

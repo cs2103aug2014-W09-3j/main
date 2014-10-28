@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import tareas.common.DateParser;
 import tareas.common.Task;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ class DetailedTaskViewGenerator {
             root = FXMLLoader.load(getClass().getResource("fxml/TasksDetailedView.fxml"));
 
             // Retrieve all children of root
-            ArrayList<FlowPane> nodes = new ArrayList<>();
+            ArrayList<FlowPane> nodes = new ArrayList<FlowPane>();
             for(Node node : root.getChildrenUnmodifiable()) {
                 nodes.add((FlowPane)node);
             }
@@ -68,7 +69,7 @@ class DetailedTaskViewGenerator {
         if(task.getDeadline() == null) {
             value = " - ";
         } else {
-            value = task.getDeadline().toString();
+            value = DateParser.getDateTime(task.getDeadline());
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
@@ -86,7 +87,7 @@ class DetailedTaskViewGenerator {
         if(task.getStartDateTime() == null) {
             value = " - ";
         } else {
-            value = task.getStartDateTime().toString();
+            value = DateParser.getDateTime(task.getStartDateTime());
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
@@ -104,7 +105,7 @@ class DetailedTaskViewGenerator {
         if(task.getEndDateTime() == null) {
             value = " - ";
         } else {
-            value = task.getEndDateTime().toString();
+            value = DateParser.getDateTime(task.getEndDateTime());
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
@@ -168,7 +169,7 @@ class DetailedTaskViewGenerator {
         if(task.getReminderDateTime() == null) {
             value = " - ";
         } else {
-            value = task.getReminderDateTime();
+            value = task.getReminderDateTime().toString();
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);

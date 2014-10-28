@@ -1,0 +1,60 @@
+#dashboard {
+    -fx-padding: 10, 10, 10, 10;
+    -fx-background-color: #898989;
+}
+
+#title {
+    -fx-alignment: center;
+    -fx-font-size: 30;
+}
+
+#overall {
+    -fx-background-color: #c6c6c6;
+    -fx-vgap: 6;
+}
+
+#statistics {
+    -fx-background-color: #c6c6c6;
+    -fx-vgap: 5;
+}
+
+#headings {
+    -fx-font-size: 20;
+    -fx-alignment: center;
+}
+
+#numbers {
+    -fx-font-size: 25;
+    -fx-alignment: center;
+}
+
+#mini-headings {
+    -fx-font-size: 10;
+    -fx-alignment: center;
+}
+
+#mini-numbers {
+    -fx-font-size: 25;
+    -fx-alignment: center;
+}
+
+#dashboard-message {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #00af00;
+}
+
+.default-color1.chart-bar {
+    -fx-bar-fill: red;
+}
+
+.chart {
+    -fx-background-color: #c6c6c6;
+}
+
+.chart-plot-background {
+    -fx-background-color: #c6c6c6;
+}

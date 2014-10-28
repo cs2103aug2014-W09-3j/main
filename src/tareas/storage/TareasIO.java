@@ -4,11 +4,13 @@ import tareas.common.Task;
 import tareas.common.Tasks;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * @author Her Lung
+ * @author Lareina
  *
  * This class acts as the API for the Storage component.
  */
@@ -17,19 +19,24 @@ public class TareasIO {
 
     private Tasks tasks = new Tasks();
 	
-	private void initialize() {
+	private void initialize(int runType) {
 		StorageReader reader = new StorageReader();
 		try {
-            tasks = reader.read();
+            tasks = reader.read(runType);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void write() {
+	private void write(int runType) {
 		StorageWriter writer = new StorageWriter();
 		try {
-			writer.write(tasks);
+            if(runType == 1) {
+                writer.write(tasks, "storage.json");
+            }
+            else if(runType == 2){
+                writer.write(tasks, "testing.json");
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,8 +52,9 @@ public class TareasIO {
 		}
 	}
 
-    private Task getTask(int id) {
-        Iterator<Task> iter = getAllTasks().iterator();
+    private Task getTask(int id, int runType) {
+        Iterator<Task> iter = getAllTasks(runType).iterator();
+
         Task searchTask = new Task();
         while(iter.hasNext()) {
             Task task = iter.next();
@@ -63,15 +71,15 @@ public class TareasIO {
      *
 	 * @param task
 	 */
-	public void insertTask(Task task) {
-		initialize();
+	public void insertTask(Task task, int runType) {
+		initialize(runType);
 		task.setTaskID(tasks.getLatestID());
         tasks.incrementID();
         ArrayList<Task> newTasks;
         newTasks = tasks.get();
         newTasks.add(task);
         tasks.set(newTasks);
-		write();
+		write(runType);
 	}
 
 	/**
@@ -79,15 +87,16 @@ public class TareasIO {
      *
 	 * @param id
 	 */
-	public void deleteTask(int id) {
-		initialize();
-		if(id < 1 || id > getTasks().getLatestID()) {
+	public void deleteTask(int id, int runType) {
+		initialize(runType);
+		if(id < 1 || id > getTasks(runType).getLatestID()) {
 			// TODO: Add exception for Invalid ID.
 			System.out.println("Invalid Task ID.");
 		} else {
             int taskIdToRemove = -1;
 
-			Iterator<Task> iter = getAllTasks().iterator();
+			Iterator<Task> iter = getAllTasks(runType).iterator();
+
 
             while (iter.hasNext()) {
                 Task task = iter.next();
@@ -96,7 +105,7 @@ public class TareasIO {
                 }
             }
 
-            ArrayList<Task> temp = getAllTasks();
+            ArrayList<Task> temp = getAllTasks(runType);
 
             if (taskIdToRemove != -1) {
                 removeTaskFromArray(taskIdToRemove, temp);
@@ -104,7 +113,7 @@ public class TareasIO {
 
             tasks.set(temp);
 
-			write();
+			write(runType);
 		}
 	}
 
@@ -113,11 +122,11 @@ public class TareasIO {
      *
      * @param newTask
      */
-    public void editTask(Task newTask) {
-        initialize();
+    public void editTask(Task newTask, int runType) {
+        initialize(runType);
         int id = newTask.getTaskID();
 
-        Iterator<Task> iter = getAllTasks().iterator();
+        Iterator<Task> iter = getAllTasks(runType).iterator();
 
         Task taskToChange = new Task();
 
@@ -151,7 +160,7 @@ public class TareasIO {
                     taskToBuild.setRecurrenceDay(newTask.getRecurrenceDay());
                 }
 
-                // TODO: tags are left out first
+                // TODO tags editing, how should we do that?
 
                 if (newTask.isTaskCompleted() != taskToBuild.isTaskCompleted()) {
                     if(newTask.isTaskCompleted()) {
@@ -181,7 +190,7 @@ public class TareasIO {
             }
         }
 
-        ArrayList<Task> temp = getAllTasks();
+        ArrayList<Task> temp = getAllTasks(runType);
 
         for (int i = 0; i < temp.size(); i++) {
             Task task = temp.get(i);
@@ -196,7 +205,7 @@ public class TareasIO {
 
         tasks.set(temp);
 
-        write();
+        write(runType);
     }
 
     /**
@@ -205,9 +214,29 @@ public class TareasIO {
      * @param id
      * @return Task
      */
-    public Task searchTask(int id) {
-        initialize();
-        return getTask(id);
+    public Task detailedTask(int id, int runType) {
+        initialize(runType);
+        return getTask(id, runType);
+    }
+
+    /**
+     * This method searches for a task using the ID
+     *
+     * @param searchString
+     * @return Task
+     */
+    public ArrayList<Task> searchTask(String searchString, int runType) {
+        initialize(runType);
+
+        ArrayList<Task> searchedTasks = new ArrayList<>();
+
+        ArrayList<Task> searchedTagTasks = searchTags(searchString, runType);
+        ArrayList<Task> searchedDescriptionTasks = searchByDescription(searchString, runType);
+
+        searchedTasks.addAll(searchedTagTasks);
+        searchedTasks.addAll(searchedDescriptionTasks);
+
+        return searchedTasks;
     }
 
     /**
@@ -215,10 +244,9 @@ public class TareasIO {
      *
      * @param id
      */
-    public void markTaskAsCompleted(int id) {
-        initialize();
-
-        ArrayList<Task> temp = getAllTasks();
+    public void markTaskAsCompleted(int id, int runType) {
+        initialize(runType);
+        ArrayList<Task> temp = getAllTasks(runType);
 
         int taskIdToComplete = -1;
 
@@ -235,7 +263,7 @@ public class TareasIO {
 
         tasks.set(temp);
 
-        write();
+        write(runType);
     }
 
 	/**
@@ -243,11 +271,12 @@ public class TareasIO {
      *
 	 * @return allTasks
 	 */
-	private ArrayList<Task> getAllTasks() {
+	private ArrayList<Task> getAllTasks(int runType) {
 		StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            tasks = reader.read().get();
+              tasks = reader.read(runType).get();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -260,12 +289,12 @@ public class TareasIO {
      *
      * @return Tasks
      */
-    public Tasks getTasks() {
+    public Tasks getTasks(int runType) {
         StorageReader reader = new StorageReader();
         Tasks tasks = new Tasks();
 
         try {
-            tasks = reader.read();
+             tasks = reader.read(runType);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -278,12 +307,12 @@ public class TareasIO {
      *
      * @return int id
      */
-    public int getInitialiseLatestId() {
+    public int getInitialiseLatestId(int runType) {
         StorageReader reader = new StorageReader();
         Tasks tasks = new Tasks();
 
         try {
-            tasks = reader.read();
+                tasks = reader.read(runType);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -291,44 +320,16 @@ public class TareasIO {
         return tasks.getLatestID();
     }
 
-    /**
-     * Returns all undone tasks in Tareas.
-     *
-     * @return ArrayList of Task
-     */
-    public ArrayList<Task> getAllUndoneTasks() {
-        StorageReader reader = new StorageReader();
-        ArrayList<Task> tasks = new ArrayList<>();
-
-        try {
-            tasks = reader.read().get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        int tasksSize = tasks.size();
-
-        for (int i = 0; i < tasksSize;) {
-            if (tasks.get(i).isTaskCompleted()) {
-                tasks.remove(i);
-                tasksSize--;
-            } else {
-                i++;
-            }
-        }
-
-        return tasks;
-    }
 
     /**
      * This method writes completely to the storage after an undo action
      *
      * @param stateToRevertTo
      */
-    public void undoWrite(Tasks stateToRevertTo) {
+    public void undoWrite(Tasks stateToRevertTo, int runType) {
         tasks.set(stateToRevertTo.get());
         tasks.setID(stateToRevertTo.getLatestID());
-        write();
+        write(runType);
     }
 
     /**
@@ -336,10 +337,10 @@ public class TareasIO {
      *
      * @param stateToRevertTo
      */
-    public void redoWrite(Tasks stateToRevertTo) {
+    public void redoWrite(Tasks stateToRevertTo, int runType) {
         tasks.set(stateToRevertTo.get());
         tasks.setID(stateToRevertTo.getLatestID());
-        write();
+        write(runType);
     }
 
     /**
@@ -347,10 +348,10 @@ public class TareasIO {
      * @param id
      * @param priority
      */
-    public void prioritizeTask(int id, boolean priority) {
-        initialize();
+    public void prioritizeTask(int id, boolean priority, int runType) {
+        initialize(runType);
 
-        ArrayList<Task> temp = getAllTasks();
+        ArrayList<Task> temp = getAllTasks(runType);
 
         int taskIdToPrioritize = -1;
 
@@ -361,50 +362,328 @@ public class TareasIO {
             }
         }
 
-        if (taskIdToPrioritize != -1) {
+        if (taskIdToPrioritize != -1 && priority) {
             temp.get(taskIdToPrioritize).setTaskAsPriority();
+        }
+
+        if (taskIdToPrioritize != -1 && !priority) {
+            temp.get(taskIdToPrioritize).setTaskAsNotPriority();
         }
 
         tasks.set(temp);
 
-        write();
+        write(runType);
     }
 
     /**
      * This method postpones tasks to different deadlines.
      * @param task
      */
-    public void postponeTask(Task task){
-        editTask(task);
+    public void postponeTask(Task task, int runType){
+        editTask(task, runType);
+    }
+
+    /**
+     * This method retrieves an arrayList of task for different task type.
+     * Task type can be of undone, today's, tomorrow's or done type of task.
+     * @param runType
+     * @param taskType
+     * @return
+     */
+    public ArrayList<Task> getAllUndoneTasks(int runType, String taskType) {
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate tmrDate = currentDate.plusDays(1);
+
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
+
+        switch(taskType) {
+            case "undone":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).isTaskCompleted()) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+             case "today":
+                 // TODO remove floating v0.3
+                 for (int i = 0; i < tasksSize; i++) {
+                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now)) {
+                         tasks.remove(i);
+                         i--;
+                         tasksSize--;
+                     }
+
+                     if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
+                             tasks.get(i).getEndDateTime().isAfter(now)) {
+                         tasks.remove(i);
+                         i--;
+                         tasksSize--;
+                     }
+                 }
+                 break;
+            case "tomorrow":
+                // TODO remove floating v0.3
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(tomorrow)) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+
+                    if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
+                            tasks.get(i).getEndDateTime().isAfter(tomorrow)) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+            case "done":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (!tasks.get(i).isTaskCompleted()) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+            case "all":
+                // all tasks, no filtering - do nothing
+                break;
+            case "deadline":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getDeadline() == null) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+            case "timed":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getStartDateTime() == null || tasks.get(i).getEndDateTime() == null) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+            case "floating":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getDeadline() != null || tasks.get(i).getEndDateTime() != null ||
+                            tasks.get(i).getStartDateTime() != null) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+            case "important":
+                for (int i = 0; i < tasksSize; i++) {
+                    if (!tasks.get(i).isTaskPriority()) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+            case "overdue":
+                // TODO remove floating v0.3
+                for (int i = 0; i < tasksSize; i++) {
+                    if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now)) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+
+                    if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
+                            tasks.get(i).getEndDateTime().isAfter(now)) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                    }
+                }
+                break;
+           default:
+               System.out.println("This is an error!");
+               // it should never reach here
+               break;
+        }
+
+        return tasks;
+    }
+
+    /**
+     * This method retrieves the list of task that is on a particular date.addde
+     * @param runType
+     * @param particularDate
+     * @return
+     */
+    public ArrayList<Task> getParticularDateTask(int runType, LocalDate particularDate) {
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        for (int i = 0; i < tasksSize; i++) {
+            // TODO remove floating v0.3
+                LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
+
+                if (!taskDate.isEqual(particularDate)) {
+                    tasks.remove(i);
+                    i--;
+                    tasksSize--;
+                }
+            }
+
+        return tasks;
+
     }
 
     /**
      * This method deletes all ongoing tasks in the list.
      */
-    public void massDelete(){
+    public void massDelete(int runType){
         tasks.removeAll();
-        write();
+        write(runType);
+    }
+
+
+    /**
+     * This method add tags to tasks.
+     * @param id
+     * @param tag
+     * @param runType
+     */
+    public void addTags(int id, String tag, int runType){
+        ArrayList<Task> temp = getAllTasks(runType);
+
+        int taskIdToAddTags = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToAddTags = i;
+            }
+        }
+
+        if (taskIdToAddTags != -1) {
+            temp.get(taskIdToAddTags).addTag(tag);
+        }
+
+        tasks.set(temp);
+
+        write(runType);
     }
 
     /**
-     * This method sets the frequency, day and date of a recurring task.
-     * @param id
-     * @param frequency
-     * @param day
-     * @param date
+     * This method search for tags and return an arrayList of related tasks.
+     * @param searchTag
+     * @param runType
+     * @return
      */
-    public void recurringTask(int id, String frequency, String day, String date){
-        Task task = getTask(id);
-        task.setRecurrenceFrequency(frequency);
-        task.setRecurrenceDay(day);
-        task.setRecurrenceDate(date);
-        write();
+    private ArrayList<Task> searchTags(String searchTag, int runType){
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        for (int i = 0; i < tasksSize; i++) {
+            ArrayList<String> taskTags = tasks.get(i).getTags();
+
+            for (String tag : taskTags) {
+                if (!(tag.equals(searchTag))) {
+                    tasks.remove(i);
+                    i--;
+                    tasksSize--;
+                    break;
+                }
+            }
+        }
+
+        return tasks;
+
     }
 
-    public void addingTags(int id, String tagDescription){
-        Task task = getTask(id);
-        task.addTag(tagDescription);
-        write();
+    /**
+     * This method search tasks by description and returns a list of related tasks.
+     * @param description
+     * @param runType
+     * @return
+     */
+    private ArrayList<Task> searchByDescription(String description, int runType){
+        StorageReader reader = new StorageReader();
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = reader.read(runType).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int tasksSize = tasks.size();
+
+        for (int i = 0; i < tasksSize; i++) {
+            if (!tasks.get(i).getDescription().contains(description)) {
+                tasks.remove(i);
+                i--;
+                tasksSize--;
+            }
+        }
+
+        return tasks;
+
     }
 
+    /**
+     * This method add reminder(s) to tasks
+     * @param id
+     * @param reminderDateTime
+     * @param runType
+     */
+    public void setTaskReminder(int id, LocalDateTime reminderDateTime, int runType) {
+        ArrayList<Task> temp = getAllTasks(runType);
+
+        int taskIdToSetReminder = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToSetReminder = i;
+            }
+        }
+
+        if (taskIdToSetReminder != -1) {
+            temp.get(taskIdToSetReminder).setReminderDateTime(reminderDateTime);
+        }
+
+        tasks.set(temp);
+
+        write(runType);
+    }
 }
