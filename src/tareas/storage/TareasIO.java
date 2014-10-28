@@ -74,11 +74,14 @@ public class TareasIO {
 	public void insertTask(Task task, int runType) {
 		initialize(runType);
 		task.setTaskID(tasks.getLatestID());
+        System.out.println(task.getTaskID());
         tasks.incrementID();
         ArrayList<Task> newTasks;
         newTasks = tasks.get();
+        System.out.println(newTasks);
         newTasks.add(task);
         tasks.set(newTasks);
+        System.out.println(tasks.get());
 		write(runType);
 	}
 

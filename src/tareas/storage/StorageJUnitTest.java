@@ -8,17 +8,12 @@ package tareas.storage;
 
 import org.junit.Test;
 import tareas.common.Task;
-import tareas.common.Tasks;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 
 public class StorageJUnitTest {
 	private StorageWriter writer = new StorageWriter();
-   // private Tasks tasks = new Tasks();
+    //private Tasks tasks = new Tasks();
     private ArrayList<Task> newTasks;
     private StorageReader reader = new StorageReader();
    // private TareasIO test = new TareasIO();
@@ -29,53 +24,58 @@ public class StorageJUnitTest {
 	}
 
 
-	@Test
-	public void testCreateFile() {
-		StorageWriter writer = new StorageWriter();
-		writer.createFile("testing.json");
-		File f = new File("testing.json");
-		assertEquals(true, f.exists());
-	}
+//	@Test
+//	public void testCreateFile() {
+//        reader.overwrite();
+//		StorageWriter writer = new StorageWriter();
+//		writer.createFile("testing.json");
+//		File f = new File("testing.json");
+//		assertEquals(true, f.exists());
+//	}
 
-	@Test
-	public void testWriteToFile() throws IOException {
-        reader.overwrite();
+     @Test
+     public void testInsertTask() {
+           reader.overwrite();
+         System.out.println("in insert");
+       }
 
-        Task task = new Task();
+    @Test
+    public void testtting(){
         TareasIO test = new TareasIO();
-        Tasks tasks = new Tasks();
+     //   Tasks tasks = new Tasks();
+        Task task3 = new Task();
+        task3.setDescription("task three");
+        System.out.println("In testing");
+        test.insertTask(task3, 2);
 
-
-        newTasks = tasks.get();
-        task.setDescription("task one");
-        newTasks.add(task);
-
-        test.insertTask(task, 2);
-
-        Task task1 = new Task();
-        task1.setDescription("it is great");
-        test.insertTask(task1, 2);
-
-	    Tasks result = reader.read(2);
-		assertEquals("task one", result.get().get(0).getDescription());
-	}
+//      Tasks result = reader.read(2);
+//      assertEquals("task three", result.get().get(0).getDescription());
+       }
 
 //    @Test
-//    public void testInsertTask() throws IOException {
+//	public void testWriteToFile() {
 //        reader.overwrite();
+//
+//        Task task = new Task();
+//        TareasIO test = new TareasIO();
 //        Tasks tasks = new Tasks();
 //
-//        TareasIO test = new TareasIO();
 //
-//        Task task3 = new Task();
-//        task3.setDescription("task three");
-//        test.insertTask(task3, 2);
+//       // newTasks = tasks.get();
+//        task.setDescription("task one");
+//        //newTasks.add(task);
 //
-//        Tasks result = reader.read(2);
+//        test.insertTask(task, 2);
 //
-//        assertEquals("task three", result.get().get(0).getDescription());
+//        Task task1 = new Task();
+//        task1.setDescription("it is great");
+//        test.insertTask(task1, 2);
 //
-//    }
+//	  //  Tasks result = reader.read(2);
+//	//	assertEquals("task one", result.get().get(0).getDescription());
+//	}
+
+
 //	@Test
 //	public void testDeleteTask() throws IOException {
 //        reader.overwrite();
