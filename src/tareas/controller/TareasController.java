@@ -768,7 +768,7 @@ public class TareasController {
                         viewType.equals("overdue") || viewType.equals("dashboard") || viewType.equals("help")) {
 
             if (viewType.equals("all")) {
-                tasksToShowToUser = tareas.getTasks(1).get();
+                tasksToShowToUser = tareas.getAllUndoneTasks(1, "undone");
                 guiController.changeCategoryName("All Tasks");
             }
 
