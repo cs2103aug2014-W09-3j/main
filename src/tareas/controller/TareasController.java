@@ -143,7 +143,7 @@ public class TareasController {
         int numberOfUncompletedTaskSixthDay = getNumberOfUncompletedTasksSixthDay(allTasks);
         int numberOfCompletedTaskSeventhDay = getNumberOfCompletedTasksSeventhDay(allTasks);
         int numberOfUncompletedTaskSeventhDay = getNumberOfUncompletedTasksSeventhDay(allTasks);
-        // TODO ABSTRACT INTO ONE METHOD
+        // TODO ABSTRACT INTO ONE METHOD v0.3
 
         values.push(numberOfCompletedTaskToday);
         values.push(numberOfCompletedTaskSecondDay);
