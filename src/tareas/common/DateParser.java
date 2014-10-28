@@ -27,14 +27,22 @@ public class DateParser {
         LocalDate tmr = LocalDate.now().plus(1, ChronoUnit.DAYS);
         if (dateTime.toLocalDate().isEqual(today)) {
             return "Today " + dateTime.getHour() + ":" +
-                    dateTime.getMinute();
+                    getMinute(dateTime);
         } if (dateTime.toLocalDate().isEqual(tmr)) {
             return "Tomorrow " + dateTime.getHour() + ":" +
-                    dateTime.getMinute();
+                    getMinute(dateTime);
         } else {
             return dateTime.getDayOfMonth() + "-" + dateTime.getMonthValue() + "-" +
                     dateTime.getYear() + " " + dateTime.getHour() + ":" +
-                    dateTime.getMinute();
+                    getMinute(dateTime);
+        }
+    }
+
+    private static String getMinute(LocalDateTime dateTime) {
+        if (dateTime.getMinute() < 10) {
+            return "0" + dateTime.getMinute();
+        } else {
+            return Integer.toString(dateTime.getMinute());
         }
     }
 }

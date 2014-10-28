@@ -41,7 +41,7 @@ public class TareasGUIController implements Initializable {
     private int pageCount = 1;
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private NotificationPane notificationPane;
-    private String categoryText = "Today's Tasks";
+    private String categoryText = "All Tasks";
     private final int maxTasksPerPage = 10;
     private Stack<String> commandStackBefore = new Stack<String>();
     private Stack<String> commandStackAfter = new Stack<String>();
