@@ -98,7 +98,7 @@ public class TareasCommand {
     /**
      * Retrieve the set of secondary keywords.
      *
-     * @return
+     * @return set of secondary keywords
      */
     public HashSet<String> getSecondaryKeys() {
         HashSet<String> keys = new HashSet<>();

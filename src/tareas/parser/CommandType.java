@@ -129,10 +129,10 @@ public enum CommandType {
         this.mKeywords = new ArrayList<>();
 
         if (keywords.length == 0) {
-            this.mKeywords.add(new HashSet<String>());
+            this.mKeywords.add(new HashSet<>());
         } else {
             if (mCombinationAllowed) { // if allowed, merge all the keywords into one set
-                HashSet<String> temp = new HashSet<String>();
+                HashSet<String> temp = new HashSet<>();
                 for (String[] overload : keywords) {
                     temp.addAll(Arrays.asList(overload));
                 }
@@ -157,7 +157,7 @@ public enum CommandType {
 
         // no secondary keyword if this constructor is used.
         this.mKeywords = new ArrayList<>();
-        this.mKeywords.add(new HashSet<String>());
+        this.mKeywords.add(new HashSet<>());
     }
 
     //endregion
