@@ -100,8 +100,6 @@ public class TareasGUIController implements Initializable {
         /*TextFields.bindAutoCompletion(
                 commandLine,
                 "-add", "-delete");*/
-        /*DashboardView dashboard = new DashboardView();
-        dashboard.showDashboard();*/
     }
 
     private void initializeKeyCombinations() {
@@ -158,8 +156,7 @@ public class TareasGUIController implements Initializable {
                 if (CTRL_C.match(t)) {
                     /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
                     agendaView.showAgendaView();*/
-                    DashboardView dashboard = new DashboardView();
-                    dashboard.showDashboard();
+                    showHelpView();
                 }
             }
         });
@@ -240,6 +237,16 @@ public class TareasGUIController implements Initializable {
         notificationLogo.setFitHeight(25);
         notificationPane.show(message, notificationLogo);
         hideNotificationAfter(3000);
+    }
+
+    public void showDashboard() {
+        DashboardView dashboardView = new DashboardView();
+        dashboardView.showDashboard();
+    }
+
+    public void showHelpView() {
+        HelpView helpView = new HelpView();
+        helpView.showHelpView();
     }
 
     public void sendTaskstoView(ArrayList<Task> tasks) {

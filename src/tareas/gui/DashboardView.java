@@ -22,11 +22,11 @@ import java.util.Stack;
 /**
  * Created by Her Lung on 27/10/2014.
  */
-public class DashboardView {
+class DashboardView {
     Timeline timeline;
     Stack<Integer> values = new Stack<>();
 
-    public DashboardView() {
+    protected DashboardView() {
         TareasController tareasController = new TareasController();
         Stack<Integer> tempStack = tareasController.getInitialiseValues();
         while(!tempStack.empty()) {
@@ -34,7 +34,7 @@ public class DashboardView {
         }
     }
 
-    public void showDashboard() {
+    protected void showDashboard() {
         FlowPane root = new FlowPane();
         root.setId("dashboard");
         root.getStylesheets().add("tareas/gui/css/dashboard.css");
