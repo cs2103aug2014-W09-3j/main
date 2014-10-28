@@ -838,7 +838,7 @@ public class TareasController {
 
         tareas.insertTask(taskToInsert, 1);
 
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
+        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
         taskManager.tasksChanged(newTasks);
         taskManager.clearRedoState();
@@ -1111,11 +1111,12 @@ public class TareasController {
 
         tasksToShowToUser = checkViewTypeAndExecute(viewType);
 
-        guiController.sendTaskstoView(tasksToShowToUser);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        // View type is handled at checkViewTypeAndExecute instead for this method
-        guiController.sendSuccessToView("View has successfully been changed to " + viewType);
-
+        if(!viewType.equals("dashboard") && !viewType.equals("help")) {
+            guiController.sendTaskstoView(tasksToShowToUser);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            // View type is handled at checkViewTypeAndExecute instead for this method
+            guiController.sendSuccessToView("View has successfully been changed to " + viewType);
+        }
         LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a view change action at " + now.toString());
     }

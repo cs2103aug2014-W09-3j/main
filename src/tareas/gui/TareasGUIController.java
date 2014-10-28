@@ -187,7 +187,7 @@ public class TareasGUIController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 FadeTransition ft = GUIAnimation.addFadeOutAnimation(root.getScene());
-                ft.setOnFinished(new EventHandler<ActionEvent>(){
+                ft.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent arg0) {
                         Stage stage = (Stage) root.getScene().getWindow();
