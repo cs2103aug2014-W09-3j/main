@@ -1,11 +1,13 @@
 package tareas.controller;
 
 import tareas.common.Task;
+import tareas.parser.Parser;
 import tareas.storage.TareasIO;
 
 import org.junit.Test;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -17,9 +19,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class ControllerTests {
-
     TareasController tareasController = new TareasController();
-    // TODO make sure that testing does not involve the GUI cause it keeps causing errors :( v0.3
 
     TareasIO tareas = new TareasIO();
 
@@ -30,17 +30,15 @@ public class ControllerTests {
     public void addAFloatingTask() throws IOException {
         tareas.massDelete(1);
 
-        tareasController.executeCommand("buy milk");
-
-        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        tareasController.executeCommand("buy milk", true);
 
         Task testTask = new Task();
         testTask.setDescription("buy milk");
 
-        ArrayList<Task> testTasks = new ArrayList<>();
-        testTasks.add(testTask);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualGeneratedTask = allTasks.get(0);
 
-        assertEquals(allTasks, testTasks);
+        assertEquals(testTask.getDescription(), actualGeneratedTask.getDescription());
 
         tareas.massDelete(1);
     }
@@ -50,9 +48,21 @@ public class ControllerTests {
      */
     @Test
     public void addAFloatingTaggedTask() throws IOException {
-        // tareasController.executeCommand("buy eggs /tag grocery");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("buy milk /tag yolo", true);
+
+        Task testTask = new Task();
+        testTask.setDescription("buy milk");
+        testTask.addTag("yolo");
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualGeneratedTask = allTasks.get(0);
+
+        assertEquals(testTask.getDescription(), actualGeneratedTask.getDescription());
+        assertEquals(testTask.getTags().get(0), actualGeneratedTask.getTags().get(0));
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -60,9 +70,27 @@ public class ControllerTests {
      */
     @Test
     public void addATimedTask() throws IOException {
-        // tareasController.executeCommand("meeting with 2103 group /from 22-09014 12:00 /to 22-09-14 22:00");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("meeting with 2103 group /from 22-09-14 12:00 /to 22-09-14 22:00", true);
+
+        LocalDateTime startDateTime = Parser.getDateTimeFromString("22-09-14 12:00");
+        LocalDateTime endDateTime = Parser.getDateTimeFromString("22-09-14 22:00");
+
+        Task testTask = new Task();
+        testTask.setDescription("meeting with 2103 group");
+        testTask.setStartDateTime(startDateTime);
+        testTask.setEndDateTime(endDateTime);
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualGeneratedTask = allTasks.get(0);
+
+
+        assertEquals(testTask.getDescription(), actualGeneratedTask.getDescription());
+        assertEquals(testTask.getStartDateTime(), actualGeneratedTask.getStartDateTime());
+        assertEquals(testTask.getEndDateTime(), actualGeneratedTask.getEndDateTime());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -70,9 +98,26 @@ public class ControllerTests {
      */
     @Test
     public void addATimedTaskMultipleDays() throws IOException {
-        // tareasController.executeCommand("family camping at California /from 23-09-14 07:00 /to 25-09-14 12:00");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("family camping at California /from 23-09-14 07:00 /to 25-09-14 12:00", true);
+
+        LocalDateTime startDateTime = Parser.getDateTimeFromString("23-09-14 07:00");
+        LocalDateTime endDateTime = Parser.getDateTimeFromString("25-09-14 12:00");
+
+        Task testTask = new Task();
+        testTask.setDescription("family camping at California");
+        testTask.setStartDateTime(startDateTime);
+        testTask.setEndDateTime(endDateTime);
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualGeneratedTask = allTasks.get(0);
+
+        assertEquals(testTask.getDescription(), actualGeneratedTask.getDescription());
+        assertEquals(testTask.getStartDateTime(), actualGeneratedTask.getStartDateTime());
+        assertEquals(testTask.getEndDateTime(), actualGeneratedTask.getEndDateTime());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -80,9 +125,23 @@ public class ControllerTests {
      */
     @Test
     public void addADeadlineTask() throws IOException {
-        // tareasController.executeCommand("complete user guide /by 22-09-14 15:00");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("complete user guide /by 22-09-14 15:00", true);
+
+        LocalDateTime deadline = Parser.getDateTimeFromString("22-09-14 15:00");
+
+        Task testTask = new Task();
+        testTask.setDescription("complete user guide");
+        testTask.setDeadline(deadline);
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualGeneratedTask = allTasks.get(0);
+
+        assertEquals(testTask.getDescription(), actualGeneratedTask.getDescription());
+        assertEquals(testTask.getDeadline(), actualGeneratedTask.getDeadline());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -90,10 +149,20 @@ public class ControllerTests {
      */
     @Test
     public void editATask() throws IOException {
-        // tareasController.executeCommand("buy milk");
-        // tareasController.executeCommand("/edit 1 /des buy pineapple");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("buy milk", true);
+        tareasController.executeCommand("/edit 1 /des buy pineapple", true);
+
+        Task testTask = new Task();
+        testTask.setDescription("buy pineapple");
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualEditedTask = allTasks.get(0);
+
+        assertEquals(testTask.getDescription(), actualEditedTask.getDescription());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -101,10 +170,13 @@ public class ControllerTests {
      */
     @Test
     public void deleteATask() throws IOException {
-        // tareasController.executeCommand("buy milk");
-        // tareasController.executeCommand("/delete 1");
+        tareasController.executeCommand("buy milk", true);
+        tareasController.executeCommand("/delete 1", true);
 
-        assertEquals(true, false);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        assertEquals(new ArrayList<Task>(), allTasks);
+        // TODO still failing, find the bug in v0.4
     }
 
     /**
@@ -122,20 +194,9 @@ public class ControllerTests {
      * Controller Integration Testing for searching a task through the task ID
      */
     @Test
-    public void searchATaskWithId() throws IOException {
+    public void detailATaskWithId() throws IOException {
         // tareasController.executeCommand("buy watermelon");
-        // tareasController.executeCommand("/search 1");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for searching a task through the tasks' tag(s)
-     */
-    @Test
-    public void searchATaskThroughTags() throws IOException {
-        // tareasController.executeCommand("buy watermelon -tag grocery");
-        // tareasController.executeCommand("/search grocery");
+        // tareasController.executeCommand("/detailed 1");
 
         assertEquals(true, false);
     }
@@ -145,10 +206,16 @@ public class ControllerTests {
      */
     @Test
     public void markATaskAsDone() throws IOException {
-        // tareasController.executeCommand("buy watermelon");
-        // tareasController.executeCommand("/done 1");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("buy watermelon", true);
+        tareasController.executeCommand("/done 1", true);
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        assertEquals(true, allTasks.get(0).isTaskCompleted());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -211,10 +278,19 @@ public class ControllerTests {
      */
     @Test
     public void postponeATaskWithANewDate() throws IOException {
-        // tareasController.executeCommand("buy watermelon /by 22-09-14 15:00");
-        // tareasController.executeCommand("/postpone 1 /to 23-09-14 17:00");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("buy watermelon /by 22-09-14 15:00", true);
+        tareasController.executeCommand("/postpone 1 /to 23-09-14 17:00", true);
+
+        LocalDateTime newDateTime = Parser.getDateTimeFromString("23-09-14 17:00");
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualEditedTask = allTasks.get(0);
+
+        assertEquals(newDateTime, actualEditedTask.getDeadline());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -282,10 +358,17 @@ public class ControllerTests {
      */
     @Test
     public void prioritizeATask() throws IOException {
-        // tareasController.executeCommand("buy ham");
-        // tareasController.executeCommand("/prioritize 1");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("buy ham", true);
+        tareasController.executeCommand("/prioritize 1", true);
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualPrioritizedTask = allTasks.get(0);
+
+        assertEquals(true, actualPrioritizedTask.isTaskPriority());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -293,10 +376,19 @@ public class ControllerTests {
      */
     @Test
     public void settingATaskWithReminder() throws IOException {
-        // tareasController.executeCommand("buy ham");
-        // tareasController.executeCommand("/remind 3 /on 13-09-2014 13:00");
+        tareas.massDelete(1);
 
-        assertEquals(true, false);
+        tareasController.executeCommand("buy ham", true);
+        tareasController.executeCommand("/remind 1 /on 13-09-14 13:00", true);
+
+        LocalDateTime reminderDateTime = Parser.getDateTimeFromString("13-09-14 13:00");
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualTaskWithReminder = allTasks.get(0);
+
+        assertEquals(reminderDateTime, actualTaskWithReminder.getReminderDateTime());
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -348,5 +440,4 @@ public class ControllerTests {
 
         assertEquals(true, false);
     }
-
 }

@@ -213,7 +213,7 @@ public class TareasGUIController implements Initializable {
         commandStackBefore.push(input);
         commandStackAfter.clear();
         Log.i(TAG, "User entered in command: " + input);
-        mainController.executeCommand(input);
+        mainController.executeCommand(input, false);
 
     }
 
