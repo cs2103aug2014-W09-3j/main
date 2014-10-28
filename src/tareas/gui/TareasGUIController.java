@@ -163,7 +163,7 @@ public class TareasGUIController implements Initializable {
                 if (CTRL_C.match(t)) {
                     /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
                     agendaView.showAgendaView();*/
-                    showHelpView();
+                    //showHelpView();
                 }
             }
         });
