@@ -38,6 +38,7 @@ public class TareasController {
 
     // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.4
     // TODO Handle SOME exceptions v0.4
+    // TODO change all the view heading properly v0.3
 
     /**
      * constructor for controller, will set the pointer for the task manager
@@ -974,9 +975,9 @@ public class TareasController {
         guiController.sendTaskstoView(newTasks);
         // TODO think about how to settle the view whenever an action is done v0.4
         guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+        guiController.sendSuccessToView("Tag successfully added to task - " + taskDescriptionForFeedback);
 
-        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
+        setPreviousActionType("Tag successfully added to task - " + taskDescriptionForFeedback + " reverted");
 
         LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task deletion action at " + now.toString());

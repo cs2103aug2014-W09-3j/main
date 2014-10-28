@@ -66,7 +66,10 @@ public enum CommandType {
 
     DETAILED_COMMAND("detailed"),
 
-    TAG_COMMAND("tag"),
+    TAG_COMMAND(
+            "tag",
+            new String[] {"with"}
+    ),
 
     DONE_COMMAND("done"),
 
