@@ -1,0 +1,35 @@
+#help-view {
+    -fx-padding: 10, 10, 10, 10;
+    -fx-background-color: #898989;
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+}
+
+#grouping {
+    -fx-padding: 10, 10, 10, 10;
+    -fx-background-color: #626262;
+    -fx-hgap: 10px;
+    -fx-vgap: 10px;
+    -fx-alignment: center;
+}
+
+#module {
+    -fx-background-color: gray;
+    -fx-padding: 5, 5, 5, 5;
+}
+
+#title {
+    -fx-alignment: center;
+    -fx-font-size: 30px;
+}
+
+#sub-title {
+    -fx-alignment: center;
+    -fx-font-size: 20px;
+}
+
+#command {
+    -fx-alignment: center;
+    -fx-font-size: 10;
+}
+

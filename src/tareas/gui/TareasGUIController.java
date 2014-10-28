@@ -1,5 +1,6 @@
 package tareas.gui;
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -100,8 +101,6 @@ public class TareasGUIController implements Initializable {
         /*TextFields.bindAutoCompletion(
                 commandLine,
                 "-add", "-delete");*/
-        /*DashboardView dashboard = new DashboardView();
-        dashboard.showDashboard();*/
     }
 
     private void initializeKeyCombinations() {
@@ -130,8 +129,14 @@ public class TareasGUIController implements Initializable {
                     goToLastPage();
                 }
                 if (ESCAPE.match(t)) {
-                    Stage stage = (Stage) root.getScene().getWindow();
-                    stage.close();
+                    FadeTransition ft = GUIAnimation.addFadeOutAnimation(root.getScene());
+                    ft.setOnFinished(new EventHandler<ActionEvent>(){
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            Stage stage = (Stage) root.getScene().getWindow();
+                            stage.close();
+                        }
+                    });
                 }
                 if (UP.match(t)) {
                     if (commandStackBefore.empty()) {
@@ -158,8 +163,7 @@ public class TareasGUIController implements Initializable {
                 if (CTRL_C.match(t)) {
                     /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
                     agendaView.showAgendaView();*/
-                    DashboardView dashboard = new DashboardView();
-                    dashboard.showDashboard();
+                    showHelpView();
                 }
             }
         });
@@ -182,8 +186,14 @@ public class TareasGUIController implements Initializable {
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Stage stage = (Stage) closeButton.getScene().getWindow();
-                stage.close();
+                FadeTransition ft = GUIAnimation.addFadeOutAnimation(root.getScene());
+                ft.setOnFinished(new EventHandler<ActionEvent>(){
+                    @Override
+                    public void handle(ActionEvent arg0) {
+                        Stage stage = (Stage) root.getScene().getWindow();
+                        stage.close();
+                    }
+                });
                 Log.i(TAG, "User exited the program.");
             }
         });
@@ -240,6 +250,16 @@ public class TareasGUIController implements Initializable {
         notificationLogo.setFitHeight(25);
         notificationPane.show(message, notificationLogo);
         hideNotificationAfter(3000);
+    }
+
+    public void showDashboard() {
+        DashboardView dashboardView = new DashboardView();
+        dashboardView.showDashboard();
+    }
+
+    public void showHelpView() {
+        HelpView helpView = new HelpView();
+        helpView.showHelpView();
     }
 
     public void sendTaskstoView(ArrayList<Task> tasks) {

@@ -1,5 +1,6 @@
 package tareas.gui;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -20,11 +22,11 @@ import java.util.Stack;
 /**
  * Created by Her Lung on 27/10/2014.
  */
-public class DashboardView {
+class DashboardView {
     Timeline timeline;
     Stack<Integer> values = new Stack<>();
 
-    public DashboardView() {
+    protected DashboardView() {
         TareasController tareasController = new TareasController();
         Stack<Integer> tempStack = tareasController.getInitialiseValues();
         while(!tempStack.empty()) {
@@ -32,7 +34,7 @@ public class DashboardView {
         }
     }
 
-    public void showDashboard() {
+    protected void showDashboard() {
         FlowPane root = new FlowPane();
         root.setId("dashboard");
         root.getStylesheets().add("tareas/gui/css/dashboard.css");
@@ -50,17 +52,16 @@ public class DashboardView {
         root.getChildren().addAll(title, overall, statistics, barGraphArea, message);
 
         Scene scene = new Scene(root, 800, 600);
+        scene.setFill(Color.TRANSPARENT);
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent t) {
-                Stage innerStage = (Stage) scene.getWindow();
-                innerStage.close();
+                closeDashboard(scene);
             }
         });
         scene.setOnMouseClicked(t -> {
-            Stage innerStage = (Stage) scene.getWindow();
-            innerStage.close();
+            closeDashboard(scene);
         });
 
         Stage stage = new Stage();
@@ -72,6 +73,17 @@ public class DashboardView {
         stage.requestFocus();
 
         stage.show();
+    }
+
+    private void closeDashboard(Scene scene) {
+        FadeTransition ft = GUIAnimation.addFadeOutAnimation(scene);
+        ft.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                Stage innerStage = (Stage) scene.getWindow();
+                innerStage.close();
+            }
+        });
     }
 
     private FlowPane getOverallComponent(int width, int height) {
@@ -103,8 +115,8 @@ public class DashboardView {
         XYChart.Series series2 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(0, "Today"));
         series2.getData().add(new XYChart.Data(0, "Today"));
-        series1.getData().add(new XYChart.Data(0, day(1)));
-        series2.getData().add(new XYChart.Data(0, day(1)));
+        series1.getData().add(new XYChart.Data(0, "Tomorrow"));
+        series2.getData().add(new XYChart.Data(0, "Tomorrow"));
         series1.getData().add(new XYChart.Data(0, day(2)));
         series2.getData().add(new XYChart.Data(0, day(2)));
         series1.getData().add(new XYChart.Data(0, day(3)));
@@ -143,7 +155,6 @@ public class DashboardView {
 
         statistics.getChildren().addAll(
                 labelGenerator("Uncompleted Tasks", "headings", width),
-                //labelGenerator("34", "numbers", width),
                 labelGenerator("Deadline Tasks", "mini-headings", 190),
                 labelGenerator("Timed Tasks", "mini-headings", 190),
                 labelGenerator(values.pop().toString(), "mini-numbers", 190),
