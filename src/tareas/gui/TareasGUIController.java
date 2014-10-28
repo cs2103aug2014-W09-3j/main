@@ -20,7 +20,10 @@ import tareas.common.Task;
 import tareas.controller.TareasController;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class TareasGUIController implements Initializable {
     private static String TAG = "TareasGUIController";
@@ -39,8 +42,8 @@ public class TareasGUIController implements Initializable {
     private NotificationPane notificationPane;
     private String categoryText = "Today's Tasks";
     private final int maxTasksPerPage = 10;
-    private Stack<String> commandStackBefore = new Stack<>();
-    private Stack<String> commandStackAfter = new Stack<>();
+    private Stack<String> commandStackBefore = new Stack<String>();
+    private Stack<String> commandStackAfter = new Stack<String>();
 
     public TareasGUIController() {
     }
@@ -97,6 +100,8 @@ public class TareasGUIController implements Initializable {
         /*TextFields.bindAutoCompletion(
                 commandLine,
                 "-add", "-delete");*/
+        /*DashboardView dashboard = new DashboardView();
+        dashboard.showDashboard();*/
     }
 
     private void initializeKeyCombinations() {
@@ -109,26 +114,27 @@ public class TareasGUIController implements Initializable {
             final KeyCombination UP = new KeyCodeCombination(KeyCode.UP);
             final KeyCombination DOWN = new KeyCodeCombination(KeyCode.DOWN);
             final KeyCombination CTRL_M = new KeyCodeCombination(KeyCode.M, KeyCodeCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_C = new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN);
 
             public void handle(KeyEvent t) {
-                if(CTRL_RIGHT.match(t)) {
+                if (CTRL_RIGHT.match(t)) {
                     goToNextPage();
                 }
-                if(CTRL_LEFT.match(t)) {
+                if (CTRL_LEFT.match(t)) {
                     goToPrevPage();
                 }
-                if(CTRL_UP.match(t)) {
+                if (CTRL_UP.match(t)) {
                     goToFirstPage();
                 }
-                if(CTRL_DOWN.match(t)) {
+                if (CTRL_DOWN.match(t)) {
                     goToLastPage();
                 }
-                if(ESCAPE.match(t)) {
+                if (ESCAPE.match(t)) {
                     Stage stage = (Stage) root.getScene().getWindow();
                     stage.close();
                 }
-                if(UP.match(t)) {
-                    if(commandStackBefore.empty()) {
+                if (UP.match(t)) {
+                    if (commandStackBefore.empty()) {
                         //sendWarningToView("No more commands in history.");
                     } else {
                         String prevCommand = commandStackBefore.pop();
@@ -136,8 +142,8 @@ public class TareasGUIController implements Initializable {
                         commandStackAfter.push(prevCommand);
                     }
                 }
-                if(DOWN.match(t)) {
-                    if(commandStackAfter.empty()) {
+                if (DOWN.match(t)) {
+                    if (commandStackAfter.empty()) {
                         commandLine.setText("");
                     } else {
                         String futureCommand = commandStackAfter.pop();
@@ -145,9 +151,15 @@ public class TareasGUIController implements Initializable {
                         commandStackBefore.push(futureCommand);
                     }
                 }
-                if(CTRL_M.match(t)) {
+                if (CTRL_M.match(t)) {
                     Stage stage = (Stage) root.getScene().getWindow();
                     stage.setIconified(true);
+                }
+                if (CTRL_C.match(t)) {
+                    /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
+                    agendaView.showAgendaView();*/
+                    DashboardView dashboard = new DashboardView();
+                    dashboard.showDashboard();
                 }
             }
         });
@@ -258,13 +270,13 @@ public class TareasGUIController implements Initializable {
 
     private void hideNotificationAfter(int ms) {
         new java.util.Timer().schedule(
-            new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    notificationPane.hide();
-                }
-            },
-            ms
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        notificationPane.hide();
+                    }
+                },
+                ms
         );
     }
 

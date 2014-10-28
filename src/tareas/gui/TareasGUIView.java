@@ -41,6 +41,9 @@ public class TareasGUIView extends Application {
         scene.setFill(Color.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        DashboardView dashboardView = new DashboardView();
+        dashboardView.showDashboard();
     }
 
 
