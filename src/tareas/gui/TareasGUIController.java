@@ -348,7 +348,7 @@ public class TareasGUIController implements Initializable {
         detailedView.setOpacity(0.95);
         DetailedTaskViewGenerator gen = new DetailedTaskViewGenerator(task);
         detailedView.setContentNode(gen.generate());
-        detailedView.show(commandLine);
+        detailedView.show(root);
     }
 
     private ArrayList<Task> getPageView() {
