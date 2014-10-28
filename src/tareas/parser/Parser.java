@@ -140,7 +140,7 @@ public class Parser {
             try {
                 return LocalDateTime.parse(input.toUpperCase(), formatter);
             } catch (DateTimeParseException e) {
-                //Log.e(TAG, String.format("Parsing date failed. %s", e.getMessage()));
+                Log.e(TAG, String.format("Parsing date failed. %s", e.getMessage()));
             }
         }
 
