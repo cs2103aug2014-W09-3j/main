@@ -457,7 +457,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         if (!test) {
@@ -495,7 +497,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         if (!test) {
@@ -554,7 +558,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         if (!test) {
@@ -590,7 +596,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
@@ -670,7 +678,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         if (!test) {
@@ -713,7 +723,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         if (!test) {
@@ -865,7 +877,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         if (!test) {
@@ -901,7 +915,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         if (!test) {
@@ -976,7 +992,9 @@ public class TareasController {
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
-        taskManager.tasksChanged(newTasks);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
