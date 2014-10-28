@@ -45,10 +45,17 @@ class HelpView {
         stage.setTitle("Dashboard");
         stage.setScene(scene);
 
-        stage.setAlwaysOnTop(true);
-        stage.requestFocus();
+        //stage.setAlwaysOnTop(true);
+        //stage.requestFocus();
 
-        stage.show();
+        FadeTransition ft = GUIAnimation.addFadeInAnimation(scene);
+        ft.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                stage.show();
+            }
+        });
+
     }
 
     private void setContent(int width, int height) {
