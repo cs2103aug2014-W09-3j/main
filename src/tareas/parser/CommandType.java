@@ -87,9 +87,6 @@ public enum CommandType {
 
     VIEW_COMMAND("view"),
 
-    // the help command does not accept any argument
-    HELP_COMMAND("help, 0"),
-
     PRIORITIZE_COMMAND("prioritize"),
 
     REMIND_COMMAND(

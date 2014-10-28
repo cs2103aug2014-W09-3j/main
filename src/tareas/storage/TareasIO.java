@@ -652,6 +652,7 @@ public class TareasIO {
             if (!tasks.get(i).getDescription().contains(description)) {
                 tasks.remove(i);
                 i--;
+                tasksSize--;
             }
         }
 

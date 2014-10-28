@@ -808,9 +808,6 @@ public class TareasController {
             case VIEW_COMMAND:
                 viewRequest(command);
                 break;
-            case HELP_COMMAND:
-                helpRequest();
-                break;
             case PRIORITIZE_COMMAND:
                 prioritizeTask(command);
                 break;
@@ -1136,7 +1133,7 @@ public class TareasController {
         if (viewType.equals("all") || viewType.equals("deadline") || viewType.equals("timed") ||
                 viewType.equals("floating") || viewType.equals("today") || viewType.equals("tomorrow") ||
                     viewType.equals("done") || viewType.equals("undone") || viewType.equals("important") ||
-                        viewType.equals("overdue") || viewType.equals("dashboard")) {
+                        viewType.equals("overdue") || viewType.equals("dashboard") || viewType.equals("help")) {
 
             if (viewType.equals("all")) {
                 tasksToShowToUser = tareas.getTasks(1).get();
@@ -1189,8 +1186,11 @@ public class TareasController {
             }
 
             if (viewType.equals("dashboard")) {
-                // guiController.setViewToDashboard();
-                // TODO use the correct method once Her Lung supports it on the GUI side  v0.3
+                guiController.showDashboard();
+            }
+
+            if (viewType.equals("help")) {
+                guiController.showHelpView();
             }
 
         } else {
@@ -1203,15 +1203,6 @@ public class TareasController {
 
         return tasksToShowToUser;
     }
-
-    /**
-     * sets the view to the help view to give the user quick help tips
-     */
-    private void helpRequest() {
-        // guiController.setViewToHelp();
-        // TODO get Her Lung to have such a view v0.3 hopefully, if not then v0.4
-    }
-
     /**
      * prioritize a task by calling the appropriate GUI and storage methods
      *
