@@ -418,7 +418,7 @@ public class TareasIO {
                 }
                 break;
              case "today":
-                 // TODO remove floating
+                 // TODO remove floating v0.3
                  for (int i = 0; i < tasksSize; i++) {
                      if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now)) {
                          tasks.remove(i);
@@ -435,7 +435,7 @@ public class TareasIO {
                  }
                  break;
             case "tomorrow":
-                // TODO remove floating
+                // TODO remove floating v0.3
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(tomorrow)) {
                         tasks.remove(i);
@@ -501,7 +501,7 @@ public class TareasIO {
                 }
                 break;
             case "overdue":
-                // TODO remove floating
+                // TODO remove floating v0.3
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now)) {
                         tasks.remove(i);
@@ -545,7 +545,7 @@ public class TareasIO {
         int tasksSize = tasks.size();
 
         for (int i = 0; i < tasksSize; i++) {
-            // TODO remove floating
+            // TODO remove floating v0.3
                 LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
                 if (!taskDate.isEqual(particularDate)) {

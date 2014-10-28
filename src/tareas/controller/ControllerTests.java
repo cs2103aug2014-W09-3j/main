@@ -1,8 +1,12 @@
 package tareas.controller;
 
+import tareas.common.Task;
+import tareas.storage.TareasIO;
+
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,15 +19,30 @@ import static org.junit.Assert.assertEquals;
 public class ControllerTests {
 
     TareasController tareasController = new TareasController();
+    // TODO make sure that testing does not involve the GUI cause it keeps causing errors :( v0.3
+
+    TareasIO tareas = new TareasIO();
 
     /**
      * Controller Integration Testing for adding a floating task
      */
     @Test
     public void addAFloatingTask() throws IOException {
+        tareas.massDelete(1);
+
         tareasController.executeCommand("buy milk");
 
-        assertEquals(true, false);
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+        Task testTask = new Task();
+        testTask.setDescription("buy milk");
+
+        ArrayList<Task> testTasks = new ArrayList<>();
+        testTasks.add(testTask);
+
+        assertEquals(allTasks, testTasks);
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -31,7 +50,7 @@ public class ControllerTests {
      */
     @Test
     public void addAFloatingTaggedTask() throws IOException {
-        tareasController.executeCommand("buy eggs /tag grocery");
+        // tareasController.executeCommand("buy eggs /tag grocery");
 
         assertEquals(true, false);
     }
@@ -41,7 +60,7 @@ public class ControllerTests {
      */
     @Test
     public void addATimedTask() throws IOException {
-        tareasController.executeCommand("meeting with 2103 group /from 22-09014 12:00 /to 22-09-14 22:00");
+        // tareasController.executeCommand("meeting with 2103 group /from 22-09014 12:00 /to 22-09-14 22:00");
 
         assertEquals(true, false);
     }
@@ -51,7 +70,7 @@ public class ControllerTests {
      */
     @Test
     public void addATimedTaskMultipleDays() throws IOException {
-        tareasController.executeCommand("family camping at California /from 23-09-14 07:00 /to 25-09-14 12:00");
+        // tareasController.executeCommand("family camping at California /from 23-09-14 07:00 /to 25-09-14 12:00");
 
         assertEquals(true, false);
     }
@@ -61,7 +80,7 @@ public class ControllerTests {
      */
     @Test
     public void addADeadlineTask() throws IOException {
-        tareasController.executeCommand("complete user guide /by 22-09-14 15:00");
+        // tareasController.executeCommand("complete user guide /by 22-09-14 15:00");
 
         assertEquals(true, false);
     }
@@ -71,8 +90,8 @@ public class ControllerTests {
      */
     @Test
     public void editATask() throws IOException {
-        tareasController.executeCommand("buy milk");
-        tareasController.executeCommand("/edit 1 /des buy pineapple");
+        // tareasController.executeCommand("buy milk");
+        // tareasController.executeCommand("/edit 1 /des buy pineapple");
 
         assertEquals(true, false);
     }
@@ -82,8 +101,8 @@ public class ControllerTests {
      */
     @Test
     public void deleteATask() throws IOException {
-        tareasController.executeCommand("buy milk");
-        tareasController.executeCommand("/delete 1");
+        // tareasController.executeCommand("buy milk");
+        // tareasController.executeCommand("/delete 1");
 
         assertEquals(true, false);
     }
@@ -93,8 +112,8 @@ public class ControllerTests {
      */
     @Test
     public void searchATaskWithContainingString() throws IOException {
-        tareasController.executeCommand("buy watermelon");
-        tareasController.executeCommand("/search watermelon");
+        // tareasController.executeCommand("buy watermelon");
+        // tareasController.executeCommand("/search watermelon");
 
         assertEquals(true, false);
     }
@@ -104,8 +123,8 @@ public class ControllerTests {
      */
     @Test
     public void searchATaskWithId() throws IOException {
-        tareasController.executeCommand("buy watermelon");
-        tareasController.executeCommand("/search 1");
+        // tareasController.executeCommand("buy watermelon");
+        // tareasController.executeCommand("/search 1");
 
         assertEquals(true, false);
     }
@@ -115,8 +134,8 @@ public class ControllerTests {
      */
     @Test
     public void searchATaskThroughTags() throws IOException {
-        tareasController.executeCommand("buy watermelon -tag grocery");
-        tareasController.executeCommand("/search grocery");
+        // tareasController.executeCommand("buy watermelon -tag grocery");
+        // tareasController.executeCommand("/search grocery");
 
         assertEquals(true, false);
     }
@@ -126,8 +145,8 @@ public class ControllerTests {
      */
     @Test
     public void markATaskAsDone() throws IOException {
-        tareasController.executeCommand("buy watermelon");
-        tareasController.executeCommand("/done 1");
+        // tareasController.executeCommand("buy watermelon");
+        // tareasController.executeCommand("/done 1");
 
         assertEquals(true, false);
     }
@@ -137,8 +156,8 @@ public class ControllerTests {
      */
     @Test
     public void undoPass() throws IOException {
-        tareasController.executeCommand("buy milk");
-        tareasController.executeCommand("/undo");
+        // tareasController.executeCommand("buy milk");
+        // tareasController.executeCommand("/undo");
 
         assertEquals(true, false);
     }
@@ -148,7 +167,7 @@ public class ControllerTests {
      */
     @Test
     public void undoFail() throws IOException {
-        tareasController.executeCommand("/undo");
+        // tareasController.executeCommand("/undo");
 
         assertEquals(true, false);
     }
@@ -158,9 +177,9 @@ public class ControllerTests {
      */
     @Test
     public void redoPass() throws IOException {
-        tareasController.executeCommand("buy milk");
-        tareasController.executeCommand("/undo");
-        tareasController.executeCommand("/redo");
+        // tareasController.executeCommand("buy milk");
+        // tareasController.executeCommand("/undo");
+        // tareasController.executeCommand("/redo");
 
         assertEquals(true, false);
     }
@@ -170,8 +189,8 @@ public class ControllerTests {
      */
     @Test
     public void redoFail() throws IOException {
-        tareasController.executeCommand("buy milk");
-        tareasController.executeCommand("/redo");
+        // tareasController.executeCommand("buy milk");
+        // tareasController.executeCommand("/redo");
 
         assertEquals(true, false);
     }
@@ -181,8 +200,8 @@ public class ControllerTests {
      */
     @Test
     public void postponeATaskByHours() throws IOException {
-        tareasController.executeCommand("buy watermelon /by 22-09-14 15:00");
-        tareasController.executeCommand("/postpone 1 /by 2 hours");
+        // tareasController.executeCommand("buy watermelon /by 22-09-14 15:00");
+        // tareasController.executeCommand("/postpone 1 /by 2 hours");
 
         assertEquals(true, false);
     }
@@ -192,8 +211,8 @@ public class ControllerTests {
      */
     @Test
     public void postponeATaskWithANewDate() throws IOException {
-        tareasController.executeCommand("buy watermelon /by 22-09-14 15:00");
-        tareasController.executeCommand("/postpone 1 /to 23-09-14 17:00");
+        // tareasController.executeCommand("buy watermelon /by 22-09-14 15:00");
+        // tareasController.executeCommand("/postpone 1 /to 23-09-14 17:00");
 
         assertEquals(true, false);
     }
@@ -203,7 +222,7 @@ public class ControllerTests {
      */
     @Test
     public void viewAllDone() throws IOException {
-        tareasController.executeCommand("/view done");
+        // tareasController.executeCommand("/view done");
 
         assertEquals(true, false);
     }
@@ -213,7 +232,7 @@ public class ControllerTests {
      */
     @Test
     public void viewAllUndone() throws IOException {
-        tareasController.executeCommand("/view undone");
+        // tareasController.executeCommand("/view undone");
 
         assertEquals(true, false);
     }
@@ -223,7 +242,7 @@ public class ControllerTests {
      */
     @Test
     public void viewToday() throws IOException {
-        tareasController.executeCommand("/view today");
+        // tareasController.executeCommand("/view today");
 
         assertEquals(true, false);
     }
@@ -233,7 +252,7 @@ public class ControllerTests {
      */
     @Test
     public void viewDate() throws IOException {
-        tareasController.executeCommand("/view 23-09-14");
+        // tareasController.executeCommand("/view 23-09-14");
 
         assertEquals(true, false);
     }
@@ -243,7 +262,7 @@ public class ControllerTests {
      */
     @Test
     public void viewAgenda() throws IOException {
-        tareasController.executeCommand("/view agenda");
+        // tareasController.executeCommand("/view agenda");
 
         assertEquals(true, false);
     }
@@ -253,7 +272,7 @@ public class ControllerTests {
      */
     @Test
     public void viewHelp() throws IOException {
-        tareasController.executeCommand("/help");
+        // tareasController.executeCommand("/help");
 
         assertEquals(true, false);
     }
@@ -263,8 +282,8 @@ public class ControllerTests {
      */
     @Test
     public void prioritizeATask() throws IOException {
-        tareasController.executeCommand("buy ham");
-        tareasController.executeCommand("/prioritize 1");
+        // tareasController.executeCommand("buy ham");
+        // tareasController.executeCommand("/prioritize 1");
 
         assertEquals(true, false);
     }
@@ -274,8 +293,8 @@ public class ControllerTests {
      */
     @Test
     public void settingATaskWithReminder() throws IOException {
-        tareasController.executeCommand("buy ham");
-        tareasController.executeCommand("/remind 3 /on 13-09-2014 13:00");
+        // tareasController.executeCommand("buy ham");
+        // tareasController.executeCommand("/remind 3 /on 13-09-2014 13:00");
 
         assertEquals(true, false);
     }
@@ -285,7 +304,7 @@ public class ControllerTests {
      */
     @Test
     public void muteTareas() throws IOException {
-        tareasController.executeCommand("/mute 12-09-2014 13:00 /to 15/09/2014 13:00");
+        // tareasController.executeCommand("/mute 12-09-2014 13:00 /to 15-09-2014 13:00");
 
         assertEquals(true, false);
     }
@@ -295,7 +314,7 @@ public class ControllerTests {
      */
     @Test
     public void muteTareasNaturalCommand() throws IOException {
-        tareasController.executeCommand("/mute now /to 15/09/2014 13:00");
+        // tareasController.executeCommand("/mute now /to 15-09-2014 13:00");
 
         assertEquals(true, false);
     }
@@ -305,7 +324,7 @@ public class ControllerTests {
      */
     @Test
     public void setFont() throws IOException {
-        tareasController.executeCommand("/font Helvetica");
+        // tareasController.executeCommand("/font Helvetica");
 
         assertEquals(true, false);
     }
@@ -315,7 +334,7 @@ public class ControllerTests {
      */
     @Test
     public void setFontWithSize() throws IOException {
-        tareasController.executeCommand("/font Times New Roman /size 12");
+        // tareasController.executeCommand("/font Times New Roman /size 12");
 
         assertEquals(true, false);
     }
@@ -325,7 +344,7 @@ public class ControllerTests {
      */
     @Test
     public void colorizeATask() throws IOException {
-        tareasController.executeCommand("/color 3 /with orange");
+        // tareasController.executeCommand("/color 3 /with orange");
 
         assertEquals(true, false);
     }
