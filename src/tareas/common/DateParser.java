@@ -15,6 +15,13 @@ public class DateParser {
                 dateTime.getYear();
     }
 
+    /**
+     * This method converts a LocalDateTime to a readable format.
+     * If it is today's or tomorrow's date, the words "Today" and "Tomorrow"
+     * will be returned.
+     * @param dateTime
+     * @return String
+     */
     public static String getDateTime(LocalDateTime dateTime) {
         LocalDate today = LocalDate.now();
         LocalDate tmr = LocalDate.now().plus(1, ChronoUnit.DAYS);
