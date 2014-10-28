@@ -19,6 +19,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="jfxtras-agenda-8.0-r3" level="project" />
   </component>
 </module>
 

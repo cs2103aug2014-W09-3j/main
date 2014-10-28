@@ -42,6 +42,8 @@ public class TareasIOJUnitTest {
         task5.setDescription("great");
         test.insertTask(task5, 2);
 
+        writer.write(tasks, "testing.json");
+
         Tasks result = reader.read(2);
 
         assertEquals("hello", result.get().get(0).getDescription());

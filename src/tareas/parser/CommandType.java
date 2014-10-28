@@ -64,6 +64,13 @@ public enum CommandType {
 
     SEARCH_COMMAND("search"),
 
+    DETAILED_COMMAND("detailed"),
+
+    TAG_COMMAND(
+            "tag",
+            new String[] {"with"}
+    ),
+
     DONE_COMMAND("done"),
 
     // the undo command does not accept any argument
@@ -79,9 +86,6 @@ public enum CommandType {
     ),
 
     VIEW_COMMAND("view"),
-
-    // the help command does not accept any argument
-    HELP_COMMAND("help, 0"),
 
     PRIORITIZE_COMMAND("prioritize"),
 
@@ -128,7 +132,7 @@ public enum CommandType {
             this.mKeywords.add(new HashSet<String>());
         } else {
             if (mCombinationAllowed) { // if allowed, merge all the keywords into one set
-                HashSet<String> temp = new HashSet<>();
+                HashSet<String> temp = new HashSet<String>();
                 for (String[] overload : keywords) {
                     temp.addAll(Arrays.asList(overload));
                 }

@@ -168,7 +168,7 @@ class DetailedTaskViewGenerator {
         if(task.getReminderDateTime() == null) {
             value = " - ";
         } else {
-            value = task.getReminderDateTime();
+            value = task.getReminderDateTime().toString();
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
