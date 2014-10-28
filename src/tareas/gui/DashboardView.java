@@ -119,8 +119,8 @@ public class DashboardView {
         XYChart.Series series2 = new XYChart.Series();
         series1.getData().add(new XYChart.Data(0, "Today"));
         series2.getData().add(new XYChart.Data(0, "Today"));
-        series1.getData().add(new XYChart.Data(0, day(1)));
-        series2.getData().add(new XYChart.Data(0, day(1)));
+        series1.getData().add(new XYChart.Data(0, "Tomorrow"));
+        series2.getData().add(new XYChart.Data(0, "Tomorrow"));
         series1.getData().add(new XYChart.Data(0, day(2)));
         series2.getData().add(new XYChart.Data(0, day(2)));
         series1.getData().add(new XYChart.Data(0, day(3)));
