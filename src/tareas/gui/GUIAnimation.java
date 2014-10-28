@@ -16,4 +16,13 @@ public class GUIAnimation {
         ft.play();
         return ft;
     }
+
+    public static FadeTransition addFadeInAnimation(Scene scene) {
+        FadeTransition ft = new FadeTransition(Duration.millis(250), scene.getRoot());
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.setCycleCount(1);
+        ft.play();
+        return ft;
+    }
 }
