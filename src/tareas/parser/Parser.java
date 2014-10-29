@@ -2,11 +2,14 @@ package tareas.parser;
 
 import tareas.common.Log;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -18,62 +21,39 @@ import java.util.HashSet;
 public class Parser {
     private static String TAG = "tareas/parser";
 
-    private static DateTimeFormatter[] formatters;
+    private static ArrayList<DateTimeFormatter> formatters;
 
     /**
      * This function returns an array of DateTimeFormatter of different patterns.
      *
      * @return an array of DateTimeFormatter
      */
-    private static DateTimeFormatter[] getDateTimeFormatters() {
+    private static ArrayList<DateTimeFormatter> getDateTimeFormatters() {
         if (formatters == null) {
-            LocalDateTime now = LocalDateTime.now();
-
-            formatters = new DateTimeFormatter[] {
-                    // Date only. Time will be set to 00:00
-                    new DateTimeFormatterBuilder()
-                            .appendPattern("d-M[-yyyy]")
-                            .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-                            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-                            .parseDefaulting(ChronoField.YEAR, now.getYear())
-                            .toFormatter(),
-
-                    // Full date & time, e.g. 24-12-2014 18:30. Date is optional
-                    new DateTimeFormatterBuilder()
-                            .appendPattern("[d-M[-yyyy] ]H:mm")
-                            .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
-                            .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
-                            .parseDefaulting(ChronoField.YEAR, now.getYear())
-                            .toFormatter(),
-
-                    // Full date & time (short year), e.g. 24-12-14 18:30. Date is optional
-                    new DateTimeFormatterBuilder()
-                            .appendPattern("[d-M[-yy] ]H:mm")
-                            .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
-                            .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
-                            .parseDefaulting(ChronoField.YEAR, now.getYear())
-                            .toFormatter(),
-
-                    // Full date & time (am/pm), e.g. 24-12-2014 9:45am. Date & minute are optional
-                    new DateTimeFormatterBuilder()
-                            .appendPattern("[d-M[-yyyy] ]K[:mm][ ]a")
-                            .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
-                            .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
-                            .parseDefaulting(ChronoField.YEAR, now.getYear())
-                            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-                            .toFormatter(),
-
-                    // Full date & time (am/pm) & short year, e.g. 24-12-14 9:45am. Date & minute are optional
-                    new DateTimeFormatterBuilder()
-                            .appendPattern("[d-M[-yy] ]K[:mm][ ]a")
-                            .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
-                            .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
-                            .parseDefaulting(ChronoField.YEAR, now.getYear())
-                            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-                            .toFormatter(),
-
+            String[] patterns = new String[] {
+                    "d-M[-yyyy]",
+                    "[d-M[-yyyy] ]H:mm",
+                    "[d-M[-yy] ]H:mm",
+                    "[d-M[-yyyy] ]K[:mm]a",
+                    "[d-M[-yy] ]K[:mm]a"
             };
 
+            LocalDateTime now = LocalDateTime.now();
+
+            formatters = new ArrayList<>();
+
+            for (String pattern : patterns) {
+                formatters.add(
+                        new DateTimeFormatterBuilder()
+                                .appendPattern(pattern)
+                                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                                .parseDefaulting(ChronoField.YEAR, now.getYear())
+                                .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
+                                .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
+                                .toFormatter()
+                );
+
+            }
         }
 
         return formatters;
@@ -135,20 +115,44 @@ public class Parser {
     }*/
 
     public static LocalDateTime getDateTimeFromString(String input) {
+        input = input.toLowerCase();
+
+        LocalDate localDateConstant = null;
+        String dateConstantString = DateConstant.scanString(input);
+
+        if (dateConstantString != null) {
+            localDateConstant = DateConstant.fromString(dateConstantString).toLocalDate();
+            input = input.replace(dateConstantString, "").trim(); // remove the date constant from input
+
+            // if he string is empty after removing the date constant, i.e. no time info, return the date
+            if (input.equals("")) return LocalDateTime.of(localDateConstant, LocalTime.MIN);
+        }
+
+        String lastError = "";
 
         for (DateTimeFormatter formatter : getDateTimeFormatters()) {
             try {
-                return LocalDateTime.parse(input.toUpperCase(), formatter);
+                LocalDateTime result = LocalDateTime.parse(input.toUpperCase(), formatter);
+
+                if (localDateConstant != null) {
+                    return result
+                            .withYear(localDateConstant.getYear())
+                            .withMonth(localDateConstant.getMonthValue())
+                            .withDayOfMonth(localDateConstant.getDayOfMonth());
+                } else {
+                    return result;
+                }
+
             } catch (DateTimeParseException e) {
-                Log.e(TAG, String.format("Parsing date failed. %s", e.getMessage()));
+                lastError = e.getMessage();
             }
         }
 
+        Log.e(TAG, String.format("Parsing date '%s' failed. %s", input, lastError));
         return null;
     }
 
     public static void main(String[] args) {
-
-        System.out.println(getDateTimeFromString("24-12 9pm"));
+        System.out.println(getDateTimeFromString("thursday"));
     }
 }
