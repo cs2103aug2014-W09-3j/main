@@ -47,10 +47,10 @@ public class Parser {
                 DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
                         .appendPattern(pattern)
                         .parseCaseInsensitive()
-                        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
                         .parseDefaulting(ChronoField.YEAR, now.getYear())
+                        .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
                         .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
-                        .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue());
+                        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0);
 
                 if (!(pattern.contains("H") || pattern.contains("K"))) {
                     builder.parseDefaulting(ChronoField.HOUR_OF_DAY, 0);
@@ -113,11 +113,6 @@ public class Parser {
         }
     }
 
-/*    public static LocalDateTime getDateTimeFromString(String input) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yy H:mm");
-        return LocalDateTime.parse(input, formatter);
-    }*/
-
     public static LocalDateTime getDateTimeFromString(String input) {
         input = input.toLowerCase();
 
@@ -158,6 +153,6 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        System.out.println(getDateTimeFromString("tomorrow 8pm"));
+        System.out.println(getDateTimeFromString("Sun 8:10pm"));
     }
 }
