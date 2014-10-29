@@ -32,6 +32,7 @@ public class Parser {
         if (formatters == null) {
             String[] patterns = new String[] {
                     "d-M[-yyyy]",
+                    "d-M[-yy]",
                     "[d-M[-yyyy] ]H:mm",
                     "[d-M[-yy] ]H:mm",
                     "[d-M[-yyyy] ]K[:mm]a",
@@ -43,16 +44,19 @@ public class Parser {
             formatters = new ArrayList<>();
 
             for (String pattern : patterns) {
-                formatters.add(
-                        new DateTimeFormatterBuilder()
-                                .appendPattern(pattern)
-                                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-                                .parseDefaulting(ChronoField.YEAR, now.getYear())
-                                .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
-                                .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
-                                .toFormatter()
-                );
+                DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
+                        .appendPattern(pattern)
+                        .parseCaseInsensitive()
+                        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                        .parseDefaulting(ChronoField.YEAR, now.getYear())
+                        .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
+                        .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue());
 
+                if (!(pattern.contains("H") || pattern.contains("K"))) {
+                    builder.parseDefaulting(ChronoField.HOUR_OF_DAY, 0);
+                }
+
+                formatters.add(builder.toFormatter());
             }
         }
 
@@ -144,15 +148,16 @@ public class Parser {
                 }
 
             } catch (DateTimeParseException e) {
+                //Log.e(TAG, String.format("Parsing date '%s' failed. %s", input, e.getMessage()));
                 lastError = e.getMessage();
             }
         }
 
-        Log.e(TAG, String.format("Parsing date '%s' failed. %s", input, lastError));
+        Log.e(TAG, String.format("Parsing date '%s' failed.\n%s", input, lastError));
         return null;
     }
 
     public static void main(String[] args) {
-        System.out.println(getDateTimeFromString("thursday"));
+        System.out.println(getDateTimeFromString("tomorrow 8pm"));
     }
 }
