@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * An enum contains date related String constants.
@@ -43,9 +44,7 @@ public enum DateConstant {
 
         mValues = new ArrayList<>();
 
-        for (String value : values) {
-            mValues.add(value);
-        }
+        Collections.addAll(mValues, values);
 
     }
 

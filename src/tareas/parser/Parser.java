@@ -153,6 +153,6 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        System.out.println(getDateTimeFromString("Sun 8:10pm"));
+        System.out.println(getDateTimeFromString("sunday 8:10pm"));
     }
 }
