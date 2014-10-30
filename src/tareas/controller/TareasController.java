@@ -107,96 +107,53 @@ public class TareasController {
 
         ArrayList<Task> allTasks = tareas.getTasks(1).get();
 
-        int numberOfCompletedTasks = getNumberOfCompletedTasks(allTasks);
-        values.push(numberOfCompletedTasks);
+        ArrayList<Integer> statValues = getStatValues(allTasks);
 
-        int numberOfOverdueTasks = getNumberOfOverdueTasks(allTasks);
-        values.push(numberOfOverdueTasks);
+        for (Integer value : statValues) {
+            values.push(value);
+        }
 
-        int numberOfUncompletedDeadlineTasks = getNumberOfUncompletedDeadlineTasks(allTasks);
-        values.push(numberOfUncompletedDeadlineTasks);
+        for (int i = 0; i < 7; i++) {
+            LocalDate day = LocalDate.now().plusDays(i);
 
-        int numberOfUncompletedTimedTasks = getNumberOfUncompletedTimedTasks(allTasks);
-        values.push(numberOfUncompletedTimedTasks);
+            int numberOfCompletedTaskOnDay = getNumberOfTasksOnDay(allTasks, day, true);
 
-        int numberOfUncompletedFloatingTasks = getNumberOfUncompletedFloatingTasks(allTasks);
-        values.push(numberOfUncompletedFloatingTasks);
+            values.push(numberOfCompletedTaskOnDay);
+        }
 
-        int numberOfUncompletedImportantTasks = getNumberOfUncompletedImportantTasks(allTasks);
-        values.push(numberOfUncompletedImportantTasks);
+        for (int i = 0; i < 7; i++) {
+            LocalDate day = LocalDate.now().plusDays(i);
 
-        LocalDate today = LocalDate.now();
-        LocalDate secondDay = LocalDate.now().plusDays(1);
-        LocalDate thirdDay = LocalDate.now().plusDays(2);
-        LocalDate fourthDay = LocalDate.now().plusDays(3);
-        LocalDate fifthDay = LocalDate.now().plusDays(4);
-        LocalDate sixthDay = LocalDate.now().plusDays(5);
-        LocalDate seventhDay = LocalDate.now().plusDays(6);
+            int numberOfUncompletedTaskOnDay = getNumberOfTasksOnDay(allTasks, day, false);
 
-        int numberOfCompletedTaskToday = getNumberOfCompletedTasksOnDay(allTasks, today);
-        int numberOfUncompletedTaskToday = getNumberOfUncompletedTasksOnDay(allTasks, today);
-        int numberOfCompletedTaskSecondDay = getNumberOfCompletedTasksOnDay(allTasks, secondDay);
-        int numberOfUncompletedTaskSecondDay = getNumberOfUncompletedTasksOnDay(allTasks, secondDay);
-        int numberOfCompletedTaskThirdDay = getNumberOfCompletedTasksOnDay(allTasks, thirdDay);
-        int numberOfUncompletedTaskThirdDay = getNumberOfUncompletedTasksOnDay(allTasks, thirdDay);
-        int numberOfCompletedTaskFourthDay = getNumberOfCompletedTasksOnDay(allTasks, fourthDay);
-        int numberOfUncompletedTaskFourthDay = getNumberOfUncompletedTasksOnDay(allTasks, fourthDay);
-        int numberOfCompletedTaskFifthDay = getNumberOfCompletedTasksOnDay(allTasks, fifthDay);
-        int numberOfUncompletedTaskFifthDay = getNumberOfUncompletedTasksOnDay(allTasks, fifthDay);
-        int numberOfCompletedTaskSixthDay = getNumberOfCompletedTasksOnDay(allTasks, sixthDay);
-        int numberOfUncompletedTaskSixthDay = getNumberOfUncompletedTasksOnDay(allTasks, sixthDay);
-        int numberOfCompletedTaskSeventhDay = getNumberOfCompletedTasksOnDay(allTasks, seventhDay);
-        int numberOfUncompletedTaskSeventhDay = getNumberOfUncompletedTasksOnDay(allTasks, seventhDay);
-
-        values.push(numberOfCompletedTaskToday);
-        values.push(numberOfCompletedTaskSecondDay);
-        values.push(numberOfCompletedTaskThirdDay);
-        values.push(numberOfCompletedTaskFourthDay);
-        values.push(numberOfCompletedTaskFifthDay);
-        values.push(numberOfCompletedTaskSixthDay);
-        values.push(numberOfCompletedTaskSeventhDay);
-
-        values.push(numberOfUncompletedTaskToday);
-        values.push(numberOfUncompletedTaskSecondDay);
-        values.push(numberOfUncompletedTaskThirdDay);
-        values.push(numberOfUncompletedTaskFourthDay);
-        values.push(numberOfUncompletedTaskFifthDay);
-        values.push(numberOfUncompletedTaskSixthDay);
-        values.push(numberOfUncompletedTaskSeventhDay);
+            values.push(numberOfUncompletedTaskOnDay);
+        }
 
         return values;
     }
 
     /**
-     * Finds the number of completed tasks for dashboard view
+     * comment to be added and spruced up
      *
-     * @param allTasks all the task stored in Storage
-     * @return int number of completed tasks
+     * comment to be added and spruced up
      */
-    private int getNumberOfCompletedTasks(ArrayList<Task> allTasks) {
+    private ArrayList<Integer> getStatValues (ArrayList<Task> allTasks) {
+        ArrayList<Integer> valuesToReturn = new ArrayList<>();
+
         int numberOfCompletedTasks = 0;
+        int numberOfOverdueTasks = 0;
+        int numberOfUncompletedDeadlineTasks = 0;
+        int numberOfUncompletedTimedTasks = 0;
+        int numberOfUncompletedFloatingTasks = 0;
+        int numberOfUncompletedImportantTasks = 0;
+
+        LocalDateTime now = LocalDateTime.now();
 
         for (Task task : allTasks) {
             if (task.isTaskCompleted()) {
                 numberOfCompletedTasks++;
             }
-        }
 
-        return numberOfCompletedTasks;
-    }
-
-    /**
-     * Finds the number of overdue tasks for dashboard view
-     *
-     * @param allTasks all the task stored in Storage
-     * @return int number of overdue tasks
-     */
-    private int getNumberOfOverdueTasks(ArrayList<Task> allTasks) {
-        int numberOfOverdueTasks = 0;
-
-        LocalDateTime now = LocalDateTime.now();
-
-        for (Task task : allTasks) {
             if (task.getEndDateTime() != null) {
                 LocalDateTime endDateTime = task.getEndDateTime();
 
@@ -212,82 +169,33 @@ public class TareasController {
                     numberOfOverdueTasks++;
                 }
             }
-        }
 
-        return numberOfOverdueTasks;
-    }
-
-    /**
-     * Finds the number of uncompleted deadline tasks for dashboard view
-     *
-     * @param allTasks all the task stored in Storage
-     * @return int number of uncompleted deadline tasks
-     */
-    private int getNumberOfUncompletedDeadlineTasks(ArrayList<Task> allTasks) {
-        int numberOfUncompletedDeadlineTasks = 0;
-
-        for (Task task : allTasks) {
             if (task.getDeadline() != null && !task.isTaskCompleted()) {
-               numberOfUncompletedDeadlineTasks++;
+                numberOfUncompletedDeadlineTasks++;
             }
-        }
 
-        return numberOfUncompletedDeadlineTasks;
-    }
-
-    /**
-     * Finds the number of uncompleted timed tasks for dashboard view
-     *
-     * @param allTasks all the task stored in Storage
-     * @return int number of uncompleted time tasks
-     */
-    private int getNumberOfUncompletedTimedTasks(ArrayList<Task> allTasks) {
-        int numberOfUncompletedTimedTasks = 0;
-
-        for (Task task : allTasks) {
             if (task.getStartDateTime() != null && task.getEndDateTime() != null && !task.isTaskCompleted()) {
                 numberOfUncompletedTimedTasks++;
             }
-        }
 
-        return numberOfUncompletedTimedTasks;
-    }
-
-    /**
-     * Finds the number of uncompleted floating tasks for dashboard view
-     *
-     * @param allTasks all the task stored in Storage
-     * @return int number of uncompleted floating tasks
-     */
-    private int getNumberOfUncompletedFloatingTasks(ArrayList<Task> allTasks) {
-        int numberOfUncompletedFloatingTasks = 0;
-
-        for (Task task : allTasks) {
             if (task.getStartDateTime() == null && task.getEndDateTime() == null &&
                     task.getDeadline() == null && !task.isTaskCompleted()) {
                 numberOfUncompletedFloatingTasks++;
             }
-        }
 
-        return numberOfUncompletedFloatingTasks;
-    }
-
-    /**
-     * Finds the number of uncompleted important tasks for dashboard view
-     *
-     * @param allTasks all the task stored in Storage
-     * @return int number of uncompleted important tasks
-     */
-    private int getNumberOfUncompletedImportantTasks(ArrayList<Task> allTasks) {
-        int numberOfUncompletedImportantTasks = 0;
-
-        for (Task task : allTasks) {
             if (task.isTaskPriority()) {
                 numberOfUncompletedImportantTasks++;
             }
         }
 
-        return numberOfUncompletedImportantTasks;
+        valuesToReturn.add(numberOfCompletedTasks);
+        valuesToReturn.add(numberOfOverdueTasks);
+        valuesToReturn.add(numberOfUncompletedDeadlineTasks);
+        valuesToReturn.add(numberOfUncompletedTimedTasks);
+        valuesToReturn.add(numberOfUncompletedFloatingTasks);
+        valuesToReturn.add(numberOfUncompletedImportantTasks);
+
+        return valuesToReturn;
     }
 
     /**
@@ -295,10 +203,11 @@ public class TareasController {
      *
      * @param allTasks all the task stored in Storage
      * @param dayToGetFrom the date to get the tasks from
+     * @param completed where we're looking for completed or uncompleted tasks
      * @return int number of completed tasks for given date
      */
-    private int getNumberOfCompletedTasksOnDay(ArrayList<Task> allTasks, LocalDate dayToGetFrom) {
-        int numberOfCompletedTasksToday = 0;
+    private int getNumberOfTasksOnDay(ArrayList<Task> allTasks, LocalDate dayToGetFrom, boolean completed) {
+        int numberOfTasks = 0;
 
         LocalDate taskDate;
 
@@ -306,50 +215,23 @@ public class TareasController {
             if (task.getDeadline() != null) {
                 taskDate = task.getDeadline().toLocalDate();
                 if (taskDate.equals(dayToGetFrom) && task.isTaskCompleted()) {
-                    numberOfCompletedTasksToday++;
+                    if (task.isTaskCompleted() == completed) {
+                        numberOfTasks++;
+                    }
                 }
             }
 
             if (task.getEndDateTime() != null) {
                 taskDate = task.getEndDateTime().toLocalDate();
                 if (taskDate.equals(dayToGetFrom) && task.isTaskCompleted()) {
-                    numberOfCompletedTasksToday++;
+                    if (task.isTaskCompleted() == completed) {
+                        numberOfTasks++;
+                    }
                 }
             }
         }
 
-        return numberOfCompletedTasksToday;
-    }
-
-    /**
-     * Finds the number of uncompleted tasks for given date for dashboard view
-     *
-     * @param allTasks all the task stored in Storage
-     * @param dayToGetFrom the date to get the tasks from
-     * @return int number of uncompleted tasks for given date
-     */
-    private int getNumberOfUncompletedTasksOnDay(ArrayList<Task> allTasks, LocalDate dayToGetFrom) {
-        int numberOfUncompletedTasksToday = 0;
-
-        LocalDate taskDate;
-
-        for (Task task : allTasks) {
-            if (task.getDeadline() != null) {
-                taskDate = task.getDeadline().toLocalDate();
-                if (taskDate.equals(dayToGetFrom) && !task.isTaskCompleted()) {
-                    numberOfUncompletedTasksToday++;
-                }
-            }
-
-            if (task.getEndDateTime() != null) {
-                taskDate = task.getEndDateTime().toLocalDate();
-                if (taskDate.equals(dayToGetFrom) && !task.isTaskCompleted()) {
-                    numberOfUncompletedTasksToday++;
-                }
-            }
-        }
-
-        return numberOfUncompletedTasksToday;
+        return numberOfTasks;
     }
 
     /**
