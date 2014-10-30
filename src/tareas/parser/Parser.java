@@ -73,18 +73,18 @@ public class Parser {
         CommandType type = command.getType();
 
         if (type == CommandType.UNKNOWN_COMMAND) {
-            Log.i(TAG, "unknown command: " + command.getPrimaryKey());
+            Log.e(TAG, "unknown command: " + command.getPrimaryKey());
             return new ParsingResult(ParsingStatus.UNKNOWN_COMMAND, command.getPrimaryKey());
         }
 
         if (type.isPrimaryArgumentPresent() && command.getPrimaryArgument().equals("")) {
             // if the primary argument is supposed to be present but missing
-            Log.i(TAG, "missing primary argument");
+            Log.e(TAG, "missing primary argument");
             return new ParsingResult(ParsingStatus.MISSING_PRIMARY_ARGUMENT);
 
         } else if (!type.isPrimaryArgumentPresent() && !command.getPrimaryArgument().equals("")) {
             // if the primary argument is present but it shouldn't be there
-            Log.i(TAG, "unexpected primary argument");
+            Log.e(TAG, "unexpected primary argument");
             return new ParsingResult(ParsingStatus.UNEXPECTED_PRIMARY_ARGUMENT, command.getPrimaryArgument());
         }
 
@@ -108,7 +108,7 @@ public class Parser {
                 }
             }
 
-            Log.i(TAG, "signature doesn't matched");
+            Log.e(TAG, "signature doesn't matched");
             return new ParsingResult(ParsingStatus.SIGNATURE_NOT_MATCHED);
         }
     }
@@ -123,7 +123,7 @@ public class Parser {
             localDateConstant = DateConstant.fromString(dateConstantString).toLocalDate();
             input = input.replace(dateConstantString, "").trim(); // remove the date constant from input
 
-            // if he string is empty after removing the date constant, i.e. no time info, return the date
+            // if the string is empty after removing the date constant, i.e. no time info, return the date
             if (input.equals("")) return LocalDateTime.of(localDateConstant, LocalTime.MIN);
         }
 
@@ -153,6 +153,7 @@ public class Parser {
     }
 
     public static void main(String[] args) {
+        System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
         System.out.println(getDateTimeFromString("sunday 8:10pm"));
     }
 }
