@@ -60,7 +60,10 @@ public class TareasController {
         // asserting to make sure that the command is really a TareasCommand
         assert(command != null);
 
-        checkCommandValidity(command);
+        if (!checkCommandValidity(command)) {
+            // if command is not valid, do not continue on into execution
+            return;
+        }
 
         checkCommandAndExecute(command, test);
     }
@@ -214,7 +217,7 @@ public class TareasController {
         for (Task task : allTasks) {
             if (task.getDeadline() != null) {
                 taskDate = task.getDeadline().toLocalDate();
-                if (taskDate.equals(dayToGetFrom) && task.isTaskCompleted()) {
+                if (taskDate.equals(dayToGetFrom)) {
                     if (task.isTaskCompleted() == completed) {
                         numberOfTasks++;
                     }
@@ -223,7 +226,7 @@ public class TareasController {
 
             if (task.getEndDateTime() != null) {
                 taskDate = task.getEndDateTime().toLocalDate();
-                if (taskDate.equals(dayToGetFrom) && task.isTaskCompleted()) {
+                if (taskDate.equals(dayToGetFrom)) {
                     if (task.isTaskCompleted() == completed) {
                         numberOfTasks++;
                     }
@@ -239,31 +242,33 @@ public class TareasController {
      *
      * @param command the command formed by the parser
      */
-    private void checkCommandValidity(TareasCommand command) {
+    private boolean checkCommandValidity(TareasCommand command) {
         switch (Parser.checkCommandValidity(command).getStatus()) {
             case SUCCESS:
                 // no feedback, continue on since it's a valid command
-                break;
+                return true;
             case UNKNOWN_COMMAND:
                 guiController.sendErrorToView("Unrecognized command, please input a recognized command");
-                return;
+                return false;
             case MISSING_PRIMARY_ARGUMENT:
                 guiController.sendErrorToView("Please input something after the action - " +
                         command.getPrimaryKey());
-                return;
+                return false;
             case UNEXPECTED_PRIMARY_ARGUMENT:
                 guiController.sendErrorToView("Please input a valid input after the action - " +
                         command.getPrimaryKey());
-                return;
+                return false;
             case UNKNOWN_KEYWORD:
                 guiController.sendErrorToView("Please input a valid action - " + command.getPrimaryKey() +
                         " is not recognized");
-                return;
+                return false;
             case SIGNATURE_NOT_MATCHED:
                 guiController.sendErrorToView("Please input matching actions - refer to /help for reference");
-                return;
+                return false;
             default:
-                // do nothing - should not reach here ever, if it does it means bad stuff is happening
+                Log.w("checkCommandValidity has met with an erronous checking allow it to fall into default" +
+                        " which should never happen", TAG);
+                return false;
         }
     }
 
