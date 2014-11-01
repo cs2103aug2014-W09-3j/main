@@ -295,7 +295,7 @@ public class TareasController {
                 detailedTask(command);
                 break;
             case TAG_COMMAND:
-                addTagToTask(command);
+                addTagToTask(command, test);
                 break;
             case DONE_COMMAND:
                 completeTask(command, test);
@@ -350,7 +350,6 @@ public class TareasController {
         taskManager.clearRedoState();
 
         if (!test) {
-            // only do GUI stuff if it's not testing
             guiController.sendTaskstoView(newTasks);
             // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
@@ -488,10 +487,12 @@ public class TareasController {
         taskManager.tasksChanged(allTasks);
         taskManager.clearRedoState();
 
-        guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
-        guiController.changeCategoryName("All Tasks");
-        guiController.sendSuccessToView("Tag successfully added to task - " + taskDescriptionForFeedback);
+        if (!test) {
+            guiController.sendTaskstoView(newTasks);
+            // TODO think about how to settle the view whenever an action is done v0.4
+            guiController.changeCategoryName("All Tasks");
+            guiController.sendSuccessToView("Tag successfully added to task - " + taskDescriptionForFeedback);
+        }
 
         setPreviousActionType("Tag successfully added to task - " + taskDescriptionForFeedback + " reverted");
 
