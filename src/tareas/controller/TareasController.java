@@ -467,7 +467,7 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    private void addTagToTask(TareasCommand command) {
+    private void addTagToTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
         int tasksSize = taskManager.get().size();
