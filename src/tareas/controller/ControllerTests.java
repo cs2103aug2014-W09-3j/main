@@ -145,10 +145,10 @@ public class ControllerTests {
     }
 
     /**
-     * Controller Integration Testing for editing a task
+     * Controller Integration Testing for editing a task description
      */
     @Test
-    public void editATask() throws IOException {
+    public void editATaskDescription() throws IOException {
         tareas.massDelete(1);
 
         tareasController.executeCommand("buy milk", true);
@@ -166,10 +166,37 @@ public class ControllerTests {
     }
 
     /**
+     * Controller Integration Testing for editing a task deadline
+     */
+    @Test
+    public void editATaskDeadline() throws IOException {
+        tareas.massDelete(1);
+
+        tareasController.executeCommand("buy milk /by 1-11-14 13:00", true);
+        tareasController.executeCommand("/edit 1 /by 1-11-14 15:00", true);
+
+        LocalDateTime editedDate = Parser.getDateTimeFromString("1-11-14 15:00");
+
+        Task testTask = new Task();
+        testTask.setDescription("buy milk");
+        testTask.setDeadline(editedDate);
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualEditedTask = allTasks.get(0);
+
+        assertEquals(testTask.getDescription(), actualEditedTask.getDescription());
+        assertEquals(testTask.getDeadline(), actualEditedTask.getDeadline());
+
+        tareas.massDelete(1);
+    }
+
+    /**
      * Controller Integration Testing for deleting a task
      */
     @Test
     public void deleteATask() throws IOException {
+        tareas.massDelete(1);
+
         tareasController.executeCommand("buy milk", true);
         tareasController.executeCommand("/delete 1", true);
 
@@ -177,6 +204,8 @@ public class ControllerTests {
 
         assertEquals(new ArrayList<Task>(), allTasks);
         // TODO still failing, find the bug in v0.4
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -234,9 +263,13 @@ public class ControllerTests {
      */
     @Test
     public void undoFail() throws IOException {
-        // tareasController.executeCommand("/undo");
+        tareas.massDelete(1);
+
+        // tareasController.executeCommand("/undo", true);
 
         assertEquals(true, false);
+
+        tareas.massDelete(1);
     }
 
     /**
