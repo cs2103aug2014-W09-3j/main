@@ -173,7 +173,7 @@ public class ControllerTests {
         tareas.massDelete(1);
 
         tareasController.executeCommand("buy milk /by 1-11-14 13:00", true);
-        tareasController.executeCommand("/edit 1 /by 1-11-14 15:00", true);
+        tareasController.executeCommand("/edit 1 /deadline 1-11-14 15:00", true);
 
         LocalDateTime editedDate = Parser.getDateTimeFromString("1-11-14 15:00");
 
