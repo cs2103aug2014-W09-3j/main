@@ -136,9 +136,10 @@ public class TareasController {
     }
 
     /**
-     * comment to be added and spruced up
+     * helper function to grab all the stat values that Tareas will show on the dashboard
      *
-     * comment to be added and spruced up
+     * @param allTasks a list of all tasks done or undone from the storage
+     * @return an ArrayList of Integers for the receiving method to process
      */
     private ArrayList<Integer> getStatValues (ArrayList<Task> allTasks) {
         ArrayList<Integer> valuesToReturn = new ArrayList<>();

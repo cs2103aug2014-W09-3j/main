@@ -208,27 +208,6 @@ public class ControllerTests {
         tareas.massDelete(1);
     }
 
-    /**
-     * Controller Integration Testing for searching a task through a string that the description contains
-     */
-    @Test
-    public void searchATaskWithContainingString() throws IOException {
-        // tareasController.executeCommand("buy watermelon");
-        // tareasController.executeCommand("/search watermelon");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for searching a task through the task ID
-     */
-    @Test
-    public void detailATaskWithId() throws IOException {
-        // tareasController.executeCommand("buy watermelon");
-        // tareasController.executeCommand("/detailed 1");
-
-        assertEquals(true, false);
-    }
 
     /**
      * Controller Integration Testing for marking a task as done
@@ -324,66 +303,6 @@ public class ControllerTests {
         assertEquals(newDateTime, actualEditedTask.getDeadline());
 
         tareas.massDelete(1);
-    }
-
-    /**
-     * Controller Integration Testing for supporting custom done view
-     */
-    @Test
-    public void viewAllDone() throws IOException {
-        // tareasController.executeCommand("/view done");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting custom undone view
-     */
-    @Test
-    public void viewAllUndone() throws IOException {
-        // tareasController.executeCommand("/view undone");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting custom today's view
-     */
-    @Test
-    public void viewToday() throws IOException {
-        // tareasController.executeCommand("/view today");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting custom date view
-     */
-    @Test
-    public void viewDate() throws IOException {
-        // tareasController.executeCommand("/view 23-09-14");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting agenda view
-     */
-    @Test
-    public void viewAgenda() throws IOException {
-        // tareasController.executeCommand("/view agenda");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting help view
-     */
-    @Test
-    public void viewHelp() throws IOException {
-        // tareasController.executeCommand("/help");
-
-        assertEquals(true, false);
     }
 
     /**
