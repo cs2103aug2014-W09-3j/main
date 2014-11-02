@@ -489,7 +489,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Tag successfully added to task - " + taskDescriptionForFeedback);
         }
@@ -600,7 +599,7 @@ public class TareasController {
         }
 
         if (command.getArgument("by") != null) {
-            // TODO support for more natural-ish command for postponing from parser
+            taskToPostpone.setDeadline(Parser.getDateTimeFromString(command.getArgument("by")));
         }
 
         tareas.postponeTask(taskToPostpone, 1);
