@@ -35,6 +35,8 @@ public class TareasController {
 
     // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.4
     // TODO Handle SOME exceptions v0.4
+    // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.4
+    // TODO think about how to settle the view whenever an action is done v0.4
 
     /**
      * constructor for controller, will set the pointer for the task manager
@@ -352,7 +354,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
         }
@@ -391,7 +392,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
         }
@@ -452,7 +452,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
         }
@@ -516,7 +515,6 @@ public class TareasController {
         Task taskToShow = tareas.detailedTask(mappedTaskId, 1);
 
         guiController.showDetailedView(taskToShow);
-        // TODO think about how to settle the view whenever an action is done v0.4
         guiController.changeCategoryName("All Tasks");
 
         LocalDateTime now = LocalDateTime.now();
@@ -534,7 +532,6 @@ public class TareasController {
         ArrayList<Task> tasksToShow = tareas.searchTask(searchString, 1);
 
         guiController.sendTaskstoView(tasksToShow);
-        // TODO think about how to settle the view whenever an action is done v0.4
         guiController.changeCategoryName("Tasks Found - '" + searchString + "'");
 
         if (!test) {
@@ -574,7 +571,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Successfully completed Task - " + taskDescriptionForFeedback);
         }
@@ -604,8 +600,7 @@ public class TareasController {
         }
 
         if (command.getArgument("by") != null) {
-            // TODO support for more natural-ish command for postponing from parser, if logic here gets too long, might
-            // TODO want to abstract into a method v0.3, if cannot v0.4
+            // TODO support for more natural-ish command for postponing from parser
         }
 
         tareas.postponeTask(taskToPostpone, 1);
@@ -619,7 +614,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
         }
@@ -644,7 +638,6 @@ public class TareasController {
 
         if (!viewType.equals("dashboard") && !viewType.equals("help")) {
             guiController.sendTaskstoView(tasksToShowToUser);
-            // TODO think about how to settle the view whenever an action is done v0.4
             // View type is handled at checkViewTypeAndExecute instead for this method
             guiController.sendSuccessToView("View has successfully been changed to " + viewType);
         }
@@ -773,7 +766,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
         }
@@ -811,7 +803,6 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
         }
@@ -887,7 +878,6 @@ public class TareasController {
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
-        // TODO think about how to settle the view whenever an action is done v0.4
         guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Successfully changed color of task - " + taskDescriptionForFeedback);
 
@@ -907,10 +897,8 @@ public class TareasController {
             tareas.undoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Undo Successful - " + getPreviousActionType());
-            // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.4
 
             LocalDateTime now = LocalDateTime.now();
             Log.i(TAG, "User has performed an undo action at " + now.toString());
@@ -932,10 +920,8 @@ public class TareasController {
             tareas.redoWrite(stateToRevertTo, 1);
 
             guiController.sendTaskstoView(stateToRevertTo.get());
-            // TODO think about how to settle the view whenever an action is done v0.4
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Redo Successful - " + getPreviousActionType());
-            // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.4
 
             LocalDateTime now = LocalDateTime.now();
             Log.i(TAG, "User has performed a redo action at " + now.toString());
