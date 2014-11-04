@@ -1,3 +1,5 @@
+//@author A0113694A
+
 package tareas.controller;
 
 import tareas.common.Task;
@@ -23,7 +25,7 @@ public class ControllerTests {
 
     TareasIO tareas = new TareasIO();
 
-    // TODO Finish up integration testing and add more types also
+    // TODO Finish up integration testing and add more types also v0.5
 
     /**
      * Controller Integration Testing for adding a floating task
@@ -343,46 +345,6 @@ public class ControllerTests {
         assertEquals(reminderDateTime, actualTaskWithReminder.getReminderDateTime());
 
         tareas.massDelete(1);
-    }
-
-    /**
-     * Controller Integration Testing for muting Tareas for days that one does not want to be disturbed or is sick etc.
-     */
-    @Test
-    public void muteTareas() throws IOException {
-        // tareasController.executeCommand("/mute 12-09-2014 13:00 /to 15-09-2014 13:00");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for muting Tareas more natural command
-     */
-    @Test
-    public void muteTareasNaturalCommand() throws IOException {
-        // tareasController.executeCommand("/mute now /to 15-09-2014 13:00");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for changing font settings
-     */
-    @Test
-    public void setFont() throws IOException {
-        // tareasController.executeCommand("/font Helvetica");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for changing font settings with size to cater to eyesight needs
-     */
-    @Test
-    public void setFontWithSize() throws IOException {
-        // tareasController.executeCommand("/font Times New Roman /size 12");
-
-        assertEquals(true, false);
     }
 
     /**

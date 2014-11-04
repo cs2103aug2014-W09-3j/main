@@ -1,3 +1,5 @@
+//@author A0113694A
+
 package tareas.controller;
 
 import tareas.common.Task;
@@ -33,10 +35,9 @@ public class TareasController {
 
     TaskManager taskManager = TaskManager.getInstance();
 
-    // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.4
-    // TODO Handle SOME exceptions v0.4
-    // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.4
-    // TODO think about how to settle the view whenever an action is done v0.4
+    // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.5
+    // TODO Handle SOME exceptions v0.5
+    // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.5
 
     /**
      * constructor for controller, will set the pointer for the task manager
