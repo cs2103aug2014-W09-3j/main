@@ -355,6 +355,7 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
+            guiController.highlightTask(1);
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task successfully added - "  + taskToInsert.getDescription());
         }
@@ -393,6 +394,7 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
+            guiController.highlightTask(taskId);
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task successfully edited - " + taskToUpdate.getDescription());
         }
@@ -490,6 +492,7 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
+            guiController.highlightTask(taskId);
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Tag successfully added to task - " + taskDescriptionForFeedback);
         }
@@ -614,6 +617,7 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
+            guiController.highlightTask(taskId);
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task has been successfully postponed - " + taskDescriptionForFeedback);
         }
@@ -766,6 +770,7 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
+            guiController.highlightTask(taskId);
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Task has been successfully " + prioritizedOrNot + " - " + taskDescriptionForFeedback);
         }
@@ -803,6 +808,7 @@ public class TareasController {
 
         if (!test) {
             guiController.sendTaskstoView(newTasks);
+            guiController.highlightTask(taskId);
             guiController.changeCategoryName("All Tasks");
             guiController.sendSuccessToView("Reminder Set for task - " + taskDescriptionForFeedback);
         }
@@ -838,6 +844,7 @@ public class TareasController {
         taskManager.clearRedoState();
 
         guiController.sendTaskstoView(newTasks);
+        guiController.highlightTask(taskId);
         guiController.changeCategoryName("All Tasks");
         guiController.sendSuccessToView("Successfully changed color of task - " + taskDescriptionForFeedback);
 
