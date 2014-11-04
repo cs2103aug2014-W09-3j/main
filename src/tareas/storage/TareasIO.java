@@ -575,7 +575,8 @@ public class TareasIO {
         int tasksSize = tasks.size();
 
         for (int i = 0; i < tasksSize; i++) {
-            // TODO remove floating v0.3
+            tasks = removeFloatingTasks(tasks);
+            tasksSize = tasks.size();
                 LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
                 if (!taskDate.isEqual(particularDate) || tasks.get(i).isTaskCompleted()) {
