@@ -6,13 +6,14 @@ import tareas.common.Tasks;
 import java.io.*;
 
 /**
- * @author Lareina Ting
  *
+ * 
  * IMPORTANT NOTE: Add gson-2.3.jar (found in our root directory) as an external JAR to your IDE.
- *
+ * 
  * This class reads information the storage file. Tasks are stored in JSON notation.
  * The structure of the JSON file is such that Task objects will be wrapped by a Tasks class.
  */
+//@author A0112151A
 
 public class StorageReader {
 
@@ -44,8 +45,29 @@ public class StorageReader {
     }
 
     public void overwrite() {
-        File file = new File("testing.json");
-        file.delete();
+        File file;
+        file = new File("testing.json");
+
+        System.gc();
+        boolean deleted = file.delete();
+        try {
+            if (!file.exists())
+                System.out.println("It doesn't exist in the first place.");
+            else if (file.isDirectory() && file.list().length > 0)
+                System.out.println("It's a directory and it's not empty.");
+            else
+                System.out.println("Somebody else has it open, we don't have write permissions, or somebody stole my disk.");
+        } catch (SecurityException e) {
+            System.out.println("We're sandboxed and don't have filesystem access.");
+        }
+
+        if(deleted){
+            System.out.println("Testing.json is deleted");
+        }
+        else{
+            System.out.println("Testing.json is not deleted");
+        }
+        createNewFile("testing.json");
        }
 
 	private Tasks createNewFile(String fileName) {
@@ -71,6 +93,7 @@ public class StorageReader {
 		BufferedReader br = new BufferedReader(fr);
 		String json = br.readLine();
 		br.close();
+        fr.close();
 		tasks = gson.fromJson(json, Tasks.class);
         return tasks;
 	}
