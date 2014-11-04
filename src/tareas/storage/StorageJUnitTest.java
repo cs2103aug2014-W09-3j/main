@@ -1,19 +1,14 @@
-/**
- * @author Lareina Ting
- *
- * This class is used to test methods for the storageWriter.
- */
+// This class is used to test methods for the Storage component.
 
+//@author A0112151A
 package tareas.storage;
 
 import org.junit.Test;
 import tareas.common.Task;
 import tareas.common.Tasks;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 
 public class StorageJUnitTest {
@@ -189,6 +184,35 @@ public class StorageJUnitTest {
         Tasks result = reader.read(2);
         int latestID = result.getLatestID();
         assertEquals(2, latestID);
+
+    }
+
+    //Testing for getAllTasks.
+    @Test
+    public void testGetAllTasks() throws IOException {
+        reader.overwrite();
+
+        Task task3 = new Task();
+        task3.setDescription("hello");
+        test.insertTask(task3, 2);
+
+        //Multiple input case.
+        Task task4 = new Task();
+        task4.setDescription("world");
+        test.insertTask(task4, 2);
+
+        ArrayList<Task> allTask = new ArrayList<>();
+        allTask.add(task3);
+        allTask.add(task4);
+
+        Tasks result = reader.read(2);
+        String allTask1 = allTask.get(0).getDescription();
+        String result1 = result.get().get(0).getDescription();
+        String allTask2 = allTask.get(1).getDescription();
+        String result2 = result.get().get(1).getDescription();
+
+        assertEquals(true, allTask1.equals(result1));
+        assertEquals(true, allTask2.equals(result2));
 
     }
 }

@@ -6,13 +6,14 @@ import tareas.common.Tasks;
 import java.io.*;
 
 /**
- * @author Lareina Ting
+ *
  * 
  * IMPORTANT NOTE: Add gson-2.3.jar (found in our root directory) as an external JAR to your IDE.
  * 
  * This class reads information the storage file. Tasks are stored in JSON notation.
  * The structure of the JSON file is such that Task objects will be wrapped by a Tasks class.
  */
+//@author A0112151A
 
 public class StorageReader {
 
@@ -46,8 +47,7 @@ public class StorageReader {
     public void overwrite() {
         File file;
         file = new File("testing.json");
-//        boolean deleted = file.delete();
-//
+
         System.gc();
         boolean deleted = file.delete();
         try {
