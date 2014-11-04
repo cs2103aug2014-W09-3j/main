@@ -423,7 +423,7 @@ public class TareasIO {
                 }
                 break;
              case "today":
-                 // TODO remove floating v0.3
+                 tasks = removeFloatingTasks(tasks);
                  for (int i = 0; i < tasksSize; i++) {
                      if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
                              tasks.get(i).isTaskCompleted()) {
@@ -441,7 +441,7 @@ public class TareasIO {
                  }
                  break;
             case "tomorrow":
-                // TODO remove floating v0.3
+                tasks = removeFloatingTasks(tasks);
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(tomorrow) ||
                             tasks.get(i).isTaskCompleted()) {
@@ -471,6 +471,7 @@ public class TareasIO {
                 // all tasks, no filtering - do nothing
                 break;
             case "deadline":
+                tasks = removeFloatingTasks(tasks);
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() == null || tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
@@ -480,6 +481,7 @@ public class TareasIO {
                 }
                 break;
             case "timed":
+                tasks = removeFloatingTasks(tasks);
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getStartDateTime() == null || tasks.get(i).getEndDateTime() == null ||
                             tasks.get(i).isTaskCompleted()) {
@@ -509,7 +511,7 @@ public class TareasIO {
                 }
                 break;
             case "overdue":
-                // TODO remove floating v0.3
+                tasks = removeFloatingTasks(tasks);
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
                             tasks.get(i).isTaskCompleted()) {
@@ -533,6 +535,20 @@ public class TareasIO {
         }
 
         return tasks;
+    }
+
+    private ArrayList<Task> removeFloatingTasks(ArrayList<Task> allTasks) {
+        int tasksSize = allTasks.size();
+        for (int i = 0; i < tasksSize; i++) {
+            if (allTasks.get(i).getDeadline() == null || (allTasks.get(i).getStartDateTime() == null &&
+                    allTasks.get(i).getEndDateTime() == null)) {
+                allTasks.remove(i);
+                i--;
+                tasksSize--;
+            }
+        }
+
+        return allTasks;
     }
 
     /**
