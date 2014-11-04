@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.controlsfx.control.NotificationPane;
 import org.controlsfx.control.PopOver;
@@ -78,6 +79,9 @@ public class TareasGUIController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Log.i(TAG, "Initialized!");
+
+        // Load the font
+        Font.loadFont(TareasGUIController.class.getResource("css/segoeui.ttf").toExternalForm(), 12);
 
         // Set placeholder for command line
         commandLine.setPromptText("Type a command here...");
@@ -164,6 +168,7 @@ public class TareasGUIController implements Initializable {
                     /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
                     agendaView.showAgendaView();*/
                     //showHelpView();
+                    //highlightTask(1);
                 }
             }
         });
@@ -269,16 +274,52 @@ public class TareasGUIController implements Initializable {
         updateView();
     }
 
+    public void highlightTask(int taskNumber) {
+        flowPane.getChildren().clear();
+        int maxPage = 0;
+        if(tasks.size() % maxTasksPerPage == 0){
+            maxPage = tasks.size() / maxTasksPerPage;
+        } else {
+            maxPage = tasks.size() / maxTasksPerPage + 1;
+        }
+        Label categoryLabel = new Label(categoryText + " ("+pageCount+"/"+maxPage+")");
+        categoryLabel.setId("categoryLabel");
+        flowPane.getChildren().add(categoryLabel);
+
+        int i = 0;
+        // Inserting listeners to each taskPane
+        for (Task task : getPageView()) {
+            i++;
+            TaskPaneGenerator generator = new TaskPaneGenerator(task);
+            FlowPane taskPane;
+            if(i == taskNumber) {
+                taskPane = generator.generateTaskPane(true);
+            } else {
+                taskPane = generator.generateTaskPane(false);
+            }
+            taskPane.setOnMouseClicked(event -> {
+                setDetailedViewToTaskPane(taskPane, task);
+            });
+            flowPane.getChildren().add(taskPane);
+        }
+    }
+
     private void updateView() {
         flowPane.getChildren().clear();
-        Label categoryLabel = new Label(categoryText);
+        int maxPage = 0;
+        if(tasks.size() % maxTasksPerPage == 0){
+            maxPage = tasks.size() / maxTasksPerPage;
+        } else {
+            maxPage = tasks.size() / maxTasksPerPage + 1;
+        }
+        Label categoryLabel = new Label(categoryText + " ("+pageCount+"/"+maxPage+")");
         categoryLabel.setId("categoryLabel");
         flowPane.getChildren().add(categoryLabel);
 
         // Inserting listeners to each taskPane
         for (Task task : getPageView()) {
             TaskPaneGenerator generator = new TaskPaneGenerator(task);
-            FlowPane taskPane = generator.generateTaskPane();
+            FlowPane taskPane = generator.generateTaskPane(false);
             taskPane.setOnMouseClicked(event -> {
                 setDetailedViewToTaskPane(taskPane, task);
             });
