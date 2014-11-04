@@ -14,8 +14,6 @@ import java.util.HashSet;
 
 /**
  * This class is obviously a parser.
- *
- * @author Kent
  */
 
 public class Parser {
@@ -28,6 +26,7 @@ public class Parser {
      *
      * @return an array of DateTimeFormatter
      */
+    //@author A0093934W
     private static ArrayList<DateTimeFormatter> getDateTimeFormatters() {
         if (formatters == null) {
             String[] patterns = new String[] {
@@ -69,6 +68,7 @@ public class Parser {
      * @param command The command whose signature is being checked
      * @return true if the command signature is valid.
      */
+    //@author A0093934W
     public static ParsingResult checkCommandValidity(TareasCommand command) {
         CommandType type = command.getType();
 
@@ -113,6 +113,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Converts a String to a LocalDateTime.
+     *
+     * @param input the String input
+     * @return a LocalDateTime if the input is a valid date/time, null otherwise
+     */
+    //@author A0093934W
     public static LocalDateTime getDateTimeFromString(String input) {
         input = input.toLowerCase();
 
@@ -153,7 +160,7 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
-        System.out.println(getDateTimeFromString("sunday 8:10pm"));
+        //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
+        System.out.println(getDateTimeFromString("31-02-2014"));
     }
 }
