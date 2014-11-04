@@ -37,7 +37,7 @@ public class TareasController {
 
     // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.5
     // TODO Handle SOME exceptions v0.5
-    // TODO allow for multiple redo and a proper feedback - now is like anyhow v0.5
+    // TODO allow for multiple redo and a proper feedback v0.5
 
     /**
      * constructor for controller, will set the pointer for the task manager
@@ -323,10 +323,10 @@ public class TareasController {
                 setTaskReminder(command, test);
                 break;
             case MUTE_COMMAND:
-                mute(command);
+                // no longer supported
                 break;
             case FONT_COMMAND:
-                changeFont(command);
+                // no longer supported
                 break;
             case COLOR_COMMAND:
                 colorizeTask(command);
@@ -811,46 +811,6 @@ public class TareasController {
 
         LocalDateTime now = LocalDateTime.now();
         Log.i(TAG, "User has performed a task reminder action at " + now.toString());
-    }
-
-    /**
-     * mute Tareas by calling the appropriate GUI and storage methods
-     *
-     * @param command after being parsed from the parser
-     */
-    private void mute(TareasCommand command) {
-        LocalDateTime startTime = Parser.getDateTimeFromString(command.getPrimaryArgument());
-        LocalDateTime endTime = Parser.getDateTimeFromString(command.getArgument("to"));
-
-        // tareas.addMuteTiming(startTime, endTime);
-        // TODO once supported by Storage - Lareina v0.4
-
-        guiController.sendSuccessToView("Tareas successfully muted from " + startTime.toString() + " " + endTime.toString());
-
-        setPreviousActionType("Mute timing from " + startTime.toString() + " " + endTime.toString() + " removed");
-
-        LocalDateTime now = LocalDateTime.now();
-        Log.i(TAG, "User has performed a mute action at " + now.toString());
-    }
-
-    /**
-     * changes Tareas font settings by calling the appropriate GUI method
-     *
-     * @param command after being parsed from the parser
-     */
-    private void changeFont(TareasCommand command) {
-        String newFontType = command.getPrimaryArgument();
-        // String previousFontType = tareas.getFontType();
-
-        // tareas.saveFontType(fontType, fontSize);
-
-        guiController.sendSuccessToView("Font changed successfully to - " + newFontType);
-
-        // setPreviousActionType("Font changed back to " + previousFontType);
-        // TODO once supported by Storage - Lareina v0.4
-
-        LocalDateTime now = LocalDateTime.now();
-        Log.i(TAG, "User has performed a font change action at " + now.toString());
     }
 
     /**
