@@ -3,14 +3,22 @@ package tareas.gui;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -38,6 +46,7 @@ class DashboardView {
         FlowPane root = new FlowPane();
         root.setId("dashboard");
         root.getStylesheets().add("tareas/gui/css/dashboard.css");
+        Font.loadFont(DashboardView.class.getResource("css/segoeui.ttf").toExternalForm(), 12);
 
         Label title = labelGenerator("Tareas Dashboard", "title", 780, 20);
         FlowPane overall = getOverallComponent(390, 150);
@@ -113,6 +122,8 @@ class DashboardView {
 
         XYChart.Series series1 = new XYChart.Series();
         XYChart.Series series2 = new XYChart.Series();
+        series1.setName("Done");
+        series2.setName("Un-done");
         series1.getData().add(new XYChart.Data(0, "Today"));
         series2.getData().add(new XYChart.Data(0, "Today"));
         series1.getData().add(new XYChart.Data(0, "Tomorrow"));
@@ -128,7 +139,7 @@ class DashboardView {
         series1.getData().add(new XYChart.Data(0, day(6)));
         series2.getData().add(new XYChart.Data(0, day(6)));
 
-        barChart.setLegendVisible(false);
+        barChart.setLegendVisible(true);
         barChart.getData().addAll(series1, series2);
 
         Timeline tl = new Timeline();
@@ -146,6 +157,32 @@ class DashboardView {
         tl.play();
 
         return barChart;
+    }
+
+    private void displayLabelForData(XYChart.Data<Number, String> data) {
+        final Node node = data.getNode();
+        final Text dataText = new Text(data.getXValue() + "");
+        node.parentProperty().addListener(new ChangeListener<Parent>() {
+            @Override public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+                Group parentGroup = (Group) parent;
+                parentGroup.getChildren().add(dataText);
+            }
+        });
+
+        node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+            @Override public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+                dataText.setLayoutX(
+                        Math.round(
+                                bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
+                        )
+                );
+                dataText.setLayoutY(
+                        Math.round(
+                                bounds.getMinY() - dataText.prefHeight(-1) * 0.5
+                        )
+                );
+            }
+        });
     }
 
     private FlowPane getStatisticsComponent(int width, int height) {

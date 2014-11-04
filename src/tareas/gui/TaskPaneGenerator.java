@@ -3,6 +3,7 @@ package tareas.gui;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.FlowPane;
 import tareas.common.DateParser;
 import tareas.common.Task;
@@ -19,13 +20,17 @@ class TaskPaneGenerator {
         this.task = task;
     }
 
-    protected FlowPane generateTaskPane() {
+    protected FlowPane generateTaskPane(boolean isHighlighted) {
         TareasGUIController controller = TareasGUIController.getInstance();
 
         // Initialization of taskPane
         FlowPane taskPane = new FlowPane();
         taskPane.setId("taskpane");
         taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
+
+        if(isHighlighted) {
+            taskPane.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        }
 
         // ID Label
         taskPane.getChildren().add(getIDLabel(task.getTaskID()));
