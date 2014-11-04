@@ -43,7 +43,7 @@ public class TareasController {
      * constructor for controller, will set the pointer for the task manager
      */
     public TareasController() {
-        taskManager.set(tareas.getAllUndoneTasks(1, "undone"));
+        taskManager.set(tareas.getTasks(1).get());
         taskManager.setId(tareas.getInitialiseLatestId(1));
     }
 
