@@ -60,6 +60,7 @@ public class StorageReader {
         } catch (SecurityException e) {
             System.out.println("We're sandboxed and don't have filesystem access.");
         }
+
         if(deleted){
             System.out.println("Testing.json is deleted");
         }
