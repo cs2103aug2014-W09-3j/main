@@ -8,11 +8,11 @@ import java.util.HashSet;
 
 /**
  * A TareasCommand has a type and a map of secondary arguments.
- * <p/>
+ * <p>
  * The arguments can be retrieved as a list of CommandArgument using getSecondaryArgumentList().
- * <p/>
+ * <p>
  * Use fromString(String command) to convert a String to a TareasCommand.
- * <p/>
+ * <p>
  *
  * @author Kent
  */
@@ -20,7 +20,7 @@ import java.util.HashSet;
 public class TareasCommand {
     private static String PRIMARY_ARGUMENT_KEY = "!primary_argument";
 
-
+    //@author A0093934W
     public static class CommandArgument {
         private String mKey;
         private String mValue;
@@ -45,11 +45,13 @@ public class TareasCommand {
 
     //region Constructors
 
+    //@author A0093934W
     public TareasCommand(CommandType type) {
         this.mType = type;
         this.mSecondaryArguments = new HashMap<>();
     }
 
+    //@author A0093934W
     private TareasCommand() {
         this.mSecondaryArguments = new HashMap<>();
     }
@@ -62,35 +64,42 @@ public class TareasCommand {
         return mType;
     }
 
+    //@author generated
     private void setType(CommandType type) {
         this.mType = type;
     }
 
-
+    //@author A0093934W
     public boolean hasKey(String key) {
         return mSecondaryArguments.containsKey(key);
     }
 
+    //@author A0093934W
     public String getArgument(String key) {
         return mSecondaryArguments.get(key);
     }
 
+    //@author A0093934W
     public void putArgument(String key, String value) {
         mSecondaryArguments.put(key, value);
     }
 
+    //@author A0093934W
     public void putArgument(CommandArgument argument) {
         putArgument(argument.getKey(), argument.getValue());
     }
 
+    //@author A0093934W
     public String getPrimaryArgument() {
         return getArgument(PRIMARY_ARGUMENT_KEY);
     }
 
+    //@author generated
     public String getPrimaryKey() {
         return mPrimaryKey;
     }
 
+    //@author generated
     private void setPrimaryKey(String primaryKey) {
         this.mPrimaryKey = primaryKey;
     }
@@ -100,6 +109,7 @@ public class TareasCommand {
      *
      * @return set of secondary keywords
      */
+    //@author A0093934W
     public HashSet<String> getSecondaryKeys() {
         HashSet<String> keys = new HashSet<>();
         keys.addAll(mSecondaryArguments.keySet());
@@ -107,6 +117,7 @@ public class TareasCommand {
         return keys;
     }
 
+    //@author A0093934W
     public ArrayList<CommandArgument> getSecondaryArgumentList() {
         ArrayList<CommandArgument> ret = new ArrayList<>();
 
@@ -128,6 +139,7 @@ public class TareasCommand {
      * @param command the string command to be converted
      * @return the converted TareasCommand.
      */
+    //@author A0093934W
     public static TareasCommand fromString(String command) {
         command = command.trim();
 
@@ -174,6 +186,7 @@ public class TareasCommand {
      *
      * @return a String representation of the TareasCommand.
      */
+    //@author A0093934W
     @Override
     public String toString() {
         String ret = String.format("<%1$s> '%2$s'",

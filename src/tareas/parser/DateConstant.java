@@ -11,8 +11,6 @@ import java.util.Collections;
  * An enum contains date related String constants.
  * <p>
  * Created on Oct 29, 2014.
- *
- * @author Kent
  */
 
 public enum DateConstant {
@@ -24,11 +22,12 @@ public enum DateConstant {
     MONDAY(DateConstantType.DAY_OF_THE_WEEK, 1, "monday", "mon"),
     TUESDAY(DateConstantType.DAY_OF_THE_WEEK, 2, "tuesday", "tue"),
     WEDNESDAY(DateConstantType.DAY_OF_THE_WEEK, 3, "wednesday", "wed"),
-    THURSDAY(DateConstantType.DAY_OF_THE_WEEK, 4, "thursday", "thurs"),
+    THURSDAY(DateConstantType.DAY_OF_THE_WEEK, 4, "thursday", "thu", "thurs"),
     FRIDAY(DateConstantType.DAY_OF_THE_WEEK, 5, "friday", "fri"),
     SATURDAY(DateConstantType.DAY_OF_THE_WEEK, 6, "saturday", "sat"),
     SUNDAY(DateConstantType.DAY_OF_THE_WEEK, 7, "sunday", "sun");
 
+    //@author A0093934W
     public enum DateConstantType {
         RELATIVE_DATE,
         DAY_OF_THE_WEEK
@@ -38,6 +37,7 @@ public enum DateConstant {
     private int mOffset;
     private ArrayList<String> mValues;
 
+    //@author A0093934W
     DateConstant(DateConstantType type, int offset, String... values) {
         mType = type;
         mOffset = offset;
@@ -48,10 +48,12 @@ public enum DateConstant {
 
     }
 
+    //@author A0093934W
     public ArrayList<String> getValues() {
         return mValues;
     }
 
+    //@author A0093934W
     public static String scanString(String input) {
         input = input.toLowerCase();
 
@@ -66,6 +68,7 @@ public enum DateConstant {
         return null;
     }
 
+    //@author A0093934W
     public static DateConstant fromString(String input) {
         input = input.toLowerCase().trim();
 
@@ -78,6 +81,7 @@ public enum DateConstant {
         return null;
     }
 
+    //@author A0093934W
     public LocalDate toLocalDate() {
         if (this.mType == DateConstantType.RELATIVE_DATE) {
             return LocalDate.now().plus(this.mOffset, ChronoUnit.DAYS);
