@@ -424,6 +424,7 @@ public class TareasIO {
                 break;
              case "today":
                  tasks = removeFloatingTasks(tasks);
+                 tasksSize = tasks.size();
                  for (int i = 0; i < tasksSize; i++) {
                      if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
                              tasks.get(i).isTaskCompleted()) {
@@ -442,6 +443,7 @@ public class TareasIO {
                  break;
             case "tomorrow":
                 tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(tomorrow) ||
                             tasks.get(i).isTaskCompleted()) {
@@ -472,6 +474,7 @@ public class TareasIO {
                 break;
             case "deadline":
                 tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() == null || tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
@@ -482,6 +485,7 @@ public class TareasIO {
                 break;
             case "timed":
                 tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getStartDateTime() == null || tasks.get(i).getEndDateTime() == null ||
                             tasks.get(i).isTaskCompleted()) {
@@ -512,6 +516,7 @@ public class TareasIO {
                 break;
             case "overdue":
                 tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
                             tasks.get(i).isTaskCompleted()) {
@@ -661,7 +666,7 @@ public class TareasIO {
      * @param runType
      * @return
      */
-    private ArrayList<Task> searchByDescription(String description, int runType){
+    protected ArrayList<Task> searchByDescription(String description, int runType){
         StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
 
