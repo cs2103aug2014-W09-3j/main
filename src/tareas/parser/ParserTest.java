@@ -2,6 +2,13 @@ package tareas.parser;
 
 import org.junit.Test;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -16,7 +23,6 @@ public class ParserTest {
     private ParsingStatus tryParse(String input) {
         return Parser.checkCommandValidity(TareasCommand.fromString(input)).getStatus();
     }
-
 
     /**
      * Cases for the valid command partition.
@@ -63,5 +69,41 @@ public class ParserTest {
 
         // unexpected primary argument, /redo should not have any argument at all
         assertEquals(ParsingStatus.UNEXPECTED_PRIMARY_ARGUMENT, tryParse("/redo 123"));
+    }
+
+    //@author A0093934W
+    @Test
+    public void testParseDateTime_ValidInput() {
+        String[] tests = {
+                "24-12-2014", // full date
+                "24-12", // date without year
+                "24-12-2014 9:30", // full date time
+                "24-12-14 9:30", // full date time, short year
+                "24-12-2014 10:15pm", // full date time, AM/PM
+                "24-12-14 10am", // date with AM/PM hour
+                "18:20", // time only
+                "9am", // AM/PM time
+                "today", // date constant
+                "tomorrow 2pm", // date constant with time
+                "tue 3am" // day of the week with time
+        };
+
+        LocalDateTime[] results = {
+                LocalDateTime.parse("2014-12-24T00:00"),
+                LocalDateTime.parse("2014-12-24T00:00"),
+                LocalDateTime.parse("2014-12-24T09:30"),
+                LocalDateTime.parse("2014-12-24T09:30"),
+                LocalDateTime.parse("2014-12-24T22:15"),
+                LocalDateTime.parse("2014-12-24T10:00"),
+                LocalDateTime.of(LocalDate.now(), LocalTime.parse("18:20")),
+                LocalDateTime.of(LocalDate.now(), LocalTime.parse("09:00")),
+                LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00")),
+                LocalDateTime.of(LocalDate.now().plus(1, ChronoUnit.DAYS), LocalTime.parse("14:00")),
+                LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.of(2))), LocalTime.parse("03:00"))
+        };
+
+        for (int i = 0; i < tests.length; i++) {
+            assertEquals(Parser.getDateTimeFromString(tests[i]), results[i]);
+        }
     }
 }
