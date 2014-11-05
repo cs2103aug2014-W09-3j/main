@@ -5,11 +5,11 @@ import tareas.common.Log;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -172,7 +172,8 @@ public class Parser {
         LocalTime time = dateTime.toLocalTime();
 
         StringBuilder builder = new StringBuilder();
-        int dateDiff = date.compareTo(LocalDate.now());
+        int dateDiff = Period.between(date, LocalDate.now()).getDays();
+
 
         if (dateDiff >= -1 && dateDiff <= 1) {
             builder.append(
@@ -199,6 +200,7 @@ public class Parser {
 
     public static void main(String[] args) {
         //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
-        System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
+        //System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
+        System.out.println(getStringFromDateTime(getDateTimeFromString("12-12")));
     }
 }
