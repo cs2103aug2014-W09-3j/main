@@ -176,8 +176,6 @@ public class Parser {
             builder.append(
                     DateConstant.fromTypeOffset(DateConstant.DateConstantType.DAY_OF_THE_WEEK, date.getDayOfWeek().getValue())
             );
-
-            builder.append(" ").append(date.getDayOfMonth());
         } else {
             builder.append(date.format(DateTimeFormatter.ofPattern("MMM dd")));
         }
