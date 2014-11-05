@@ -160,6 +160,13 @@ public class Parser {
         return null;
     }
 
+    /**
+     * Converts a LocalDateTime to a String for display
+     *
+     * @param dateTime the LocalDateTime
+     * @return a String representation of the dateTime
+     */
+    //@author A0093934W
     public static String getStringFromDateTime(LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         LocalTime time = dateTime.toLocalTime();
