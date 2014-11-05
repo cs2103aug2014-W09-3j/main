@@ -6,8 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import tareas.common.DateParser;
 import tareas.common.Task;
+import tareas.parser.Parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ class DetailedTaskViewGenerator {
         if(task.getDeadline() == null) {
             value = " - ";
         } else {
-            value = DateParser.getDateTime(task.getDeadline());
+            value = Parser.getStringFromDateTime(task.getDeadline());
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
@@ -87,7 +87,7 @@ class DetailedTaskViewGenerator {
         if(task.getStartDateTime() == null) {
             value = " - ";
         } else {
-            value = DateParser.getDateTime(task.getStartDateTime());
+            value = Parser.getStringFromDateTime(task.getStartDateTime());
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);
@@ -105,7 +105,7 @@ class DetailedTaskViewGenerator {
         if(task.getEndDateTime() == null) {
             value = " - ";
         } else {
-            value = DateParser.getDateTime(task.getEndDateTime());
+            value = Parser.getStringFromDateTime(task.getEndDateTime());
         }
         TextFlow textFlow = new TextFlow();
         textFlow.setPrefWidth(193);

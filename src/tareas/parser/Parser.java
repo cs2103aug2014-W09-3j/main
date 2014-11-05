@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -45,11 +46,11 @@ public class Parser {
             for (String pattern : patterns) {
                 DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
                         .appendPattern(pattern)
-                        .parseCaseInsensitive()
                         .parseDefaulting(ChronoField.YEAR, now.getYear())
                         .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
                         .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
                         .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0);
+
 
                 if (!(pattern.contains("H") || pattern.contains("K"))) {
                     builder.parseDefaulting(ChronoField.HOUR_OF_DAY, 0);
@@ -159,8 +160,40 @@ public class Parser {
         return null;
     }
 
+    public static String getStringFromDateTime(LocalDateTime dateTime) {
+        LocalDate date = dateTime.toLocalDate();
+        LocalTime time = dateTime.toLocalTime();
+
+        StringBuilder builder = new StringBuilder();
+        int dateDiff = date.compareTo(LocalDate.now());
+
+        if (dateDiff >= -1 && dateDiff <= 1) {
+            builder.append(
+                    DateConstant.fromTypeOffset(DateConstant.DateConstantType.RELATIVE_DATE, dateDiff)
+                            .toString()
+            );
+        } else if (dateDiff > 1 && dateDiff <= 7) {
+            builder.append(
+                    DateConstant.fromTypeOffset(DateConstant.DateConstantType.DAY_OF_THE_WEEK, date.getDayOfWeek().getValue())
+            );
+
+            builder.append(" ").append(date.getDayOfMonth());
+        } else {
+            builder.append(date.format(DateTimeFormatter.ofPattern("MMM dd")));
+        }
+
+        if (time.getHour() != 0 || time.getMinute() != 0) {
+            builder.append(time.format(
+                    DateTimeFormatter.ofPattern(time.getMinute() > 0 ? ", K:mma" : ", Ka")
+            ).toLowerCase());
+
+        }
+
+        return builder.toString();
+    }
+
     public static void main(String[] args) {
         //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
-        System.out.println(getDateTimeFromString("31-02-2014"));
+        System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
     }
 }
