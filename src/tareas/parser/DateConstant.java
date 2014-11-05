@@ -24,7 +24,7 @@ public enum DateConstant {
     MONDAY(DateConstantType.DAY_OF_THE_WEEK, 1, "monday", "mon"),
     TUESDAY(DateConstantType.DAY_OF_THE_WEEK, 2, "tuesday", "tue"),
     WEDNESDAY(DateConstantType.DAY_OF_THE_WEEK, 3, "wednesday", "wed"),
-    THURSDAY(DateConstantType.DAY_OF_THE_WEEK, 4, "thursday", "thu", "thurs"),
+    THURSDAY(DateConstantType.DAY_OF_THE_WEEK, 4, "thursday", "thurs", "thu"),
     FRIDAY(DateConstantType.DAY_OF_THE_WEEK, 5, "friday", "fri"),
     SATURDAY(DateConstantType.DAY_OF_THE_WEEK, 6, "saturday", "sat"),
     SUNDAY(DateConstantType.DAY_OF_THE_WEEK, 7, "sunday", "sun");
