@@ -1,3 +1,5 @@
+//@author A0113694A
+
 package tareas.controller;
 
 import tareas.common.Task;
@@ -16,8 +18,6 @@ import java.util.Stack;
  */
 public class TaskManager {
     private static TaskManager instance = null;
-
-
 
     // Keep a pointer to the latest set of tasks
     private Tasks latestTasks = new Tasks();

@@ -1,5 +1,6 @@
 .root {
     -fx-background-color: rgba(118, 120, 115, 0.85);
+    -fx-font-family: "Segoe UI 8";
 }
 
 #listView {

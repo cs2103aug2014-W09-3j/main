@@ -76,14 +76,11 @@ public class TareasIO {
 	public void insertTask(Task task, int runType) {
 		initialize(runType);
 		task.setTaskID(tasks.getLatestID());
-        System.out.println(task.getTaskID());
         tasks.incrementID();
         ArrayList<Task> newTasks;
         newTasks = tasks.get();
-        System.out.println(newTasks);
         newTasks.add(task);
         tasks.set(newTasks);
-        System.out.println(tasks.get());
 		write(runType);
 	}
 
@@ -423,7 +420,8 @@ public class TareasIO {
                 }
                 break;
              case "today":
-                 // TODO remove floating v0.3
+                 tasks = removeFloatingTasks(tasks);
+                 tasksSize = tasks.size();
                  for (int i = 0; i < tasksSize; i++) {
                      if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
                              tasks.get(i).isTaskCompleted()) {
@@ -441,7 +439,8 @@ public class TareasIO {
                  }
                  break;
             case "tomorrow":
-                // TODO remove floating v0.3
+                tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(tomorrow) ||
                             tasks.get(i).isTaskCompleted()) {
@@ -471,6 +470,8 @@ public class TareasIO {
                 // all tasks, no filtering - do nothing
                 break;
             case "deadline":
+                tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() == null || tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
@@ -480,6 +481,8 @@ public class TareasIO {
                 }
                 break;
             case "timed":
+                tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getStartDateTime() == null || tasks.get(i).getEndDateTime() == null ||
                             tasks.get(i).isTaskCompleted()) {
@@ -509,7 +512,8 @@ public class TareasIO {
                 }
                 break;
             case "overdue":
-                // TODO remove floating v0.3
+                tasks = removeFloatingTasks(tasks);
+                tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
                             tasks.get(i).isTaskCompleted()) {
@@ -535,6 +539,20 @@ public class TareasIO {
         return tasks;
     }
 
+    private ArrayList<Task> removeFloatingTasks(ArrayList<Task> allTasks) {
+        int tasksSize = allTasks.size();
+        for (int i = 0; i < tasksSize; i++) {
+            if (allTasks.get(i).getDeadline() == null || (allTasks.get(i).getStartDateTime() == null &&
+                    allTasks.get(i).getEndDateTime() == null)) {
+                allTasks.remove(i);
+                i--;
+                tasksSize--;
+            }
+        }
+
+        return allTasks;
+    }
+
     /**
      * This method retrieves the list of task that is on a particular date.addde
      * @param runType
@@ -554,7 +572,8 @@ public class TareasIO {
         int tasksSize = tasks.size();
 
         for (int i = 0; i < tasksSize; i++) {
-            // TODO remove floating v0.3
+            tasks = removeFloatingTasks(tasks);
+            tasksSize = tasks.size();
                 LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
                 if (!taskDate.isEqual(particularDate) || tasks.get(i).isTaskCompleted()) {
@@ -645,7 +664,7 @@ public class TareasIO {
      * @param runType
      * @return
      */
-    private ArrayList<Task> searchByDescription(String description, int runType){
+    protected ArrayList<Task> searchByDescription(String description, int runType){
         StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
 

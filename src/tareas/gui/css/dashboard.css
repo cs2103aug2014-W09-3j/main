@@ -1,6 +1,7 @@
 #dashboard {
     -fx-padding: 10, 10, 10, 10;
     -fx-background-color: #898989;
+    -fx-font-family: "Segoe UI 8";
 }
 
 #title {

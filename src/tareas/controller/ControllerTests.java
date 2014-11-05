@@ -1,3 +1,5 @@
+//@author A0113694A
+
 package tareas.controller;
 
 import tareas.common.Task;
@@ -22,6 +24,8 @@ public class ControllerTests {
     TareasController tareasController = new TareasController();
 
     TareasIO tareas = new TareasIO();
+
+    // TODO Finish up integration testing and add more types also v0.5
 
     /**
      * Controller Integration Testing for adding a floating task
@@ -145,10 +149,10 @@ public class ControllerTests {
     }
 
     /**
-     * Controller Integration Testing for editing a task
+     * Controller Integration Testing for editing a task description
      */
     @Test
-    public void editATask() throws IOException {
+    public void editATaskDescription() throws IOException {
         tareas.massDelete(1);
 
         tareasController.executeCommand("buy milk", true);
@@ -166,10 +170,37 @@ public class ControllerTests {
     }
 
     /**
+     * Controller Integration Testing for editing a task deadline
+     */
+    @Test
+    public void editATaskDeadline() throws IOException {
+        tareas.massDelete(1);
+
+        tareasController.executeCommand("buy milk /by 1-11-14 13:00", true);
+        tareasController.executeCommand("/edit 1 /deadline 1-11-14 15:00", true);
+
+        LocalDateTime editedDate = Parser.getDateTimeFromString("1-11-14 15:00");
+
+        Task testTask = new Task();
+        testTask.setDescription("buy milk");
+        testTask.setDeadline(editedDate);
+
+        ArrayList<Task> allTasks = tareas.getTasks(1).get();
+        Task actualEditedTask = allTasks.get(0);
+
+        assertEquals(testTask.getDescription(), actualEditedTask.getDescription());
+        assertEquals(testTask.getDeadline(), actualEditedTask.getDeadline());
+
+        tareas.massDelete(1);
+    }
+
+    /**
      * Controller Integration Testing for deleting a task
      */
     @Test
     public void deleteATask() throws IOException {
+        tareas.massDelete(1);
+
         tareasController.executeCommand("buy milk", true);
         tareasController.executeCommand("/delete 1", true);
 
@@ -177,29 +208,10 @@ public class ControllerTests {
 
         assertEquals(new ArrayList<Task>(), allTasks);
         // TODO still failing, find the bug in v0.4
+
+        tareas.massDelete(1);
     }
 
-    /**
-     * Controller Integration Testing for searching a task through a string that the description contains
-     */
-    @Test
-    public void searchATaskWithContainingString() throws IOException {
-        // tareasController.executeCommand("buy watermelon");
-        // tareasController.executeCommand("/search watermelon");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for searching a task through the task ID
-     */
-    @Test
-    public void detailATaskWithId() throws IOException {
-        // tareasController.executeCommand("buy watermelon");
-        // tareasController.executeCommand("/detailed 1");
-
-        assertEquals(true, false);
-    }
 
     /**
      * Controller Integration Testing for marking a task as done
@@ -234,9 +246,13 @@ public class ControllerTests {
      */
     @Test
     public void undoFail() throws IOException {
-        // tareasController.executeCommand("/undo");
+        tareas.massDelete(1);
+
+        // tareasController.executeCommand("/undo", true);
 
         assertEquals(true, false);
+
+        tareas.massDelete(1);
     }
 
     /**
@@ -294,66 +310,6 @@ public class ControllerTests {
     }
 
     /**
-     * Controller Integration Testing for supporting custom done view
-     */
-    @Test
-    public void viewAllDone() throws IOException {
-        // tareasController.executeCommand("/view done");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting custom undone view
-     */
-    @Test
-    public void viewAllUndone() throws IOException {
-        // tareasController.executeCommand("/view undone");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting custom today's view
-     */
-    @Test
-    public void viewToday() throws IOException {
-        // tareasController.executeCommand("/view today");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting custom date view
-     */
-    @Test
-    public void viewDate() throws IOException {
-        // tareasController.executeCommand("/view 23-09-14");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting agenda view
-     */
-    @Test
-    public void viewAgenda() throws IOException {
-        // tareasController.executeCommand("/view agenda");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for supporting help view
-     */
-    @Test
-    public void viewHelp() throws IOException {
-        // tareasController.executeCommand("/help");
-
-        assertEquals(true, false);
-    }
-
-    /**
      * Controller Integration Testing for prioritizing tasks
      */
     @Test
@@ -389,46 +345,6 @@ public class ControllerTests {
         assertEquals(reminderDateTime, actualTaskWithReminder.getReminderDateTime());
 
         tareas.massDelete(1);
-    }
-
-    /**
-     * Controller Integration Testing for muting Tareas for days that one does not want to be disturbed or is sick etc.
-     */
-    @Test
-    public void muteTareas() throws IOException {
-        // tareasController.executeCommand("/mute 12-09-2014 13:00 /to 15-09-2014 13:00");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for muting Tareas more natural command
-     */
-    @Test
-    public void muteTareasNaturalCommand() throws IOException {
-        // tareasController.executeCommand("/mute now /to 15-09-2014 13:00");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for changing font settings
-     */
-    @Test
-    public void setFont() throws IOException {
-        // tareasController.executeCommand("/font Helvetica");
-
-        assertEquals(true, false);
-    }
-
-    /**
-     * Controller Integration Testing for changing font settings with size to cater to eyesight needs
-     */
-    @Test
-    public void setFontWithSize() throws IOException {
-        // tareasController.executeCommand("/font Times New Roman /size 12");
-
-        assertEquals(true, false);
     }
 
     /**
