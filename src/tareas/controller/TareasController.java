@@ -534,8 +534,8 @@ public class TareasController {
 
         ArrayList<Task> tasksToShow = tareas.searchTask(searchString, 1);
 
-        guiController.sendTaskstoView(tasksToShow);
         guiController.changeCategoryName("Tasks Found - '" + searchString + "'");
+        guiController.sendTaskstoView(tasksToShow);
 
         if (!test) {
             if (tasksToShow.size() == 0) {

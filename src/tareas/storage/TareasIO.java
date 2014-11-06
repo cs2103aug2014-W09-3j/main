@@ -235,7 +235,7 @@ public class TareasIO {
         ArrayList<Task> searchedTagTasks = searchTags(searchString, runType);
         ArrayList<Task> searchedDescriptionTasks = searchByDescription(searchString, runType);
 
-        searchedTasks.addAll(searchedTagTasks);
+        // searchedTasks.addAll(searchedTagTasks);
         searchedTasks.addAll(searchedDescriptionTasks);
 
         return searchedTasks;
@@ -422,40 +422,13 @@ public class TareasIO {
              case "today":
                  tasks = removeFloatingTasks(tasks);
                  tasksSize = tasks.size();
-                 for (int i = 0; i < tasksSize; i++) {
-                     if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
-                             tasks.get(i).isTaskCompleted()) {
-                         tasks.remove(i);
-                         i--;
-                         tasksSize--;
-                     }
-
-                     if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
-                             tasks.get(i).getEndDateTime().isAfter(now) || tasks.get(i).isTaskCompleted()) {
-                         tasks.remove(i);
-                         i--;
-                         tasksSize--;
-                     }
-                 }
+                 LocalDate today = LocalDate.now();
+                 tasks = getParticularDateTask(1, today);
                  break;
             case "tomorrow":
                 tasks = removeFloatingTasks(tasks);
                 tasksSize = tasks.size();
-                for (int i = 0; i < tasksSize; i++) {
-                    if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(tomorrow) ||
-                            tasks.get(i).isTaskCompleted()) {
-                        tasks.remove(i);
-                        i--;
-                        tasksSize--;
-                    }
-
-                    if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
-                            tasks.get(i).getEndDateTime().isAfter(tomorrow) || tasks.get(i).isTaskCompleted()) {
-                        tasks.remove(i);
-                        i--;
-                        tasksSize--;
-                    }
-                }
+                tasks = getParticularDateTask(1, tomorrow.toLocalDate());
                 break;
             case "done":
                 for (int i = 0; i < tasksSize; i++) {
@@ -540,17 +513,16 @@ public class TareasIO {
     }
 
     private ArrayList<Task> removeFloatingTasks(ArrayList<Task> allTasks) {
-        int tasksSize = allTasks.size();
-        for (int i = 0; i < tasksSize; i++) {
-            if (allTasks.get(i).getDeadline() == null || (allTasks.get(i).getStartDateTime() == null &&
-                    allTasks.get(i).getEndDateTime() == null)) {
-                allTasks.remove(i);
-                i--;
-                tasksSize--;
+
+        ArrayList<Task> tasksToReturn = new ArrayList<>();
+
+        for (Task task: allTasks) {
+            if (task.getDeadline() != null || task.getStartDateTime() != null) {
+                tasksToReturn.add(task);
             }
         }
 
-        return allTasks;
+        return tasksToReturn;
     }
 
     /**
@@ -569,21 +541,32 @@ public class TareasIO {
             e.printStackTrace();
         }
 
+        tasks = removeFloatingTasks(tasks);
+
+//        for (Task task : tasks) {
+//            LocalDate taskDate = task.getDeadline().toLocalDate();
+//
+//            System.out.println(taskDate.isEqual(particularDate));
+//
+//            if (!taskDate.isEqual(particularDate) || task.isTaskCompleted()) {
+//                tasks.remove(task);
+//            }
+//        }
+
         int tasksSize = tasks.size();
 
+        ArrayList<Task> taskToReturn = new ArrayList<>();
+//
         for (int i = 0; i < tasksSize; i++) {
-            tasks = removeFloatingTasks(tasks);
-            tasksSize = tasks.size();
-                LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
+                    LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 
-                if (!taskDate.isEqual(particularDate) || tasks.get(i).isTaskCompleted()) {
-                    tasks.remove(i);
-                    i--;
-                    tasksSize--;
-                }
+                    if (taskDate.isEqual(particularDate)) {
+                        taskToReturn.add(tasks.get(i));
+                    }
             }
 
-        return tasks;
+
+        return taskToReturn;
 
     }
 
