@@ -58,6 +58,14 @@ public class TareasController {
             return;
         }
 
+        if (userInput.equals("generate")) {
+            ArrayList<String> commands = Parser.generateCommands();
+
+            for (String command : commands) {
+                checkCommandAndExecute(TareasCommand.fromString(command), test);
+            }
+        }
+
         TareasCommand command = TareasCommand.fromString(userInput);
 
         // asserting to make sure that the command is really a TareasCommand
