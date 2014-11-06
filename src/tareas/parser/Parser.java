@@ -200,6 +200,6 @@ public class Parser {
     public static void main(String[] args) {
         //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
         //System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
-        System.out.println(getStringFromDateTime(getDateTimeFromString("9-11")));
+        System.out.println(getDateTimeFromString("xmas 9:30"));
     }
 }
