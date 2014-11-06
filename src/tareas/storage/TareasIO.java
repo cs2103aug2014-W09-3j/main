@@ -235,7 +235,7 @@ public class TareasIO {
         ArrayList<Task> searchedTagTasks = searchTags(searchString, runType);
         ArrayList<Task> searchedDescriptionTasks = searchByDescription(searchString, runType);
 
-        searchedTasks.addAll(searchedTagTasks);
+        // searchedTasks.addAll(searchedTagTasks);
         searchedTasks.addAll(searchedDescriptionTasks);
 
         return searchedTasks;
