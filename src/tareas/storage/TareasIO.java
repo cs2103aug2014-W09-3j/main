@@ -63,6 +63,9 @@ public class TareasIO {
     private Task getTask(int id, int runType) {
         Iterator<Task> iter = getAllTasks(runType).iterator();
 
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
         Task searchTask = new Task();
         while(iter.hasNext()) {
             Task task = iter.next();

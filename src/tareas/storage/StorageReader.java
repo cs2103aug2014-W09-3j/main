@@ -50,6 +50,8 @@ public class StorageReader {
 
         System.gc();
         boolean deleted = file.delete();
+
+        //Testing purposes.
         try {
             if (!file.exists())
                 System.out.println("It doesn't exist in the first place.");
