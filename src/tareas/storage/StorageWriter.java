@@ -23,7 +23,6 @@ public class StorageWriter {
 		String json = gson.toJson(tasks);
 		
 		FileWriter writer = new FileWriter(fileName);
-	//	FileWriter writerTest = new FileWriter("testing.json");
 
         writer.write(json);
 		writer.close();

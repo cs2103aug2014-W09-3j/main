@@ -5,6 +5,7 @@ import tareas.common.Task;
 import tareas.common.Tasks;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -102,11 +103,10 @@ public class TareasIO {
      *
 	 * @param id
 	 */
-	public void deleteTask(int id, int runType) {
+	public void deleteTask(int id, int runType) throws InvalidParameterException{
 		initialize(runType);
 		if(id < 1 || id > getTasks(runType).getLatestID()) {
-			// TODO: Add exception for Invalid ID.
-			System.out.println("Invalid Task ID.");
+            throw new InvalidParameterException("Invalid id");
 		} else {
             int taskIdToRemove = -1;
 
@@ -178,8 +178,11 @@ public class TareasIO {
                 if (newTask.getRecurrenceDay() != null) {
                     taskToBuild.setRecurrenceDay(newTask.getRecurrenceDay());
                 }
-
-                // TODO tags editing, how should we do that?
+                if (newTask.getTags() != null) {
+                    for(int i = 0; i < newTask.getTags().size(); i++) {
+                        taskToBuild.addTag(newTask.getTags().get(i));
+                    }
+                }
 
                 if (newTask.isTaskCompleted() != taskToBuild.isTaskCompleted()) {
                     if(newTask.isTaskCompleted()) {
