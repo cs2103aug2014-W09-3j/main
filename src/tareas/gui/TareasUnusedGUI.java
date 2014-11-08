@@ -1,33 +1,31 @@
-//@author A0112151A -- unused - reason: our group decided to change the GUI library from SWT to Javafx.
+//@author A0112151A -- unused - reason: our group decided to change the GUI library from SWT to Javafx. This
+//GUI is written in SWT.
 
-
+//
 //package tareas.gui;
 //
-////@author A0112151A
-//package tareas.gui;
+//import java.awt.BorderLayout;
+//import java.util.ArrayList;
 //
-//        import java.awt.BorderLayout;
-//        import java.util.ArrayList;
+//import javax.swing.JFrame;
+//import javax.swing.JScrollPane;
+//import javax.swing.JTable;
 //
-//        import javax.swing.JFrame;
-//        import javax.swing.JScrollPane;
-//        import javax.swing.JTable;
+//import tareas.controller.*;
+//import tareas.common.*;
+//import tareas.parser.TareasCommand;
 //
-//        import tareas.controller.*;
-//        import tareas.common.*;
-//        import tareas.parser.TareasCommand;
-//
-//        import org.eclipse.jface.window.ApplicationWindow;
-//        import org.eclipse.jface.dialogs.*;
-//        import org.eclipse.swt.*;
-//        import org.eclipse.swt.events.*;
-//        import org.eclipse.swt.graphics.Color;
-//        import org.eclipse.swt.graphics.Device;
-//        import org.eclipse.swt.graphics.GC;
-//        import org.eclipse.swt.graphics.Image;
-//        import org.eclipse.swt.graphics.Rectangle;
-//        import org.eclipse.swt.layout.*;
-//        import org.eclipse.swt.widgets.*;
+//import org.eclipse.jface.window.ApplicationWindow;
+//import org.eclipse.jface.dialogs.*;
+//import org.eclipse.swt.*;
+//import org.eclipse.swt.events.*;
+//import org.eclipse.swt.graphics.Color;
+//import org.eclipse.swt.graphics.Device;
+//import org.eclipse.swt.graphics.GC;
+//import org.eclipse.swt.graphics.Image;
+//import org.eclipse.swt.graphics.Rectangle;
+//import org.eclipse.swt.layout.*;
+//import org.eclipse.swt.widgets.*;
 //
 //public class TareasUnusedGUI implements Runnable {
 //    TareasController controller = new TareasController();
@@ -41,7 +39,7 @@
 //    private TableItem item;
 //    private ArrayList<String> string;
 //
-//    //	public TareasGUI(){  //}
+//
 //    public Display getDisplay(){
 //        return display;
 //    }
@@ -105,31 +103,31 @@
 //        lblNewLabel.setText("Welcome to Tareas");
 //        text.setText("Type your command here");
 //
-////		text.addListener(SWT.Traverse, new Listener() {
-////			@Override
-////			public void handleEvent(Event event) {
-////				if (event.detail == SWT.TRAVERSE_RETURN) {
-////					System.out.println(text.getText());
-////					if(text.getText().equals("add"))
-////
-////					lblNewLabel.setText(text.getText());
-////					text.setText(" ");
-////				}
-////			}
-////		});
-//        // JTable table2 = new JTable(3, 3);
-////
-////	    Object rowData[][] = { { "Row1-Column1", "Row1-Column2", "Row1-Column3" },
-////	        { "Row2-Column1", "Row2-Column2", "Row2-Column3" } };
-////	    Object columnNames[] = { "Column One", "Column Two", "Column Three" };
-////	       JFrame frame = new JFrame();
-////	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//// JTable table3 = new JTable(rowData, columnNames);
-////
-////	    JScrollPane scrollPane = new JScrollPane(table3);
-////	    frame.add(scrollPane, BorderLayout.CENTER);
-////	    frame.setSize(300, 150);
-////	    frame.setVisible(true);
+//        text.addListener(SWT.Traverse, new Listener() {
+//            @Override
+//            public void handleEvent(Event event) {
+//                if (event.detail == SWT.TRAVERSE_RETURN) {
+//                    System.out.println(text.getText());
+//                    if(text.getText().equals("add"))
+//
+//                        lblNewLabel.setText(text.getText());
+//                    text.setText(" ");
+//                }
+//            }
+//        });
+//        JTable table2 = new JTable(3, 3);
+//
+//        Object rowData[][] = { { "Row1-Column1", "Row1-Column2", "Row1-Column3" },
+//                { "Row2-Column1", "Row2-Column2", "Row2-Column3" } };
+//        Object columnNames[] = { "Column One", "Column Two", "Column Three" };
+//        JFrame frame = new JFrame();
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JTable table3 = new JTable(rowData, columnNames);
+//
+//        JScrollPane scrollPane = new JScrollPane(table3);
+//        frame.add(scrollPane, BorderLayout.CENTER);
+//        frame.setSize(300, 150);
+//        frame.setVisible(true);
 //
 //        table = new Table(shell, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 //        FormData fd_table = new FormData();
@@ -148,46 +146,46 @@
 //        taskIDClmn.setText("Task ID");
 //
 //        // Creating column for Category.
-////		TableColumn categoryClmn = new TableColumn(table, SWT.NONE);
-////		categoryClmn.setWidth(69);
-////		categoryClmn.setText("Category");
+//        TableColumn categoryClmn = new TableColumn(table, SWT.NONE);
+//        categoryClmn.setWidth(69);
+//        categoryClmn.setText("Category");
 //
 //        // Creating column for description.
 //        TableColumn descriptionClmn = new TableColumn(table, SWT.NONE);
 //        descriptionClmn.setWidth(224);
 //        descriptionClmn.setText("Description");
 //
-////		// Creating column for deadline.
-////		TableColumn deadlineClmn = new TableColumn(table, SWT.NONE);
-////		deadlineClmn.setWidth(107);
-////		deadlineClmn.setText("Deadline");
-////
-////		TableColumn startTimeClmn = new TableColumn(table, SWT.NONE);
-////		startTimeClmn.setWidth(107);
-////		startTimeClmn.setText("Start Time");
-////
-////		TableColumn endTimeClmn = new TableColumn(table, SWT.NONE);
-////		endTimeClmn.setWidth(107);
-////		endTimeClmn.setText("End Time");
+//        // Creating column for deadline.
+//        TableColumn deadlineClmn = new TableColumn(table, SWT.NONE);
+//        deadlineClmn.setWidth(107);
+//        deadlineClmn.setText("Deadline");
 //
-////		table_1 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-////		FormData fd_table_1 = new FormData();
-////		fd_table_1.bottom = new FormAttachment(calendar, 0, SWT.BOTTOM);
-////		fd_table_1.right = new FormAttachment(100, -10);
-////		fd_table_1.left = new FormAttachment(calendar, 6);
-////		fd_table_1.top = new FormAttachment(0, 5);
-////		table_1.setLayoutData(fd_table_1);
-////		table_1.setHeaderVisible(true);
-////		table_1.setLinesVisible(true);
-////
-////		TableColumn tblclmnTaskId = new TableColumn(table_1, SWT.NONE);
-////		tblclmnTaskId.setWidth(100);
-////		tblclmnTaskId.setText("Task ID");
-////
-////		TableColumn tblclmnDescription = new TableColumn(table_1, SWT.NONE);
-////		tblclmnDescription.setWidth(100);
-////		tblclmnDescription.setText("Description");
-////
+//        TableColumn startTimeClmn = new TableColumn(table, SWT.NONE);
+//        startTimeClmn.setWidth(107);
+//        startTimeClmn.setText("Start Time");
+//
+//        TableColumn endTimeClmn = new TableColumn(table, SWT.NONE);
+//        endTimeClmn.setWidth(107);
+//        endTimeClmn.setText("End Time");
+//
+//        table_1 = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+//        FormData fd_table_1 = new FormData();
+//        fd_table_1.bottom = new FormAttachment(calendar, 0, SWT.BOTTOM);
+//        fd_table_1.right = new FormAttachment(100, -10);
+//        fd_table_1.left = new FormAttachment(calendar, 6);
+//        fd_table_1.top = new FormAttachment(0, 5);
+//        table_1.setLayoutData(fd_table_1);
+//        table_1.setHeaderVisible(true);
+//        table_1.setLinesVisible(true);
+//
+//        TableColumn tblclmnTaskId = new TableColumn(table_1, SWT.NONE);
+//        tblclmnTaskId.setWidth(100);
+//        tblclmnTaskId.setText("Task ID");
+//
+//        TableColumn tblclmnDescription = new TableColumn(table_1, SWT.NONE);
+//        tblclmnDescription.setWidth(100);
+//        tblclmnDescription.setText("Description");
+//
 //        text.addListener(SWT.Traverse, new Listener() {
 //            @Override
 //            public void handleEvent(Event event) {
@@ -196,34 +194,34 @@
 //                    TareasCommand command = controller.executeCommand(line);
 //                    process(command);
 //                    //counter++;
-////					System.out.println(line);
-////					if(line.equals("add")){
-////						TableItem item = new TableItem(table, SWT.NULL);
-////					//	item.setText(0, "Item 10");
-////					//	add();
-////
-////					}
-////
-////						System.out.println("added");
-////					lblNewLabel.setText(text.getText());
+//                    System.out.println(line);
+//                    if(line.equals("add")){
+//                        TableItem item = new TableItem(table, SWT.NULL);
+//                        //	item.setText(0, "Item 10");
+//                        //	add();
+//
+//                    }
+//
+//                    System.out.println("added");
+//                    lblNewLabel.setText(text.getText());
 //                    text.setText("");
 //                }
 //            }
 //        });
 //
 //        //	TableItem item = new TableItem(table, SWT.NULL);
-////		for (int loopIndex = 0; loopIndex < 4; loopIndex++) {
-////			TableItem item = new TableItem(table, SWT.NULL);
-////			// item.setText("Item " + loopIndex);
-////			item.setText(0, "Item " + loopIndex);
-////			item.setText(1, "Yes");
-////			item.setText(2, "No");
-////			item.setText(3, "A table item");
-////			item.setText(4, "trying");
-////			item.setText(5, "ok");
-////		}
-////		TableItem item = new TableItem(table, SWT.NULL);
-////		item.setText(0, "Item 4");
+//        for (int loopIndex = 0; loopIndex < 4; loopIndex++) {
+//            TableItem item = new TableItem(table, SWT.NULL);
+//            // item.setText("Item " + loopIndex);
+//            item.setText(0, "Item " + loopIndex);
+//            item.setText(1, "Yes");
+//            item.setText(2, "No");
+//            item.setText(3, "A table item");
+//            item.setText(4, "trying");
+//            item.setText(5, "ok");
+//        }
+//        TableItem item = new TableItem(table, SWT.NULL);
+//        item.setText(0, "Item 4");
 //
 //
 //        shell.open();
@@ -234,10 +232,10 @@
 //        //display.dispose();
 //    }
 //
-////	public void add(Task newTask){
-////		item.setText(newTask.getTaskID(), newTask.getTaskID());
-////
-////	}
+//    public void add(Task newTask){
+//        item.setText(newTask.getTaskID(), newTask.getTaskID());
+//
+//    }
 //
 //    public void process(TareasCommand command){
 //        switch(command.getType()){
@@ -369,8 +367,7 @@
 //    public static void main(String args[]){
 //        TareasGUI trying = new TareasGUI();
 //        trying.run();
-////		trying.add();
 //
 //    }
 //}
-//
+

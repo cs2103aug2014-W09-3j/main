@@ -1,5 +1,6 @@
 package tareas.storage;
 
+import tareas.common.Log;
 import tareas.common.Task;
 import tareas.common.Tasks;
 
@@ -20,6 +21,7 @@ import java.util.Iterator;
 public class TareasIO {
 
     private Tasks tasks = new Tasks();
+    private static String TAG = "tareas/tareasStorageIO";
 	
 	private void initialize(int runType) {
 		StorageReader reader = new StorageReader();
@@ -533,6 +535,8 @@ public class TareasIO {
            default:
                System.out.println("This is an error!");
                // it should never reach here
+               Log.w("getAllUndoneTasks has met with an unexpected failure that allows it to fall into default" +
+                       " which should never happen", TAG);
                break;
         }
 
