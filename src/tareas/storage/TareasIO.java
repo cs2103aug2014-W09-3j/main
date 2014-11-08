@@ -44,6 +44,10 @@ public class TareasIO {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a file writing action at " + now.toString());
+
 	}
 	
 	private void removeTaskFromArray(int id, ArrayList<Task> temp) {
@@ -84,6 +88,10 @@ public class TareasIO {
         newTasks.add(task);
         tasks.set(newTasks);
 		write(runType);
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a task insertion action at " + now.toString());
+
 	}
 
 	/**
@@ -119,6 +127,10 @@ public class TareasIO {
 
 			write(runType);
 		}
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a task deletion action at " + now.toString());
+
 	}
 
     /**
@@ -210,6 +222,10 @@ public class TareasIO {
         tasks.set(temp);
 
         write(runType);
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a task editing action at " + now.toString());
+
     }
 
     /**
