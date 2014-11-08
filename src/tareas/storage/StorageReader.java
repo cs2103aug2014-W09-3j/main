@@ -58,9 +58,9 @@ public class StorageReader {
             else if (file.isDirectory() && file.list().length > 0)
                 System.out.println("It's a directory and it's not empty.");
             else
-                System.out.println("Somebody else has it open, we don't have write permissions, or somebody stole my disk.");
+                System.out.println("Somebody else has it open.");
         } catch (SecurityException e) {
-            System.out.println("We're sandboxed and don't have filesystem access.");
+            System.out.println("No filesystem access.");
         }
 
         if(deleted){
@@ -93,6 +93,12 @@ public class StorageReader {
 		Gson gson = new Gson();
 		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
+        File file = new File(fileName);
+
+        if(!file.exists()){
+            throw new FileNotFoundException("File Mising!");
+        }
+
 		String json = br.readLine();
 		br.close();
         fr.close();
