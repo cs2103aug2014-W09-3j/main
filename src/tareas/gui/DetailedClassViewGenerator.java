@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Her Lung on 23/10/2014.
  */
-//@author A0065490A
+
 class DetailedTaskViewGenerator {
     private Task task;
 

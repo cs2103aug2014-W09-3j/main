@@ -14,7 +14,7 @@ import javafx.stage.StageStyle;
 /**
  * Created by Her Lung on 28/10/2014.
  */
-//@author A0065490A
+
 class HelpView {
     FlowPane root;
 

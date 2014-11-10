@@ -10,7 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-//@author A0065490A
 public class TareasGUIView extends Application {
     private double xOffset = 0;
     private double yOffset = 0;

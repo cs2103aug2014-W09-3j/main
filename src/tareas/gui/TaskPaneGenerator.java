@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 /**
  * Created by Her Lung on 13/10/2014.
  */
-//@author A0065490A
+
 class TaskPaneGenerator {
     Task task = new Task();
 
