@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.time.LocalDateTime;
 
 /**
- * @author Her Lung
  *         <p/>
  *         This class models all types of tasks that can be created in Tareas.
  *         If any attributes do not apply to the task that is being created, leave it as null.
