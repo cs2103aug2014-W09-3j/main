@@ -35,8 +35,8 @@ public class Parser {
                     "d-M[-yy]",
                     "[d-M[-yyyy] ]H:mm",
                     "[d-M[-yy] ]H:mm",
-                    "[d-M[-yyyy] ]K[:mm]a",
-                    "[d-M[-yy] ]K[:mm]a"
+                    "[d-M[-yyyy] ]h[:mm]a",
+                    "[d-M[-yy] ]h[:mm]a"
             };
 
             LocalDateTime now = LocalDateTime.now();
@@ -52,7 +52,7 @@ public class Parser {
                         .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0);
 
 
-                if (!(pattern.contains("H") || pattern.contains("K"))) {
+                if (!(pattern.contains("H") || pattern.contains("h"))) {
                     builder.parseDefaulting(ChronoField.HOUR_OF_DAY, 0);
                 }
 
@@ -200,7 +200,7 @@ public class Parser {
     public static void main(String[] args) {
         //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
         //System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
-        System.out.println(getDateTimeFromString("xmas 9:30"));
+        System.out.println(getDateTimeFromString("tomorrow 12pm"));
     }
 
     public static ArrayList<String> generateCommands() {
