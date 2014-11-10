@@ -1,0 +1,2334 @@
+//@author: a0065490a
+
+
+
+	/**
+	 * origin: tareas\controller\TaskManagerTests.java
+	 */
+
+    public void testTaskManagerSingleTon() {
+        TaskManager manager1 = TaskManager.getInstance();
+        manager1.setId(100);
+        ArrayList<Task> uniqueTasks = new ArrayList<>();
+        manager1.set(uniqueTasks);
+
+        TaskManager manager2 = TaskManager.getInstance();
+
+        // Boundary values here are 99, 100, 101
+        // 99 and 101 represents the partitions that are not correct
+        assertEquals(false, manager2.getId() == 99);
+        assertEquals(true, manager2.getId() == 100);
+        assertEquals(false, manager2.getId() == 101);
+
+        // This showcases that the Arraylist in manager2 is the exact same object as
+        // the one that is set in manager1
+        assertEquals(true, manager2.get() == uniqueTasks);
+    }
+
+    /**
+     * TaskManager test for making sure that this TaskManager's latestTasks is empty
+     *
+     * boundary case for when latestTasks is empty upon initialization
+     */
+    @Test
+    public void latestTasksIsEmpty() throws IOException {
+        ArrayList<Task> emptyList = taskManager.get();
+
+        assertEquals(new ArrayList<Task>(), emptyList);
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager supports sets the ArrayList of Task properly
+     *
+     * normal case for when latestTasks is not empty after adding something
+     */
+    @Test
+    public void latestTasksIsNotEmptyAfterSet() throws IOException {
+        Task testTask = new Task();
+        ArrayList<Task> testArrayListTask = new ArrayList<>();
+
+        testArrayListTask.add(testTask);
+
+        taskManager.set(testArrayListTask);
+
+        assertNotEquals(0, taskManager.get().size());
+        assertNotEquals(null, taskManager.get().get(0));
+
+        taskManager.set(new ArrayList<>());
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager supports sets Id properly
+     *
+     * equivalence partitioning test for TaskManager's setting id method - i.e. zero, positive and negative numbers are
+     * all tested
+     */
+    @Test
+    public void latestTasksIsIdChangesAfterSettingIt() throws IOException {
+        // Zero
+        taskManager.setId(0);
+
+        assertEquals(0, taskManager.getId());
+
+        // Positive value
+        taskManager.setId(3);
+
+        assertEquals(3, taskManager.getId());
+
+        // Negative value
+        taskManager.setId(-1);
+
+        assertEquals(-1, taskManager.getId());
+
+        taskManager.setId(1);
+    }
+
+    /**
+     * TaskManager test for making sure that this TaskManager's redoStack is an empty stack
+     *
+     * boundary case for when redoStack is empty upon initialization
+     */
+    @Test
+    public void redoStackIsEmpty() throws IOException {
+        Stack<Tasks> emptyStack = taskManager.getRedoStack();
+
+        assertEquals(new Stack<Tasks>(), emptyStack);
+    }
+
+    /**
+     * TaskManager test for making sure that this TaskManager's historyStack is an empty stack
+     *
+     * boundary case for when historyStack is empty upon initialization
+     */
+    @Test
+    public void historyStackIsEmpty() throws IOException {
+        Stack<Tasks> emptyStack = taskManager.getUndoStack();
+
+        assertEquals(new Stack<Tasks>(), emptyStack);
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager with empty redoStack disallows for redoing
+     *
+     * boundary case for when redoStack is empty upon initialization and should disallow users from doing a redo action
+     */
+    @Test
+    public void unableToRedo() throws IOException {
+        boolean isAbleToRedo = taskManager.isAbleToRedo();
+
+        assertEquals(false, isAbleToRedo);
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager with empty historyStack disallows for undoing
+     *
+     * boundary case for when historyStack is empty upon initialization and should disallow users from doing a redo
+     * action
+     */
+    @Test
+    public void UnableToUndo() throws IOException {
+        boolean isAbleToUndo = taskManager.isAbleToUndo();
+
+        assertEquals(false, isAbleToUndo);
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager allows for a task change
+     *
+     * normal case for whenever a the Tasks state has changed
+     */
+    @Test
+    public void taskChangedSupported() throws IOException {
+        Task testTask = new Task();
+        ArrayList<Task> testArrayListTask = new ArrayList<>();
+
+        testArrayListTask.add(testTask);
+
+        taskManager.tasksChanged(testArrayListTask);
+
+        assertEquals(testArrayListTask, taskManager.get());
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager historyStack allows for pushing
+     *
+     * normal case for when historyStack is empty upon initialization and should allow for a state to be pushed in
+     * through a simulation of a task change action (any action that involves changing the Tasks state)
+     */
+    @Test
+    public void historyStackAllowPushing() throws IOException {
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
+
+        testArrayListTask1.add(testTask);
+
+        // simulate first task added
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        // simulate second task added
+        taskManager.tasksChanged(testArrayListTask2);
+
+        Stack<Tasks> testHistoryStack = new Stack<>();
+
+        Tasks testTasks = new Tasks();
+        testTasks.set(testArrayListTask1);
+
+        testHistoryStack.push(testTasks);
+
+        Stack<Tasks> undoStack = taskManager.getUndoStack();
+
+        // unable to test for equality of the stack, so we test size and task equality since this test is quite controlled
+        assertEquals(testHistoryStack.peek().get().size(), undoStack.peek().get().size());
+        assertEquals(testHistoryStack.peek().get().get(0), undoStack.peek().get().get(0));
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager's redoStack allows for pushing
+     *
+     * normal case for when redoStack is empty upon initialization and should allow for a state to be pushed in
+     * through a simulation of an undo action
+     */
+    @Test
+    public void redoStackAllowPushing() throws IOException {
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
+
+        testArrayListTask1.add(testTask);
+
+        // simulate first task added
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        // simulate second task added
+        taskManager.tasksChanged(testArrayListTask2);
+
+        // simulate an undo action
+        taskManager.getUndoState();
+
+        Stack<Tasks> testHistoryStack = new Stack<>();
+
+        Tasks testTasks = new Tasks();
+        testTasks.set(testArrayListTask2);
+
+        testHistoryStack.push(testTasks);
+
+        Stack<Tasks> redoStack = taskManager.getRedoStack();
+
+        // unable to test for equality of the stack, so we test size and task equality since this test is quite controlled
+        assertEquals(testHistoryStack.peek().get().size(), redoStack.peek().get().size());
+        assertEquals(testHistoryStack.peek().get().get(0), redoStack.peek().get().get(0));
+        assertEquals(testHistoryStack.peek().get().get(1), redoStack.peek().get().get(1));
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+        taskManager.clearRedoState();
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager with a non-empty historyStack allows for undoing
+     *
+     * normal case for when redoStack is not empty after simulation of an undo action and allows the user to do a redo
+     * action
+     */
+    @Test
+    public void ableToRedo() throws IOException {
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
+
+        testArrayListTask1.add(testTask);
+
+        // simulate first task added
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        // simulate second task added
+        taskManager.tasksChanged(testArrayListTask2);
+
+        // simulate an undo action
+        taskManager.getUndoState();
+
+        boolean isAbleToRedo = taskManager.isAbleToRedo();
+
+        assertEquals(true, isAbleToRedo);
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+        taskManager.clearRedoState();
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager with a non-empty historyStack allows for undoing
+     *
+     * normal case for when redoStack is not empty after simulation of a task change and allows the user to do an undo
+     * action
+     */
+    @Test
+    public void ableToUndo() throws IOException {
+        Task testTask = new Task();
+        Task testTask2 = new Task();
+        ArrayList<Task> testArrayListTask1 = new ArrayList<>();
+        ArrayList<Task> testArrayListTask2 = new ArrayList<>();
+
+        testArrayListTask1.add(testTask);
+
+        // simulate first task added
+        taskManager.tasksChanged(testArrayListTask1);
+
+        testArrayListTask2.add(testTask);
+        testArrayListTask2.add(testTask2);
+
+        // simulate second task added
+        taskManager.tasksChanged(testArrayListTask2);
+
+        boolean isAbleToUndo = taskManager.isAbleToUndo();
+
+        assertEquals(true, isAbleToUndo);
+
+        taskManager.set(new ArrayList<>());
+        taskManager.clearHistoryState();
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager supports building floating tasks
+     *
+     * normal case for TaskManager supporting building of floating tasks
+     */
+    @Test
+    public void supportBuildingFloatingTasks() throws IOException {
+        TareasCommand testTareasCommand = TareasCommand.fromString("buy ham");
+
+        Task testBuyHamTask = TaskManager.buildTask(testTareasCommand);
+
+        ArrayList<String> testTaskTags = new ArrayList<>();
+
+        // make sure it has description but not any kind of deadline or start time end time or other attributes
+        assertEquals(testBuyHamTask.getDescription(), "buy ham");
+        assertEquals(testBuyHamTask.getTags(), testTaskTags);
+        assertEquals(testBuyHamTask.getStartDateTime(), null);
+        assertEquals(testBuyHamTask.getEndDateTime(), null);
+        assertEquals(testBuyHamTask.getDeadline(), null);
+    }
+
+    /**
+     * TaskManager test for making sure that TaskManager supports building floating tagged tasks
+     *
+     * normal case for TaskManager supporting building of floating tagged tasks
+     */
+	// End of segment: tareas\controller\TaskManagerTests.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\AgendaViewContoller.java
+	 */
+
+    public void showAgendaView() {
+        GregorianCalendar start = new GregorianCalendar();
+        start.set(2014, 10, 27, 10, 30);
+        GregorianCalendar end = new GregorianCalendar();
+        end.set(2014, 10, 27, 11, 30);
+
+        this.agenda.appointments().add(
+                new Agenda.AppointmentImpl()
+                        .withStartTime(start)
+                        .withEndTime(end));
+
+        StackPane secondaryLayout = new StackPane();
+        secondaryLayout.getChildren().add(new Label("HELLO"));
+
+        Scene secondScene = new Scene(secondaryLayout, 800, 600);
+
+        Stage secondStage = new Stage();
+        secondStage.setTitle("Agenda View");
+        secondStage.setScene(secondScene);
+
+        secondStage.show();
+
+    }
+}
+
+	// End of segment: tareas\gui\AgendaViewContoller.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    protected DashboardView() {
+        TareasController tareasController = new TareasController();
+        Stack<Integer> tempStack = tareasController.getInitialiseValues();
+        while(!tempStack.empty()) {
+            values.push(tempStack.pop());
+        }
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    protected void showDashboard() {
+        FlowPane root = new FlowPane();
+        root.setId("dashboard");
+        root.getStylesheets().add("tareas/gui/css/dashboard.css");
+        Font.loadFont(DashboardView.class.getResource("css/segoeui.ttf").toExternalForm(), 12);
+
+        Label title = labelGenerator("Tareas Dashboard", "title", 780, 20);
+        FlowPane overall = getOverallComponent(390, 150);
+        FlowPane statistics = getStatisticsComponent(390, 150);
+
+        FlowPane barGraphArea = new FlowPane();
+        barGraphArea.getChildren().add(getBarChart());
+
+        Label message = labelGenerator("Press any key to continue...",
+                "dashboard-message", 780, 20);
+
+        root.getChildren().addAll(title, overall, statistics, barGraphArea, message);
+
+        Scene scene = new Scene(root, 800, 600);
+        scene.setFill(Color.TRANSPARENT);
+
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                closeDashboard(scene);
+            }
+        });
+        scene.setOnMouseClicked(t -> {
+            closeDashboard(scene);
+        });
+
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setTitle("Dashboard");
+        stage.setScene(scene);
+
+        stage.setAlwaysOnTop(true);
+        stage.requestFocus();
+
+        stage.show();
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private void closeDashboard(Scene scene) {
+        FadeTransition ft = GUIAnimation.addFadeOutAnimation(scene);
+        ft.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                Stage innerStage = (Stage) scene.getWindow();
+                innerStage.close();
+            }
+        });
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private FlowPane getOverallComponent(int width, int height) {
+        FlowPane overall = new FlowPane();
+        overall.setId("overall");
+        overall.setPrefSize(width, height);
+
+        overall.getChildren().addAll(
+                labelGenerator("Completed Tasks", "headings", width),
+                labelGenerator(values.pop().toString(), "numbers", width),
+                labelGenerator("Overdue Tasks", "headings", width),
+                labelGenerator(values.pop().toString(), "numbers", width)
+        );
+
+        return overall;
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private BarChart<Number, String> getBarChart() {
+        NumberAxis xAxis = new NumberAxis();
+        Axis yAxis = new CategoryAxis();
+        BarChart<Number, String> barChart = new BarChart<Number, String>(xAxis, yAxis);
+
+        xAxis.setLabel("Number of tasks");
+        yAxis.setLabel("Category");
+        barChart.setPrefSize(780, 360);
+        barChart.setBarGap(0);
+
+        XYChart.Series series1 = new XYChart.Series();
+        XYChart.Series series2 = new XYChart.Series();
+        series1.setName("Done");
+        series2.setName("Un-done");
+        series1.getData().add(new XYChart.Data(0, "Today"));
+        series2.getData().add(new XYChart.Data(0, "Today"));
+        series1.getData().add(new XYChart.Data(0, "Tomorrow"));
+        series2.getData().add(new XYChart.Data(0, "Tomorrow"));
+        series1.getData().add(new XYChart.Data(0, day(2)));
+        series2.getData().add(new XYChart.Data(0, day(2)));
+        series1.getData().add(new XYChart.Data(0, day(3)));
+        series2.getData().add(new XYChart.Data(0, day(3)));
+        series1.getData().add(new XYChart.Data(0, day(4)));
+        series2.getData().add(new XYChart.Data(0, day(4)));
+        series1.getData().add(new XYChart.Data(0, day(5)));
+        series2.getData().add(new XYChart.Data(0, day(5)));
+        series1.getData().add(new XYChart.Data(0, day(6)));
+        series2.getData().add(new XYChart.Data(0, day(6)));
+
+        barChart.setLegendVisible(true);
+        barChart.getData().addAll(series1, series2);
+
+        Timeline tl = new Timeline();
+        tl.getKeyFrames().add(new KeyFrame(Duration.millis(500),
+                new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent actionEvent) {
+                        for (XYChart.Series<Number, String> series : barChart.getData()) {
+                            for (XYChart.Data<Number, String> data : series.getData()) {
+                                data.setXValue(values.pop());
+                            }
+                        }
+                    }
+                }));
+        tl.setCycleCount(1);
+        tl.play();
+
+        return barChart;
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private void displayLabelForData(XYChart.Data<Number, String> data) {
+        final Node node = data.getNode();
+        final Text dataText = new Text(data.getXValue() + "");
+        node.parentProperty().addListener(new ChangeListener<Parent>() {
+            @Override public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+                Group parentGroup = (Group) parent;
+                parentGroup.getChildren().add(dataText);
+            }
+        });
+
+        node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+            @Override public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+                dataText.setLayoutX(
+                        Math.round(
+                                bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
+                        )
+                );
+                dataText.setLayoutY(
+                        Math.round(
+                                bounds.getMinY() - dataText.prefHeight(-1) * 0.5
+                        )
+                );
+            }
+        });
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private FlowPane getStatisticsComponent(int width, int height) {
+        FlowPane statistics = new FlowPane();
+        statistics.setId("statistics");
+        statistics.setPrefSize(width, height);
+
+        statistics.getChildren().addAll(
+                labelGenerator("Uncompleted Tasks", "headings", width),
+                labelGenerator("Deadline Tasks", "mini-headings", 190),
+                labelGenerator("Timed Tasks", "mini-headings", 190),
+                labelGenerator(values.pop().toString(), "mini-numbers", 190),
+                labelGenerator(values.pop().toString(), "mini-numbers", 190),
+                labelGenerator("Floating Tasks", "mini-headings", 190),
+                labelGenerator("Important Tasks", "mini-headings", 190),
+                labelGenerator(values.pop().toString(), "mini-numbers", 190),
+                labelGenerator(values.pop().toString(), "mini-numbers", 190)
+        );
+
+        return statistics;
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private String day(int daysFromNow) {
+        Calendar calender = Calendar.getInstance();
+        calender.add(Calendar.DATE, daysFromNow);
+        int day = calender.get(Calendar.DAY_OF_WEEK);
+        switch(day) {
+            case Calendar.SUNDAY:
+                return "Sunday";
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            case Calendar.SATURDAY:
+                return "Saturday";
+            default:
+                return "Error";
+        }
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private Label labelGenerator(String value, String id, int width) {
+        Label label = new Label(value);
+        label.setId(id);
+        label.setPrefWidth(width);
+        return label;
+    }
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DashboardView.java
+	 */
+
+    private Label labelGenerator(String value, String id, int width, int height) {
+        Label label = new Label(value);
+        label.setId(id);
+        label.setPrefWidth(width);
+        return label;
+    }
+
+}
+
+	// End of segment: tareas\gui\DashboardView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    protected FlowPane generate() {
+        FlowPane root = new FlowPane();
+        try {
+            root = FXMLLoader.load(getClass().getResource("fxml/TasksDetailedView.fxml"));
+
+            // Retrieve all children of root
+            ArrayList<FlowPane> nodes = new ArrayList<FlowPane>();
+            for(Node node : root.getChildrenUnmodifiable()) {
+                nodes.add((FlowPane)node);
+            }
+
+            FlowPane header = nodes.get(0);
+            header.setId("header");
+            // Insert Task Description
+            header.getChildren().add(getTaskDescription());
+
+            FlowPane body = nodes.get(1);
+            body.setId("body");
+            body.setVgap(10);
+            // Insert contents
+            body.getChildren().addAll(getDeadline(), getStartTime(),
+                    getEndTime(), getCompleted(), getPriority(), getReminderDateTime());
+
+            FlowPane footer = nodes.get(2);
+            footer.setId("footer");
+            Label quitMessage = new Label("Press <Tab> to go back...");
+            quitMessage.setId("exitMessage");
+            footer.getChildren().add(quitMessage);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return root;
+    }
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    private Label getTaskDescription() {
+        Label taskDescription = new Label(task.getDescription());
+        taskDescription.setWrapText(true);
+        taskDescription.setId("taskDescription");
+        return taskDescription;
+    }
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    private TextFlow getDeadline() {
+        String value;
+        if(task.getDeadline() == null) {
+            value = " - ";
+        } else {
+            value = Parser.getStringFromDateTime(task.getDeadline());
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Deadline: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("deadline");
+
+        return textFlow;
+    }
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    private TextFlow getStartTime() {
+        String value;
+        if(task.getStartDateTime() == null) {
+            value = " - ";
+        } else {
+            value = Parser.getStringFromDateTime(task.getStartDateTime());
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Start: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("startDateTime");
+
+        return textFlow;
+    }
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    private TextFlow getEndTime() {
+        String value;
+        if(task.getEndDateTime() == null) {
+            value = " - ";
+        } else {
+            value = Parser.getStringFromDateTime(task.getEndDateTime());
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("End: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("endDateTime");
+
+        return textFlow;
+    }
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    private TextFlow getCompleted() {
+        String value;
+        if(task.isTaskCompleted()) {
+            value = "Yes";
+        } else {
+            value = "No";
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Completed: ");
+        label.setStyle("-fx-font-weight: bold;");
+        Text field = new Text(value);
+        if(task.isTaskCompleted()) {
+            field.setStyle("-fx-text-fill: green;");
+        } else {
+            field.setStyle("-fx-text-fill: maroon;");
+        }
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("getCompleted");
+
+        return textFlow;
+    }
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    private TextFlow getPriority() {
+        String value;
+        if(task.isTaskPriority()) {
+            value = "Yes";
+        } else {
+            value = "No";
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Priority: ");
+        label.setStyle("-fx-font-weight: bold;");
+        Text field = new Text(value);
+        if(task.isTaskPriority()) {
+            field.setStyle("-fx-text-fill: green;");
+        } else {
+            field.setStyle("-fx-text-fill: maroon;");
+        }
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("getPriority");
+
+        return textFlow;
+    }
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\DetailedClassViewGenerator.java
+	 */
+
+    private TextFlow getReminderDateTime() {
+        String value;
+        if(task.getReminderDateTime() == null) {
+            value = " - ";
+        } else {
+            value = task.getReminderDateTime().toString();
+        }
+        TextFlow textFlow = new TextFlow();
+        textFlow.setPrefWidth(193);
+        Text label = new Text("Reminder: ");
+        label.setStyle("-fx-font-weight: bold");
+        Text field = new Text(value);
+        textFlow.getChildren().addAll(label, field);
+        textFlow.setId("reminderDateTime");
+
+        return textFlow;
+    }
+}
+
+	// End of segment: tareas\gui\DetailedClassViewGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\GUIAnimation.java
+	 */
+
+    public static FadeTransition addFadeOutAnimation(Scene scene) {
+        FadeTransition ft = new FadeTransition(Duration.millis(250), scene.getRoot());
+        ft.setFromValue(1.0);
+        ft.setToValue(0);
+        ft.setCycleCount(1);
+        ft.play();
+        return ft;
+    }
+
+	// End of segment: tareas\gui\GUIAnimation.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\GUIAnimation.java
+	 */
+
+    public static FadeTransition addFadeInAnimation(Scene scene) {
+        FadeTransition ft = new FadeTransition(Duration.millis(250), scene.getRoot());
+        ft.setFromValue(0.0);
+        ft.setToValue(1.0);
+        ft.setCycleCount(1);
+        ft.play();
+        return ft;
+    }
+}
+
+	// End of segment: tareas\gui\GUIAnimation.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    protected HelpView() {
+        root = new FlowPane();
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    protected void showHelpView() {
+        root.setId("help-view");
+        root.getStylesheets().add("tareas/gui/css/helpView.css");
+
+        setContent(250, 200);
+
+        Scene scene = new Scene(root, 800, 800);
+        scene.setFill(Color.TRANSPARENT);
+
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                closeHelpView(scene);
+            }
+        });
+        scene.setOnMouseClicked(t -> {
+            closeHelpView(scene);
+        });
+
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setTitle("Dashboard");
+        stage.setScene(scene);
+
+        //stage.setAlwaysOnTop(true);
+        //stage.requestFocus();
+
+        FadeTransition ft = GUIAnimation.addFadeInAnimation(scene);
+        ft.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                stage.show();
+            }
+        });
+
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private void setContent(int width, int height) {
+        FlowPane addGrouping = new FlowPane();
+        addGrouping.setId("grouping");
+        addGrouping.setPrefSize(780, 110);
+        addGrouping.getChildren().addAll(
+                labelGenerator("Add Tasks", "sub-title", 760),
+                floatingCommands(width-10, 50),
+                deadlineCommands(width-10, 50),
+                importantCommands(width-10, 50),
+                timedCommands(490, 50),
+                tagCommands(width-10, 50)
+        );
+
+        FlowPane editGrouping = new FlowPane();
+        editGrouping.setId("grouping");
+        editGrouping.setPrefSize(780, 110);
+        editGrouping.getChildren().addAll(
+                labelGenerator("Edit, Delete Tasks & Others", "sub-title", 760),
+                editCommands(490, 50),
+                deleteCommands(width-10, 50),
+                doneCommands(width-10, 30),
+                prioritizeCommands(width-10, 30),
+                undoRedoCommands(width-10, 30)
+        );
+
+        FlowPane peripheralGrouping = new FlowPane();
+        peripheralGrouping.setId("grouping");
+        peripheralGrouping.setPrefSize(780, 110);
+        peripheralGrouping.getChildren().addAll(
+                labelGenerator("Peripheral Commands", "sub-title", 760),
+                viewCommands(350, 100),
+                shortcutCommands(350, 100)
+        );
+        this.root.getChildren().addAll(
+                labelGenerator("List of Commands", "title", 780),
+                addGrouping,
+                editGrouping,
+                peripheralGrouping,
+                labelGenerator("Press any key to continue...",
+                        "sub-title", 780)
+        );
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane floatingCommands(int width, int height) {
+        FlowPane floating = new FlowPane();
+        floating.setId("module");
+        floating.setPrefSize(width, height);
+
+        floating.getChildren().addAll(
+                labelGenerator("Add a floating task", "sub-title", width-10),
+                labelGenerator("Just type the task description in\n the command line.", "command", width-10)
+        );
+
+        return floating;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane deadlineCommands(int width, int height) {
+        FlowPane deadline = new FlowPane();
+        deadline.setId("module");
+        deadline.setPrefSize(width, height);
+
+        deadline.getChildren().addAll(
+                labelGenerator("Add a deadline task", "sub-title", width-10),
+                labelGenerator("<task description> /by dd-mm-yy HH:mm", "command", width-10)
+        );
+
+        return deadline;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane importantCommands(int width, int height) {
+        FlowPane important = new FlowPane();
+        important.setId("module");
+        important.setPrefSize(width, height);
+
+        important.getChildren().addAll(
+                labelGenerator("Add an important task", "sub-title", width-10),
+                labelGenerator("/prioritize <task number>", "command", width-10)
+        );
+
+        return important;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane timedCommands(int width, int height) {
+        FlowPane timed = new FlowPane();
+        timed.setId("module");
+        timed.setPrefSize(width, height);
+
+        timed.getChildren().addAll(
+                labelGenerator("Add a timed task", "sub-title", width-10),
+                labelGenerator("<task description> /from dd-mm-yy hh:mm "+
+                        "/to dd-mm-yy hh:mm", "command", width-10)
+        );
+
+        return timed;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane editCommands(int width, int height) {
+        FlowPane edit = new FlowPane();
+        edit.setId("module");
+        edit.setPrefSize(width, height);
+
+        edit.getChildren().addAll(
+                labelGenerator("Edit a task", "sub-title", width-10),
+                labelGenerator("/edit <task number> /by dd-mm-yy hh:mm\n" +
+                        "/edit <task number> /from dd-mm-yy hh:mm /to dd-mm-yy hh:mm\n" +
+                        "/edit <task number> /tag", "command", width-10)
+        );
+
+        return edit;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane prioritizeCommands(int width, int height) {
+        FlowPane prioritize = new FlowPane();
+        prioritize.setId("module");
+        prioritize.setPrefSize(width, height);
+
+        prioritize.getChildren().addAll(
+                labelGenerator("Prioritize a task", "sub-title", width-10),
+                labelGenerator("/prioritize <task number>", "command", width-10)
+        );
+
+        return prioritize;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane undoRedoCommands(int width, int height) {
+        FlowPane prioritize = new FlowPane();
+        prioritize.setId("module");
+        prioritize.setPrefSize(width, height);
+
+        prioritize.getChildren().addAll(
+                labelGenerator("Undo or redo", "sub-title", width-10),
+                labelGenerator("/undo OR /redo", "command", width-10)
+        );
+
+        return prioritize;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane tagCommands(int width, int height) {
+        FlowPane tag = new FlowPane();
+        tag.setId("module");
+        tag.setPrefSize(width, height);
+
+        tag.getChildren().addAll(
+                labelGenerator("Tag a task", "sub-title", width-10),
+                labelGenerator("<task description> /tag <tag>", "command", width-10)
+        );
+
+        return tag;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane deleteCommands(int width, int height) {
+        FlowPane delete = new FlowPane();
+        delete.setId("module");
+        delete.setPrefSize(width, height);
+
+        delete.getChildren().addAll(
+                labelGenerator("Delete a task", "sub-title", width-10),
+                labelGenerator("/delete <task number>", "command", width-10)
+        );
+
+        return delete;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane doneCommands(int width, int height) {
+        FlowPane done = new FlowPane();
+        done.setId("module");
+        done.setPrefSize(width, height);
+
+        done.getChildren().addAll(
+                labelGenerator("Mark a task as done", "sub-title", width-10),
+                labelGenerator("/done <task number>", "command", width-10)
+        );
+
+        return done;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane viewCommands(int width, int height) {
+        FlowPane view = new FlowPane();
+        view.setId("module");
+        view.setPrefSize(width, height);
+
+        view.getChildren().addAll(
+                labelGenerator("Change views", "sub-title", width-10),
+                labelGenerator("All Tasks: /view all\n"+
+                        "All done tasks: /view done\n"+
+                        "All undone tasks: /view undone\n"+
+                        "All deadline tasks: /view deadline\n"+
+                        "All timed tasks: /view timed\n"+
+                        "All floating tasks: /view floating\n"+
+                        "All important tasks: /view important\n"+
+                        "Today's tasks: /view today\n"+
+                        "Tomorrow's tasks: /view tomorrow\n"+
+                        "View some other date's tasks: /view dd-mm-yy\n"+
+                        "View dashboard: /view dashboard", "command", width-10)
+        );
+
+        return view;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private FlowPane shortcutCommands(int width, int height) {
+        FlowPane shortcut = new FlowPane();
+        shortcut.setId("module");
+        shortcut.setPrefSize(width, height);
+
+        shortcut.getChildren().addAll(
+                labelGenerator("Shortcut keys", "sub-title", width-10),
+                labelGenerator("Next page: Ctrl + <Right>\n"+
+                        "Previous page: Ctrl + <left>\n"+
+                        "First page: Ctrl + <Up>\n"+
+                        "Last page: Ctrl + <Down>\n"+
+                        "Minimise Window: Ctrl + M\n"+
+                        "Exit: Esc", "command", width-10)
+        );
+
+        return shortcut;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private Label labelGenerator(String value, String id, int width) {
+        Label label = new Label(value);
+        label.setId(id);
+        label.setPrefWidth(width);
+        return label;
+    }
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\HelpView.java
+	 */
+
+    private void closeHelpView(Scene scene) {
+        FadeTransition ft = GUIAnimation.addFadeOutAnimation(scene);
+        ft.setOnFinished(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent arg0) {
+                Stage innerStage = (Stage) scene.getWindow();
+                innerStage.close();
+            }
+        });
+    }
+}
+
+	// End of segment: tareas\gui\HelpView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public static TareasGUIController getInstance() {
+        if (instance == null) {
+            instance = new TareasGUIController();
+        }
+        return instance;
+    }
+
+    /**
+     * This method is to ensure that the singleton pattern will
+     * not be violated
+     * @return
+     * @throws CloneNotSupportedException
+     */
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
+    }
+
+    /**
+     * This is the method the GUI will run first when initialised
+     * @param url
+     * @param rb
+     */
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        Log.i(TAG, "Initialized!");
+
+        // Load the font
+        Font.loadFont(TareasGUIController.class.getResource("css/segoeui.ttf").toExternalForm(), 12);
+
+        // Set placeholder for command line
+        commandLine.setPromptText("Type a command here...");
+
+        // Initialization of Tilepane
+        initializeFlowPane();
+
+        TareasController logicController = new TareasController();
+        sendTaskstoView(logicController.getInitialiseTasks());
+
+        // Initialize close button
+        initializeCloseButton();
+
+        // Initialization of notification bar
+        initializeNotifications();
+
+        // Initialization of shortcut keys
+        initializeKeyCombinations();
+
+        // TODO: Explore auto-complete
+        /*TextFields.bindAutoCompletion(
+                commandLine,
+                "-add", "-delete");*/
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void initializeKeyCombinations() {
+        root.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            final KeyCombination CTRL_RIGHT = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_LEFT = new KeyCodeCombination(KeyCode.LEFT, KeyCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_UP = new KeyCodeCombination(KeyCode.UP, KeyCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_DOWN = new KeyCodeCombination(KeyCode.DOWN, KeyCombination.CONTROL_DOWN);
+            final KeyCombination ESCAPE = new KeyCodeCombination(KeyCode.ESCAPE);
+            final KeyCombination UP = new KeyCodeCombination(KeyCode.UP);
+            final KeyCombination DOWN = new KeyCodeCombination(KeyCode.DOWN);
+            final KeyCombination CTRL_M = new KeyCodeCombination(KeyCode.M, KeyCodeCombination.CONTROL_DOWN);
+            final KeyCombination CTRL_C = new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN);
+
+            public void handle(KeyEvent t) {
+                if (CTRL_RIGHT.match(t)) {
+                    goToNextPage();
+                }
+                if (CTRL_LEFT.match(t)) {
+                    goToPrevPage();
+                }
+                if (CTRL_UP.match(t)) {
+                    goToFirstPage();
+                }
+                if (CTRL_DOWN.match(t)) {
+                    goToLastPage();
+                }
+                if (ESCAPE.match(t)) {
+                    FadeTransition ft = GUIAnimation.addFadeOutAnimation(root.getScene());
+                    ft.setOnFinished(new EventHandler<ActionEvent>(){
+                        @Override
+                        public void handle(ActionEvent arg0) {
+                            Stage stage = (Stage) root.getScene().getWindow();
+                            stage.close();
+                        }
+                    });
+                }
+                if (UP.match(t)) {
+                    if (commandStackBefore.empty()) {
+                        //sendWarningToView("No more commands in history.");
+                    } else {
+                        String prevCommand = commandStackBefore.pop();
+                        commandLine.setText(prevCommand);
+                        commandStackAfter.push(prevCommand);
+                    }
+                }
+                if (DOWN.match(t)) {
+                    if (commandStackAfter.empty()) {
+                        commandLine.setText("");
+                    } else {
+                        String futureCommand = commandStackAfter.pop();
+                        commandLine.setText(futureCommand);
+                        commandStackBefore.push(futureCommand);
+                    }
+                }
+                if (CTRL_M.match(t)) {
+                    Stage stage = (Stage) root.getScene().getWindow();
+                    stage.setIconified(true);
+                }
+                if (CTRL_C.match(t)) {
+                    /*AgendaViewContoller agendaView = new AgendaViewContoller(new Agenda());
+                    agendaView.showAgendaView();*/
+                    //showHelpView();
+                    //highlightTask(1);
+                }
+            }
+        });
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void initializeFlowPane() {
+        flowPane.setHgap(20);
+        flowPane.setVgap(3);
+        flowPane.getStylesheets().add("tareas/gui/css/flowpane.css");
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void initializeNotifications() {
+        notificationPane = new NotificationPane(flowPane);
+        notificationPane.setShowFromTop(false);
+        notificationPane.setMinSize(800, 100);
+        root.add(notificationPane, 0, 1);
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void initializeCloseButton() {
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FadeTransition ft = GUIAnimation.addFadeOutAnimation(root.getScene());
+                ft.setOnFinished(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent arg0) {
+                        Stage stage = (Stage) root.getScene().getWindow();
+                        stage.close();
+                    }
+                });
+                Log.i(TAG, "User exited the program.");
+            }
+        });
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void onEnter() {
+        // IMPORTANT!
+        // The below line ensures that the instance of this controller the Logic
+        // component is using is the same instance as the one FXMLoader is using.
+        instance = this;
+
+        input = commandLine.getText();
+        commandLine.clear();
+
+        TareasController mainController = new TareasController();
+
+        commandStackBefore.push(input);
+        commandStackAfter.clear();
+        Log.i(TAG, "User entered in command: " + input);
+        mainController.executeCommand(input, false);
+
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void changeCategoryName(String newCategory) {
+        categoryText = newCategory;
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void sendWarningToView(String message) {
+        sendNotificationToView(message, "warning");
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void sendErrorToView(String message) {
+        sendNotificationToView(message, "error");
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void sendSuccessToView(String message) {
+        sendNotificationToView(message, "success");
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void sendNotificationToView(String message, String status) {
+        // Notifications (Code for notifications with picture)
+        Image logo;
+
+        if (status.equals("error")) {
+            logo = new Image("error.png");
+        } else if (status.equals("warning")) {
+            logo = new Image("warning.png");
+        } else {
+            logo = new Image("tick.png");
+        }
+
+        ImageView notificationLogo = new ImageView(logo);
+        notificationLogo.setFitWidth(25);
+        notificationLogo.setFitHeight(25);
+        notificationPane.show(message, notificationLogo);
+        hideNotificationAfter(3000);
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void showDashboard() {
+        DashboardView dashboardView = new DashboardView();
+        dashboardView.showDashboard();
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void showHelpView() {
+        HelpView helpView = new HelpView();
+        helpView.showHelpView();
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void sendTaskstoView(ArrayList<Task> tasks) {
+        Collections.reverse(tasks);
+        this.tasks = tasks;
+        pageCount = 1;
+        updateView();
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void highlightTask(int taskNumber) {
+        flowPane.getChildren().clear();
+        int maxPage = 0;
+        if(tasks.size() % maxTasksPerPage == 0){
+            maxPage = tasks.size() / maxTasksPerPage;
+        } else {
+            maxPage = tasks.size() / maxTasksPerPage + 1;
+        }
+        Label categoryLabel = new Label(categoryText + " ("+pageCount+"/"+maxPage+")");
+        categoryLabel.setId("categoryLabel");
+        flowPane.getChildren().add(categoryLabel);
+
+        int i = 0;
+        // Inserting listeners to each taskPane
+        for (Task task : getPageView()) {
+            i++;
+            TaskPaneGenerator generator = new TaskPaneGenerator(task);
+            FlowPane taskPane;
+            if(i == taskNumber) {
+                taskPane = generator.generateTaskPane(true);
+            } else {
+                taskPane = generator.generateTaskPane(false);
+            }
+            taskPane.setOnMouseClicked(event -> {
+                setDetailedViewToTaskPane(taskPane, task);
+            });
+            flowPane.getChildren().add(taskPane);
+        }
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void updateView() {
+        flowPane.getChildren().clear();
+        int maxPage = 0;
+        if(tasks.size() % maxTasksPerPage == 0){
+            maxPage = tasks.size() / maxTasksPerPage;
+            if(maxPage == 0) {
+                maxPage = 1;
+            }
+        } else {
+            maxPage = tasks.size() / maxTasksPerPage + 1;
+        }
+        Label categoryLabel = new Label(categoryText + " ("+pageCount+"/"+maxPage+")");
+        categoryLabel.setId("categoryLabel");
+        flowPane.getChildren().add(categoryLabel);
+
+        // Inserting listeners to each taskPane
+        for (Task task : getPageView()) {
+            TaskPaneGenerator generator = new TaskPaneGenerator(task);
+            FlowPane taskPane = generator.generateTaskPane(false);
+            taskPane.setOnMouseClicked(event -> {
+                setDetailedViewToTaskPane(taskPane, task);
+            });
+            flowPane.getChildren().add(taskPane);
+        }
+
+    }
+
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void hideNotificationAfter(int ms) {
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        notificationPane.hide();
+                    }
+                },
+                ms
+        );
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private void setDetailedViewToTaskPane(FlowPane taskPane, Task task) {
+        PopOver detailedView = new PopOver();
+        Scene thisScene = taskPane.getScene();
+
+        thisScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                detailedView.hide();
+            }
+        });
+        thisScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                detailedView.hide();
+            }
+        });
+
+        detailedView.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+        detailedView.setCornerRadius(0);
+        detailedView.setOpacity(0.95);
+        DetailedTaskViewGenerator gen = new DetailedTaskViewGenerator(task);
+        detailedView.setContentNode(gen.generate());
+        detailedView.show(taskPane);
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void showDetailedView(Task task) {
+        PopOver detailedView = new PopOver();
+        Scene thisScene = root.getScene();
+
+        thisScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent t) {
+                detailedView.hide();
+            }
+        });
+        thisScene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                detailedView.hide();
+            }
+        });
+
+        detailedView.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
+        detailedView.setCornerRadius(0);
+        detailedView.setOpacity(0.95);
+        DetailedTaskViewGenerator gen = new DetailedTaskViewGenerator(task);
+        detailedView.setContentNode(gen.generate());
+        detailedView.show(commandLine);
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private ArrayList<Task> getPageView() {
+        ArrayList<Task> currentPage = new ArrayList<Task>();
+            for(int i = 0; i < maxTasksPerPage; i++) {
+                if((pageCount-1)*maxTasksPerPage + i > tasks.size()-1) {
+                    break;
+                }
+                Task task = tasks.get((pageCount - 1) * maxTasksPerPage + i);
+                // GUI TaskID is set into the Task object's taskID attribute.
+                task.setTaskID((pageCount-1)*maxTasksPerPage + i + 1);
+                currentPage.add(task);
+            }
+        return currentPage;
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    private boolean isPageNumberValid(int pageNumber) {
+        int totalSize = this.tasks.size();
+        if(totalSize % maxTasksPerPage > 0) {
+            if(pageNumber > (totalSize/maxTasksPerPage)+1 ||
+                pageNumber < 1) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if(pageNumber > (totalSize/maxTasksPerPage) ||
+                pageNumber < 1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void goToNextPage() {
+        int nextPage = this.pageCount + 1;
+        if(isPageNumberValid(nextPage)) {
+            pageCount++;
+            updateView();
+        } else {
+            sendWarningToView("You have reached the last page.");
+        }
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void goToPrevPage() {
+        int prevPage = this.pageCount - 1;
+        if(isPageNumberValid(prevPage)) {
+            pageCount--;
+            updateView();
+        } else {
+            sendWarningToView("You are at the first page.");
+        }
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void goToFirstPage() {
+        pageCount = 1;
+        updateView();
+    }
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIController.java
+	 */
+
+    public void goToLastPage() {
+        int totalNumber = this.tasks.size();
+        if(totalNumber % maxTasksPerPage > 0) {
+            pageCount = totalNumber / maxTasksPerPage + 1;
+        } else {
+            pageCount = totalNumber / maxTasksPerPage;
+        }
+        updateView();
+    }
+}
+
+	// End of segment: tareas\gui\TareasGUIController.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIView.java
+	 */
+
+    @Override
+    public void start(final Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/TareasGUI.fxml"));
+
+        primaryStage.setTitle("Tareas");
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
+
+        // To allow the stage to be draggable
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                primaryStage.setX(event.getScreenX() - xOffset);
+                primaryStage.setY(event.getScreenY() - yOffset);
+            }
+        });
+
+        Scene scene = new Scene(root, 800, 600);
+        scene.setFill(Color.TRANSPARENT);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        DashboardView dashboardView = new DashboardView();
+        dashboardView.showDashboard();
+    }
+
+
+	// End of segment: tareas\gui\TareasGUIView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TareasGUIView.java
+	 */
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+
+	// End of segment: tareas\gui\TareasGUIView.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    protected TaskPaneGenerator(Task task) {
+        this.task = task;
+    }
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    protected FlowPane generateTaskPane(boolean isHighlighted) {
+        TareasGUIController controller = TareasGUIController.getInstance();
+
+        // Initialization of taskPane
+        FlowPane taskPane = new FlowPane();
+        taskPane.setId("taskpane");
+        taskPane.getStylesheets().add("tareas/gui/css/taskpane.css");
+
+        if(isHighlighted) {
+            taskPane.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+        }
+
+        // ID Label
+        taskPane.getChildren().add(getIDLabel(task.getTaskID()));
+
+        // Task Description
+        taskPane.getChildren().add(getDescriptionLabel(task.getDescription()));
+
+        // Deadline Label
+        if(task.getDeadline() != null) {
+            taskPane.getChildren().add(getDeadline(task.getDeadline()));
+        } else if(task.getStartDateTime() == null && task.getEndDateTime() != null) {
+            taskPane.getChildren().add(getDeadline(task.getEndDateTime()));
+        } else if(task.getStartDateTime() != null && task.getEndDateTime() != null){
+            taskPane.getChildren().add(getInterval(task.getStartDateTime(), task.getEndDateTime()));
+        } else {
+            taskPane.getChildren().add(generateEmptyLabel(100, 30));
+        }
+
+        // Prioritise picture
+        taskPane.getChildren().add(getPriority(task.isTaskPriority()));
+
+        return taskPane;
+    }
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    private Label getDescriptionLabel(String text) {
+        Label taskDescription = new Label(text);
+        taskDescription.setId("taskDescription");
+        return taskDescription;
+    }
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    private Label getIDLabel(int id) {
+        Label idLabel = new Label(Integer.toString(id) + ".");
+        idLabel.setId("idLabel");
+        return idLabel;
+    }
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    private Label getDeadline(LocalDateTime deadline) {
+        String date;
+        if(deadline == null){
+            date = "";
+        } else {
+            date = Parser.getStringFromDateTime(deadline);
+        }
+        Label deadlineLabel = new Label(date);
+        deadlineLabel.setId("deadlineLabel");
+        return deadlineLabel;
+    }
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    private Label getInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        String startDate;
+        String endDate;
+        if(startDateTime == null && endDateTime == null) {
+            startDate = "";
+            endDate = "";
+        } else {
+            startDate = Parser.getStringFromDateTime(startDateTime);
+            endDate = Parser.getStringFromDateTime(endDateTime);
+        }
+        Label startEndDateTime = new Label(startDate + "\n" + endDate);
+        startEndDateTime.setId("startEndLabel");
+        return startEndDateTime;
+    }
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    private ImageView getPriority(boolean hasPriority) {
+        Image image = new Image("bookmark.png");
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setFitHeight(40);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        imageView.setCache(true);
+        imageView.setId("prioritisePicture");
+
+        if(!hasPriority) {
+            imageView.setOpacity(0);
+        }
+
+        return imageView;
+    }
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+
+	/**
+	 * origin: tareas\gui\TaskPaneGenerator.java
+	 */
+
+    private Label generateEmptyLabel(int width, int height) {
+        Label label = new Label();
+        label.setPrefSize(width, height);
+        return label;
+    }
+}
+
+	// End of segment: tareas\gui\TaskPaneGenerator.java
+
+
+
+
+

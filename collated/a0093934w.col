@@ -1,0 +1,1066 @@
+//@author: a0093934w
+
+
+
+	/**
+	 * origin: tareas\common\Constants.java
+	 */
+
+
+/**
+ * This class contains constants used throughout the project.
+ */
+public class Constants {
+    public static String COMMAND_DELIMITER = "/";
+    public static boolean LOGGING_ENABLED = true;
+    public static String LOG_SECOND_LEVEL = "   └ ";
+}
+
+	// End of segment: tareas\common\Constants.java
+
+
+
+
+
+	/**
+	 * origin: tareas\common\Log.java
+	 */
+
+
+/**
+ * A class used to log messages with customized format.
+ */
+
+public class Log {
+    private static Logger LOGGER;
+    private final static SimpleDateFormat TareasLogDateFormat = new SimpleDateFormat("dd-MM hh:mm:ss.S");
+
+
+    private static Logger getLogger() {
+        if (LOGGER == null) {
+            LOGGER = Logger.getLogger(Log.class.getName());
+
+            LOGGER.setUseParentHandlers(false);
+
+            LOGGER.addHandler(new TareasConsoleInfoHandler());
+            LOGGER.addHandler(new TareasConsoleErrorHandler());
+
+            try {
+                FileHandler fh = new FileHandler("tareas.log", true);
+                LOGGER.addHandler(fh);
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, "Cannot open log file.");
+            }
+
+        }
+
+        return LOGGER;
+    }
+
+
+    public static void i(String tag, String msg) {
+        if (Constants.LOGGING_ENABLED)
+            getLogger().logp(Level.INFO, tag, "", msg);
+    }
+
+
+    public static void e(String tag, String msg) {
+        if (Constants.LOGGING_ENABLED)
+            getLogger().logp(Level.SEVERE, tag, "", msg);
+    }
+
+
+    public static void w(String tag, String msg) {
+        if (Constants.LOGGING_ENABLED)
+            getLogger().logp(Level.WARNING, tag, "", msg);
+    }
+
+
+    private static class TareasLogFormatter extends Formatter {
+
+        @Override
+        public String format(LogRecord record) {
+            return String.format("%s: %s/%s: %s\n",
+                    TareasLogDateFormat.format(new Date(record.getMillis())),
+                    record.getLevel(), record.getSourceClassName(), record.getMessage());
+
+        }
+    }
+
+
+    private static class TareasConsoleInfoHandler extends StreamHandler {
+
+        public TareasConsoleInfoHandler() {
+            super(System.out, new TareasLogFormatter());
+            this.setFilter(record -> record.getLevel() != Level.SEVERE);
+        }
+
+        @Override
+        public void publish(LogRecord record) {
+            super.publish(record);
+            flush();
+        }
+
+        @Override
+        public void close() {
+            flush();
+        }
+    }
+
+
+    private static class TareasConsoleErrorHandler extends StreamHandler {
+
+        public TareasConsoleErrorHandler() {
+            super(System.err, new TareasLogFormatter());
+            this.setLevel(Level.SEVERE);
+        }
+
+        @Override
+        public void publish(LogRecord record) {
+            super.publish(record);
+            flush();
+        }
+
+        @Override
+        public void close() {
+            flush();
+        }
+    }
+}
+
+	// End of segment: tareas\common\Log.java
+
+
+
+
+
+	/**
+	 * origin: tareas\parser\CommandType.java
+	 */
+
+
+/**
+ * An enum storing command types and their overloads.
+ * <p>
+ */
+
+public enum CommandType {
+
+    //region Command Definitions
+
+
+    // the add command has 5 overloads, one of which does not require secondary arguments
+    ADD_COMMAND(
+            "add",
+            new String[] {}, // support for floating tasks
+            new String[] {"tag"},
+            new String[] {"from", "to"},
+            new String[] {"by"},
+            new String[] {"recurring"}
+    ),
+
+
+    // the edit command accepts a combination of keywords
+    EDIT_COMMAND(
+            "edit",
+            true,
+            new String[] {"des", "start", "end", "deadline"}
+    ),
+
+
+    // the delete command requires one primary argument and accepts no secondary argument.
+    DELETE_COMMAND("delete"),
+
+
+    SEARCH_COMMAND("search"),
+
+
+    DETAILED_COMMAND("detailed"),
+
+
+    TAG_COMMAND(
+            "tag",
+            new String[] {"with"}
+    ),
+
+
+    DONE_COMMAND("done"),
+
+
+    // the undo command does not accept any argument
+    UNDO_COMMAND("undo", 0),
+
+
+    // the redo command does not accept any argument
+    REDO_COMMAND("redo", 0),
+
+
+    POSTPONE_COMMAND(
+            "postpone",
+            new String[] {"to"},
+            new String[] {"by"}
+    ),
+
+    VIEW_COMMAND("view"),
+
+    PRIORITIZE_COMMAND("prioritize"),
+
+    REMIND_COMMAND(
+            "remind",
+            new String[] {"on"}
+    ),
+
+    MUTE_COMMAND(
+            "mute",
+            new String[] {"to"}
+    ),
+
+    FONT_COMMAND(
+            "font",
+            new String[] {},
+            new String[] {"size"}
+    ),
+
+    COLOR_COMMAND(
+            "color",
+            new String[] {"with"}
+    ),
+
+    UNKNOWN_COMMAND(null);
+
+    //endregion
+
+    private final String mPrimaryKeyword;
+    private final ArrayList<HashSet<String>> mKeywords;
+    private final boolean mCombinationAllowed;
+    private final boolean mPrimaryArgumentPresent;
+
+    //region Constructors
+
+
+    CommandType(String primaryKeyword, boolean combinationAllowed, String[]... keywords) {
+        this.mPrimaryKeyword = primaryKeyword;
+        this.mCombinationAllowed = combinationAllowed;
+        this.mPrimaryArgumentPresent = true;
+
+        this.mKeywords = new ArrayList<>();
+
+        if (keywords.length == 0) {
+            this.mKeywords.add(new HashSet<>());
+        } else {
+            if (mCombinationAllowed) { // if allowed, merge all the keywords into one set
+                HashSet<String> temp = new HashSet<>();
+                for (String[] overload : keywords) {
+                    temp.addAll(Arrays.asList(overload));
+                }
+                this.mKeywords.add(temp);
+
+            } else { // if not, keep the keywords in separate sets for respective overloads
+                for (String[] overload : keywords) {
+                    this.mKeywords.add(new HashSet<>(Arrays.asList(overload)));
+                }
+            }
+        }
+    }
+
+
+    CommandType(String primaryKeyword, String[]... keywords) {
+        this(primaryKeyword, false, keywords);
+    }
+
+
+    CommandType(String primaryKeyword, int commandHasArgument) {
+        this.mPrimaryKeyword = primaryKeyword;
+        this.mCombinationAllowed = false;
+        this.mPrimaryArgumentPresent = commandHasArgument > 0;
+
+        // no secondary keyword if this constructor is used.
+        this.mKeywords = new ArrayList<>();
+        this.mKeywords.add(new HashSet<>());
+    }
+
+    //endregion
+
+    //region Getters & Setters
+
+    
+    public String getPrimaryKeyword() {
+        return mPrimaryKeyword;
+    }
+
+
+    public ArrayList<HashSet<String>> getOverloadKeywordList() {
+        return mKeywords;
+    }
+
+    
+    public boolean isPrimaryArgumentPresent() {
+        return mPrimaryArgumentPresent;
+    }
+
+    
+    public boolean isCombinationAllowed() {
+        return mCombinationAllowed;
+    }
+
+    //endregion
+
+    //region Others
+
+
+    public boolean equals(String keyword) {
+        return keyword.toLowerCase().equals(getPrimaryKeyword());
+    }
+
+
+    public static CommandType getSpecialCommandType() {
+        return ADD_COMMAND;
+    }
+
+
+    public static CommandType fromPrimaryKeyword(String keyword) {
+        for (CommandType commandType : CommandType.values()) {
+            if (commandType.equals(keyword)) {
+                return commandType;
+            }
+        }
+
+        return CommandType.UNKNOWN_COMMAND;
+    }
+
+    //endregion
+
+}
+	// End of segment: tareas\parser\CommandType.java
+
+
+
+
+
+	/**
+	 * origin: tareas\parser\DateConstant.java
+	 */
+
+
+/**
+ * An enum contains date related String constants.
+ */
+
+public enum DateConstant {
+    YESTERDAY(DateConstantType.RELATIVE_DATE, -1, "yesterday"),
+    TODAY(DateConstantType.RELATIVE_DATE, 0, "today"),
+    TOMORROW(DateConstantType.RELATIVE_DATE, 1, "tomorrow"),
+    DAY_AFTER_TOMORROW(DateConstantType.RELATIVE_DATE, 2, "day after tomorrow"),
+
+    MONDAY(DateConstantType.DAY_OF_THE_WEEK, 1, "monday", "mon"),
+    TUESDAY(DateConstantType.DAY_OF_THE_WEEK, 2, "tuesday", "tue"),
+    WEDNESDAY(DateConstantType.DAY_OF_THE_WEEK, 3, "wednesday", "wed"),
+    THURSDAY(DateConstantType.DAY_OF_THE_WEEK, 4, "thursday", "thurs", "thu"),
+    FRIDAY(DateConstantType.DAY_OF_THE_WEEK, 5, "friday", "fri"),
+    SATURDAY(DateConstantType.DAY_OF_THE_WEEK, 6, "saturday", "sat"),
+    SUNDAY(DateConstantType.DAY_OF_THE_WEEK, 7, "sunday", "sun"),
+
+    CHRISTMAS_EVE(DateConstantType.HOLIDAY, 12, 24, "christmas", "xmas");
+
+
+    public enum DateConstantType {
+        RELATIVE_DATE,
+        DAY_OF_THE_WEEK,
+        HOLIDAY
+    }
+
+    private DateConstantType mType;
+    private int mOffset;
+    private ArrayList<String> mValues;
+    private LocalDate mPreValue;
+
+
+    DateConstant(DateConstantType type, int offset, String... values) {
+        mType = type;
+        mOffset = offset;
+        mPreValue = LocalDate.now();
+
+        mValues = new ArrayList<>();
+
+        Collections.addAll(mValues, values);
+
+    }
+
+
+    DateConstant(DateConstantType type, int month, int day, String... values) {
+        mType = type;
+        mPreValue = LocalDate.of(LocalDate.now().getYear(), month, day);
+        mValues = new ArrayList<>();
+
+        Collections.addAll(mValues, values);
+    }
+
+
+    public ArrayList<String> getValues() {
+        return mValues;
+    }
+
+
+    public static String scanString(String input) {
+        input = input.toLowerCase();
+
+        for (DateConstant constant : DateConstant.values()) {
+            for (String value : constant.getValues()) {
+                if (input.contains(value)) {
+                    return value;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    public static DateConstant fromString(String input) {
+        input = input.toLowerCase().trim();
+
+        for (DateConstant constant : DateConstant.values()) {
+            if (constant.getValues().contains(input)) {
+                return constant;
+            }
+        }
+
+        return null;
+    }
+
+
+    public static DateConstant fromTypeOffset(DateConstantType type, int offset) {
+        for (DateConstant constant : DateConstant.values()) {
+            if (constant.mType == type && constant.mOffset == offset) {
+                return constant;
+            }
+        }
+
+        return null;
+    }
+
+
+    public LocalDate toLocalDate() {
+        switch (this.mType) {
+            case RELATIVE_DATE:
+                return LocalDate.now().plus(this.mOffset, ChronoUnit.DAYS);
+            case DAY_OF_THE_WEEK:
+                return LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.of(mOffset)));
+            case HOLIDAY:
+                return mPreValue;
+            default:
+                return LocalDate.now();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.capitalize(getValues().get(0));
+    }
+}
+
+	// End of segment: tareas\parser\DateConstant.java
+
+
+
+
+
+	/**
+	 * origin: tareas\parser\Parser.java
+	 */
+
+public class Parser {
+    private static String TAG = "tareas/parser";
+
+    private static ArrayList<DateTimeFormatter> formatters;
+
+    /**
+     * This function returns an array of DateTimeFormatter of different patterns.
+     *
+     * @return an array of DateTimeFormatter
+     */
+    private static ArrayList<DateTimeFormatter> getDateTimeFormatters() {
+        if (formatters == null) {
+            String[] patterns = new String[] {
+                    "d-M[-yyyy]",
+                    "d-M[-yy]",
+                    "[d-M[-yyyy] ]H:mm",
+                    "[d-M[-yy] ]H:mm",
+                    "[d-M[-yyyy] ]h[:mm]a",
+                    "[d-M[-yy] ]h[:mm]a"
+            };
+
+            LocalDateTime now = LocalDateTime.now();
+
+            formatters = new ArrayList<>();
+
+            for (String pattern : patterns) {
+                DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
+                        .appendPattern(pattern)
+                        .parseDefaulting(ChronoField.YEAR, now.getYear())
+                        .parseDefaulting(ChronoField.MONTH_OF_YEAR, now.getMonthValue())
+                        .parseDefaulting(ChronoField.DAY_OF_MONTH, now.getDayOfMonth())
+                        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0);
+
+
+                if (!(pattern.contains("H") || pattern.contains("h"))) {
+                    builder.parseDefaulting(ChronoField.HOUR_OF_DAY, 0);
+                }
+
+                formatters.add(builder.toFormatter());
+            }
+        }
+
+        return formatters;
+    }
+
+    /**
+     * Check whether a command matches any recognizable overload.
+     *
+     * @param command The command whose signature is being checked
+     * @return true if the command signature is valid.
+     */
+    public static ParsingResult checkCommandValidity(TareasCommand command) {
+        Log.i(TAG, "Parsing command: " + command.toString());
+
+        CommandType type = command.getType();
+
+        if (type == CommandType.UNKNOWN_COMMAND) {
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Unknown command: " + command.getPrimaryKey());
+            return new ParsingResult(ParsingStatus.UNKNOWN_COMMAND, command.getPrimaryKey());
+        }
+
+        if (type.isPrimaryArgumentPresent() && command.getPrimaryArgument().equals("")) {
+            // if the primary argument is supposed to be present but missing
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Missing primary argument");
+            return new ParsingResult(ParsingStatus.MISSING_PRIMARY_ARGUMENT);
+
+        } else if (!type.isPrimaryArgumentPresent() && !command.getPrimaryArgument().equals("")) {
+            // if the primary argument is present but it shouldn't be there
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Unexpected primary argument");
+            return new ParsingResult(ParsingStatus.UNEXPECTED_PRIMARY_ARGUMENT, command.getPrimaryArgument());
+        }
+
+        if (type.isCombinationAllowed()) { // if combination is allowed, check whether the keywords are valid
+            HashSet<String> valid_keywords = type.getOverloadKeywordList().get(0);
+
+            for (String keyword : command.getSecondaryKeys()) {
+                if (!valid_keywords.contains(keyword)) {
+                    return new ParsingResult(ParsingStatus.UNKNOWN_KEYWORD, keyword);
+                }
+            }
+
+            Log.i(TAG, Constants.LOG_SECOND_LEVEL + "Command is valid.");
+            return new ParsingResult(ParsingStatus.SUCCESS);
+
+        } else { // if not, check whether the command matches an overloading signature, i.e. the set of keywords matches
+            for (HashSet<String> overload : type.getOverloadKeywordList()) {
+                if (overload.equals(command.getSecondaryKeys())) {
+                    Log.i(TAG, Constants.LOG_SECOND_LEVEL + "Command is valid.");
+                    return new ParsingResult(ParsingStatus.SUCCESS);
+                }
+            }
+
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Signature doesn't matched");
+            return new ParsingResult(ParsingStatus.SIGNATURE_NOT_MATCHED);
+        }
+    }
+
+    /**
+     * Converts a String to a LocalDateTime.
+     *
+     * @param input the String input
+     * @return a LocalDateTime if the input is a valid date/time, null otherwise
+     */
+    public static LocalDateTime getDateTimeFromString(String input) {
+        Log.i(TAG, "Parsing date: " + input);
+
+        input = input.toLowerCase();
+
+        LocalDate localDateConstant = null;
+        String dateConstantString = DateConstant.scanString(input);
+
+        if (dateConstantString != null) {
+            localDateConstant = DateConstant.fromString(dateConstantString).toLocalDate();
+            input = input.replace(dateConstantString, "").trim(); // remove the date constant from input
+
+            // if the string is empty after removing the date constant, i.e. no time info, return the date
+            if (input.equals("")) {
+                LocalDateTime result = LocalDateTime.of(localDateConstant, LocalTime.MIN);
+                Log.i(TAG, String.format(Constants.LOG_SECOND_LEVEL + "Parsed successfully: " + result.toString()));
+                return result;
+            }
+        }
+
+        String lastError = "";
+
+        for (DateTimeFormatter formatter : getDateTimeFormatters()) {
+            try {
+                LocalDateTime result = LocalDateTime.parse(input.toUpperCase(), formatter);
+
+                if (localDateConstant != null) {
+                    result = result
+                            .withYear(localDateConstant.getYear())
+                            .withMonth(localDateConstant.getMonthValue())
+                            .withDayOfMonth(localDateConstant.getDayOfMonth());
+                }
+
+                Log.i(TAG, String.format(Constants.LOG_SECOND_LEVEL + "Parsed successfully: " + result.toString()));
+                return result;
+
+            } catch (DateTimeParseException e) {
+                //Log.e(TAG, String.format("Parsing date '%s' failed. %s", input, e.getMessage()));
+                lastError = e.getMessage();
+            }
+        }
+
+        Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Parsing failed.");
+        Log.e(TAG, Constants.LOG_SECOND_LEVEL + lastError);
+        return null;
+    }
+
+    /**
+     * Converts a LocalDateTime to a String for display
+     *
+     * @param dateTime the LocalDateTime
+     * @return a String representation of the dateTime
+     */
+
+    public static String getStringFromDateTime(LocalDateTime dateTime) {
+        LocalDate date = dateTime.toLocalDate();
+        LocalTime time = dateTime.toLocalTime();
+
+        StringBuilder builder = new StringBuilder();
+        int dateDiff = Period.between(LocalDate.now(), date).getDays();
+
+        if (dateDiff >= -1 && dateDiff <= 1) {
+            builder.append(
+                    DateConstant.fromTypeOffset(DateConstant.DateConstantType.RELATIVE_DATE, dateDiff)
+                            .toString()
+            );
+        } else if (dateDiff > 1 && dateDiff <= 7) {
+            builder.append(
+                    DateConstant.fromTypeOffset(DateConstant.DateConstantType.DAY_OF_THE_WEEK, date.getDayOfWeek().getValue())
+            );
+        } else {
+            builder.append(date.format(DateTimeFormatter.ofPattern("MMM dd")));
+        }
+
+        if (time.getHour() != 0 || time.getMinute() != 0) {
+            builder.append(time.format(
+                    DateTimeFormatter.ofPattern(time.getMinute() > 0 ? ", h:mma" : ", ha")
+            ).toLowerCase());
+
+        }
+
+        return builder.toString();
+    }
+
+    /**
+     * Generate commands for demo
+     *
+     * @return an ArrayList of String commands
+     */
+    public static ArrayList<String> generateCommands() {
+        ArrayList<String> ret = new ArrayList<>();
+
+        for (int i = 0; i < 30; i++) {
+            ret.add("Finish homework " + i + " /by today");
+            if (i % 5 == 0) {
+                ret.add("/done 1");
+            }
+
+            if (i % 6 == 0) {
+                ret.add("/prioritize 1");
+            }
+        }
+
+        ret.add("Relax, because it’s friday #TGIF /by tomorrow");
+        ret.add("Buy flowers /by 24-12 6pm");
+        ret.add("Go to girlfriend’s house /by 24-12 8pm");
+        ret.add("Have a wonderful date with girlfriend /by 24-12 9pm");
+
+        for (int i = 0; i < 20; i++) {
+            if (i % 4 == 0) {
+                ret.add("Important work " + i + " /by yesterday");
+            } else {
+                ret.add("Important work " + i + " /by today");
+            }
+
+        }
+
+        return ret;
+    }
+
+}
+
+	// End of segment: tareas\parser\Parser.java
+
+
+
+
+
+	/**
+	 * origin: tareas\parser\ParserTest.java
+	 */
+
+
+/**
+ * Tests for the Parser component.
+ */
+
+public class ParserTest {
+
+    private ParsingStatus tryParse(String input) {
+        return Parser.checkCommandValidity(TareasCommand.fromString(input)).getStatus();
+    }
+
+    /**
+     * Cases for the valid command partition.
+     * These are all boundary cases since missing just one element (keyword or argument)
+     * will render the command invalid.
+     */
+    @Test
+    public void testCheckCommandValidity_ValidCommands() {
+        String[] tests = {
+                "buy ham",
+                "meeting with 2103 group /from 22-09-2014 1200 /to 22-09-2014 2200",
+                "complete user guide /by 22-09-2014 1500",
+                "gym /recurring daily from 0800 to 1000",
+                "/edit 1 /des buy watermelon /start 22-09-2014 1200 /end 22-09-2014 1300",
+                "/edit 3 /deadline 11-12-2015",
+                "/delete 3",
+                "/undo",
+                "/font Helvetica /size 12"
+        };
+
+        for (String test : tests) {
+            assertEquals(ParsingStatus.SUCCESS, tryParse(test));
+        }
+    }
+
+    /**
+     * Boundary cases for invalid command partition.
+     */
+    @Test
+    public void testCheckCommandValidity_InvalidCommands() {
+        // unknown command: /what
+        assertEquals(ParsingStatus.UNKNOWN_COMMAND, tryParse("/what hello world"));
+
+        // signature not matched: missing /to
+        assertEquals(ParsingStatus.SIGNATURE_NOT_MATCHED, tryParse("buy ham /from 22-09-2014"));
+
+        // signature not matched: unexpected keyword /foo
+        assertEquals(ParsingStatus.SIGNATURE_NOT_MATCHED, tryParse("/delete 3 /foo bar"));
+
+        // missing primary argument for /edit (which task id to edit)
+        assertEquals(ParsingStatus.MISSING_PRIMARY_ARGUMENT, tryParse("/edit /des new description"));
+
+        // unexpected primary argument, /redo should not have any argument at all
+        assertEquals(ParsingStatus.UNEXPECTED_PRIMARY_ARGUMENT, tryParse("/redo 123"));
+    }
+
+    @Test
+    public void testParseDateTime_ValidInput() {
+        String[] tests = {
+                "24-12-2014", // full date
+                "24-12", // date without year
+                "24-12-2014 9:30", // full date time
+                "24-12-14 9:30", // full date time, short year
+                "24-12-2014 10:15pm", // full date time, AM/PM
+                "24-12-14 10am", // date with AM/PM hour
+                "18:20", // time only
+                "9am", // AM/PM time
+                "today", // date constant
+                "tomorrow 2pm", // date constant with time
+                "tue 3am", // day of the week with time
+                "xmas 9pm" // holiday
+        };
+
+        LocalDateTime[] results = {
+                LocalDateTime.parse("2014-12-24T00:00"),
+                LocalDateTime.parse("2014-12-24T00:00"),
+                LocalDateTime.parse("2014-12-24T09:30"),
+                LocalDateTime.parse("2014-12-24T09:30"),
+                LocalDateTime.parse("2014-12-24T22:15"),
+                LocalDateTime.parse("2014-12-24T10:00"),
+                LocalDateTime.of(LocalDate.now(), LocalTime.parse("18:20")),
+                LocalDateTime.of(LocalDate.now(), LocalTime.parse("09:00")),
+                LocalDateTime.of(LocalDate.now(), LocalTime.parse("00:00")),
+                LocalDateTime.of(LocalDate.now().plus(1, ChronoUnit.DAYS), LocalTime.parse("14:00")),
+                LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.of(2))), LocalTime.parse("03:00"))
+        };
+
+        for (int i = 0; i < tests.length; i++) {
+            assertEquals(Parser.getDateTimeFromString(tests[i]), results[i]);
+        }
+    }
+}
+	// End of segment: tareas\parser\ParserTest.java
+
+
+
+
+
+	/**
+	 * origin: tareas\parser\ParsingResult.java
+	 */
+
+
+/**
+ * Represents a result from calling an API method in Parser.
+ */
+public class ParsingResult {
+    private ParsingStatus mStatus;
+    private String mExtra;
+
+    public ParsingStatus getStatus() {
+        return mStatus;
+    }
+
+    public String getExtra() {
+        return mExtra;
+    }
+
+    public ParsingResult(ParsingStatus status, String extra) {
+        this.mStatus = status;
+        this.mExtra = extra;
+    }
+
+    public ParsingResult(ParsingStatus status) {
+        this.mStatus = status;
+        this.mExtra = "";
+    }
+
+    public boolean isSuccessful() {
+        return getStatus() == ParsingStatus.SUCCESS;
+    }
+}
+
+	// End of segment: tareas\parser\ParsingResult.java
+
+
+
+
+
+	/**
+	 * origin: tareas\parser\ParsingStatus.java
+	 */
+
+public enum ParsingStatus {
+    SUCCESS,
+    UNKNOWN_COMMAND,
+    MISSING_PRIMARY_ARGUMENT,
+    UNEXPECTED_PRIMARY_ARGUMENT,
+    UNKNOWN_KEYWORD,
+    SIGNATURE_NOT_MATCHED
+}
+
+	// End of segment: tareas\parser\ParsingStatus.java
+
+
+
+
+
+	/**
+	 * origin: tareas\parser\TareasCommand.java
+	 */
+
+
+/**
+ * A TareasCommand has a type and a map of secondary arguments.
+ * <p>
+ * The arguments can be retrieved as a list of CommandArgument using getSecondaryArgumentList().
+ * <p>
+ * Use fromString(String command) to convert a String to a TareasCommand.
+ * <p>
+ */
+
+public class TareasCommand {
+    private static String PRIMARY_ARGUMENT_KEY = "!primary_argument";
+
+
+    public static class CommandArgument {
+        private String mKey;
+        private String mValue;
+
+        public CommandArgument(String key, String argument) {
+            this.mKey = key;
+            this.mValue = argument;
+        }
+
+        public String getKey() {
+            return mKey;
+        }
+
+        public String getValue() {
+            return mValue;
+        }
+    }
+
+    private CommandType mType;
+    private HashMap<String, String> mSecondaryArguments;
+    private String mPrimaryKey;
+
+    //region Constructors
+
+
+    public TareasCommand(CommandType type) {
+        this.mType = type;
+        this.mSecondaryArguments = new HashMap<>();
+    }
+
+
+    private TareasCommand() {
+        this.mSecondaryArguments = new HashMap<>();
+    }
+
+    //endregion
+
+    //region Getters & Setters
+
+    public CommandType getType() {
+        return mType;
+    }
+
+    
+    private void setType(CommandType type) {
+        this.mType = type;
+    }
+
+
+    public boolean hasKey(String key) {
+        return mSecondaryArguments.containsKey(key);
+    }
+
+
+    public String getArgument(String key) {
+        return mSecondaryArguments.get(key);
+    }
+
+
+    public void putArgument(String key, String value) {
+        mSecondaryArguments.put(key, value);
+    }
+
+
+    public void putArgument(CommandArgument argument) {
+        putArgument(argument.getKey(), argument.getValue());
+    }
+
+
+    public String getPrimaryArgument() {
+        return getArgument(PRIMARY_ARGUMENT_KEY);
+    }
+
+    
+    public String getPrimaryKey() {
+        return mPrimaryKey;
+    }
+
+    
+    private void setPrimaryKey(String primaryKey) {
+        this.mPrimaryKey = primaryKey;
+    }
+
+
+    /**
+     * Retrieve the set of secondary keywords.
+     *
+     * @return set of secondary keywords
+     */
+    public HashSet<String> getSecondaryKeys() {
+        HashSet<String> keys = new HashSet<>();
+        keys.addAll(mSecondaryArguments.keySet());
+        keys.remove(PRIMARY_ARGUMENT_KEY);
+        return keys;
+    }
+
+
+    public ArrayList<CommandArgument> getSecondaryArgumentList() {
+        ArrayList<CommandArgument> ret = new ArrayList<>();
+
+        for (String key : mSecondaryArguments.keySet()) {
+            if (key.equals(PRIMARY_ARGUMENT_KEY)) continue;
+
+            String value = getArgument(key);
+            ret.add(new CommandArgument(key, value));
+        }
+
+        return ret;
+    }
+
+    //endregion
+
+    /**
+     * Convert a String command into the respective TareasCommand.
+     *
+     * @param command the string command to be converted
+     * @return the converted TareasCommand.
+     */
+    public static TareasCommand fromString(String command) {
+        command = command.trim();
+
+        assert !command.equals("") : "Command should not be empty";
+
+        if (command.equals("")) return new TareasCommand(CommandType.UNKNOWN_COMMAND);
+
+        // if the command doesn't start with the delimiter (i.e. it's a special command),
+        // add the primary keyword back to normalize the command.
+        if (!command.startsWith(Constants.COMMAND_DELIMITER)) {
+            command = Constants.COMMAND_DELIMITER +
+                    CommandType.getSpecialCommandType().getPrimaryKeyword() +
+                    " " + command;
+        }
+
+        // split the command into pairs of keyword and value.
+        String[] keywordsAndValues = command.split(Constants.COMMAND_DELIMITER);
+        String primaryKeyword = null;
+
+        TareasCommand ret = new TareasCommand();
+
+        for (String kv : keywordsAndValues) {
+            if (kv.length() == 0) continue;
+
+            String[] kv_array = kv.split("\\s+", 2); // split into keyword and argument
+            String key = kv_array[0];
+            String value = kv_array.length == 2 ? kv_array[1].trim() : "";
+
+            if (primaryKeyword == null) { // the first key-value pair is the primary argument.
+                primaryKeyword = kv_array[0];
+                ret.putArgument(PRIMARY_ARGUMENT_KEY, value);
+            } else { //subsequent pairs are secondary arguments
+                ret.putArgument(key, value);
+            }
+        }
+
+        ret.setPrimaryKey(primaryKeyword);
+        ret.setType(CommandType.fromPrimaryKeyword(primaryKeyword));
+        return ret;
+    }
+
+    /**
+     * Convert TareasCommand to a String for debugging purposes.
+     *
+     * @return a String representation of the TareasCommand.
+     */
+    @Override
+    public String toString() {
+        String ret = String.format("<%1$s> '%2$s'",
+                this.getType(), this.getPrimaryArgument());
+
+        for (CommandArgument ca : this.getSecondaryArgumentList()) {
+            ret += String.format(", <%1$s> '%2$s'", ca.getKey(), ca.getValue());
+        }
+
+        return ret;
+    }
+
+}
+
+	// End of segment: tareas\parser\TareasCommand.java
+
+
+
+
+
