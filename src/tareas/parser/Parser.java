@@ -200,6 +200,37 @@ public class Parser {
     public static void main(String[] args) {
         //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
         //System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
-        System.out.println(getStringFromDateTime(getDateTimeFromString("9-11")));
+        System.out.println(getDateTimeFromString("xmas 9:30"));
+    }
+
+    public static ArrayList<String> generateCommands() {
+        ArrayList<String> ret = new ArrayList<>();
+
+        for (int i = 0; i < 30; i++) {
+            ret.add("Finish homework " + i + " /by today");
+            if (i % 5 == 0) {
+                ret.add("/done 1");
+            }
+
+            if (i % 6 == 0) {
+                ret.add("/prioritize 1");
+            }
+        }
+
+        ret.add("Relax, because it’s friday #TGIF /by tomorrow");
+        ret.add("Buy flowers /by 24-12 6pm");
+        ret.add("Go to girlfriend’s house /by 24-12 8pm");
+        ret.add("Have a wonderful date with girlfriend /by 24-12 9pm");
+
+        for (int i = 0; i < 20; i++) {
+            if (i % 4 == 0) {
+                ret.add("Important work " + i + " /by yesterday");
+            } else {
+                ret.add("Important work " + i + " /by today");
+            }
+
+        }
+
+        return ret;
     }
 }

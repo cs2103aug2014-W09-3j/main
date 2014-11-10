@@ -27,27 +27,40 @@ public enum DateConstant {
     THURSDAY(DateConstantType.DAY_OF_THE_WEEK, 4, "thursday", "thurs", "thu"),
     FRIDAY(DateConstantType.DAY_OF_THE_WEEK, 5, "friday", "fri"),
     SATURDAY(DateConstantType.DAY_OF_THE_WEEK, 6, "saturday", "sat"),
-    SUNDAY(DateConstantType.DAY_OF_THE_WEEK, 7, "sunday", "sun");
+    SUNDAY(DateConstantType.DAY_OF_THE_WEEK, 7, "sunday", "sun"),
+
+    CHRISTMAS_EVE(DateConstantType.HOLIDAY, 12, 24, "christmas", "xmas");
 
     //@author A0093934W
     public enum DateConstantType {
         RELATIVE_DATE,
-        DAY_OF_THE_WEEK
+        DAY_OF_THE_WEEK,
+        HOLIDAY
     }
 
     private DateConstantType mType;
     private int mOffset;
     private ArrayList<String> mValues;
+    private LocalDate mPreValue;
 
     //@author A0093934W
     DateConstant(DateConstantType type, int offset, String... values) {
         mType = type;
         mOffset = offset;
+        mPreValue = LocalDate.now();
 
         mValues = new ArrayList<>();
 
         Collections.addAll(mValues, values);
 
+    }
+
+    DateConstant(DateConstantType type, int month, int day, String... values) {
+        mType = type;
+        mPreValue = LocalDate.of(LocalDate.now().getYear(), month, day);
+        mValues = new ArrayList<>();
+
+        Collections.addAll(mValues, values);
     }
 
     //@author A0093934W
@@ -95,10 +108,15 @@ public enum DateConstant {
 
     //@author A0093934W
     public LocalDate toLocalDate() {
-        if (this.mType == DateConstantType.RELATIVE_DATE) {
-            return LocalDate.now().plus(this.mOffset, ChronoUnit.DAYS);
-        } else { // if (this.mType == DateConstantType.DAY_OF_THE_WEEK) {
-            return LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.of(mOffset)));
+        switch (this.mType) {
+            case RELATIVE_DATE:
+                return LocalDate.now().plus(this.mOffset, ChronoUnit.DAYS);
+            case DAY_OF_THE_WEEK:
+                return LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.of(mOffset)));
+            case HOLIDAY:
+                return mPreValue;
+            default:
+                return LocalDate.now();
         }
     }
 
