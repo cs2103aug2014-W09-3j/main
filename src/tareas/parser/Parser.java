@@ -1,5 +1,6 @@
 package tareas.parser;
 
+import tareas.common.Constants;
 import tareas.common.Log;
 
 import java.time.LocalDate;
@@ -70,21 +71,23 @@ public class Parser {
      * @return true if the command signature is valid.
      */
     public static ParsingResult checkCommandValidity(TareasCommand command) {
+        Log.i(TAG, "Parsing command: " + command.toString());
+
         CommandType type = command.getType();
 
         if (type == CommandType.UNKNOWN_COMMAND) {
-            Log.e(TAG, "unknown command: " + command.getPrimaryKey());
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Unknown command: " + command.getPrimaryKey());
             return new ParsingResult(ParsingStatus.UNKNOWN_COMMAND, command.getPrimaryKey());
         }
 
         if (type.isPrimaryArgumentPresent() && command.getPrimaryArgument().equals("")) {
             // if the primary argument is supposed to be present but missing
-            Log.e(TAG, "missing primary argument");
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Missing primary argument");
             return new ParsingResult(ParsingStatus.MISSING_PRIMARY_ARGUMENT);
 
         } else if (!type.isPrimaryArgumentPresent() && !command.getPrimaryArgument().equals("")) {
             // if the primary argument is present but it shouldn't be there
-            Log.e(TAG, "unexpected primary argument");
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Unexpected primary argument");
             return new ParsingResult(ParsingStatus.UNEXPECTED_PRIMARY_ARGUMENT, command.getPrimaryArgument());
         }
 
@@ -97,18 +100,18 @@ public class Parser {
                 }
             }
 
-            Log.i(TAG, "success: " + command);
+            Log.i(TAG, Constants.LOG_SECOND_LEVEL + "Command is valid.");
             return new ParsingResult(ParsingStatus.SUCCESS);
 
         } else { // if not, check whether the command matches an overloading signature, i.e. the set of keywords matches
             for (HashSet<String> overload : type.getOverloadKeywordList()) {
                 if (overload.equals(command.getSecondaryKeys())) {
-                    Log.i(TAG, "success: " + command);
+                    Log.i(TAG, Constants.LOG_SECOND_LEVEL + "Command is valid.");
                     return new ParsingResult(ParsingStatus.SUCCESS);
                 }
             }
 
-            Log.e(TAG, "signature doesn't matched");
+            Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Signature doesn't matched");
             return new ParsingResult(ParsingStatus.SIGNATURE_NOT_MATCHED);
         }
     }
@@ -120,6 +123,8 @@ public class Parser {
      * @return a LocalDateTime if the input is a valid date/time, null otherwise
      */
     public static LocalDateTime getDateTimeFromString(String input) {
+        Log.i(TAG, "Parsing date: " + input);
+
         input = input.toLowerCase();
 
         LocalDate localDateConstant = null;
@@ -130,7 +135,11 @@ public class Parser {
             input = input.replace(dateConstantString, "").trim(); // remove the date constant from input
 
             // if the string is empty after removing the date constant, i.e. no time info, return the date
-            if (input.equals("")) return LocalDateTime.of(localDateConstant, LocalTime.MIN);
+            if (input.equals("")) {
+                LocalDateTime result = LocalDateTime.of(localDateConstant, LocalTime.MIN);
+                Log.i(TAG, String.format(Constants.LOG_SECOND_LEVEL + "Parsed successfully: " + result.toString()));
+                return result;
+            }
         }
 
         String lastError = "";
@@ -140,13 +149,14 @@ public class Parser {
                 LocalDateTime result = LocalDateTime.parse(input.toUpperCase(), formatter);
 
                 if (localDateConstant != null) {
-                    return result
+                    result = result
                             .withYear(localDateConstant.getYear())
                             .withMonth(localDateConstant.getMonthValue())
                             .withDayOfMonth(localDateConstant.getDayOfMonth());
-                } else {
-                    return result;
                 }
+
+                Log.i(TAG, String.format(Constants.LOG_SECOND_LEVEL + "Parsed successfully: " + result.toString()));
+                return result;
 
             } catch (DateTimeParseException e) {
                 //Log.e(TAG, String.format("Parsing date '%s' failed. %s", input, e.getMessage()));
@@ -154,7 +164,8 @@ public class Parser {
             }
         }
 
-        Log.e(TAG, String.format("Parsing date '%s' failed.\n%s", input, lastError));
+        Log.e(TAG, Constants.LOG_SECOND_LEVEL + "Parsing failed.");
+        Log.e(TAG, Constants.LOG_SECOND_LEVEL + lastError);
         return null;
     }
 
@@ -164,6 +175,7 @@ public class Parser {
      * @param dateTime the LocalDateTime
      * @return a String representation of the dateTime
      */
+
     public static String getStringFromDateTime(LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         LocalTime time = dateTime.toLocalTime();
