@@ -204,7 +204,6 @@ public class ControllerTests {
         ArrayList<Task> allTasks = tareas.getTasks(1).get();
 
         assertEquals(new ArrayList<Task>(), allTasks);
-        // TODO still failing, find the bug in v0.4
 
         tareas.massDelete(1);
     }
