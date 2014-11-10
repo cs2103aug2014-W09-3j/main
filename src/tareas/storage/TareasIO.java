@@ -269,6 +269,9 @@ public class TareasIO {
      * @return
      */
     public Task detailedTask(int id, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
         initialize(runType);
         return getTask(id, runType);
     }
@@ -299,6 +302,9 @@ public class TareasIO {
      * @param runType
      */
     public void markTaskAsCompleted(int id, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
         initialize(runType);
         ArrayList<Task> temp = getAllTasks(runType);
 
@@ -404,6 +410,9 @@ public class TareasIO {
      * @param runType
      */
     public void prioritizeTask(int id, boolean priority, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
         initialize(runType);
 
         ArrayList<Task> temp = getAllTasks(runType);
