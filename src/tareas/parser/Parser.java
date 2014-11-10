@@ -203,6 +203,11 @@ public class Parser {
         System.out.println(getDateTimeFromString("tomorrow 12pm"));
     }
 
+    /**
+     * Generate commands for demo
+     *
+     * @return an ArrayList of String commands
+     */
     public static ArrayList<String> generateCommands() {
         ArrayList<String> ret = new ArrayList<>();
 

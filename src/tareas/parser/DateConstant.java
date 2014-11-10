@@ -55,6 +55,7 @@ public enum DateConstant {
 
     }
 
+    //@author A0093934W
     DateConstant(DateConstantType type, int month, int day, String... values) {
         mType = type;
         mPreValue = LocalDate.of(LocalDate.now().getYear(), month, day);
@@ -96,6 +97,7 @@ public enum DateConstant {
         return null;
     }
 
+    //@author A0093934W
     public static DateConstant fromTypeOffset(DateConstantType type, int offset) {
         for (DateConstant constant : DateConstant.values()) {
             if (constant.mType == type && constant.mOffset == offset) {
