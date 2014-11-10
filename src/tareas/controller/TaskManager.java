@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 /**
- * @author Yap Jun Hao
  *         <p/>
  *         This class manages the Task objects and keeps the historystack and redostack intact to support undo and redo
  */
