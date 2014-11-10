@@ -22,6 +22,7 @@ public class StorageJUnitTest {
 		// TODO Auto-generated method stub
 	}
 
+    //Testing for createFile method.
     @Test
     public void testCreateFile() {
         StorageWriter writer = new StorageWriter();
@@ -30,6 +31,7 @@ public class StorageJUnitTest {
         assertEquals(true, f.exists());
     }
 
+    //Testing for writeToFile method.
     @Test
     public void testWriteToFile() throws IOException {
         reader.overwrite();
@@ -53,6 +55,7 @@ public class StorageJUnitTest {
         assertEquals("task one", result.get().get(0).getDescription());
     }
 
+    //Testing for deleteTask method.
     @Test
     public void testDeleteTask() throws IOException {
         reader.overwrite();
@@ -79,6 +82,8 @@ public class StorageJUnitTest {
         assertEquals("task five", result.get().get(1).getDescription());
 
     }
+
+    //Testing for insertTask method.
     @Test
     public void testInsertTask() throws IOException {
         reader.overwrite();
@@ -99,9 +104,7 @@ public class StorageJUnitTest {
 
     }
 
-
-
-
+    //Testing for editTask method.
     @Test
     public void testEditTask() throws IOException {
         reader.overwrite();
@@ -119,7 +122,7 @@ public class StorageJUnitTest {
 
     }
 
-
+    //Testing for searchByDescription method.
     @Test
     public void testSearchTask () throws IOException {
         reader.overwrite();
