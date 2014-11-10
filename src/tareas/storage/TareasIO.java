@@ -3,6 +3,7 @@ package tareas.storage;
 import tareas.common.Log;
 import tareas.common.Task;
 import tareas.common.Tasks;
+import tareas.parser.Parser;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -578,7 +579,7 @@ public class TareasIO {
                 tasks = removeFloatingTasks(tasks);
                 tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
-                    if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
+                    if (tasks.get(i).getDeadline() != null && !now.isAfter(tasks.get(i).getDeadline()) ||
                             tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
                         i--;
@@ -587,7 +588,16 @@ public class TareasIO {
                     }
 
                     if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
-                            tasks.get(i).getEndDateTime().isAfter(now) || tasks.get(i).isTaskCompleted()) {
+                            !now.isAfter(tasks.get(i).getEndDateTime()) || tasks.get(i).isTaskCompleted()) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                        continue;
+                    }
+
+                    LocalDateTime lodaToday = Parser.getDateTimeFromString("today 00:00");
+
+                    if (tasks.get(i).getDeadline().isEqual(lodaToday)) {
                         tasks.remove(i);
                         i--;
                         tasksSize--;
