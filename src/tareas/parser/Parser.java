@@ -17,12 +17,11 @@ import java.util.HashSet;
  * This class is obviously a parser.
  */
 
+//@author A0093934W
 public class Parser {
     private static String TAG = "tareas/parser";
 
     private static ArrayList<DateTimeFormatter> formatters;
-
-    //@author A0093934W
 
     /**
      * This function returns an array of DateTimeFormatter of different patterns.
@@ -63,8 +62,6 @@ public class Parser {
 
         return formatters;
     }
-
-    //@author A0093934W
 
     /**
      * Check whether a command matches any recognizable overload.
@@ -116,8 +113,6 @@ public class Parser {
         }
     }
 
-    //@author A0093934W
-
     /**
      * Converts a String to a LocalDateTime.
      *
@@ -163,8 +158,6 @@ public class Parser {
         return null;
     }
 
-    //@author A0093934W
-
     /**
      * Converts a LocalDateTime to a String for display
      *
@@ -201,8 +194,6 @@ public class Parser {
         return builder.toString();
     }
 
-    //@author A0093934W
-
     /**
      * Generate commands for demo
      *
@@ -237,13 +228,6 @@ public class Parser {
         }
 
         return ret;
-    }
-
-
-    public static void main(String[] args) {
-        //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
-        //System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
-        System.out.println(getDateTimeFromString("tomorrow 12pm"));
     }
 
 }

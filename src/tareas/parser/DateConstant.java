@@ -9,10 +9,10 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
 
+//@author A0093934W
+
 /**
  * An enum contains date related String constants.
- * <p>
- * Created on Oct 29, 2014.
  */
 
 public enum DateConstant {
@@ -31,7 +31,7 @@ public enum DateConstant {
 
     CHRISTMAS_EVE(DateConstantType.HOLIDAY, 12, 24, "christmas", "xmas");
 
-    //@author A0093934W
+
     public enum DateConstantType {
         RELATIVE_DATE,
         DAY_OF_THE_WEEK,
@@ -43,7 +43,7 @@ public enum DateConstant {
     private ArrayList<String> mValues;
     private LocalDate mPreValue;
 
-    //@author A0093934W
+
     DateConstant(DateConstantType type, int offset, String... values) {
         mType = type;
         mOffset = offset;
@@ -55,7 +55,7 @@ public enum DateConstant {
 
     }
 
-    //@author A0093934W
+
     DateConstant(DateConstantType type, int month, int day, String... values) {
         mType = type;
         mPreValue = LocalDate.of(LocalDate.now().getYear(), month, day);
@@ -64,12 +64,12 @@ public enum DateConstant {
         Collections.addAll(mValues, values);
     }
 
-    //@author A0093934W
+
     public ArrayList<String> getValues() {
         return mValues;
     }
 
-    //@author A0093934W
+
     public static String scanString(String input) {
         input = input.toLowerCase();
 
@@ -84,7 +84,7 @@ public enum DateConstant {
         return null;
     }
 
-    //@author A0093934W
+
     public static DateConstant fromString(String input) {
         input = input.toLowerCase().trim();
 
@@ -97,7 +97,7 @@ public enum DateConstant {
         return null;
     }
 
-    //@author A0093934W
+
     public static DateConstant fromTypeOffset(DateConstantType type, int offset) {
         for (DateConstant constant : DateConstant.values()) {
             if (constant.mType == type && constant.mOffset == offset) {
@@ -108,7 +108,7 @@ public enum DateConstant {
         return null;
     }
 
-    //@author A0093934W
+
     public LocalDate toLocalDate() {
         switch (this.mType) {
             case RELATIVE_DATE:

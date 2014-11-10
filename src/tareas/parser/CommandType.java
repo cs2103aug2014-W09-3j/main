@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+//@author A0093934W
+
 /**
  * An enum storing command types and their overloads.
  * <p>
@@ -41,7 +43,7 @@ public enum CommandType {
 
     //region Command Definitions
 
-    //@author A0093934W
+
     // the add command has 5 overloads, one of which does not require secondary arguments
     ADD_COMMAND(
             "add",
@@ -52,7 +54,7 @@ public enum CommandType {
             new String[] {"recurring"}
     ),
 
-    //@author A0093934W
+
     // the edit command accepts a combination of keywords
     EDIT_COMMAND(
             "edit",
@@ -60,34 +62,34 @@ public enum CommandType {
             new String[] {"des", "start", "end", "deadline"}
     ),
 
-    //@author A0093934W
+
     // the delete command requires one primary argument and accepts no secondary argument.
     DELETE_COMMAND("delete"),
 
-    //@author A0093934W
+
     SEARCH_COMMAND("search"),
 
-    //@author A0093934W
+
     DETAILED_COMMAND("detailed"),
 
-    //@author A0093934W
+
     TAG_COMMAND(
             "tag",
             new String[] {"with"}
     ),
 
-    //@author A0093934W
+
     DONE_COMMAND("done"),
 
-    //@author A0093934W
+
     // the undo command does not accept any argument
     UNDO_COMMAND("undo", 0),
 
-    //@author A0093934W
+
     // the redo command does not accept any argument
     REDO_COMMAND("redo", 0),
 
-    //@author A0093934W
+
     POSTPONE_COMMAND(
             "postpone",
             new String[] {"to"},
@@ -130,7 +132,7 @@ public enum CommandType {
 
     //region Constructors
 
-    //@author A0093934W
+
     CommandType(String primaryKeyword, boolean combinationAllowed, String[]... keywords) {
         this.mPrimaryKeyword = primaryKeyword;
         this.mCombinationAllowed = combinationAllowed;
@@ -156,12 +158,12 @@ public enum CommandType {
         }
     }
 
-    //@author A0093934W
+
     CommandType(String primaryKeyword, String[]... keywords) {
         this(primaryKeyword, false, keywords);
     }
 
-    //@author A0093934W
+
     CommandType(String primaryKeyword, int commandHasArgument) {
         this.mPrimaryKeyword = primaryKeyword;
         this.mCombinationAllowed = false;
@@ -181,7 +183,7 @@ public enum CommandType {
         return mPrimaryKeyword;
     }
 
-    //@author A0093934W
+
     public ArrayList<HashSet<String>> getOverloadKeywordList() {
         return mKeywords;
     }
@@ -200,17 +202,17 @@ public enum CommandType {
 
     //region Others
 
-    //@author A0093934W
+
     public boolean equals(String keyword) {
         return keyword.toLowerCase().equals(getPrimaryKeyword());
     }
 
-    //@author A0093934W
+
     public static CommandType getSpecialCommandType() {
         return ADD_COMMAND;
     }
 
-    //@author A0093934W
+
     public static CommandType fromPrimaryKeyword(String keyword) {
         for (CommandType commandType : CommandType.values()) {
             if (commandType.equals(keyword)) {

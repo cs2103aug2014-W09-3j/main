@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+//@author A0093934W
+
 /**
  * A TareasCommand has a type and a map of secondary arguments.
  * <p>
@@ -18,7 +20,7 @@ import java.util.HashSet;
 public class TareasCommand {
     private static String PRIMARY_ARGUMENT_KEY = "!primary_argument";
 
-    //@author A0093934W
+
     public static class CommandArgument {
         private String mKey;
         private String mValue;
@@ -43,13 +45,13 @@ public class TareasCommand {
 
     //region Constructors
 
-    //@author A0093934W
+
     public TareasCommand(CommandType type) {
         this.mType = type;
         this.mSecondaryArguments = new HashMap<>();
     }
 
-    //@author A0093934W
+
     private TareasCommand() {
         this.mSecondaryArguments = new HashMap<>();
     }
@@ -67,27 +69,27 @@ public class TareasCommand {
         this.mType = type;
     }
 
-    //@author A0093934W
+
     public boolean hasKey(String key) {
         return mSecondaryArguments.containsKey(key);
     }
 
-    //@author A0093934W
+
     public String getArgument(String key) {
         return mSecondaryArguments.get(key);
     }
 
-    //@author A0093934W
+
     public void putArgument(String key, String value) {
         mSecondaryArguments.put(key, value);
     }
 
-    //@author A0093934W
+
     public void putArgument(CommandArgument argument) {
         putArgument(argument.getKey(), argument.getValue());
     }
 
-    //@author A0093934W
+
     public String getPrimaryArgument() {
         return getArgument(PRIMARY_ARGUMENT_KEY);
     }
@@ -102,7 +104,6 @@ public class TareasCommand {
         this.mPrimaryKey = primaryKey;
     }
 
-    //@author A0093934W
 
     /**
      * Retrieve the set of secondary keywords.
@@ -116,7 +117,7 @@ public class TareasCommand {
         return keys;
     }
 
-    //@author A0093934W
+
     public ArrayList<CommandArgument> getSecondaryArgumentList() {
         ArrayList<CommandArgument> ret = new ArrayList<>();
 
@@ -131,8 +132,6 @@ public class TareasCommand {
     }
 
     //endregion
-
-    //@author A0093934W
 
     /**
      * Convert a String command into the respective TareasCommand.
@@ -180,8 +179,6 @@ public class TareasCommand {
         ret.setType(CommandType.fromPrimaryKeyword(primaryKeyword));
         return ret;
     }
-
-    //@author A0093934W
 
     /**
      * Convert TareasCommand to a String for debugging purposes.

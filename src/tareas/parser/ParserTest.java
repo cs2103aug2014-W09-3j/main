@@ -11,18 +11,17 @@ import java.time.temporal.TemporalAdjusters;
 
 import static org.junit.Assert.assertEquals;
 
+//@author A0093934W
+
 /**
  * Tests for the Parser component.
  */
 
 public class ParserTest {
 
-    //@author A0093934W
     private ParsingStatus tryParse(String input) {
         return Parser.checkCommandValidity(TareasCommand.fromString(input)).getStatus();
     }
-
-    //@author A0093934W
 
     /**
      * Cases for the valid command partition.
@@ -48,8 +47,6 @@ public class ParserTest {
         }
     }
 
-    //@author A0093934W
-
     /**
      * Boundary cases for invalid command partition.
      */
@@ -71,7 +68,6 @@ public class ParserTest {
         assertEquals(ParsingStatus.UNEXPECTED_PRIMARY_ARGUMENT, tryParse("/redo 123"));
     }
 
-    //@author A0093934W
     @Test
     public void testParseDateTime_ValidInput() {
         String[] tests = {
@@ -85,7 +81,8 @@ public class ParserTest {
                 "9am", // AM/PM time
                 "today", // date constant
                 "tomorrow 2pm", // date constant with time
-                "tue 3am" // day of the week with time
+                "tue 3am", // day of the week with time
+                "xmas 9pm" // holiday
         };
 
         LocalDateTime[] results = {
