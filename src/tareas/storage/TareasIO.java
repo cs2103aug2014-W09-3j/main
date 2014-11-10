@@ -3,6 +3,7 @@ package tareas.storage;
 import tareas.common.Log;
 import tareas.common.Task;
 import tareas.common.Tasks;
+import tareas.parser.Parser;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
@@ -404,6 +405,38 @@ public class TareasIO {
     }
 
     /**
+     * This method sets the color of the task
+     * @param id
+     * @param color
+     * @param runType
+     */
+    public void changeTaskColor(int id, String color, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
+        initialize(runType);
+
+        ArrayList<Task> temp = getAllTasks(runType);
+
+        int taskIdToPrioritize = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToPrioritize = i;
+            }
+        }
+
+        if (taskIdToPrioritize != -1) {
+            temp.get(taskIdToPrioritize).setColor(color);
+        }
+
+        tasks.set(temp);
+
+        write(runType);
+    }
+
+    /**
      * This method sets the priority of the task.
      * @param id
      * @param priority
@@ -439,7 +472,6 @@ public class TareasIO {
         write(runType);
     }
 
-
     /**
      * This method postpones tasks to different deadlines.
      * @param task
@@ -468,8 +500,6 @@ public class TareasIO {
         }
 
         int tasksSize = tasks.size();
-        LocalDate currentDate = LocalDate.now();
-        LocalDate tmrDate = currentDate.plusDays(1);
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime tomorrow = LocalDateTime.now().plusDays(1);
@@ -485,14 +515,10 @@ public class TareasIO {
                 }
                 break;
              case "today":
-                 tasks = removeFloatingTasks(tasks);
-                 tasksSize = tasks.size();
                  LocalDate today = LocalDate.now();
                  tasks = getParticularDateTask(1, today);
                  break;
             case "tomorrow":
-                tasks = removeFloatingTasks(tasks);
-                tasksSize = tasks.size();
                 tasks = getParticularDateTask(1, tomorrow.toLocalDate());
                 break;
             case "done":
@@ -553,15 +579,25 @@ public class TareasIO {
                 tasks = removeFloatingTasks(tasks);
                 tasksSize = tasks.size();
                 for (int i = 0; i < tasksSize; i++) {
-                    if (tasks.get(i).getDeadline() != null && tasks.get(i).getDeadline().isAfter(now) ||
+                    if (tasks.get(i).getDeadline() != null && !now.isAfter(tasks.get(i).getDeadline()) ||
                             tasks.get(i).isTaskCompleted()) {
                         tasks.remove(i);
                         i--;
                         tasksSize--;
+                        continue;
                     }
 
                     if (tasks.get(i).getEndDateTime() != null && tasks.get(i).getStartDateTime() != null &&
-                            tasks.get(i).getEndDateTime().isAfter(now) || tasks.get(i).isTaskCompleted()) {
+                            !now.isAfter(tasks.get(i).getEndDateTime()) || tasks.get(i).isTaskCompleted()) {
+                        tasks.remove(i);
+                        i--;
+                        tasksSize--;
+                        continue;
+                    }
+
+                    LocalDateTime lodaToday = Parser.getDateTimeFromString("today 00:00");
+
+                    if (tasks.get(i).getDeadline().isEqual(lodaToday)) {
                         tasks.remove(i);
                         i--;
                         tasksSize--;
@@ -615,22 +651,17 @@ public class TareasIO {
 
         tasks = removeFloatingTasks(tasks);
 
-
-        int tasksSize = tasks.size();
-
         ArrayList<Task> taskToReturn = new ArrayList<>();
 
-        for (int i = 0; i < tasksSize; i++) {
-                    LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
+        for (Task task: tasks) {
+                    LocalDate taskDate = task.getDeadline().toLocalDate();
 
                     if (taskDate.isEqual(particularDate)) {
-                        taskToReturn.add(tasks.get(i));
+                        taskToReturn.add(task);
                     }
-            }
-
+        }
 
         return taskToReturn;
-
     }
 
     /**
@@ -640,7 +671,6 @@ public class TareasIO {
         tasks.removeAll();
         write(runType);
     }
-
 
     /**
      * This method add tags to tasks.
@@ -760,4 +790,5 @@ public class TareasIO {
 
         write(runType);
     }
+
 }

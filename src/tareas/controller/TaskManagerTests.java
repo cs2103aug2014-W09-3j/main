@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotEquals;
  *         <p/>
  *         This class contains the unit tests for the TaskManager class
  */
-//@author A0113694A
 public class TaskManagerTests {
 
     TaskManager taskManager = TaskManager.getInstance();
@@ -30,10 +29,10 @@ public class TaskManagerTests {
      *  Task Manager test for making sure that there can only be 1
      *  instance of TaskManager at any time.
      *
-     *  @author Delon Wong - Outsourced because he doesn't have enough tests to do.
+     *  Outsourced to Her Laang because he doesn't have enough tests to do.
      */
-    //@author A0113694A
     @Test
+    //@author A0065490A
     public void testTaskManagerSingleTon() {
         TaskManager manager1 = TaskManager.getInstance();
         manager1.setId(100);
@@ -58,7 +57,6 @@ public class TaskManagerTests {
      *
      * boundary case for when latestTasks is empty upon initialization
      */
-    //@author A0113694A
     @Test
     public void latestTasksIsEmpty() throws IOException {
         ArrayList<Task> emptyList = taskManager.get();
@@ -71,7 +69,6 @@ public class TaskManagerTests {
      *
      * normal case for when latestTasks is not empty after adding something
      */
-    //@author A0113694A
     @Test
     public void latestTasksIsNotEmptyAfterSet() throws IOException {
         Task testTask = new Task();
@@ -93,7 +90,6 @@ public class TaskManagerTests {
      * equivalence partitioning test for TaskManager's setting id method - i.e. zero, positive and negative numbers are
      * all tested
      */
-    //@author A0113694A
     @Test
     public void latestTasksIsIdChangesAfterSettingIt() throws IOException {
         // Zero
@@ -119,7 +115,6 @@ public class TaskManagerTests {
      *
      * boundary case for when redoStack is empty upon initialization
      */
-    //@author A0113694A
     @Test
     public void redoStackIsEmpty() throws IOException {
         Stack<Tasks> emptyStack = taskManager.getRedoStack();
@@ -132,7 +127,6 @@ public class TaskManagerTests {
      *
      * boundary case for when historyStack is empty upon initialization
      */
-    //@author A0113694A
     @Test
     public void historyStackIsEmpty() throws IOException {
         Stack<Tasks> emptyStack = taskManager.getUndoStack();
@@ -145,7 +139,6 @@ public class TaskManagerTests {
      *
      * boundary case for when redoStack is empty upon initialization and should disallow users from doing a redo action
      */
-    //@author A0113694A
     @Test
     public void unableToRedo() throws IOException {
         boolean isAbleToRedo = taskManager.isAbleToRedo();
@@ -159,7 +152,6 @@ public class TaskManagerTests {
      * boundary case for when historyStack is empty upon initialization and should disallow users from doing a redo
      * action
      */
-    //@author A0113694A
     @Test
     public void UnableToUndo() throws IOException {
         boolean isAbleToUndo = taskManager.isAbleToUndo();
@@ -172,7 +164,6 @@ public class TaskManagerTests {
      *
      * normal case for whenever a the Tasks state has changed
      */
-    //@author A0113694A
     @Test
     public void taskChangedSupported() throws IOException {
         Task testTask = new Task();
@@ -194,7 +185,6 @@ public class TaskManagerTests {
      * normal case for when historyStack is empty upon initialization and should allow for a state to be pushed in
      * through a simulation of a task change action (any action that involves changing the Tasks state)
      */
-    //@author A0113694A
     @Test
     public void historyStackAllowPushing() throws IOException {
         Task testTask = new Task();
@@ -236,7 +226,6 @@ public class TaskManagerTests {
      * normal case for when redoStack is empty upon initialization and should allow for a state to be pushed in
      * through a simulation of an undo action
      */
-    //@author A0113694A
     @Test
     public void redoStackAllowPushing() throws IOException {
         Task testTask = new Task();
@@ -283,7 +272,6 @@ public class TaskManagerTests {
      * normal case for when redoStack is not empty after simulation of an undo action and allows the user to do a redo
      * action
      */
-    //@author A0113694A
     @Test
     public void ableToRedo() throws IOException {
         Task testTask = new Task();
@@ -320,7 +308,6 @@ public class TaskManagerTests {
      * normal case for when redoStack is not empty after simulation of a task change and allows the user to do an undo
      * action
      */
-    //@author A0113694A
     @Test
     public void ableToUndo() throws IOException {
         Task testTask = new Task();
@@ -352,7 +339,6 @@ public class TaskManagerTests {
      *
      * normal case for TaskManager supporting building of floating tasks
      */
-    //@author A0113694A
     @Test
     public void supportBuildingFloatingTasks() throws IOException {
         TareasCommand testTareasCommand = TareasCommand.fromString("buy ham");
@@ -397,7 +383,6 @@ public class TaskManagerTests {
      *
      * normal case for TaskManager supporting building of timed tasks
      */
-    //@author A0113694A
     @Test
     public void supportBuildingTimedTasks() throws IOException {
         TareasCommand testTareasCommand = TareasCommand.fromString("camping /from 22-10-14 13:00 /to 22-10-14 17:00");
@@ -423,7 +408,6 @@ public class TaskManagerTests {
      *
      * normal case for TaskManager supporting building of deadline tasks
      */
-    //@author A0113694A
     @Test
     public void supportBuildingDeadlineTasks() throws IOException {
         TareasCommand testTareasCommand = TareasCommand.fromString("buy ham /by 22-10-14 13:00");

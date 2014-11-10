@@ -21,7 +21,6 @@ import java.util.ArrayList;
  *         <p/>
  *         This class binds the other parts of the program together.
  */
-//@author A0113694A
 public class TareasController {
     // Constant for Logging
     private static String TAG = "tareas/tareasController";
@@ -34,10 +33,6 @@ public class TareasController {
     TareasIO tareas = new TareasIO();
 
     TaskManager taskManager = TaskManager.getInstance();
-
-    // TODO MASSIVE ABSTRACTION OF MANY MAGIC STRINGS INTO CONSTANTS IN TAREAS CONSTANTS v0.5
-    // TODO Handle SOME exceptions v0.5
-    // TODO allow for multiple redo and a proper feedback v0.5
 
     /**
      * constructor for controller, will set the pointer for the task manager
@@ -52,7 +47,6 @@ public class TareasController {
      *
      * @param userInput from GUI
      */
-    //@author A0113694A
     public void executeCommand(String userInput, boolean test) {
         // if the user's input is an empty string, we treat it as if nothing happened
         if (userInput.equals("")) {
@@ -85,7 +79,6 @@ public class TareasController {
      *
      * @return an ArrayList of Task
      */
-    //@author A0113694A
     public ArrayList<Task> getInitialiseTasks() {
         guiController.changeCategoryName("All Tasks");
         return tareas.getAllUndoneTasks(1, "undone");
@@ -118,7 +111,6 @@ public class TareasController {
      *
      * @return a Stack of Integers
      */
-    //@author A0113694A
     public Stack<Integer> getInitialiseValues() {
         Stack<Integer> values = new Stack<>();
 
@@ -155,7 +147,6 @@ public class TareasController {
      * @param allTasks a list of all tasks done or undone from the storage
      * @return an ArrayList of Integers for the receiving method to process
      */
-    //@author A0113694A
     private ArrayList<Integer> getStatValues (ArrayList<Task> allTasks) {
         ArrayList<Integer> valuesToReturn = new ArrayList<>();
 
@@ -225,7 +216,6 @@ public class TareasController {
      * @param completed where we're looking for completed or uncompleted tasks
      * @return int number of completed tasks for given date
      */
-    //@author A0113694A
     private int getNumberOfTasksOnDay(ArrayList<Task> allTasks, LocalDate dayToGetFrom, boolean completed) {
         int numberOfTasks = 0;
 
@@ -259,7 +249,6 @@ public class TareasController {
      *
      * @param command the command formed by the parser
      */
-    //@author A0113694A
     private boolean checkCommandValidity(TareasCommand command) {
         switch (Parser.checkCommandValidity(command).getStatus()) {
             case SUCCESS:
@@ -295,7 +284,6 @@ public class TareasController {
      *
      * @param command the command formed by the parser
      */
-    //@author A0113694A
     private void checkCommandAndExecute(TareasCommand command, boolean test) {
         switch (command.getType()) {
             case ADD_COMMAND:
@@ -356,7 +344,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void addTask(TareasCommand command, boolean test) {
         Task taskToInsert = TaskManager.buildTask(command);
 
@@ -387,7 +374,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void editTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
         Task taskToUpdate = new Task();
@@ -427,7 +413,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser and taskToUpdate the task being updated
      */
-    //@author A0113694A
     private Task updateTask(TareasCommand command, Task taskToUpdate) {
         if (command.getArgument("des") != null) {
             taskToUpdate.setDescription(command.getArgument("des"));
@@ -453,7 +438,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void deleteTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -495,7 +479,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void addTagToTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -534,7 +517,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void detailedTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -556,7 +538,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void searchTask(TareasCommand command, boolean test) {
         String searchString = command.getPrimaryArgument();
 
@@ -582,7 +563,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void completeTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -618,7 +598,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void postponeTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -663,7 +642,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void viewRequest(TareasCommand command) {
         String viewType = command.getPrimaryArgument();
 
@@ -687,7 +665,6 @@ public class TareasController {
      * @param viewType the view type that is parsed by the parser
      * @return the ArrayList of task that is gotten from the Storage
      */
-    //@author A0113694A
     private ArrayList<Task> checkViewTypeAndExecute(String viewType) {
         ArrayList<Task> tasksToShowToUser = new ArrayList<>();
 
@@ -772,7 +749,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void prioritizeTask(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -819,7 +795,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void setTaskReminder(TareasCommand command, boolean test) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -858,7 +833,6 @@ public class TareasController {
      *
      * @param command after being parsed from the parser
      */
-    //@author A0113694A
     private void colorizeTask(TareasCommand command) {
         int taskId = Integer.parseInt(command.getPrimaryArgument());
 
@@ -868,8 +842,9 @@ public class TareasController {
 
         int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        // tareas.changeTaskColor(mappedTaskId, color);
-        // TODO once supported by Storage - Lareina v0.4
+        String color = command.getArgument("with");
+
+        tareas.changeTaskColor(mappedTaskId, color, 1);
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
 
@@ -892,7 +867,6 @@ public class TareasController {
     /**
      * undoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
-    //@author A0113694A
     private void undo() {
         if (taskManager.isAbleToUndo()) {
             Tasks stateToRevertTo = taskManager.getUndoState();
@@ -916,7 +890,6 @@ public class TareasController {
     /**
      * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
-    //@author A0113694A
     private void redo() {
         if (taskManager.isAbleToRedo()) {
 		    Tasks stateToRevertTo = taskManager.getRedoState();
@@ -940,7 +913,6 @@ public class TareasController {
     /**
      * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
-    //@author A0113694A
     private String getPreviousActionType() {
         return previousActionType;
     }
@@ -948,7 +920,6 @@ public class TareasController {
     /**
      * redoes the user's action by returning the state for both UI and Storage, parser is not needed here
      */
-    //@author A0113694A
     private void setPreviousActionType(String actionType) {
         previousActionType = actionType;
     }
