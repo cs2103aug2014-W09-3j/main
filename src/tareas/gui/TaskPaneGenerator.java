@@ -13,13 +13,16 @@ import java.time.LocalDateTime;
 /**
  * Created by Her Lung on 13/10/2014.
  */
+//@author A0065490A
 class TaskPaneGenerator {
     Task task = new Task();
 
+    //@author A0065490A
     protected TaskPaneGenerator(Task task) {
         this.task = task;
     }
 
+    //@author A0065490A
     protected FlowPane generateTaskPane(boolean isHighlighted) {
         TareasGUIController controller = TareasGUIController.getInstance();
 
@@ -55,18 +58,21 @@ class TaskPaneGenerator {
         return taskPane;
     }
 
+    //@author A0065490A
     private Label getDescriptionLabel(String text) {
         Label taskDescription = new Label(text);
         taskDescription.setId("taskDescription");
         return taskDescription;
     }
 
+    //@author A0065490A
     private Label getIDLabel(int id) {
         Label idLabel = new Label(Integer.toString(id) + ".");
         idLabel.setId("idLabel");
         return idLabel;
     }
 
+    //@author A0065490A
     private Label getDeadline(LocalDateTime deadline) {
         String date;
         if(deadline == null){
@@ -79,7 +85,7 @@ class TaskPaneGenerator {
         return deadlineLabel;
     }
 
-    // TODO: Create a double line label
+    //@author A0065490A
     private Label getInterval(LocalDateTime startDateTime, LocalDateTime endDateTime) {
         String startDate;
         String endDate;
@@ -95,6 +101,7 @@ class TaskPaneGenerator {
         return startEndDateTime;
     }
 
+    //@author A0065490A
     private ImageView getPriority(boolean hasPriority) {
         Image image = new Image("bookmark.png");
         ImageView imageView = new ImageView();
@@ -112,6 +119,7 @@ class TaskPaneGenerator {
         return imageView;
     }
 
+    //@author A0065490A
     private Label generateEmptyLabel(int width, int height) {
         Label label = new Label();
         label.setPrefSize(width, height);

@@ -30,10 +30,12 @@ import java.util.Stack;
 /**
  * Created by Her Lung on 27/10/2014.
  */
+//@author A0065490A
 class DashboardView {
     Timeline timeline;
     Stack<Integer> values = new Stack<>();
 
+    //@author A0065490A
     protected DashboardView() {
         TareasController tareasController = new TareasController();
         Stack<Integer> tempStack = tareasController.getInitialiseValues();
@@ -42,6 +44,7 @@ class DashboardView {
         }
     }
 
+    //@author A0065490A
     protected void showDashboard() {
         FlowPane root = new FlowPane();
         root.setId("dashboard");
@@ -84,6 +87,7 @@ class DashboardView {
         stage.show();
     }
 
+    //@author A0065490A
     private void closeDashboard(Scene scene) {
         FadeTransition ft = GUIAnimation.addFadeOutAnimation(scene);
         ft.setOnFinished(new EventHandler<ActionEvent>(){
@@ -95,6 +99,7 @@ class DashboardView {
         });
     }
 
+    //@author A0065490A
     private FlowPane getOverallComponent(int width, int height) {
         FlowPane overall = new FlowPane();
         overall.setId("overall");
@@ -110,6 +115,7 @@ class DashboardView {
         return overall;
     }
 
+    //@author A0065490A
     private BarChart<Number, String> getBarChart() {
         NumberAxis xAxis = new NumberAxis();
         Axis yAxis = new CategoryAxis();
@@ -159,6 +165,7 @@ class DashboardView {
         return barChart;
     }
 
+    //@author A0065490A
     private void displayLabelForData(XYChart.Data<Number, String> data) {
         final Node node = data.getNode();
         final Text dataText = new Text(data.getXValue() + "");
@@ -185,6 +192,7 @@ class DashboardView {
         });
     }
 
+    //@author A0065490A
     private FlowPane getStatisticsComponent(int width, int height) {
         FlowPane statistics = new FlowPane();
         statistics.setId("statistics");
@@ -205,6 +213,7 @@ class DashboardView {
         return statistics;
     }
 
+    //@author A0065490A
     private String day(int daysFromNow) {
         Calendar calender = Calendar.getInstance();
         calender.add(Calendar.DATE, daysFromNow);
@@ -229,6 +238,7 @@ class DashboardView {
         }
     }
 
+    //@author A0065490A
     private Label labelGenerator(String value, String id, int width) {
         Label label = new Label(value);
         label.setId(id);
@@ -236,35 +246,12 @@ class DashboardView {
         return label;
     }
 
+    //@author A0065490A
     private Label labelGenerator(String value, String id, int width, int height) {
         Label label = new Label(value);
         label.setId(id);
         label.setPrefWidth(width);
         return label;
     }
-
-    /*private void animateNumbers(Label timerLabel) {
-        String destValue = timerLabel.getText();
-        Integer counter = 0;
-        Integer timeSeconds = Integer.parseInt(destValue);
-        timerLabel.setText("0");
-        timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(
-            new KeyFrame(Duration.seconds(1),
-                new EventHandler() {
-                    // KeyFrame event handler
-                    public void handle(ActionEvent event) {
-                        counter++;
-                        // update timerLabel
-                        timerLabel.setText(
-                                counter.toString());
-                        if (counter >= timeSeconds) {
-                            timeline.stop();
-                        }
-                    }
-                }));
-        timeline.playFromStart();
-    }*/
 
 }

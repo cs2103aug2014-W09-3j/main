@@ -16,6 +16,7 @@ import java.util.Stack;
  *         <p/>
  *         This class manages the Task objects and keeps the historystack and redostack intact to support undo and redo
  */
+//@author A0113694A
 public class TaskManager {
     private static TaskManager instance = null;
 
@@ -29,6 +30,7 @@ public class TaskManager {
     /**
      * private constructor - singleton
      */
+    //@author A0113694A
     private TaskManager() {
         // do nothing
     }
@@ -36,6 +38,7 @@ public class TaskManager {
     /**
      * use getInstance method to get the TaskManager instead
      */
+    //@author A0113694A
     public static TaskManager getInstance() {
         if (instance == null) {
             instance = new TaskManager();
@@ -48,6 +51,7 @@ public class TaskManager {
      *
      * @return an ArrayList of task of the latest tasks
      */
+    //@author A0113694A
     public ArrayList<Task> get() {
         return latestTasks.get();
     }
@@ -57,6 +61,7 @@ public class TaskManager {
      *
      * @return a Tasks object containing ArrayList of task of the undo state
      */
+    //@author A0113694A
     public Tasks getUndoState() {
         Tasks toPushToRedoStack = new Tasks(latestTasks);
         redoStack.push(toPushToRedoStack);
@@ -73,6 +78,7 @@ public class TaskManager {
      *
      * @return a Tasks object containing ArrayList of task of the redo state
      */
+    //@author A0113694A
     public Tasks getRedoState() {
         Tasks toPushToHistory = new Tasks(latestTasks);
         historyStack.push(toPushToHistory);
@@ -89,6 +95,7 @@ public class TaskManager {
      *
      * @return the redoStack
      */
+    //@author A0113694A
     protected Stack<Tasks> getRedoStack() {
         return this.redoStack;
     }
@@ -98,6 +105,7 @@ public class TaskManager {
      *
      * @return the historyStack
      */
+    //@author A0113694A
     protected Stack<Tasks> getUndoStack() {
         return this.historyStack;
     }
@@ -107,6 +115,7 @@ public class TaskManager {
      *
      * @param tasks to be set
      */
+    //@author A0113694A
     public void set(ArrayList<Task> tasks) {
         latestTasks.set(tasks);
     }
@@ -116,6 +125,7 @@ public class TaskManager {
      *
      * @param id to be set
      */
+    //@author A0113694A
     public void setId(int id) {
         latestTasks.setID(id);
     }
@@ -125,6 +135,7 @@ public class TaskManager {
      *
      * @return latest id to be set
      */
+    //@author A0113694A
     protected int getId() {
         return latestTasks.getLatestID();
     }
@@ -135,6 +146,7 @@ public class TaskManager {
      *
      * @param tasks that has been changed to be updated to task manager
      */
+    //@author A0113694A
     public void tasksChanged(ArrayList<Task> tasks) {
         Tasks toPushToHistory = new Tasks(latestTasks);
         historyStack.push(toPushToHistory);
@@ -146,6 +158,7 @@ public class TaskManager {
      *
      * @return whether there is anything to redo
      */
+    //@author A0113694A
     public boolean isAbleToRedo() {
         return !redoStack.empty();
     }
@@ -155,6 +168,7 @@ public class TaskManager {
      *
      * @return whether there is anything to undo
      */
+    //@author A0113694A
     public boolean isAbleToUndo() {
         return !historyStack.empty();
     }
@@ -162,6 +176,7 @@ public class TaskManager {
     /**
      * clears the redo history after any other action other than undo
      */
+    //@author A0113694A
     public void clearRedoState() {
         redoStack.clear();
     }
@@ -169,6 +184,7 @@ public class TaskManager {
     /**
      * for testing purposes - clears the history stack
      */
+    //@author A0113694A
     protected void clearHistoryState() {
         historyStack.clear();
     }
@@ -179,6 +195,7 @@ public class TaskManager {
      * @param command to be parsed into a Task object
      * @return Task
      */
+    //@author A0113694A
     public static Task buildTask(TareasCommand command) {
         Task taskToReturn;
 

@@ -14,13 +14,16 @@ import javafx.stage.StageStyle;
 /**
  * Created by Her Lung on 28/10/2014.
  */
+//@author A0065490A
 class HelpView {
     FlowPane root;
 
+    //@author A0065490A
     protected HelpView() {
         root = new FlowPane();
     }
 
+    //@author A0065490A
     protected void showHelpView() {
         root.setId("help-view");
         root.getStylesheets().add("tareas/gui/css/helpView.css");
@@ -58,6 +61,7 @@ class HelpView {
 
     }
 
+    //@author A0065490A
     private void setContent(int width, int height) {
         FlowPane addGrouping = new FlowPane();
         addGrouping.setId("grouping");
@@ -101,6 +105,7 @@ class HelpView {
         );
     }
 
+    //@author A0065490A
     private FlowPane floatingCommands(int width, int height) {
         FlowPane floating = new FlowPane();
         floating.setId("module");
@@ -114,6 +119,7 @@ class HelpView {
         return floating;
     }
 
+    //@author A0065490A
     private FlowPane deadlineCommands(int width, int height) {
         FlowPane deadline = new FlowPane();
         deadline.setId("module");
@@ -127,6 +133,7 @@ class HelpView {
         return deadline;
     }
 
+    //@author A0065490A
     private FlowPane importantCommands(int width, int height) {
         FlowPane important = new FlowPane();
         important.setId("module");
@@ -140,6 +147,7 @@ class HelpView {
         return important;
     }
 
+    //@author A0065490A
     private FlowPane timedCommands(int width, int height) {
         FlowPane timed = new FlowPane();
         timed.setId("module");
@@ -154,6 +162,7 @@ class HelpView {
         return timed;
     }
 
+    //@author A0065490A
     private FlowPane editCommands(int width, int height) {
         FlowPane edit = new FlowPane();
         edit.setId("module");
@@ -169,6 +178,7 @@ class HelpView {
         return edit;
     }
 
+    //@author A0065490A
     private FlowPane prioritizeCommands(int width, int height) {
         FlowPane prioritize = new FlowPane();
         prioritize.setId("module");
@@ -182,6 +192,7 @@ class HelpView {
         return prioritize;
     }
 
+    //@author A0065490A
     private FlowPane undoRedoCommands(int width, int height) {
         FlowPane prioritize = new FlowPane();
         prioritize.setId("module");
@@ -195,6 +206,7 @@ class HelpView {
         return prioritize;
     }
 
+    //@author A0065490A
     private FlowPane tagCommands(int width, int height) {
         FlowPane tag = new FlowPane();
         tag.setId("module");
@@ -208,6 +220,7 @@ class HelpView {
         return tag;
     }
 
+    //@author A0065490A
     private FlowPane deleteCommands(int width, int height) {
         FlowPane delete = new FlowPane();
         delete.setId("module");
@@ -221,6 +234,7 @@ class HelpView {
         return delete;
     }
 
+    //@author A0065490A
     private FlowPane doneCommands(int width, int height) {
         FlowPane done = new FlowPane();
         done.setId("module");
@@ -234,6 +248,7 @@ class HelpView {
         return done;
     }
 
+    //@author A0065490A
     private FlowPane viewCommands(int width, int height) {
         FlowPane view = new FlowPane();
         view.setId("module");
@@ -257,6 +272,7 @@ class HelpView {
         return view;
     }
 
+    //@author A0065490A
     private FlowPane shortcutCommands(int width, int height) {
         FlowPane shortcut = new FlowPane();
         shortcut.setId("module");
@@ -275,6 +291,7 @@ class HelpView {
         return shortcut;
     }
 
+    //@author A0065490A
     private Label labelGenerator(String value, String id, int width) {
         Label label = new Label(value);
         label.setId(id);
@@ -282,6 +299,7 @@ class HelpView {
         return label;
     }
 
+    //@author A0065490A
     private void closeHelpView(Scene scene) {
         FadeTransition ft = GUIAnimation.addFadeOutAnimation(scene);
         ft.setOnFinished(new EventHandler<ActionEvent>(){
