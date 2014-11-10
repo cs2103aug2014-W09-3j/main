@@ -7,16 +7,15 @@ import java.util.logging.*;
 
 /**
  * A class used to log messages with customized format.
- * <p/>
+ * <p>
  * Created on Oct 15, 2014.
- *
- * @author Kent
  */
 
 public class Log {
     private static Logger LOGGER;
     private final static SimpleDateFormat TareasLogDateFormat = new SimpleDateFormat("dd-MM hh:mm:ss.S");
 
+    //@author A0093934W
     private static Logger getLogger() {
         if (LOGGER == null) {
             LOGGER = Logger.getLogger(Log.class.getName());
@@ -38,21 +37,25 @@ public class Log {
         return LOGGER;
     }
 
+    //@author A0093934W
     public static void i(String tag, String msg) {
         if (Constants.LOGGING_ENABLED)
             getLogger().logp(Level.INFO, tag, "", msg);
     }
 
+    //@author A0093934W
     public static void e(String tag, String msg) {
         if (Constants.LOGGING_ENABLED)
             getLogger().logp(Level.SEVERE, tag, "", msg);
     }
 
+    //@author A0093934W
     public static void w(String tag, String msg) {
         if (Constants.LOGGING_ENABLED)
             getLogger().logp(Level.WARNING, tag, "", msg);
     }
 
+    //@author A0093934W
     private static class TareasLogFormatter extends Formatter {
 
         @Override
@@ -64,6 +67,7 @@ public class Log {
         }
     }
 
+    //@author A0093934W
     private static class TareasConsoleInfoHandler extends StreamHandler {
 
         public TareasConsoleInfoHandler() {
@@ -83,6 +87,7 @@ public class Log {
         }
     }
 
+    //@author A0093934W
     private static class TareasConsoleErrorHandler extends StreamHandler {
 
         public TareasConsoleErrorHandler() {

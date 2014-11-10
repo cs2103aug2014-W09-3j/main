@@ -2,12 +2,11 @@ package tareas.common;
 
 /**
  * This class contains constants used throughout the project.
- * <p/>
+ * <p>
  * Created on Oct 03, 2014.
- *
- * @author Kent
  */
 
+//@author A0093934W
 public class Constants {
     public static String COMMAND_DELIMITER = "/";
     public static boolean LOGGING_ENABLED = true;

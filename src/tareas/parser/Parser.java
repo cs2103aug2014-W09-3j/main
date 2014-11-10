@@ -22,12 +22,13 @@ public class Parser {
 
     private static ArrayList<DateTimeFormatter> formatters;
 
+    //@author A0093934W
+
     /**
      * This function returns an array of DateTimeFormatter of different patterns.
      *
      * @return an array of DateTimeFormatter
      */
-    //@author A0093934W
     private static ArrayList<DateTimeFormatter> getDateTimeFormatters() {
         if (formatters == null) {
             String[] patterns = new String[] {
@@ -63,13 +64,14 @@ public class Parser {
         return formatters;
     }
 
+    //@author A0093934W
+
     /**
      * Check whether a command matches any recognizable overload.
      *
      * @param command The command whose signature is being checked
      * @return true if the command signature is valid.
      */
-    //@author A0093934W
     public static ParsingResult checkCommandValidity(TareasCommand command) {
         CommandType type = command.getType();
 
@@ -114,13 +116,14 @@ public class Parser {
         }
     }
 
+    //@author A0093934W
+
     /**
      * Converts a String to a LocalDateTime.
      *
      * @param input the String input
      * @return a LocalDateTime if the input is a valid date/time, null otherwise
      */
-    //@author A0093934W
     public static LocalDateTime getDateTimeFromString(String input) {
         input = input.toLowerCase();
 
@@ -160,13 +163,14 @@ public class Parser {
         return null;
     }
 
+    //@author A0093934W
+
     /**
      * Converts a LocalDateTime to a String for display
      *
      * @param dateTime the LocalDateTime
      * @return a String representation of the dateTime
      */
-    //@author A0093934W
     public static String getStringFromDateTime(LocalDateTime dateTime) {
         LocalDate date = dateTime.toLocalDate();
         LocalTime time = dateTime.toLocalTime();
@@ -197,11 +201,7 @@ public class Parser {
         return builder.toString();
     }
 
-    public static void main(String[] args) {
-        //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
-        //System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
-        System.out.println(getDateTimeFromString("tomorrow 12pm"));
-    }
+    //@author A0093934W
 
     /**
      * Generate commands for demo
@@ -238,4 +238,12 @@ public class Parser {
 
         return ret;
     }
+
+
+    public static void main(String[] args) {
+        //System.out.println(checkCommandValidity(TareasCommand.fromString("sfsd /abcdef 123")).getStatus());
+        //System.out.println(getStringFromDateTime(LocalDateTime.now().plus(20, ChronoUnit.DAYS)));
+        System.out.println(getDateTimeFromString("tomorrow 12pm"));
+    }
+
 }

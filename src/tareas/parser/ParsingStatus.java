@@ -4,8 +4,6 @@ package tareas.parser;
  * [Description]
  * <p>
  * Created on Oct 15, 2014.
- *
- * @author Kent
  */
 
 //@author A0093934W

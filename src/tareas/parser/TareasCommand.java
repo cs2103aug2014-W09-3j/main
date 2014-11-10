@@ -13,8 +13,6 @@ import java.util.HashSet;
  * <p>
  * Use fromString(String command) to convert a String to a TareasCommand.
  * <p>
- *
- * @author Kent
  */
 
 public class TareasCommand {
@@ -104,12 +102,13 @@ public class TareasCommand {
         this.mPrimaryKey = primaryKey;
     }
 
+    //@author A0093934W
+
     /**
      * Retrieve the set of secondary keywords.
      *
      * @return set of secondary keywords
      */
-    //@author A0093934W
     public HashSet<String> getSecondaryKeys() {
         HashSet<String> keys = new HashSet<>();
         keys.addAll(mSecondaryArguments.keySet());
@@ -133,13 +132,14 @@ public class TareasCommand {
 
     //endregion
 
+    //@author A0093934W
+
     /**
      * Convert a String command into the respective TareasCommand.
      *
      * @param command the string command to be converted
      * @return the converted TareasCommand.
      */
-    //@author A0093934W
     public static TareasCommand fromString(String command) {
         command = command.trim();
 
@@ -181,12 +181,13 @@ public class TareasCommand {
         return ret;
     }
 
+    //@author A0093934W
+
     /**
      * Convert TareasCommand to a String for debugging purposes.
      *
      * @return a String representation of the TareasCommand.
      */
-    //@author A0093934W
     @Override
     public String toString() {
         String ret = String.format("<%1$s> '%2$s'",

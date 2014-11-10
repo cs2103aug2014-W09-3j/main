@@ -26,7 +26,6 @@ package tareas.parser;
  * The primary keyword of one pre-determined special command type can be ignored, e.g. the "add" command. This command
  * type can be retrieved by calling getSpecialCommandType().
  *
- * @author Kent
  */
 
 import java.util.ArrayList;
@@ -97,7 +96,6 @@ public enum CommandType {
 
     VIEW_COMMAND("view"),
 
-    //@author A0093934W
     PRIORITIZE_COMMAND("prioritize"),
 
     REMIND_COMMAND(
@@ -121,7 +119,6 @@ public enum CommandType {
             new String[] {"with"}
     ),
 
-    //@author A0093934W
     UNKNOWN_COMMAND(null);
 
     //endregion

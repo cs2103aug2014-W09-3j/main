@@ -13,8 +13,6 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the Parser component.
- *
- * @author Kent
  */
 
 public class ParserTest {
@@ -24,12 +22,13 @@ public class ParserTest {
         return Parser.checkCommandValidity(TareasCommand.fromString(input)).getStatus();
     }
 
+    //@author A0093934W
+
     /**
      * Cases for the valid command partition.
      * These are all boundary cases since missing just one element (keyword or argument)
      * will render the command invalid.
      */
-    //@author A0093934W
     @Test
     public void testCheckCommandValidity_ValidCommands() {
         String[] tests = {
@@ -49,10 +48,11 @@ public class ParserTest {
         }
     }
 
+    //@author A0093934W
+
     /**
      * Boundary cases for invalid command partition.
      */
-    //@author A0093934W
     @Test
     public void testCheckCommandValidity_InvalidCommands() {
         // unknown command: /what
