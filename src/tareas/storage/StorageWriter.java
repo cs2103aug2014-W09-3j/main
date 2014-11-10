@@ -17,18 +17,27 @@ import java.io.IOException;
  */
 
 public class StorageWriter {
-	
+
+    /**
+     * This method writes all the tasks to the file.
+     * @param tasks
+     * @param fileName
+     * @throws IOException
+     */
 	public void write(Tasks tasks, String fileName) throws IOException  {
 		Gson gson = new Gson();
 		String json = gson.toJson(tasks);
 		
 		FileWriter writer = new FileWriter(fileName);
-	//	FileWriter writerTest = new FileWriter("testing.json");
 
         writer.write(json);
 		writer.close();
 	}
-	
+
+    /**
+     * This method creates a new file for the storage.
+     * @param fileName
+     */
     public void createFile (String fileName) {
         File file = new File(fileName);
         boolean fileCreated = false;

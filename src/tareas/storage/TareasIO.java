@@ -1,9 +1,11 @@
 package tareas.storage;
 
+import tareas.common.Log;
 import tareas.common.Task;
 import tareas.common.Tasks;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,10 +19,20 @@ import java.util.Iterator;
 
 //@author A0112151A
 
+//runType in the parameter is for testing purposes.
+//There are 2 values for the runType. Value "1" is used for storage.json. It is
+//for normal usage when the program runs.
+//Value "2" is used for testing.json. It is used when unit testing is done.
+
 public class TareasIO {
 
     private Tasks tasks = new Tasks();
-	
+    private static String TAG = "tareas/tareasStorageIO";
+
+    /**
+     * This method initializes the reader to keep the tasks updated.
+     * @param runType
+     */
 	private void initialize(int runType) {
 		StorageReader reader = new StorageReader();
 		try {
@@ -29,7 +41,11 @@ public class TareasIO {
 			e.printStackTrace();
 		}
 	}
-	
+
+    /**
+     * This method writes tasks to the storage.
+     * @param runType
+     */
 	private void write(int runType) {
 		StorageWriter writer = new StorageWriter();
 		try {
@@ -42,8 +58,17 @@ public class TareasIO {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a file writing action at " + now.toString());
+
 	}
-	
+
+    /**
+     * This method remove Task from the arraylist.
+     * @param id
+     * @param temp
+     */
 	private void removeTaskFromArray(int id, ArrayList<Task> temp) {
 		Iterator<Task> iter = temp.iterator();
 		while(iter.hasNext()) {
@@ -54,8 +79,17 @@ public class TareasIO {
 		}
 	}
 
+    /**
+     * This method get the particular task requested by the user.
+     * @param id
+     * @param runType
+     * @return
+     */
     private Task getTask(int id, int runType) {
         Iterator<Task> iter = getAllTasks(runType).iterator();
+
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
 
         Task searchTask = new Task();
         while(iter.hasNext()) {
@@ -67,12 +101,12 @@ public class TareasIO {
         }
         return searchTask;
     }
-	
-	/**
-	 * Inserts a task into Tareas using a Task object
-     *
-	 * @param task
-	 */
+
+    /**
+     * This method inserts new tasks to the storage.
+     * @param task
+     * @param runType
+     */
 	public void insertTask(Task task, int runType) {
 		initialize(runType);
 		task.setTaskID(tasks.getLatestID());
@@ -82,18 +116,25 @@ public class TareasIO {
         newTasks.add(task);
         tasks.set(newTasks);
 		write(runType);
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a task insertion action at " + now.toString());
+
 	}
 
-	/**
-	 * Removes a task with a given ID
-     *
-	 * @param id
-	 */
-	public void deleteTask(int id, int runType) {
+    /**
+     * This method deletes tasks from the storage.
+     * @param id
+     * @param runType
+     * @throws InvalidParameterException
+     */
+	public void deleteTask(int id, int runType) throws InvalidParameterException{
 		initialize(runType);
-		if(id < 1 || id > getTasks(runType).getLatestID()) {
-			// TODO: Add exception for Invalid ID.
-			System.out.println("Invalid Task ID.");
+        if(tasks == null) {
+            System.out.println("Array is empty");
+        }
+		if(id < 0 || id > getTasks(runType).getLatestID()) {
+            throw new InvalidParameterException("Invalid id");
 		} else {
             int taskIdToRemove = -1;
 
@@ -117,12 +158,16 @@ public class TareasIO {
 
 			write(runType);
 		}
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a task deletion action at " + now.toString());
+
 	}
 
     /**
-     * This method updates tasks in storage.
-     *
+     * This method edits a particular task and receive a task object from the caller.
      * @param newTask
+     * @param runType
      */
     public void editTask(Task newTask, int runType) {
         initialize(runType);
@@ -161,8 +206,11 @@ public class TareasIO {
                 if (newTask.getRecurrenceDay() != null) {
                     taskToBuild.setRecurrenceDay(newTask.getRecurrenceDay());
                 }
-
-                // TODO tags editing, how should we do that?
+                if (newTask.getTags() != null) {
+                    for(int i = 0; i < newTask.getTags().size(); i++) {
+                        taskToBuild.addTag(newTask.getTags().get(i));
+                    }
+                }
 
                 if (newTask.isTaskCompleted() != taskToBuild.isTaskCompleted()) {
                     if(newTask.isTaskCompleted()) {
@@ -208,24 +256,31 @@ public class TareasIO {
         tasks.set(temp);
 
         write(runType);
+
+        LocalDateTime now = LocalDateTime.now();
+        Log.i(TAG, "Storage has performed a task editing action at " + now.toString());
+
     }
 
     /**
-     * This method searches for a task using the ID
-     *
+     * This method search for the particular task by the given task id.
      * @param id
-     * @return Task
+     * @param runType
+     * @return
      */
     public Task detailedTask(int id, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
         initialize(runType);
         return getTask(id, runType);
     }
 
     /**
-     * This method searches for a task using the ID
-     *
+     * This method searches for the required task by receive the string of word in the parameter.
      * @param searchString
-     * @return Task
+     * @param runType
+     * @return
      */
     public ArrayList<Task> searchTask(String searchString, int runType) {
         initialize(runType);
@@ -242,11 +297,14 @@ public class TareasIO {
     }
 
     /**
-     * This method allows tasks to be marked as completed.
-     *
+     * This method marks tasks as completed in the storage.
      * @param id
+     * @param runType
      */
     public void markTaskAsCompleted(int id, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
         initialize(runType);
         ArrayList<Task> temp = getAllTasks(runType);
 
@@ -268,11 +326,11 @@ public class TareasIO {
         write(runType);
     }
 
-	/**
-	 * Returns all tasks in Tareas.
-     *
-	 * @return allTasks
-	 */
+    /**
+     * This method retrieves all tasks available in the database.
+     * @param runType
+     * @return
+     */
 	private ArrayList<Task> getAllTasks(int runType) {
 		StorageReader reader = new StorageReader();
         ArrayList<Task> tasks = new ArrayList<>();
@@ -287,9 +345,9 @@ public class TareasIO {
 	}
 
     /**
-     * Returns Tasks in Tareas
-     *
-     * @return Tasks
+     * This method gets all tasks from the storage.
+     * @param runType
+     * @return
      */
     public Tasks getTasks(int runType) {
         StorageReader reader = new StorageReader();
@@ -305,9 +363,9 @@ public class TareasIO {
     }
 
     /**
-     * Returns the id to set to
-     *
-     * @return int id
+     * This method returns the lastest ID for the new task to be set as.
+     * @param runType
+     * @return
      */
     public int getInitialiseLatestId(int runType) {
         StorageReader reader = new StorageReader();
@@ -324,9 +382,9 @@ public class TareasIO {
 
 
     /**
-     * This method writes completely to the storage after an undo action
-     *
+     *This method writes completely to the storage after an undo action
      * @param stateToRevertTo
+     * @param runType
      */
     public void undoWrite(Tasks stateToRevertTo, int runType) {
         tasks.set(stateToRevertTo.get());
@@ -336,8 +394,8 @@ public class TareasIO {
 
     /**
      * This method writes completely to the storage after a redo action
-     *
      * @param stateToRevertTo
+     * @param runType
      */
     public void redoWrite(Tasks stateToRevertTo, int runType) {
         tasks.set(stateToRevertTo.get());
@@ -349,8 +407,12 @@ public class TareasIO {
      * This method sets the priority of the task.
      * @param id
      * @param priority
+     * @param runType
      */
     public void prioritizeTask(int id, boolean priority, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
         initialize(runType);
 
         ArrayList<Task> temp = getAllTasks(runType);
@@ -377,9 +439,11 @@ public class TareasIO {
         write(runType);
     }
 
+
     /**
      * This method postpones tasks to different deadlines.
      * @param task
+     * @param runType
      */
     public void postponeTask(Task task, int runType){
         editTask(task, runType);
@@ -387,7 +451,8 @@ public class TareasIO {
 
     /**
      * This method retrieves an arrayList of task for different task type.
-     * Task type can be of undone, today's, tomorrow's or done type of task.
+     * Task type can be of undone, today's, tomorrow's or done type of task,
+     * deadline task, timed task, floating task, important task, overdue tasks.
      * @param runType
      * @param taskType
      * @return
@@ -506,12 +571,19 @@ public class TareasIO {
            default:
                System.out.println("This is an error!");
                // it should never reach here
+               Log.w("getAllUndoneTasks has met with an unexpected failure that allows it to fall into default" +
+                       " which should never happen", TAG);
                break;
         }
 
         return tasks;
     }
 
+    /**
+     * This method removes floating tasks and return the arrayList of the list of floating tasks.
+     * @param allTasks
+     * @return
+     */
     private ArrayList<Task> removeFloatingTasks(ArrayList<Task> allTasks) {
 
         ArrayList<Task> tasksToReturn = new ArrayList<>();
@@ -543,20 +615,11 @@ public class TareasIO {
 
         tasks = removeFloatingTasks(tasks);
 
-//        for (Task task : tasks) {
-//            LocalDate taskDate = task.getDeadline().toLocalDate();
-//
-//            System.out.println(taskDate.isEqual(particularDate));
-//
-//            if (!taskDate.isEqual(particularDate) || task.isTaskCompleted()) {
-//                tasks.remove(task);
-//            }
-//        }
 
         int tasksSize = tasks.size();
 
         ArrayList<Task> taskToReturn = new ArrayList<>();
-//
+
         for (int i = 0; i < tasksSize; i++) {
                     LocalDate taskDate = tasks.get(i).getDeadline().toLocalDate();
 

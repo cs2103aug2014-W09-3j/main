@@ -19,6 +19,12 @@ public class StorageReader {
 
     private Tasks tasks = new Tasks();
 
+    /**
+     * This method reads the file for the database of the program.
+     * @param runType
+     * @return
+     * @throws IOException
+     */
 	public Tasks read(int runType) throws IOException {
         File file ;
 
@@ -44,21 +50,26 @@ public class StorageReader {
         return createNewFile("storage.json");
     }
 
+    /**
+     * This method overwrites the original file of testing.json.
+     */
     public void overwrite() {
         File file;
         file = new File("testing.json");
 
         System.gc();
         boolean deleted = file.delete();
+
+        //Testing purposes.
         try {
             if (!file.exists())
                 System.out.println("It doesn't exist in the first place.");
             else if (file.isDirectory() && file.list().length > 0)
                 System.out.println("It's a directory and it's not empty.");
             else
-                System.out.println("Somebody else has it open, we don't have write permissions, or somebody stole my disk.");
+                System.out.println("Somebody else has it open.");
         } catch (SecurityException e) {
-            System.out.println("We're sandboxed and don't have filesystem access.");
+            System.out.println("No filesystem access.");
         }
 
         if(deleted){
@@ -70,6 +81,11 @@ public class StorageReader {
         createNewFile("testing.json");
        }
 
+    /**
+     * This method creates a new file with the given name in the parameter.
+     * @param fileName
+     * @return
+     */
 	private Tasks createNewFile(String fileName) {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
@@ -86,11 +102,25 @@ public class StorageReader {
 		return tasks;
 	}
 
+    /**
+     * This method converts JSON objects to GSON and returns the user a list of task
+     * from the storage.
+     * @param fileName
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
 	private Tasks convertJSONtoObject(String fileName) throws FileNotFoundException,
 			IOException {
 		Gson gson = new Gson();
 		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
+        File file = new File(fileName);
+
+        if(!file.exists()){
+            throw new FileNotFoundException("File Mising!");
+        }
+
 		String json = br.readLine();
 		br.close();
         fr.close();
