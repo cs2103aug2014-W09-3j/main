@@ -448,30 +448,36 @@ public class TareasController {
 
         int tasksSize = taskManager.get().size();
 
-        String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
-
-        int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
-
-        tareas.deleteTask(mappedTaskId, 1);
-
-        ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1 , "undone");
-
-        ArrayList<Task> allTasks = tareas.getTasks(1).get();
-
-        taskManager.tasksChanged(allTasks);
-        taskManager.clearRedoState();
-
-        if (!test) {
-            guiController.sendTaskstoView(newTasks);
+        if(tasksSize == 0){
             guiController.changeCategoryName("All Tasks");
-            guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+            guiController.sendSuccessToView("Task not found." );
         }
+        else {
+            String taskDescriptionForFeedback = taskManager.get().get(tasksSize - taskId).getDescription();
 
-        setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
+            int mappedTaskId = taskManager.get().get(tasksSize - taskId).getTaskID();
 
-        LocalDateTime now = LocalDateTime.now();
-        Log.i(TAG, "User has performed a task deletion action at " + now.toString());
-    }
+            tareas.deleteTask(mappedTaskId, 1);
+
+            ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
+
+            ArrayList<Task> allTasks = tareas.getTasks(1).get();
+
+            taskManager.tasksChanged(allTasks);
+            taskManager.clearRedoState();
+
+            if (!test) {
+                guiController.sendTaskstoView(newTasks);
+                guiController.changeCategoryName("All Tasks");
+                guiController.sendSuccessToView("Task successfully deleted - " + taskDescriptionForFeedback);
+            }
+
+            setPreviousActionType("Task with description " + taskDescriptionForFeedback + " added back");
+
+            LocalDateTime now = LocalDateTime.now();
+            Log.i(TAG, "User has performed a task deletion action at " + now.toString());
+        }
+     }
 
     /**
      * adds a tag to a task by calling the appropriate GUI and storage methods

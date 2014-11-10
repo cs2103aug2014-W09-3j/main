@@ -130,6 +130,9 @@ public class TareasIO {
      */
 	public void deleteTask(int id, int runType) throws InvalidParameterException{
 		initialize(runType);
+        if(tasks == null) {
+            System.out.println("Array is empty");
+        }
 		if(id < 0 || id > getTasks(runType).getLatestID()) {
             throw new InvalidParameterException("Invalid id");
 		} else {
