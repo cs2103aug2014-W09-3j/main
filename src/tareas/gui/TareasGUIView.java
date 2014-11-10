@@ -10,10 +10,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+//@author A0065490A
 public class TareasGUIView extends Application {
     private double xOffset = 0;
     private double yOffset = 0;
 
+    //@author A0065490A
     @Override
     public void start(final Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("fxml/TareasGUI.fxml"));
@@ -47,6 +49,7 @@ public class TareasGUIView extends Application {
     }
 
 
+    //@author A0065490A
     public static void main(String[] args) {
         launch(args);
     }

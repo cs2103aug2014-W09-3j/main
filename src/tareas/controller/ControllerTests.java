@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
  *         <p/>
  *         This class contains the stub integration tests for Tareas
  */
-
+//@author A0113694A
 public class ControllerTests {
     TareasController tareasController = new TareasController();
 
@@ -30,6 +30,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for adding a floating task
      */
+    //@author A0113694A
     @Test
     public void addAFloatingTask() throws IOException {
         tareas.massDelete(1);
@@ -50,6 +51,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for adding a floating tagged task
      */
+    //@author A0113694A
     @Test
     public void addAFloatingTaggedTask() throws IOException {
         tareas.massDelete(1);
@@ -72,6 +74,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for adding a timed task
      */
+    //@author A0113694A
     @Test
     public void addATimedTask() throws IOException {
         tareas.massDelete(1);
@@ -100,6 +103,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for adding a timed task that stretches past a day
      */
+    //@author A0113694A
     @Test
     public void addATimedTaskMultipleDays() throws IOException {
         tareas.massDelete(1);
@@ -127,6 +131,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for adding a deadline task
      */
+    //@author A0113694A
     @Test
     public void addADeadlineTask() throws IOException {
         tareas.massDelete(1);
@@ -151,6 +156,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for editing a task description
      */
+    //@author A0113694A
     @Test
     public void editATaskDescription() throws IOException {
         tareas.massDelete(1);
@@ -172,6 +178,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for editing a task deadline
      */
+    //@author A0113694A
     @Test
     public void editATaskDeadline() throws IOException {
         tareas.massDelete(1);
@@ -197,6 +204,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for deleting a task
      */
+    //@author A0113694A
     @Test
     public void deleteATask() throws IOException {
         tareas.massDelete(1);
@@ -216,6 +224,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for marking a task as done
      */
+    //@author A0113694A
     @Test
     public void markATaskAsDone() throws IOException {
         tareas.massDelete(1);
@@ -233,6 +242,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for undoing an action passing
      */
+    //@author A0113694A
     @Test
     public void undoPass() throws IOException {
         // tareasController.executeCommand("buy milk");
@@ -244,6 +254,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for undoing an action failure
      */
+    //@author A0113694A
     @Test
     public void undoFail() throws IOException {
         tareas.massDelete(1);
@@ -258,6 +269,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for redoing an action passing
      */
+    //@author A0113694A
     @Test
     public void redoPass() throws IOException {
         // tareasController.executeCommand("buy milk");
@@ -270,6 +282,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for redoing an action failing
      */
+    //@author A0113694A
     @Test
     public void redoFail() throws IOException {
         // tareasController.executeCommand("buy milk");
@@ -281,6 +294,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for postponing a task by hours
      */
+    //@author A0113694A
     @Test
     public void postponeATaskByHours() throws IOException {
         // tareasController.executeCommand("buy watermelon /by 22-09-14 15:00");
@@ -292,6 +306,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for postponing a task by specifying a whole new date
      */
+    //@author A0113694A
     @Test
     public void postponeATaskWithANewDate() throws IOException {
         tareas.massDelete(1);
@@ -312,6 +327,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for prioritizing tasks
      */
+    //@author A0113694A
     @Test
     public void prioritizeATask() throws IOException {
         tareas.massDelete(1);
@@ -330,6 +346,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for setting reminders
      */
+    //@author A0113694A
     @Test
     public void settingATaskWithReminder() throws IOException {
         tareas.massDelete(1);
@@ -350,6 +367,7 @@ public class ControllerTests {
     /**
      * Controller Integration Testing for colorizing tasks
      */
+    //@author A0113694A
     @Test
     public void colorizeATask() throws IOException {
         // tareasController.executeCommand("/color 3 /with orange");

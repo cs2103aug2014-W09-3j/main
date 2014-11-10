@@ -15,6 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Her Lung on 23/10/2014.
  */
+//@author A0065490A
 class DetailedTaskViewGenerator {
     private Task task;
 
@@ -22,6 +23,7 @@ class DetailedTaskViewGenerator {
         this.task = task;
     }
 
+    //@author A0065490A
     protected FlowPane generate() {
         FlowPane root = new FlowPane();
         try {
@@ -57,6 +59,7 @@ class DetailedTaskViewGenerator {
         return root;
     }
 
+    //@author A0065490A
     private Label getTaskDescription() {
         Label taskDescription = new Label(task.getDescription());
         taskDescription.setWrapText(true);
@@ -64,6 +67,7 @@ class DetailedTaskViewGenerator {
         return taskDescription;
     }
 
+    //@author A0065490A
     private TextFlow getDeadline() {
         String value;
         if(task.getDeadline() == null) {
@@ -82,6 +86,7 @@ class DetailedTaskViewGenerator {
         return textFlow;
     }
 
+    //@author A0065490A
     private TextFlow getStartTime() {
         String value;
         if(task.getStartDateTime() == null) {
@@ -100,6 +105,7 @@ class DetailedTaskViewGenerator {
         return textFlow;
     }
 
+    //@author A0065490A
     private TextFlow getEndTime() {
         String value;
         if(task.getEndDateTime() == null) {
@@ -118,6 +124,7 @@ class DetailedTaskViewGenerator {
         return textFlow;
     }
 
+    //@author A0065490A
     private TextFlow getCompleted() {
         String value;
         if(task.isTaskCompleted()) {
@@ -141,6 +148,7 @@ class DetailedTaskViewGenerator {
         return textFlow;
     }
 
+    //@author A0065490A
     private TextFlow getPriority() {
         String value;
         if(task.isTaskPriority()) {
@@ -164,6 +172,7 @@ class DetailedTaskViewGenerator {
         return textFlow;
     }
 
+    //@author A0065490A
     private TextFlow getReminderDateTime() {
         String value;
         if(task.getReminderDateTime() == null) {

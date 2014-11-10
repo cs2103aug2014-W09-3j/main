@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
+//@author A0065490A
 public class TareasGUIController implements Initializable {
     private static String TAG = "TareasGUIController";
 
@@ -53,6 +54,7 @@ public class TareasGUIController implements Initializable {
     /**
      * This method is for the singleton design pattern
      */
+    //@author A0065490A
     public static TareasGUIController getInstance() {
         if (instance == null) {
             instance = new TareasGUIController();
@@ -66,6 +68,7 @@ public class TareasGUIController implements Initializable {
      * @return
      * @throws CloneNotSupportedException
      */
+    //@author A0065490A
     @Override
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
@@ -76,6 +79,7 @@ public class TareasGUIController implements Initializable {
      * @param url
      * @param rb
      */
+    //@author A0065490A
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Log.i(TAG, "Initialized!");
@@ -107,6 +111,7 @@ public class TareasGUIController implements Initializable {
                 "-add", "-delete");*/
     }
 
+    //@author A0065490A
     private void initializeKeyCombinations() {
         root.setOnKeyReleased(new EventHandler<KeyEvent>() {
             final KeyCombination CTRL_RIGHT = new KeyCodeCombination(KeyCode.RIGHT, KeyCombination.CONTROL_DOWN);
@@ -174,12 +179,14 @@ public class TareasGUIController implements Initializable {
         });
     }
 
+    //@author A0065490A
     private void initializeFlowPane() {
         flowPane.setHgap(20);
         flowPane.setVgap(3);
         flowPane.getStylesheets().add("tareas/gui/css/flowpane.css");
     }
 
+    //@author A0065490A
     private void initializeNotifications() {
         notificationPane = new NotificationPane(flowPane);
         notificationPane.setShowFromTop(false);
@@ -187,6 +194,7 @@ public class TareasGUIController implements Initializable {
         root.add(notificationPane, 0, 1);
     }
 
+    //@author A0065490A
     private void initializeCloseButton() {
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -204,6 +212,7 @@ public class TareasGUIController implements Initializable {
         });
     }
 
+    //@author A0065490A
     public void onEnter() {
         // IMPORTANT!
         // The below line ensures that the instance of this controller the Logic
@@ -222,22 +231,27 @@ public class TareasGUIController implements Initializable {
 
     }
 
+    //@author A0065490A
     public void changeCategoryName(String newCategory) {
         categoryText = newCategory;
     }
 
+    //@author A0065490A
     public void sendWarningToView(String message) {
         sendNotificationToView(message, "warning");
     }
 
+    //@author A0065490A
     public void sendErrorToView(String message) {
         sendNotificationToView(message, "error");
     }
 
+    //@author A0065490A
     public void sendSuccessToView(String message) {
         sendNotificationToView(message, "success");
     }
 
+    //@author A0065490A
     private void sendNotificationToView(String message, String status) {
         // Notifications (Code for notifications with picture)
         Image logo;
@@ -257,16 +271,19 @@ public class TareasGUIController implements Initializable {
         hideNotificationAfter(3000);
     }
 
+    //@author A0065490A
     public void showDashboard() {
         DashboardView dashboardView = new DashboardView();
         dashboardView.showDashboard();
     }
 
+    //@author A0065490A
     public void showHelpView() {
         HelpView helpView = new HelpView();
         helpView.showHelpView();
     }
 
+    //@author A0065490A
     public void sendTaskstoView(ArrayList<Task> tasks) {
         Collections.reverse(tasks);
         this.tasks = tasks;
@@ -274,6 +291,7 @@ public class TareasGUIController implements Initializable {
         updateView();
     }
 
+    //@author A0065490A
     public void highlightTask(int taskNumber) {
         flowPane.getChildren().clear();
         int maxPage = 0;
@@ -304,6 +322,7 @@ public class TareasGUIController implements Initializable {
         }
     }
 
+    //@author A0065490A
     private void updateView() {
         flowPane.getChildren().clear();
         int maxPage = 0;
@@ -329,6 +348,7 @@ public class TareasGUIController implements Initializable {
     }
 
 
+    //@author A0065490A
     private void hideNotificationAfter(int ms) {
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
@@ -341,6 +361,7 @@ public class TareasGUIController implements Initializable {
         );
     }
 
+    //@author A0065490A
     private void setDetailedViewToTaskPane(FlowPane taskPane, Task task) {
         PopOver detailedView = new PopOver();
         Scene thisScene = taskPane.getScene();
@@ -366,7 +387,7 @@ public class TareasGUIController implements Initializable {
         detailedView.show(taskPane);
     }
 
-    // TODO: Try to make the view appear near the actual taskPane
+    //@author A0065490A
     public void showDetailedView(Task task) {
         PopOver detailedView = new PopOver();
         Scene thisScene = root.getScene();
@@ -392,6 +413,7 @@ public class TareasGUIController implements Initializable {
         detailedView.show(commandLine);
     }
 
+    //@author A0065490A
     private ArrayList<Task> getPageView() {
         ArrayList<Task> currentPage = new ArrayList<Task>();
             for(int i = 0; i < maxTasksPerPage; i++) {
@@ -406,6 +428,7 @@ public class TareasGUIController implements Initializable {
         return currentPage;
     }
 
+    //@author A0065490A
     private boolean isPageNumberValid(int pageNumber) {
         int totalSize = this.tasks.size();
         if(totalSize % maxTasksPerPage > 0) {
@@ -425,6 +448,7 @@ public class TareasGUIController implements Initializable {
         }
     }
 
+    //@author A0065490A
     public void goToNextPage() {
         int nextPage = this.pageCount + 1;
         if(isPageNumberValid(nextPage)) {
@@ -435,6 +459,7 @@ public class TareasGUIController implements Initializable {
         }
     }
 
+    //@author A0065490A
     public void goToPrevPage() {
         int prevPage = this.pageCount - 1;
         if(isPageNumberValid(prevPage)) {
@@ -445,11 +470,13 @@ public class TareasGUIController implements Initializable {
         }
     }
 
+    //@author A0065490A
     public void goToFirstPage() {
         pageCount = 1;
         updateView();
     }
 
+    //@author A0065490A
     public void goToLastPage() {
         int totalNumber = this.tasks.size();
         if(totalNumber % maxTasksPerPage > 0) {

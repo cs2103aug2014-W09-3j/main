@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by Her Lung on 27/10/2014.
  */
+//@author A0065490A
 public class AgendaViewContoller {
     private Agenda agenda = new Agenda();
 
@@ -17,6 +18,7 @@ public class AgendaViewContoller {
         this.agenda = agenda;
     }
 
+    //@author A0065490A
     public void showAgendaView() {
         GregorianCalendar start = new GregorianCalendar();
         start.set(2014, 10, 27, 10, 30);
