@@ -19,6 +19,12 @@ public class StorageReader {
 
     private Tasks tasks = new Tasks();
 
+    /**
+     * This method reads the file for the database of the program.
+     * @param runType
+     * @return
+     * @throws IOException
+     */
 	public Tasks read(int runType) throws IOException {
         File file ;
 
@@ -44,6 +50,9 @@ public class StorageReader {
         return createNewFile("storage.json");
     }
 
+    /**
+     * This method overwrites the original file of testing.json.
+     */
     public void overwrite() {
         File file;
         file = new File("testing.json");
@@ -72,6 +81,11 @@ public class StorageReader {
         createNewFile("testing.json");
        }
 
+    /**
+     * This method creates a new file with the given name in the parameter.
+     * @param fileName
+     * @return
+     */
 	private Tasks createNewFile(String fileName) {
 		System.out.println("File not created.");
 		StorageWriter writer = new StorageWriter();
@@ -88,6 +102,14 @@ public class StorageReader {
 		return tasks;
 	}
 
+    /**
+     * This method converts JSON objects to GSON and returns the user a list of task
+     * from the storage.
+     * @param fileName
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
 	private Tasks convertJSONtoObject(String fileName) throws FileNotFoundException,
 			IOException {
 		Gson gson = new Gson();
