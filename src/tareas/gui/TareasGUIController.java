@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-//@author A0065490A
 public class TareasGUIController implements Initializable {
     private static String TAG = "TareasGUIController";
 

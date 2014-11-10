@@ -30,7 +30,7 @@ import java.util.Stack;
 /**
  * Created by Her Lung on 27/10/2014.
  */
-//@author A0065490A
+
 class DashboardView {
     Timeline timeline;
     Stack<Integer> values = new Stack<>();

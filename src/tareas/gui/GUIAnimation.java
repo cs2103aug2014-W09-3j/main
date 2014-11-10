@@ -7,7 +7,7 @@ import javafx.util.Duration;
 /**
  * Created by Her Lung on 28/10/2014.
  */
-//@author A0065490A
+
 public class GUIAnimation {
     //@author A0065490A
     public static FadeTransition addFadeOutAnimation(Scene scene) {

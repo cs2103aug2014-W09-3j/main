@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * @author Her Lung
  * 
  * IMPORTANT NOTE: Add gson-2.3.jar (found in our root directory) as an external JAR to your IDE.
  * 
