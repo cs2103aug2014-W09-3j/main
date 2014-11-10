@@ -64,7 +64,7 @@ public class TareasCommand {
         return mType;
     }
 
-    //@author generated
+    
     private void setType(CommandType type) {
         this.mType = type;
     }
@@ -94,12 +94,12 @@ public class TareasCommand {
         return getArgument(PRIMARY_ARGUMENT_KEY);
     }
 
-    //@author generated
+    
     public String getPrimaryKey() {
         return mPrimaryKey;
     }
 
-    //@author generated
+    
     private void setPrimaryKey(String primaryKey) {
         this.mPrimaryKey = primaryKey;
     }

@@ -178,7 +178,7 @@ public enum CommandType {
 
     //region Getters & Setters
 
-    //@author generated
+    
     public String getPrimaryKeyword() {
         return mPrimaryKeyword;
     }
@@ -188,12 +188,12 @@ public enum CommandType {
         return mKeywords;
     }
 
-    //@author generated
+    
     public boolean isPrimaryArgumentPresent() {
         return mPrimaryArgumentPresent;
     }
 
-    //@author generated
+    
     public boolean isCombinationAllowed() {
         return mCombinationAllowed;
     }
