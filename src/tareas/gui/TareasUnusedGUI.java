@@ -1,5 +1,7 @@
-//@author A0112151A -- unused - reason: our group decided to change the GUI library from SWT to Javafx. This
-//GUI is written in SWT.
+//@author A0112151A -- unused
+//Reason: our group decided to change the GUI library from SWT to Javafx. This
+//GUI is written in SWT. The following code was not future debugged and refactored
+//as the change was very soon after the code was written.
 
 //
 //package tareas.gui;
