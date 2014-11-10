@@ -3,7 +3,6 @@ package tareas.common;
 import java.util.ArrayList;
 
 /**
- * @author Wong Her Lung
  *         <p/>
  *         This class is for Gson to use
  */

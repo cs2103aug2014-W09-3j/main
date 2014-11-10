@@ -17,7 +17,6 @@ import java.util.Stack;
 import java.util.ArrayList;
 
 /**
- * @author Yap Jun Hao
  *         <p/>
  *         This class binds the other parts of the program together.
  */

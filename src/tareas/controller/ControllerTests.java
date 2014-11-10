@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author Yap Jun Hao
  *         <p/>
  *         This class contains the stub integration tests for Tareas
  */
