@@ -404,6 +404,38 @@ public class TareasIO {
     }
 
     /**
+     * This method sets the color of the task
+     * @param id
+     * @param color
+     * @param runType
+     */
+    public void changeTaskColor(int id, String color, int runType) {
+        // asserting to make sure id is not a negative value.
+        assert (!(id < 0));
+
+        initialize(runType);
+
+        ArrayList<Task> temp = getAllTasks(runType);
+
+        int taskIdToPrioritize = -1;
+
+        for (int i = 0; i < temp.size(); i++) {
+            Task task = temp.get(i);
+            if (task.getTaskID() == id) {
+                taskIdToPrioritize = i;
+            }
+        }
+
+        if (taskIdToPrioritize != -1) {
+            temp.get(taskIdToPrioritize).setColor(color);
+        }
+
+        tasks.set(temp);
+
+        write(runType);
+    }
+
+    /**
      * This method sets the priority of the task.
      * @param id
      * @param priority
@@ -438,7 +470,6 @@ public class TareasIO {
 
         write(runType);
     }
-
 
     /**
      * This method postpones tasks to different deadlines.
@@ -760,4 +791,5 @@ public class TareasIO {
 
         write(runType);
     }
+
 }
