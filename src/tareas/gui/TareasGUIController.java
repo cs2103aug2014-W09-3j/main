@@ -328,6 +328,9 @@ public class TareasGUIController implements Initializable {
         int maxPage = 0;
         if(tasks.size() % maxTasksPerPage == 0){
             maxPage = tasks.size() / maxTasksPerPage;
+            if(maxPage == 0) {
+                maxPage = 1;
+            }
         } else {
             maxPage = tasks.size() / maxTasksPerPage + 1;
         }
