@@ -189,7 +189,7 @@ public class Parser {
 
         if (time.getHour() != 0 || time.getMinute() != 0) {
             builder.append(time.format(
-                    DateTimeFormatter.ofPattern(time.getMinute() > 0 ? ", K:mma" : ", Ka")
+                    DateTimeFormatter.ofPattern(time.getMinute() > 0 ? ", h:mma" : ", ha")
             ).toLowerCase());
 
         }
