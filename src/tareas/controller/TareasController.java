@@ -769,10 +769,10 @@ public class TareasController {
 
         if (taskToPrioritize.isTaskPriority()) {
             tareas.prioritizeTask(mappedTaskId, false, 1);
-            prioritizedOrNot = "prioritized";
+            prioritizedOrNot = "unprioritized";
         } else {
             tareas.prioritizeTask(mappedTaskId, true, 1);
-            prioritizedOrNot = "unprioritized";
+            prioritizedOrNot = "prioritized";
         }
 
         ArrayList<Task> newTasks = tareas.getAllUndoneTasks(1, "undone");
